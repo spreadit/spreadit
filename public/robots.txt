@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /.json
+Disallow: /.api
+Disallow: /comments
+Disallow: /update_post
+Disallow: /notifications
+Disallow: /unotifications
+Disallow: /generate_view
+Disallow: /titlefromurl
