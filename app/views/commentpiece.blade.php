@@ -1,6 +1,6 @@
-<div class="row-fluid commentpiece">
+<div class="row-fluid commentpiece" tabindex="1">
     <div class="span2">
-        <a href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a> ({{ $comment->points }})
+        <a rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a> ({{ $comment->points }})
         <br>
         <span class="vote {{ $comment->selected == VoteController::UP ? 'selected' : '' }} {{ $comment->selected == VoteController::DOWN ? 'disable-click' : '' }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</span>
         <span class="vote {{ $comment->selected == VoteController::DOWN ? 'selected' : '' }} {{ $comment->selected == VoteController::UP ? 'disable-click' : '' }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down">&#x25BC;</span>

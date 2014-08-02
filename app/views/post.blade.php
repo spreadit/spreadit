@@ -16,7 +16,7 @@
                 <h4 class="text-center">{{ Session::get('message') }}</h4>
             </div>
         @endif
-        <div class="row-fluid postpiece">
+        <div class="row-fluid postpiece" tabindex="1">
             <div class="span2">
                 <span class="vote {{ $post->selected == VoteController::UP ? 'selected' : '' }} {{ $post->selected == VoteController::DOWN ? 'disable-click' : ''}}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
                 <span class="vote {{ $post->selected == VoteController::DOWN ? 'selected' : '' }} {{ $post->selected == VoteController::UP ? 'disable-click' : '' }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
@@ -26,10 +26,10 @@
                 <br>
                 {{ PostController::prettyAgo($post->created_at) }}
                 <br>
-                <a href="/u/{{ $post->username }}">{{ $post->username }}</a>({{ $post->points }})
+                <a rel="nofollow" href="/u/{{ $post->username }}">{{ $post->username }}</a>({{ $post->points }})
             </div>
             <div class="span10">
-                <h1><a href="{{ $post->url }}">{{ $post->title }}</a></h1>
+                <h1><a rel="nofollow" href="{{ $post->url }}">{{ $post->title }}</a></h1>
                 <br>
                 {{ $post->data }}
                 @if (Auth::check())
