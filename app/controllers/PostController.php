@@ -11,7 +11,7 @@ class PostController extends BaseController
     const MAX_URL_LENGTH = 256;
 
     const MAX_MARKDOWN_LENGTH = 6000;
-    const MAX_POSTS_PER_DAY = 10;
+    const MAX_POSTS_PER_DAY = 15;
     const MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
 
 
