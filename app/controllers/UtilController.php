@@ -2,18 +2,25 @@
 
 class UtilController extends BaseController
 {
+    public static function prettySubstr($data, $max_length=70)
+    {
+        $data = trim($data);
+
+        if(strlen($data) > $max_length) {
+            $data = wordwrap($data, $max_length);
+            $data = explode("\n", $data);
+            $data = array_shift($data);
+        }
+        if(strlen($data) > $max_length) {
+            $data = substr($data, 0, $max_length);
+        }
+
+        return $data;
+    }
+
     public static function prettyUrl($url, $max_length=70)
     {
-        $url = trim($url);
-
-        if(strlen($url) > $max_length) {
-            $url = wordwrap($url, $max_length);
-            $url = explode("\n", $url);
-            $url = array_shift($url);
-        }
-        if(strlen($url) > $max_length) {
-            $url = substr($url, 0, $max_length);
-        }
+        $url = self::prettySubstr($url, $max_length);
         
         //from: http://stackoverflow.com/a/7568253
         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
