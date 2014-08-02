@@ -19,7 +19,7 @@
                         <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                     </a>
                     <br>
-                    {{ PostController::prettyAgo($post->created_at) }}
+                    {{ UtilController::prettyAgo($post->created_at) }}
                     <br>
                     <a rel="nofollow" href="/u/{{ $post->username }}">{{ $post->username }}</a>({{ $post->points }})
                 </div>

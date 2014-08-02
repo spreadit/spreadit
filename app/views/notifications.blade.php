@@ -14,7 +14,7 @@
     @if ($notification->type == NotificationController::COMMENT_TYPE)
         <div class="comment {{ $notification->read ? 'notification-read' : 'notification-unread' }}">
             <header>
-                From <a class="username" href="/u/{{ $notification->username }}">{{ $notification->username }}</a> <span class="timeago">{{ PostController::prettyAgo($notification->created_at) }} ago</span>
+                From <a class="username" href="/u/{{ $notification->username }}">{{ $notification->username }}</a> <span class="timeago">{{ UtilController::prettyAgo($notification->created_at) }} ago</span>
             </header>
             <div class="content">
                 {{ $notification->data }}
@@ -26,7 +26,7 @@
     @elseif ($notification->type == NotificationController::POST_TYPE)
         <div class="comment {{ $notification->read ? 'notification-read' : 'notification-unread' }}">
             <header>
-                From <span class="username">{{ $notification->username }}</span> <span class="timeago">{{ PostController::prettyAgo($notification->created_at) }} ago</span>
+                From <span class="username">{{ $notification->username }}</span> <span class="timeago">{{ UtilController::prettyAgo($notification->created_at) }} ago</span>
             </header>
             <div class="content">
                 {{ $notification->data }}

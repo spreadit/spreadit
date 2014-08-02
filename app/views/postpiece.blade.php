@@ -4,15 +4,15 @@
         <span class="vote {{ $post->selected == VoteController::DOWN ? 'selected' : '' }} {{ $post->selected == VoteController::UP ? 'disable-click' : '' }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
         <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
         <br>
-        {{ PostController::prettyAgo($post->created_at) }}
+        {{ UtilController::prettyAgo($post->created_at) }}
         <br>
         <a rel="nofollow" href="{{ URL::to("/u/{$post->username}") }}">{{ $post->username }}</a>({{ $post->points }})
     </div>
     <div class="post-data">
-        <a rel="nofollow" href="{{ $post->type == PostController::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . PostController::prettyUrl($post->title)) : $post->url }}">{{ $post->title }}</a> | {{ $post->section_title }}
+        <a rel="nofollow" href="{{ $post->type == PostController::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . UtilController::prettyUrl($post->title)) : $post->url }}">{{ $post->title }}</a> | {{ $post->section_title }}
         <br>
-        <span class="post-url">{{ parse_url($post->type == PostController::SELF_POST_TYPE ? URL::to('/') : $post->url, PHP_URL_HOST) }}</span> :: <a href="{{ URL::to("/s/{$post->section_title}/posts/{$post->id}/" . PostController::prettyUrl($post->title)) }}">view comments({{ $post->comment_count }})</a>
+        <span class="post-url">{{ parse_url($post->type == PostController::SELF_POST_TYPE ? URL::to('/') : $post->url, PHP_URL_HOST) }}</span> :: <a href="{{ URL::to("/s/{$post->section_title}/posts/{$post->id}/" . UtilController::prettyUrl($post->title)) }}">view comments({{ $post->comment_count }})</a>
         <br>
-        <span class="summary">{{{ PostController::prettyURL($post->markdown, 130) }}}..</span>
+        <span class="summary">{{{ UtilController::prettyURL($post->markdown, 130) }}}..</span>
     </div>
 </div>

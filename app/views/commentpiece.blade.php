@@ -9,7 +9,7 @@
             <span class="upvotes">{{ $comment->upvotes  }}</span>-<span class="downvotes">{{ $comment->downvotes }}</span> <span class="total-points">{{ ($comment->upvotes - $comment->downvotes) }}</span>
         </a>
         <br>
-         {{ PostController::prettyAgo($comment->created_at) }}
+         {{ UtilController::prettyAgo($comment->created_at) }}
     </div>
     <div class="comment-data">
         {{ $comment->data }}

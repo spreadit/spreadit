@@ -14,7 +14,7 @@
     @endif
     <div class="row-fluid">
         <div class="span6">
-            <p>You have {{ (PostController::MAX_POSTS_PER_DAY - PostController::getPostsInTimeoutRange()) }} of {{ PostController::MAX_POSTS_PER_DAY }} posts remaining per {{ PostController::prettyAgo(time() - PostController::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
+            <p>You have {{ (PostController::MAX_POSTS_PER_DAY - PostController::getPostsInTimeoutRange()) }} of {{ PostController::MAX_POSTS_PER_DAY }} posts remaining per {{ UtilController::prettyAgo(time() - PostController::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
             @if ((PostController::MAX_POSTS_PER_DAY - PostController::getPostsInTimeoutRange()) > 0)
             <form id="post-form" action="{{ $formurl }}" method="post" class="flat-form flatpop-left">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
