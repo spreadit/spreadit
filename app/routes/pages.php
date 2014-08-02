@@ -60,19 +60,6 @@ Route::any('/generate_view', function()
     return View::make(Input::get('view'), Input::all());
 });
 
-Route::any('/generate_markdown', function()
-{
-    //$data = Input::get('md');
-    $data = "
-Welcome to /s/theory
-===
-This is the place to share any theories of any shape and size. Whether it is pure conjecture, showerthought, conspiracy, or anything else. It will remain a free ground for all speech (like the rest of the site).
-
-Be objective, transparent, and intelligent, and you will win.
-";
-    return \Michelf\MarkdownExtra::defaultTransform(e($data));
-});
-
 Route::get('/titlefromurl', function()
 {
 	if(!Input::has('url')) {
