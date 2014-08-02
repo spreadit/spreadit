@@ -127,4 +127,7 @@ $(document).ready(function() {
 
     $('input[maxlength], textarea[maxlength]').maxlength({alwaysShow:true});
 	hljs.initHighlightingOnLoad();
+
+    /* switch colors every comment */
+    $(".comment-piece").each(function(i) { if(i % 2 == 1) $(this).css("background", "#383838"); });
 });
