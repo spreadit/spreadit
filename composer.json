@@ -10,7 +10,8 @@
 		"greggilbert/recaptcha": "dev-master",
 		"lstrojny/functional-php": "dev-master",
         "mews/captcha": "dev-master",
-        "sunra/php-simple-html-dom-parser": "dev-master"
+        "sunra/php-simple-html-dom-parser": "dev-master",
+        "roumen/feed": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

@@ -17,6 +17,17 @@ Route::group(['prefix' => '/s'], function()
 			return Response::make(SectionController::render($section_title, $posts));
 		});
 
+
+        Route::get('/.rss', function($section_title)
+        {
+            return FeedController::generate($section_title)->render('rss');
+        });
+
+        Route::get('/.atom', function($section_title)
+        {
+            return FeedController::generate($section_title)->render('atom');
+        });
+
 		Route::get('/hot', function($section_title)
 		{
 			return Response::make(SectionController::render($section_title, PostController::getHotList(SectionController::getId($section_title)), 'hot'))->withCookie(Cookie::make('posts_sort_mode', 'hot'));

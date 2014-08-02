@@ -17,6 +17,16 @@ Route::get('/', function()
 	}
 });
 
+Route::get('/.rss', function()
+{
+    return FeedController::generate('all')->render('rss');
+});
+
+Route::get('/.atom', function()
+{
+    return FeedController::generate('all')->render('atom');
+});
+
 Route::get('/about', function()
 {
 	return View::make('about', [ 
