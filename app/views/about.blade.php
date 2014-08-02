@@ -43,17 +43,15 @@
         <ul>
             <li>decentralized moderation
                 <ul>
-                    <li>people in power censor, covertly advertise, and are generally fart suckers</li>
-                    <li>downvotes actually count towards making it impossible for someone to interact with site</li>
-                    <li>nobody is a mod &amp; each user is a mod; use your points to ban the shitty ones</li>
+                    <li>spreadit takes a unique approach in which each user has powers to moderate</li>
                 </ul>
             </li>
             <li>point system
                 <ul>
                     <li>it costs a point to vote</li>
-                    <li>submitting links gives you a point and posting comments are free</li>
+                    <li>submitting links gives you a point and engaging in discussion is encouraged</li>
+                    <li>reward high quality submissions and discussion with your own points</li>
                     <li>get enough downvotes and you will be banned</li>
-                    <li>get upvotes and you.. can downvote more people (and maybe add a new spreadit or other secret features shh..)</li>
                 </ul>
             </li>
             <li>special post abilities
@@ -66,15 +64,15 @@
                     <ul>
                             <li>use tor to connect:<a href="http://jdl3nf2hr3ehzyoc.onion">http://jdl3nf2hr3ehzyoc.onion</a> or <a href="https://jtrqdiptqj5n3iek.onion">https://jtrqdiptqj5n3iek.onion</a></li>
                             <li>https always available</li>
-                            <li>no false sense of security: everything you post is automatically stored by the NSA regardless of whether you delete it or not</li>
+                            <li>no false sense of security. always assume everything you write is stored even if you edit it or delete it</li>
                     </ul>
             </li>
             <li>no bullshit
                     <ul>
                             <li>no hidden ads</li>
                             <li>no promotional listings that look like they are from actual users</li>
-                            <li>almost no censorship; posts can &amp; will only be removed if I am in threat for leaving them up- and these will be logged with legal threat for removal <a href="/threats">here</a></li>
-                            <li>see all history, all votes &amp; other actions are available publicly</li>
+                            <li>no centralized censorship</li>
+                            <li>fully transparent: all votes are available publicly</li>
                     </ul>
             </li>
         </ul>
