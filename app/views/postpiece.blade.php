@@ -12,5 +12,7 @@
         <a rel="nofollow" href="{{ $post->type == PostController::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . PostController::prettyUrl($post->title)) : $post->url }}">{{ $post->title }}</a> | {{ $post->section_title }}
         <br>
         <span class="post-url">{{ parse_url($post->type == PostController::SELF_POST_TYPE ? URL::to('/') : $post->url, PHP_URL_HOST) }}</span> :: <a href="{{ URL::to("/s/{$post->section_title}/posts/{$post->id}/" . PostController::prettyUrl($post->title)) }}">view comments({{ $post->comment_count }})</a>
+        <br>
+        <span class="summary">{{{ PostController::prettyURL($post->markdown, 130) }}}..</span>
     </div>
 </div>

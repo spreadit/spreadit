@@ -15,9 +15,8 @@ class PostController extends BaseController
     const MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
 
 
-    public static function prettyUrl($url)
+    public static function prettyUrl($url, $max_length=70)
     {
-        $max_length = 70;
         $url = trim($url);
 
         if(strlen($url) > $max_length) {
@@ -71,7 +70,7 @@ class PostController extends BaseController
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'users.username', 'users.points', 'sections.title AS section_title');
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'users.username', 'users.points', 'sections.title AS section_title');
 
         if($section_id != 0) {
             $posts = $posts->where('posts.section_id', $section_id == 0 ? '>' : '=', $section_id == 0 ? '0' : $section_id);

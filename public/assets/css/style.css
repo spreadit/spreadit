@@ -194,6 +194,11 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     min-width:calc(100% - 16em);
 }
 
+.summary {
+    color:#777;
+    font-size:0.9em;
+}
+
 textarea {
 	width:80%;
 	height:6em;
