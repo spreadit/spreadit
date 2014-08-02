@@ -71,17 +71,32 @@ Route::get('/titlefromurl', function()
 
 	$url = Input::get('url');
 
-	if(filter_var($url, FILTER_VALIDATE_URL)) {
-		$str = file_get_contents($url, NULL, NULL, 0, 16384);
-		
-		if(strlen($str) > 0) {
-			preg_match("/\<title\>(.*)\<\/title\>/", $str, $title);
-			
-			if(count($title) > 1) {
-				return $title[1];
-			} else return "not found";
+    if(filter_var($url, FILTER_VALIDATE_URL)) {
+        $str = file_get_contents($url, NULL, NULL, 0, 16384);
+               
+        if(strlen($str) > 0) {
+            preg_match("/\<title\>(.*)\<\/title\>/", $str, $title);           
+            
+            if(count($title) > 1) {
+                return substr(trim($title[1]), 0, 128);
+            } else {
+                try {
+                    $html = Sunra\PhpSimple\HtmlDomParser::file_get_html($url);
+                } catch(ErrorException $e) {
+                    return "url not found";
+                }
+                if(!$html) {
+                    return "sorry, we couldn't get a title";
+                } 
 
-		} else return "not found";
+                foreach($html->find("title") as $e) {
+                    return substr(trim($e->plaintext), 0, 128);
+                }
 
-	} else return "not url";
+                return "no title found";
+            }
+        }
+    } else {
+        return "not url";
+    }
 });
