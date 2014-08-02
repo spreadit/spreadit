@@ -59,7 +59,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 #footer-navbar {
-	position:absolute;
+	position:fixed;
 	bottom:0;
 	right:0;
 	margin-top:100px;
@@ -127,17 +127,71 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	cursor:not-allowed;
 }
 
-.postpiece {
+.posts-container {
+    float:left;
+    width: calc(100% - 310px); /* nobody here uses ie 8.. tgis */
+    word-wrap:break-word;
+    word-break:break-all;
+}
+.sidebar {
+    min-width:300px;
+    max-width:300px;
+    float:right;
+}
+.post-piece {
+    width:100%;
+    clear:both;
+    display:block;
+    white-space:nowrap;
+    overflow:auto;
+}
+.post-piece:nth-child(odd) {
+    background-color:#383838;
+}
+.post-points {
+    float:left;
+    min-width:16em;
+    display:inline-block;
+}
+.post-data {
+    float:right;
+    display:inline-block;
+    min-width:calc(100% - 16em);
+}
+.post-url {
+    word-wrap:break-word;
+    word-break:break-all;
+    font-size:0.9em;
+}
+@media (max-width: 1200px) {
+    .posts-container {
+        width: 100%;
+    }
+
+    .sidebar {
+        display:none;
+    }
+}
+
+.post {
 	margin-bottom:0.25em;
 }
 
-.postpiece:nth-child(odd) {
-    background-color:#383838;
-}
-
-.commentpiece {
+.comment-piece {
 	margin-bottom:0.55em;
 	background-color:#484848;
+}
+
+.comment-points {
+    float:left;
+    min-width:16em;
+    display:inline-block;
+}
+
+.comment-data {
+    float:right;
+    display:inline-block;
+    min-width:calc(100% - 16em);
 }
 
 textarea {

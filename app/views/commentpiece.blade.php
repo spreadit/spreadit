@@ -1,5 +1,5 @@
-<div class="row-fluid commentpiece" tabindex="1">
-    <div class="span2">
+<div class="row-fluid comment-piece" tabindex="1">
+    <div class="comment-points">
         <a rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a> ({{ $comment->points }})
         <br>
         <span class="vote {{ $comment->selected == VoteController::UP ? 'selected' : '' }} {{ $comment->selected == VoteController::DOWN ? 'disable-click' : '' }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</span>
@@ -11,7 +11,7 @@
         <br>
          {{ PostController::prettyAgo($comment->created_at) }}
     </div>
-    <div class="span9">
+    <div class="comment-data">
         {{ $comment->data }}
         @if (Auth::check())
             @if (!isset($user_page))
