@@ -142,7 +142,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     width:100%;
     clear:both;
     display:block;
-    white-space:nowrap;
     overflow:auto;
 }
 .post-piece:nth-child(odd) {
