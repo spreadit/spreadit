@@ -142,14 +142,17 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     padding:0.25em;
     box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
 }
+
 .post-piece:nth-child(odd) {
     background-color:#383838;
 }
+
 .post-points {
     float:left;
     width:16em;
     display:inline-block;
 }
+
 .post-data {
     float:right;
     display:inline-block;
@@ -157,6 +160,14 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     word-wrap:normal;
     word-break:normal;
 }
+
+.post-data ul li {
+    list-style:circle;
+}
+.post-data ol li {
+    list-style:decimal;
+}
+
 .post-url {
     word-wrap:break-word;
     word-break:break-all;
@@ -195,6 +206,14 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     width:calc(100% - 16em);
     word-wrap:normal;
     word-break:normal;
+}
+
+.comment-data ul li {
+    list-style:circle;
+}
+
+.comment-data ol li {
+    list-style:decimal;
 }
 
 .summary {
