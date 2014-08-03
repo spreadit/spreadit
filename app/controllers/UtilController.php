@@ -47,8 +47,12 @@ class UtilController extends BaseController
     public static function titleFromUrl($url)
     {
         if(filter_var($url, FILTER_VALIDATE_URL)) {
-            $str = file_get_contents($url, NULL, NULL, 0, 16384);
-                   
+            try {
+                $str = file_get_contents($url, NULL, NULL, 0, 16384);
+            } catch(Exception $e) {
+                return "url not found";
+            }
+
             if(strlen($str) > 0) {
                 preg_match("/\<title\>(.*)\<\/title\>/", $str, $title);           
                 
@@ -56,10 +60,11 @@ class UtilController extends BaseController
                     return substr(trim($title[1]), 0, 128);
                 } else {
                     try {
-                        $html = Sunra\PhpSimple\HtmlDomParser::file_get_html($url);
+                        $html = Sunra\PhpSimple\HtmlDomParser::str_get_html($str);
                     } catch(ErrorException $e) {
-                        return "url not found";
+                        return "title parsing error";
                     }
+
                     if(!$html) {
                         return "sorry, we couldn't get a title";
                     } 
