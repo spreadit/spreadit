@@ -52,68 +52,6 @@ class CommentController extends BaseController
         return VoteController::applySelection($comments, VoteController::COMMENT_TYPE);
     }
 
-
-    public static function makeTree($comments)
-    {
-        $nodes = new stdClass();
-        $nodes->children = array();
-        $nodes->data = "";
-        $lookup_table = array();
-
-        foreach($comments as $i) {
-            $i->children = array();
-
-            if($i->parent_id == 0) {
-                $nodes->children[$i->id] = $i;
-                $lookup_table[$i->id] = $i->id;
-            } else {
-                if(isset($lookup_table[$i->parent_id])) {
-                    $path = explode('_', $lookup_table[$i->parent_id]);
-                    
-                    $tmp = F\reduce_left($path, function($v, $i, $c, $r) {
-                        return $r->children[$v];
-                    }, $nodes);
-
-                    $tmp->children[$i->id] = $i;
-                    $lookup_table[$i->id] = $lookup_table[$i->parent_id] . '_' . $i->id;
-                } else {
-                    throw new LogicException("this shouldn't be happening");
-                }
-            }
-        }
-
-        return $nodes;
-    }
-
-    public static function sortTreeNew($branch)
-    {
-        usort($branch->children, function($a, $b) { return $a->id < $b->id; });
-
-        foreach($branch->children as $piece) {
-            $piece = self::sortTreeNew($piece);
-        }
-
-        return $branch;
-    }
-
-    public static function renderTree($branch, $first=false)
-    {
-        $rval = $first ? View::make('commentpiece', ['comment' => $branch]) : '';        
-     
-        if(count($branch->children) > 0) {
-            $result = F\reduce_left(F\map($branch->children, function($v) {
-                $tresult = self::renderTree($v, true);
-                return "<li>{$tresult}</li>";
-            }), function($v, $i, $c, $r) {
-                return $r . $v;
-            });
-
-            $rval .= "<ul>{$result}</ul>";
-        }
-
-        return $rval;
-    }
-
     public static function update($comment_id)
     {
         if(Auth::user()->points < 1) {

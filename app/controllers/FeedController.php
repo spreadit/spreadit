@@ -2,6 +2,13 @@
 
 class FeedController extends BaseController
 {
+    /**
+     * generate xss/atom from spreadit
+     *
+     * @param string $section_title name of section
+     *
+     * @return Roumen\Feed
+     */
     public static function generate($section_title)
     {
         $section_id = SectionController::getId($section_title);

@@ -133,15 +133,14 @@ Route::group(['prefix' => '/s'], function()
 		$post = PostController::get($post_id);
 		$my_votes = VoteController::getMatchingVotes(VoteController::POST_TYPE, [$post]);
 		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-        $commentTree = CommentController::sortTreeNew(CommentController::makeTree(CommentController::get($post_id)));
-        $comments = CommentController::renderTree($commentTree);
+        $commentTree = new CommentTree(CommentController::get($post_id));
 		$sort_highlight = SectionController::getSortbyCookie();
         $sort_timeframe_highlight = SectionController::getSortTimeframebyCookie();
 
 		return View::make('post', [
 			'section_title' => $section_title,
 			'sections' => $sections,
-			'comments' => $comments,
+			'comments' => $commentTree->grab()->sort('new')->render(),
 			'post' => $post,
             'sidebar' => $sidebar,
             'sort_highlight' => $sort_highlight,
