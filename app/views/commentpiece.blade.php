@@ -1,4 +1,4 @@
-<div class="row-fluid comment-piece" tabindex="1">
+<div class="comment-piece" tabindex="1">
     <div class="comment-points">
         <a rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a> ({{ $comment->points }})
         <br>

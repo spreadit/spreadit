@@ -139,6 +139,8 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     clear:both;
     display:block;
     overflow:auto;
+    padding:0.25em;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
 }
 .post-piece:nth-child(odd) {
     background-color:#383838;
@@ -177,6 +179,8 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .comment-piece {
 	margin-bottom:0.55em;
 	background-color:#484848;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    overflow:auto;
 }
 
 .comment-points {
