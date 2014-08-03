@@ -19,6 +19,14 @@ table {
     width:100%;
 }
 
+img {
+    -webkit-filter: none;
+    -moz-filter: none;
+    -ms-filter: none;
+    -o-filter: none;
+    filter:none;
+}
+
 #fullpage-container {
 	position:relative;
 	min-height:100%;
