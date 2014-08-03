@@ -3,9 +3,26 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+    "repositories": [
+        {
+            "type":"package",
+            "package": {
+                "name": "spreadit/php-markdown",
+                "version": "dev-master",
+                "source": {
+                    "url": "git://github.com/spreadit/php-markdown.git",
+                    "type": "git",
+                    "reference": "lib"
+                },
+                "autoload": {
+                    "psr-0": { "Michelf": "" }
+                }
+            }
+        }
+    ],
 	"require": {
 		"laravel/framework": "4.2.*",
-		"michelf/php-markdown": "1.4.*",
+		"spreadit/php-markdown": "dev-master",
 		"loic-sharma/profiler": "1.1.*",
 		"greggilbert/recaptcha": "dev-master",
 		"lstrojny/functional-php": "dev-master",

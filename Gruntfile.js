@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 					'public/assets/js/bootstrap-collapse.js',
 					'public/assets/js/bootstrap-maxlength.min.js',
 					'public/assets/js/highlight.min.js',
+                    'public/assets/js/jquery.lazyload.js',
 					'public/assets/js/interaction.js'
 				],
 				dest: 'public/assets/prod/build.js'
