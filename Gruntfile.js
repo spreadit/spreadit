@@ -7,6 +7,7 @@ module.exports = function(grunt) {
         concat: {
         	dist: {
 				src: [
+                    'public/assets/js/jquery.js',
 					'public/assets/js/bootstrap-dropdown.js',
 					'public/assets/js/bootstrap-collapse.js',
 					'public/assets/js/bootstrap-maxlength.min.js',
