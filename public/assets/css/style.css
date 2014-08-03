@@ -133,11 +133,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     word-wrap:break-word;
     word-break:break-all;
 }
-.sidebar {
-    min-width:300px;
-    max-width:300px;
-    float:right;
-}
+
 .post-piece {
     width:100%;
     clear:both;
@@ -149,13 +145,15 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 .post-points {
     float:left;
-    min-width:16em;
+    width:16em;
     display:inline-block;
 }
 .post-data {
     float:right;
     display:inline-block;
-    min-width:calc(100% - 16em);
+    width:calc(100% - 16em);
+    word-wrap:normal;
+    word-break:normal;
 }
 .post-url {
     word-wrap:break-word;
@@ -183,14 +181,16 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 
 .comment-points {
     float:left;
-    min-width:16em;
+    width:16em;
     display:inline-block;
 }
 
 .comment-data {
     float:right;
     display:inline-block;
-    min-width:calc(100% - 16em);
+    width:calc(100% - 16em);
+    word-wrap:normal;
+    word-break:normal;
 }
 
 .summary {
