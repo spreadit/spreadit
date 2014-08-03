@@ -2,6 +2,8 @@
  
 [spreadit](https://spreadit.io) is a privacy centric discussion board and link aggregator with a large focus on transparency and a "no-mod" design.
  
+![spread it like butter](https://spreadit.io/assets/images/spreadit-butter.jpg)
+
 For notices of versions and other spreadit related announcements keep an eye on [/s/spreadit](https://spreadit.io/s/spreadit).
  
 If you happen to find an exploit or have any other sensitive matter please email me @ admin spreadit.io before announcing it publicly. 
