@@ -29,10 +29,10 @@
                     {{ $post->data }}
                     <menu>
                     @if (Auth::check())
-                        <a class="post-action reply" data-type="post" data-id="{{ $post->id }}">reply</a>
-                        <a class="post-action source" data-type="post" data-id="{{ $post->id }}">source</a>
+                        <a class="post-action reply" data-type="post" data-id="{{ $post->id }}">reply </a>
+                        <a class="post-action source" data-type="post" data-id="{{ $post->id }}">source </a>
                         @if ($post->user_id == Auth::id())
-                            <a class="post-action edit" data-type="post" data-id="{{ $post->id }}">edit</a>
+                            <a class="post-action edit" data-type="post" data-id="{{ $post->id }}">edit </a>
                         @endif
                     @else
                         <a href="/login">Register</a> to post replies

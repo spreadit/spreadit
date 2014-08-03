@@ -15,13 +15,13 @@
         {{ $comment->data }}
         @if (Auth::check())
             @if (!isset($user_page))
-                <a class="comment-action reply" data-type="comment" data-id="{{ $comment->id }}">reply</a>
-                <a class="comment-action source" data-type="comment" data-id="{{ $comment->id }}">source</a>
+                <a class="comment-action reply" data-type="comment" data-id="{{ $comment->id }}">reply </a>
+                <a class="comment-action source" data-type="comment" data-id="{{ $comment->id }}">source </a>
                 @if ($comment->users_user_id == Auth::id())
-                    <a class="comment-action edit" data-type="comment" data-id="{{ $comment->id }}">edit</a>
+                    <a class="comment-action edit" data-type="comment" data-id="{{ $comment->id }}">edit </a>
                 @endif
             @endif
-            <a class="comment-action" href="{{ URL::to("/comments/".$comment->id) }}">permalink</a>
+            <a class="comment-action" href="{{ URL::to("/comments/".$comment->id) }}">permalink </a>
         @else
             <a href="{{ URL('/login') }}">Register</a> to post replies
         @endif
