@@ -55,13 +55,13 @@ class CommentController extends BaseController
     public static function update($comment_id)
     {
         if(Auth::user()->points < 1) {
-            return Redirect::to('/comments/'.$comment_id)->withErrors(['You need at least one point to edit a comment']);
+            return Redirect::to('/comments/'.$comment_id)->withErrors(['message' => 'You need at least one point to edit a comment']);
         }
 
         $comment = Comment::findOrFail($comment_id);
 
         if($comment->user_id != Auth::id()) {
-            return Redirect::to('/comments/'.$comment_id)->withErrors(['This comment does not have the same user id as you']);
+            return Redirect::to('/comments/'.$comment_id)->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 
         $data['user_id'] = Auth::id();
@@ -114,11 +114,11 @@ class CommentController extends BaseController
     public static function post($post_id)
     {
         if(Auth::user()->points < 1) {
-            return Redirect::refresh()->withErrors(['You need at least one point to post a comment']);
+            return Redirect::refresh()->withErrors(['message' => 'You need at least one point to post a comment']);
         }
 
         if(!self::canPost()) {
-            return Redirect::refresh()->withErrors(['error' => 'can only post ' . self::MAX_COMMENTS_PER_DAY . ' per day'])->withInput();
+            return Redirect::refresh()->withErrors(['message' => 'can only post ' . self::MAX_COMMENTS_PER_DAY . ' per day'])->withInput();
         }
 
         $data = array_merge(

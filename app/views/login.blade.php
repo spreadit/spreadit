@@ -5,10 +5,10 @@
 @stop
 
 @section('content')
-    @if(Session::has('message'))
+    @if ($errors->any())
         <div class="alert alert-warning fade in">
             <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
-            <h4 class="text-center">{{ Session::get('message') }}</h4>
+            <h4 class="text-center">{{ $errors->first() }}</h4>
         </div>
     @endif
     <div class="row-fluid">

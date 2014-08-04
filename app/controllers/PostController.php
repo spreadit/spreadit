@@ -90,14 +90,14 @@ class PostController extends BaseController
 
         if(Auth::user()->points < 1) {
             return "not enough points";
-            return Redirect::to($prev_path)->withErrors(['You need at least one point to edit a comment']);
+            return Redirect::to($prev_path)->withErrors(['message' => 'You need at least one point to edit a comment']);
         }
 
         $post = Post::findOrFail($post_id);
 
 
         if($post->user_id != Auth::id()) {
-            return Redirect::to($prev_path)->withErrors(['This comment does not have the same user id as you']);
+            return Redirect::to($prev_path)->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 
         $data['user_id'] = Auth::id();
@@ -149,7 +149,7 @@ class PostController extends BaseController
     public static function post($section_title)
     {
         if(!self::canPost()) {
-            return Redirect::to("/s/$section_title/add")->withErrors(['error' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
+            return Redirect::to("/s/$section_title/add")->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
         }
 
         $section_id = SectionController::getId($section_title);
@@ -169,11 +169,12 @@ class PostController extends BaseController
             'section_id' => 'required|numeric',
         );
 
-        $rule_data = 'required|max:'.self::MAX_MARKDOWN_LENGTH;
+        $rule_data = 'max:'.self::MAX_MARKDOWN_LENGTH;
         $rule_url = 'required|url|max:'.self::MAX_URL_LENGTH;
         
         if(empty($data['data']) && empty($data['url'])) {
-            $rules['url'] = $rule_data;
+            $rules['data'] = $rule_data;
+            $data['type'] = 1;
         } else if(!empty($data['data']) && !empty($data['url'])) {
             $rules['data'] = $rule_data;
             $rules['url'] = $rule_url;
@@ -198,7 +199,10 @@ class PostController extends BaseController
 
         if(isset($rules['url'])) {
             if(!UtilController::urlExists($data['url'])) {
-                return Redirect::to("/s/$section_title/add")->withErrors(['url not exist'])->withInput();
+                return Redirect::to("/s/$section_title/add")
+                    ->withErrors(['message' => 'website doesn\'t exist'])
+                    ->withInput();
+
             }
         }
         $item = new Post($data);
