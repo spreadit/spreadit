@@ -55,7 +55,9 @@ a {
 textarea, input, input[type] {
 	font-family: Monaco,Consolas,"Lucida Console",monospace;
 	font-size:12px;
-	width:100%;
+    background-color:#fff;
+	width:80%;
+	height:6em;
 }
 
 hr {
@@ -243,11 +245,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .summary {
     color:#777;
     font-size:0.9em;
-}
-
-textarea {
-	width:80%;
-	height:6em;
 }
 
 .reply:hover, .source:hover, .edit:hover {
