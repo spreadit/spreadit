@@ -27,6 +27,22 @@ img {
     filter:none;
 }
 
+*::-webkit-input-placeholder {
+    color: #222;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: #222;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: #222;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #222;
+}
+
 #fullpage-container {
 	position:relative;
 	min-height:100%;
