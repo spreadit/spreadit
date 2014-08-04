@@ -45,7 +45,6 @@
                     @endif
                     </menu>
                 </div>
-                <hr>
             </div>
             {{ $comments }}
         </div>
