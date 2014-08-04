@@ -45,6 +45,9 @@
                     @endif
                     </menu>
                 </div>
+                <div class="post-thumbnail">
+                    <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                </div>
             </div>
             {{ $comments }}
         </div>

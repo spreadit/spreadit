@@ -1,4 +1,5 @@
 <?php
+use Knp\Snappy\Image as ThumbDL;
 
 class UtilController extends BaseController
 {
@@ -90,5 +91,52 @@ class UtilController extends BaseController
         }
 
         return true;
+    }
+
+    public static function getThumbnailFromUrl($url)
+    {
+        try {
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $fcontents = file_get_contents($url);
+            $ftype = $finfo->buffer($fcontents);
+        } catch (Exception $e) {
+            return "foundfuck";
+        }
+
+        try {
+            $snappy = new ThumbDL('/usr/local/bin/wkhtmltoimage');
+            $snappy->setOption('stop-slow-scripts', true);
+            $snappy->setOption('width', "1024");
+            $snappy->setOption('height', "576");
+    
+            if($ftype == "text/html") {
+                $image = $snappy->getOutput($url);
+            } else { //blindly assume an image todo - improve
+                $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
+            }
+        } catch (Exception $e) {
+            return "snapfuck";
+        }
+
+        try {
+            $tmpfname = tempnam("/tmp", "spreadit");
+            $handle = fopen($tmpfname, "w");
+            fwrite($handle, $image);
+            fclose($handle);
+        } catch(Exception $e) {
+            return "tempfuck";
+        }
+
+        try {
+            $generated_name = md5($url . time());
+            $resizer = Image::make($tmpfname);
+            $resizer->resize(128, 72);
+
+            $resizer->save(public_path() . "/assets/thumbs/".$generated_name.".jpg");
+        } catch(Exception $e) {
+            return "resfuck";
+        }
+
+        return $generated_name;
     }
 }

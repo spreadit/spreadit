@@ -2,6 +2,7 @@
 
 require_once('routes/filters.php');
 require_once('routes/pages.php');
+require_once('routes/util.php');
 require_once('routes/help.php');
 require_once('routes/comments.php');
 require_once('routes/errors.php');

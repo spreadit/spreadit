@@ -15,4 +15,7 @@
         <br>
         <span class="summary">{{{ UtilController::prettySubstr($post->markdown, 130) }}}..</span>
     </div>
+    <div class="post-thumbnail">
+        <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+    </div>
 </div>
