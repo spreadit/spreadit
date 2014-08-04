@@ -17,6 +17,7 @@ Requirements:
  * npm
  * mysql
  * redis
+ * wkhtmltoimage
  
 Instructions:
 * `git clone https://github.com/spreadit/spreadit.git`
