@@ -55,7 +55,11 @@ a {
 textarea, input, input[type] {
 	font-family: Monaco,Consolas,"Lucida Console",monospace;
 	font-size:12px;
-	width:100%;
+    background-color:#fff;
+    width:80%;
+}
+textarea {
+	height:6em;
 }
 
 hr {
@@ -164,6 +168,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     display:block;
     overflow:auto;
     padding:0.25em;
+    min-height:72px;
     box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -178,9 +183,9 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 .post-data {
-    float:right;
+    float:left;
     display:inline-block;
-    width:calc(100% - 16em);
+    width:calc(100% - 16em - 128px);
     word-wrap:normal;
     word-break:normal;
 }
@@ -197,6 +202,19 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     word-break:break-all;
     font-size:0.9em;
 }
+
+.post-thumbnail {
+    float:right;
+    display:inline-block;
+    width:128px;
+    height:72px;
+}
+
+.post-thumbnail img {
+    width:128px;
+    height:72px;
+}
+
 @media (max-width: 1200px) {
     .posts-container {
         width: 100%;
@@ -243,11 +261,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .summary {
     color:#777;
     font-size:0.9em;
-}
-
-textarea {
-	width:80%;
-	height:6em;
 }
 
 .reply:hover, .source:hover, .edit:hover {
