@@ -100,7 +100,7 @@ class UtilController extends BaseController
             $fcontents = file_get_contents($url);
             $ftype = $finfo->buffer($fcontents);
         } catch (Exception $e) {
-            return "foundfuck";
+            return "";
         }
 
         try {
@@ -115,7 +115,7 @@ class UtilController extends BaseController
                 $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
             }
         } catch (Exception $e) {
-            return "snapfuck";
+            return "";
         }
 
         try {
@@ -124,7 +124,7 @@ class UtilController extends BaseController
             fwrite($handle, $image);
             fclose($handle);
         } catch(Exception $e) {
-            return "tempfuck";
+            return "";
         }
 
         try {
@@ -134,7 +134,7 @@ class UtilController extends BaseController
 
             $resizer->save(public_path() . "/assets/thumbs/".$generated_name.".jpg");
         } catch(Exception $e) {
-            return "resfuck";
+            return "";
         }
 
         return $generated_name;

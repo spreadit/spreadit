@@ -46,7 +46,9 @@
                     </menu>
                 </div>
                 <div class="post-thumbnail">
+                    @if (!empty($post->thumbnail))
                     <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                    @endif
                 </div>
             </div>
             {{ $comments }}
