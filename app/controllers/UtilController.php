@@ -80,4 +80,15 @@ class UtilController extends BaseController
             return "not url";
         }
     }
+
+    public static function urlExists($url)
+    {
+        try {
+            file_get_contents($url);
+        } catch(Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

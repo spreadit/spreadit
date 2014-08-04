@@ -196,6 +196,11 @@ class PostController extends BaseController
             return Redirect::to("/s/$section_title/add")->withErrors($validate->messages())->withInput();
         }
 
+        if(isset($rules['url'])) {
+            if(!UtilController::urlExists($data['url'])) {
+                return Redirect::to("/s/$section_title/add")->withErrors(['url not exist'])->withInput();
+            }
+        }
         $item = new Post($data);
         $item->save();
 
