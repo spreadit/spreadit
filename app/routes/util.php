@@ -20,10 +20,7 @@ Route::group(['prefix' => '/util'], function()
 
     Route::get('/titlefromurl', function()
     {
-        if(!Input::has('url')) {
-            return "url not given";
-        }
-
-        return UtilController::titleFromUrl(Input::get('url'));
+        $result = Input::has('url') ? UtilController::titleFromUrl(Input::get('url')) : "url not given";
+        return Response::make(json_encode(['response' => $result]))->header('Content-Type', 'application/json');
     });
 });

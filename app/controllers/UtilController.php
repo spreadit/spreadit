@@ -58,7 +58,7 @@ class UtilController extends BaseController
                 preg_match("/\<title\>(.*)\<\/title\>/", $str, $title);           
                 
                 if(count($title) > 1) {
-                    return substr(trim($title[1]), 0, 128);
+                    return substr(trim(html_entity_decode($title[1], ENT_QUOTES, 'UTF-8')), 0, 128);
                 } else {
                     try {
                         $html = Sunra\PhpSimple\HtmlDomParser::str_get_html($str);
@@ -71,7 +71,7 @@ class UtilController extends BaseController
                     } 
 
                     foreach($html->find("title") as $e) {
-                        return substr(trim($e->plaintext), 0, 128);
+                        return substr(trim(html_entity_decode($e->plaintext, ENT_QUOTES, 'UTF-8')), 0, 128);
                     }
 
                     return "no title found";

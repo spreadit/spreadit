@@ -117,11 +117,8 @@ $(document).ready(function() {
 	$("#suggest_title").click(function(){
 		var url = "/util/titlefromurl?url=" + $("#url").val();
 
-		$.ajax({
-			url: url,
-			complete: function(data) {
-				$("#title").val(data.responseText);
-			}
+        $.getJSON(url, function(json) {
+			$("#title").val(json.response);
 		});
 	});
 
