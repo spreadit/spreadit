@@ -66,12 +66,12 @@ class SectionController extends BaseController
     protected function getSecondsFromTimeframe($timeframe)
     {
         switch($timeframe) {
-            case 'day':   return SortController::DAY_SECONDS;   break;
-            case 'week':  return SortController::WEEK_SECONDS;  break;
-            case 'month': return SortController::MONTH_SECONDS; break;
-            case 'year':  return SortController::YEAR_SECONDS;  break;
-            case 'all':   return SortController::ALL_SECONDS;   break;
-            default:      return App::abort(404);               break;
+            case 'day':     return SortController::DAY_SECONDS;   break;
+            case 'week':    return SortController::WEEK_SECONDS;  break;
+            case 'month':   return SortController::MONTH_SECONDS; break;
+            case 'year':    return SortController::YEAR_SECONDS;  break;
+            case 'forever': return time();                        break;
+            default:        return App::abort(404);               break;
         }
     }
 
