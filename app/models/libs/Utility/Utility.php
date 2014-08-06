@@ -108,11 +108,19 @@ class Utility
             $snappy->setOption('stop-slow-scripts', true);
             $snappy->setOption('width', "1024");
             $snappy->setOption('height', "576");
-    
-            if($ftype == "text/html") {
-                $image = $snappy->getOutput($url);
-            } else { //blindly assume an image todo - improve
-                $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
+
+            $host = parse_url($url, PHP_URL_HOST);
+            if(strcmp($host, "www.youtube.com") == 0) {
+                parse_str(parse_url($url, PHP_URL_QUERY), $vars);
+                $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode("http://img.youtube.com/vi/".$vars['v']."/0.jpg")));
+            } else if(strcmp($host, "youtu.be") == 0) {
+                $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode("http://img.youtube.com/vi".parse_url($url, PHP_URL_PATH)."/0.jpg")));
+            } else {
+                if($ftype == "text/html") {
+                    $image = $snappy->getOutput($url);
+                } else { //blindly assume an image todo - improve
+                    $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
+                }
             }
         } catch (Exception $e) {
             return "";
