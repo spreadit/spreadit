@@ -107,7 +107,7 @@ $(document).ready(function() {
 		$(this).text(decoded);
 	});
 
-    $(".commentpiece a").each(function() {
+    $(".comment-piece a, .post-piece a").each(function() {
         if(typeof $(this).attr("href") === 'undefined') return;
         if(!$(this).attr("href").startsWith('http') && !$(this).attr("href").startsWith('https')) {
             $(this).attr("href", "http://" + $(this).attr("href"));

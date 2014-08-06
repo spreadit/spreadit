@@ -9,7 +9,7 @@
         <a rel="nofollow" href="{{ URL::to("/u/{$post->username}") }}">{{ $post->username }}</a>({{ $post->points }})
     </div>
     <div class="post-data">
-        <a rel="nofollow" href="{{ $post->type == Post::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) : $post->url }}">{{ $post->title }}</a> | {{ $post->section_title }}
+        <a rel="nofollow" href="{{ $post->type == Post::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) : URL::to($post->url) }}">{{ $post->title }}</a> | {{ $post->section_title }}
         <br>
         <span class="post-url">{{ parse_url($post->type == Post::SELF_POST_TYPE ? URL::to('/') : $post->url, PHP_URL_HOST) }}</span> :: <a href="{{ URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) }}">view comments({{ $post->comment_count }})</a>
         <br>

@@ -21,16 +21,16 @@
                 <div class="post-points">
                     <span class="vote {{ $post->selected == Vote::UP ? 'selected' : '' }} {{ $post->selected == Vote::DOWN ? 'disable-click' : ''}}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
                     <span class="vote {{ $post->selected == Vote::DOWN ? 'selected' : '' }} {{ $post->selected == Vote::UP ? 'disable-click' : '' }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
-                    <a href="/vote/post/{{ $post->id }}">
+                    <a href="{{ URL::to("/vote/post/".$post->id) }}">
                         <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                     </a>
                     <br>
                     {{ Utility::prettyAgo($post->created_at) }}
                     <br>
-                    <a rel="nofollow" href="/u/{{ $post->username }}">{{ $post->username }}</a>({{ $post->points }})
+                    <a rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a>({{ $post->points }})
                 </div>
                 <div class="post-data">
-                    <h1><a rel="nofollow" href="{{ $post->url }}">{{ $post->title }}</a></h1>
+                    <h1><a rel="nofollow" href="{{ URL::to($post->url) }}">{{ $post->title }}</a></h1>
                     <br>
                     {{ $post->data }}
                     <menu>
@@ -41,7 +41,7 @@
                             <a class="post-action edit" data-type="post" data-id="{{ $post->id }}">edit </a>
                         @endif
                     @else
-                        <a href="/login">Register</a> to post replies
+                        <a href="{{ URL::to("/login") }}">Register</a> to post replies
                     @endif
                     </menu>
                 </div>
