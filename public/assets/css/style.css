@@ -190,10 +190,14 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     word-break:normal;
 }
 
-.post-data ul li {
+.post-data ul li,
+.comment-data ul li, 
+.preview-box ul li {
     list-style:circle;
 }
-.post-data ol li {
+.post-data ol li,
+.comment-data ol li,
+.preview-box ol li {
     list-style:decimal;
 }
 
@@ -248,14 +252,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     width:calc(100% - 16em);
     word-wrap:normal;
     word-break:normal;
-}
-
-.comment-data ul li {
-    list-style:circle;
-}
-
-.comment-data ol li {
-    list-style:decimal;
 }
 
 .summary {

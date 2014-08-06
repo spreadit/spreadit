@@ -5,7 +5,7 @@ class VoteController extends BaseController
     {
         return View::make('vote_table', [
             'votes' => Vote::getPostVotes($type_id),
-            'sections' => SectionController::get()
+            'sections' => Section::get()
         ]);
     }
     
@@ -23,7 +23,7 @@ class VoteController extends BaseController
     {
         return View::make('vote_table', [
             'votes' => Vote::getCommentVotes($type_id),
-            'sections' => SectionController::get()
+            'sections' => Section::get()
         ]);
     }
 
