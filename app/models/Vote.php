@@ -78,12 +78,12 @@ class Vote extends BaseModel
         }
     }
 
-    protected static function applyVote($type, $type_id, $updown)
+    public static function applyVote($type, $type_id, $updown)
     {
         //deal with user table
         $user = User::findOrFail(Auth::id());
         if($user->points < 1) {
-            return json_encode(array('success'=>false, 'errors'=>array(self::$errors['lackingpoints'])));
+            return false;
         }
         $user->decrement('points');
 
@@ -122,18 +122,7 @@ class Vote extends BaseModel
         }
 
 
-        return json_encode(array('success'=>true, 'errors' => array()));
-    }
-
-    protected static function action($type, $type_id, $updown)
-    {
-        $check = self::checkVote($type, $type_id);
-
-        if(count($check) > 0) {
-            return self::alreadyExists($check);
-        }
-
-        return self::applyVote($type, $type_id, $updown);
+        return false;
     }
 
     public static function getPostVotes($type_id)
@@ -146,23 +135,6 @@ class Vote extends BaseModel
             ->simplePaginate(self::VOTES_PAGE_RESULTS);
     }
 
-    public static function postView($type_id)
-    {
-        return View::make('vote_table', [
-            'votes' => self::getPostVotes($type_id),
-            'sections' => SectionController::get()
-        ]);
-    }
-    
-    public static function postUp($type_id)
-    {
-        return self::action(self::POST_TYPE, $type_id, self::UP);
-    }
-
-    public static function postDown($type_id)
-    {
-        return self::action(self::POST_TYPE, $type_id, self::DOWN);
-    }
 
     public static function getCommentVotes($type_id)
     {
@@ -174,31 +146,14 @@ class Vote extends BaseModel
             ->paginate();
     }
 
-    public static function commentView($type_id)
+    protected  function action($type, $type_id, $updown)
     {
-        return View::make('vote_table', [
-            'votes' => self::getCommentVotes($type_id),
-            'sections' => SectionController::get()
-        ]);
-    }
+        $check = self::checkVote($type, $type_id);
 
-    public static function commentUp($type_id)
-    {
-        return self::action(self::COMMENT_TYPE, $type_id, self::UP);
-    }
-    
-    public static function commentDown($type_id)
-    {
-        return self::action(self::COMMENT_TYPE, $type_id, self::DOWN);
-    }
+        if(count($check) > 0) {
+            return self::alreadyExists($check);
+        }
 
-    public static function sectionUp($type_id)
-    {
-        return self::action(self::SECTION_TYPE, $type_id, self::UP);
+        return self::applyVote($type, $type_id, $updown);
     }
-
-    public static function sectionDown($type_id)
-    {
-        return self::action(self::SECTION_TYPE, $type_id, self::DOWN);
-    }
-}
+} 

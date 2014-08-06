@@ -5,6 +5,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends BaseModel implements UserInterface, RemindableInterface
 {
+    //how many pages to show with pagination
+    const PAGE_RESULTS = 25;
+
     protected $table = 'users';
 
     protected $hidden = array('password');
@@ -83,7 +86,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             return $this->email;
     }
 
-    protected function getComments($username)
+    protected function comments($username)
     {
         $comments = DB::table('comments')
             ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id')
@@ -95,20 +98,20 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         return Vote::applySelection($comments, Vote::COMMENT_TYPE);
     }
 
-    protected function getPosts($username)
+    protected function posts($username)
     {
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'users.username', 'users.points', 'sections.title AS section_title')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'users.username', 'users.points', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
 
-        return VoteController::applySelection($posts, VoteController::POST_TYPE);
+        return Vote::applySelection($posts, Vote::POST_TYPE);
     }
 
-    protected function getPostsVotes($username)
+    protected function postsVotes($username)
     {
         return DB::table('votes')
             ->join('users', 'votes.user_id', '=', 'users.id')
@@ -121,7 +124,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->simplePaginate(User::PAGE_RESULTS);
     }
 
-    protected function getCommentsVotes($username)
+    protected function commentsVotes($username)
     {
         return DB::table('votes')
             ->join('users', 'votes.user_id', '=', 'users.id')

@@ -7,8 +7,8 @@ class SectionController extends BaseController
 
     protected function add($section_title)
     {
-		$section_id = SectionController::getId($section_title);
-		$sections = SectionController::get();
+		$section_id = Section::getId($section_title);
+		$sections = Section::get();
 
 		return View::make('newpost', [
 			'sections' => $sections,

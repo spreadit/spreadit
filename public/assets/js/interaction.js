@@ -40,12 +40,12 @@ $(document).ready(function() {
 		} else {
 			$(this).data("replyBox", true);
             if($(this).data('type') == 'comment') {
-                $.post('/util/generate_view/commentreplybox', { parent_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/commentreplybox', { parent_id: $(this).data('id') }, function(data) {
                     that.after(data);
                     that.parent().find('.replybox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             } else if($(this).data('type') == 'post') {
-                $.post('/util/generate_view/postreplybox', { post_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/postreplybox', { post_id: $(this).data('id') }, function(data) {
                     that.after(data);
                     that.parent().find('.replybox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
@@ -63,11 +63,11 @@ $(document).ready(function() {
 			$(this).data("sourceBox", true);
 
             if($(this).data('type') == 'comment') {
-                $.post('/util/generate_view/commentsourcebox', { comment_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/commentsourcebox', { comment_id: $(this).data('id') }, function(data) {
                     that.after(data);
 		    	});
             } else if($(this).data('type') == 'post') {
-                $.post('/util/generate_view/postsourcebox', { post_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/postsourcebox', { post_id: $(this).data('id') }, function(data) {
                     that.after(data);
 		    	});
             }
@@ -85,12 +85,12 @@ $(document).ready(function() {
 			$(this).data("editBox", true);
 
             if($(this).data('type') == 'comment') {
-                $.post('/util/generate_view/commenteditbox', { comment_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/commenteditbox', { comment_id: $(this).data('id') }, function(data) {
                     that.after(data);
                     that.parent().find('.editbox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             } else if($(this).data('type') == 'post') {
-                $.post('/util/generate_view/posteditbox', { post_id: $(this).data('id') }, function(data) {
+                $.get('/util/generate_view/posteditbox', { post_id: $(this).data('id') }, function(data) {
                     that.after(data);
                     that.parent().find('.editbox textarea[maxlength]').maxlength({alwaysShow:true});
                 });

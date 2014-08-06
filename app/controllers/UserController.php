@@ -2,15 +2,13 @@
 
 class UserController extends BaseController
 {
-    //how many pages to show with pagination
-    const PAGE_RESULTS = 25;
-
     protected function logout()
     {
         Auth::logout();
 	    return Redirect::to('/');
     }
-    public function register()
+
+    protected function register()
     {
         $user = new User;
         $user->username = e(Input::get('username'));
@@ -31,7 +29,7 @@ class UserController extends BaseController
         }
     }
 
-    public function login()
+    protected function login()
     {
         $data = Input::only('username', 'password');
         $data['username'] = e($data['username']);
@@ -42,14 +40,14 @@ class UserController extends BaseController
         );
         $validate = Validator::make($data, $rules);
         if($validate->fails()) {
-            $errors = $validate->messages();
-            return Redirect::to('/login')->withErrors($errors)->withInput();
+            return Redirect::to('/login')->withErrors($validate->messages())->withInput();
         }
-        if(Auth::attempt($data, true)) {
-            return Redirect::to('/');
-        } else {
-            return Redirect::to('/login')->with('message', 'wrong user id or password');
+
+        if(!Auth::attempt($data, true)) {
+            return Redirect::to('/login')->withErrors(['message' => 'wrong user id or password']);
         }
+
+        return Redirect::to('/');
     }
 
     protected function notifications()
@@ -77,7 +75,7 @@ class UserController extends BaseController
     {
         return View::make('user_comments', [
             'sections' => Section::get(),
-            'comments' => User::getComments($username),
+            'comments' => User::comments($username),
             'username' => $username,
             'highlight' => 'comments'
         ]);
@@ -87,7 +85,7 @@ class UserController extends BaseController
     {
         return View::make('user_posts', [
             'sections' => Section::get(),
-            'posts' => User::getPosts($username),
+            'posts' => User::posts($username),
             'username' => $username,
             'highlight' => 'posts'
         ]);
@@ -96,8 +94,8 @@ class UserController extends BaseController
     protected function postsVotes($username)
     {
         return View::make('user_posts_votes', [
-            'sections' => SectionController::get(),
-            'votes' => User::getPostsVotes($username),
+            'sections' => Section::get(),
+            'votes' => User::postsVotes($username),
             'username' => $username,
             'highlight' => 'pvotes'
         ]);
@@ -106,8 +104,8 @@ class UserController extends BaseController
     protected function commentsVotes($username)
     {
         return View::make('user_comments_votes', [
-            'sections' => SectionController::get(),
-            'votes' => self::getCommentsVotes($username),
+            'sections' => Section::get(),
+            'votes' => User::commentsVotes($username),
             'username' => $username,
             'highlight' => 'cvotes'
         ]);
@@ -116,7 +114,7 @@ class UserController extends BaseController
     protected function mainVote($username)
     {
         return View::make('user_votes_page', [
-            'sections' => SectionController::get(),
+            'sections' => Section::get(),
             'username' => $username,
             'highlight' => ''
         ]);

@@ -8,11 +8,11 @@ Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login', 'PageController@login');
 
-Route::any('/logout', ['before' => 'auth'], 'UserController@logout');
-Route::post('/login', ['before' => 'csrf'], 'UserController@login');
-Route::post('/register', ['before' => 'csrf'], 'UserController@register');
-Route::get('/notifications', ['before' => 'auth'], 'UserController@notifications');
-Route::get('/unotifications', ['before' => 'auth'], 'UserController@unreadNotifications');
+Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
+Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
+Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register']);
+Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
+Route::get('/unotifications', ['before' => 'auth', 'uses' => 'UserController@unreadNotifications']);
 
 Route::get('/', 'SectionController@get');
 Route::get('/.rss', 'FeedController@rss');
@@ -32,13 +32,13 @@ Route::group(['prefix' => '/s'], function()
 		Route::get('/controversial/{timeframe}', 'SectionController@controversial');
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
-        Route::post('/posts/{post_id}/{post_title?}', ['before' => 'auth'], 'CommentController@post'); 
+        Route::post('/posts/{post_id}/{post_title?}', ['before' => 'auth', 'uses' =>'CommentController@post']);
 
-	    Route::get('/add', ['before' => 'auth'], 'SectionController@add');
+	    Route::get('/add', ['before' => 'auth', 'uses' =>'SectionController@add']);
 	    Route::post('/add', ['before' => 'auth|csrf', 'uses' => 'PostController@post']);
     });
 });
-Route::any('/update_post/{post_id}', ['before' => 'auth'], 'PostController@update');
+Route::any('/update_post/{post_id}', ['before' => 'auth', 'uses' => 'PostController@update']);
 
 Route::group(['prefix' => '/util'], function()
 {
