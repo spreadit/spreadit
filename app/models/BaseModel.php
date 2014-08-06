@@ -1,7 +1,8 @@
 <?php
 use Carbon\Carbon;
+use LaravelBook\Ardent\Ardent;
 
-class BaseModel extends Eloquent
+class BaseModel extends Ardent
 {
     protected function getDateFormat()
     {

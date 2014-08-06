@@ -3,72 +3,135 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends BaseModel implements UserInterface, RemindableInterface {
+class User extends BaseModel implements UserInterface, RemindableInterface
+{
+    protected $table = 'users';
 
-        /**
-         * The database table used by the model.
-         *
-         * @var string
-         */
-        protected $table = 'users';
+    protected $hidden = array('password');
 
+    public $autoHashPasswordAttributes = true;
+    public $autoPurgeRedundantAttributes = true;
+    public $autoHydrateEntityFromInput = true; 
+    
+    protected $attributes = array(
+        'points' => '10',
+        'upvotes' => '0',
+        'downvotes' => '0'
+    );
+    
+    public static $passwordAttributes = ['password'];
+    
+    public static $rules = [
+        'username' => 'required|unique:users|max:24',
+        'password' => 'required|confirmed|max:128',
+        'password_confirmation' => 'required|max:128',
+        'captcha' => 'required|captcha'
+    ];
 
-        /**
-         * The attributes excluded from the model's JSON form.
-         *
-         * @var array
-         */
-        protected $hidden = array('password');
+    public function __construct($attributes = array())
+    {
+        parent::__construct($attributes);
 
+        $this->purgeFilters[] = function($key) {
+            $purge = array('captcha');
+            return ! in_array($key, $purge);
+        };
+    }
 
-        protected $attributes = array(
-            'points' => '10',
-            'upvotes' => '0',
-            'downvotes' => '0'
-        );
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+            return $this->getKey();
+    }
 
-        /**
-         * Get the unique identifier for the user.
-         *
-         * @return mixed
-         */
-        public function getAuthIdentifier()
-        {
-                return $this->getKey();
-        }
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+            return $this->password;
+    }
 
-        /**
-         * Get the password for the user.
-         *
-         * @return string
-         */
-        public function getAuthPassword()
-        {
-                return $this->password;
-        }
+    public function getRememberToken()
+    {
+            return $this->remember_token;
+    }
 
-        public function getRememberToken()
-        {
-                return $this->remember_token;
-        }
+    public function setRememberToken($value)
+    {
+            $this->remember_token = $value;
+    }
 
-        public function setRememberToken($value)
-        {
-                $this->remember_token = $value;
-        }
+    public function getRememberTokenName()
+    {
+            return 'remember_token';
+    }
 
-        public function getRememberTokenName()
-        {
-                return 'remember_token';
-        }
+    /**
+     * Get the e-mail address where password reminders are sent.
+     *
+     * @return string
+     */
+    public function getReminderEmail()
+    {
+            return $this->email;
+    }
 
-        /**
-         * Get the e-mail address where password reminders are sent.
-         *
-         * @return string
-         */
-        public function getReminderEmail()
-        {
-                return $this->email;
-        }
+    protected function getComments($username)
+    {
+        $comments = DB::table('comments')
+            ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id')
+            ->leftJoin('users', 'users.id', '=', 'comments.user_id')
+            ->where('users.username', 'LIKE', $username)
+            ->orderBy('id', 'desc')
+            ->simplePaginate(self::PAGE_RESULTS);
+
+        return Vote::applySelection($comments, Vote::COMMENT_TYPE);
+    }
+
+    protected function getPosts($username)
+    {
+        $posts = DB::table('posts')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->join('sections', 'posts.section_id', '=', 'sections.id')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'users.username', 'users.points', 'sections.title AS section_title')
+            ->where('users.username', 'LIKE', $username)
+            ->orderBy('id', 'desc')
+            ->simplePaginate(self::PAGE_RESULTS);
+
+        return VoteController::applySelection($posts, VoteController::POST_TYPE);
+    }
+
+    protected function getPostsVotes($username)
+    {
+        return DB::table('votes')
+            ->join('users', 'votes.user_id', '=', 'users.id')
+            ->join('posts', 'votes.item_id', '=', 'posts.id')
+            ->join('sections', 'posts.section_id', '=', 'sections.id')
+            ->join('users AS users_r', 'posts.user_id', '=', 'users_r.id')
+            ->select('votes.updown', 'votes.created_at', 'posts.id', 'posts.title', 'posts.upvotes', 'posts.downvotes', 'posts.user_id', 'users_r.username', 'users_r.points', 'sections.title AS section_title')
+            ->where('users.username', 'LIKE', $username)
+            ->orderBy('votes.id', 'desc')
+            ->simplePaginate(User::PAGE_RESULTS);
+    }
+
+    protected function getCommentsVotes($username)
+    {
+        return DB::table('votes')
+            ->join('users', 'votes.user_id', '=', 'users.id')
+            ->join('comments', 'votes.item_id', '=', 'comments.id')
+            ->join('posts', 'posts.id', '=', 'comments.post_id')
+            ->join('sections', 'posts.section_id', '=', 'sections.id')
+            ->join('users AS users_r', 'comments.user_id', '=', 'users_r.id')
+            ->select('votes.updown', 'votes.created_at', 'comments.id', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'comments.user_id', 'users_r.username AS username', 'users_r.points', 'sections.title AS section_title')
+            ->where('users.username', 'LIKE', $username)
+            ->orderBy('votes.id', 'desc')
+            ->simplePaginate(self::PAGE_RESULTS);
+    }
 }

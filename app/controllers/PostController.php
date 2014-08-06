@@ -1,92 +1,37 @@
 <?php
+
 use \Michelf\MarkdownExtra;
 use \Functional as F;
 
 class PostController extends BaseController
 {
-    const LINK_POST_TYPE = 0;
-    const SELF_POST_TYPE = 1;
-
-    const MAX_TITLE_LENGTH = 128;
-    const MAX_URL_LENGTH = 256;
-
-    const MAX_MARKDOWN_LENGTH = 6000;
-    const MAX_POSTS_PER_DAY = 15;
-    const MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
-
-    public static function getSourceFromId($id)
+    protected function get($section_title, $post_id)
     {
-        return Post::findOrFail($id)->markdown;
-    }
+        $sections = Section::get();
+        $section_id = Section::getId($section_title);
+        $sidebar = Section::getSidebar($section_id);
+        $post = Post::get($post_id);
+        $my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
+        $post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
+        $commentTree = new CommentTree(Comment::get($post_id));
+        $sectionController = new SectionController;
+        $sort_highlight = Utility::getSortMode();
+        $sort_timeframe_highlight = Utility::getSortTimeframe();
 
-    public static function getSectionTitleFromId($id)
-    {
-        return DB::table('sections')
-            ->select('sections.title')
-            ->join('posts', 'posts.section_id', '=', 'sections.id')
-            ->where('posts.id', '=', $id)
-            ->pluck('title');
-    }
-
-    public static function getList($section_id=0, $seconds=0, $orderby)
-    {
-        $posts = DB::table('posts')
-            ->join('users', 'posts.user_id', '=', 'users.id')
-            ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'sections.title AS section_title');
-
-        if($section_id != 0) {
-            $posts = $posts->where('posts.section_id', $section_id == 0 ? '>' : '=', $section_id == 0 ? '0' : $section_id);
-        }
-        if($seconds != 0) {
-            $posts = $posts->where('posts.created_at', '>', time() - $seconds);
-        }
-
-        $posts = $posts->orderBy(DB::raw($orderby), 'desc')
-            ->simplePaginate(SectionController::PAGE_POST_COUNT);
-
-        return VoteController::applySelection($posts, VoteController::POST_TYPE);
-    }
-
-    public static function getNewList($section_id=0)
-    {
-        return VoteController::applySelection(self::getList($section_id, 0, SortController::ORDERBY_SQL_NEW), VoteController::POST_TYPE);
-    }
-
-    public static function getTopList($section_id=0, $seconds)
-    {
-        return VoteController::applySelection(self::getList($section_id, $seconds, SortController::ORDERBY_SQL_TOP), VoteController::POST_TYPE);
-    }
-
-    public static function getHotList($section_id=0)
-    {
-        return VoteController::applySelection(self::getList($section_id, 0, SortController::ORDERBY_SQL_HOT), VoteController::POST_TYPE);
-    }
-
-    public static function getControversialList($section_id=0, $seconds)
-    {
-        return VoteController::applySelection(self::getList($section_id, $seconds, SortController::ORDERBY_SQL_CONTROVERSIAL), VoteController::POST_TYPE);
-    }
-
-    public static function get($post_id)
-    {
-        $post = DB::table('posts')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.thumbnail', 'users.username', 'users.points')
-            ->join('users', 'users.id', '=', 'posts.user_id')
-            ->where('posts.id', '=', $post_id)
-            ->orderBy('posts.id', 'desc')
-            ->first();
-
-        if(is_null($post)) {
-            App::abort(404, "post id not found");
-        }
-
-        return $post;
+        return View::make('post', [
+            'section_title' => $section_title,
+            'sections' => $sections,
+            'comments' => $commentTree->grab()->sort('new')->render(),
+            'post' => $post,
+            'sidebar' => $sidebar,
+            'sort_highlight' => $sort_highlight,
+            'sort_timeframe_highlight' => $sort_timeframe_highlight,
+        ]);
     }
 
     public static function update($post_id)
     {
-        $prev_path = "/s/" . self::getSectionTitleFromId($post_id) . "/posts/" . $post_id;
+        $prev_path = "/s/" . Post::getSectionTitleFromId($post_id) . "/posts/" . $post_id;
 
         if(Auth::user()->points < 1) {
             return "not enough points";
@@ -115,13 +60,12 @@ class PostController extends BaseController
             return Redirect::to($prev_path)->withErrors($validate->messages())->withInput();
         }
 
-        $history = new History([
-            'data'     => $post->data,
-            'markdown' => $post->markdown,
-            'user_id'  => Auth::id(),
-            'type'     => HistoryController::POST_TYPE,
-            'type_id'  => $post->id
-        ]);
+        $history = new History;
+        $history->data     = $post->data;
+        $history->markdown = $post->markdown;
+        $history->user_id  = Auth::id();
+        $history->type     = HistoryController::POST_TYPE;
+        $history->type_id  = $post->id;
         $history->save();
 
 
@@ -198,14 +142,14 @@ class PostController extends BaseController
         }
 
         if(isset($rules['url'])) {
-            if(!UtilController::urlExists($data['url'])) {
+            if(!Utility::urlExists($data['url'])) {
                 return Redirect::to("/s/$section_title/add")
                     ->withErrors(['message' => 'website doesn\'t exist'])
                     ->withInput();
 
             }
 
-            $data['thumbnail'] = UtilController::getThumbnailFromUrl($data['url']);
+            $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
         }
 
         $item = new Post($data);
@@ -214,7 +158,7 @@ class PostController extends BaseController
         //add a point for adding posts
         Auth::user()->increment('points');
 
-        return Redirect::to("/s/$section_title/posts/$item->id/" . UtilController::prettyUrl($data['title']));
+        return Redirect::to("/s/$section_title/posts/$item->id/" . Utility::prettyUrl($data['title']));
     }
 }
 

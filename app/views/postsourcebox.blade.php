@@ -1,5 +1,5 @@
 <div class="sourcebox">
     <p class="text">
-        <textarea readonly>{{ PostController::getSourceFromId($post_id) }}</textarea>
+        <textarea readonly>{{ Post::getSourceFromId($post_id) }}</textarea>
     </p>
 </div>

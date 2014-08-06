@@ -14,18 +14,18 @@
     @endif
     <div class="row-fluid">
         <div class="span6">
-            <p>You have {{ (PostController::MAX_POSTS_PER_DAY - PostController::getPostsInTimeoutRange()) }} of {{ PostController::MAX_POSTS_PER_DAY }} posts remaining per {{ UtilController::prettyAgo(time() - PostController::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
-            @if ((PostController::MAX_POSTS_PER_DAY - PostController::getPostsInTimeoutRange()) > 0)
+            <p>You have {{ (Post::MAX_POSTS_PER_DAY - Post::getPostsInTimeoutRange()) }} of {{ Post::MAX_POSTS_PER_DAY }} posts remaining per {{ Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
+            @if ((Post::MAX_POSTS_PER_DAY - Post::getPostsInTimeoutRange()) > 0)
             <form id="post-form" action="{{ $formurl }}" method="post" class="flat-form flatpop-left">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <p class="text">
-                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ PostController::MAX_TITLE_LENGTH }}"/>
+                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}"/>
                     {{ $errors->first('title') }}
                 </p>
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span9">
-                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ PostController::MAX_URL_LENGTH }}"/>
+                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ Post::MAX_URL_LENGTH }}"/>
                             {{ $errors->first('url') }}
                         </div>
                         <div class="span3">
@@ -34,7 +34,7 @@
                     </div>
                 </p>
                 <p class="text">
-                    <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ PostController::MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
+                    <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
                     {{ $errors->first('data') }}
                 </p>
                 <div class="submit">

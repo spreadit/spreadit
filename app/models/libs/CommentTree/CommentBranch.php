@@ -1,5 +1,5 @@
 <?php
-use \Functional as F;
+use Functional as F;
 
 class CommentBranch
 {

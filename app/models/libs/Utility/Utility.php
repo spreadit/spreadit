@@ -1,7 +1,7 @@
 <?php
 use Knp\Snappy\Image as ThumbDL;
 
-class UtilController extends BaseController
+class Utility
 {
     public static function prettySubstr($data, $max_length=70)
     {
@@ -139,4 +139,15 @@ class UtilController extends BaseController
 
         return $generated_name;
     }
+
+    public static function getSortTimeframe()
+    {
+        return Cookie::get(SortController::TIMEFRAME_COOKIE_NAME, SortController::TIMEFRAME_COOKIE_DEFAULT);
+    }
+
+    public static function getSortMode()
+    {
+        return Cookie::get(SortController::SORTBY_COOKIE_NAME, SortController::SORTBY_COOKIE_DEFAULT);
+    }
+
 }

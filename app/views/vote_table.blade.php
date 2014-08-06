@@ -21,9 +21,9 @@
     @foreach ($votes as $vote)
         <tr>
             <td>{{ $vote->created_at }}</td>
-            <td>{{ UtilController::prettyAgo($vote->created_at) }}</td>
+            <td>{{ Utility::prettyAgo($vote->created_at) }}</td>
             <td><a href="/u/{{ $vote->username }}">{{ $vote->username }}</a></td>
-            <td>{{ $vote->updown == VoteController::UP ? '&#x25B2;' : '&#x25BC;' }}</td>
+            <td>{{ $vote->updown == Vote::UP ? '&#x25B2;' : '&#x25BC;' }}</td>
         </tr>
     @endforeach
     </tbody>

@@ -1,5 +1,4 @@
 <?php
-
 class FeedController extends BaseController
 {
     /**
@@ -9,13 +8,13 @@ class FeedController extends BaseController
      *
      * @return Roumen\Feed
      */
-    public static function generate($section_title)
+    protected function generate($section_title)
     {
-        $section_id = SectionController::getId($section_title);
-        $posts = PostController::getHotList($section_id);
+        $section_id = Section::getId($section_title);
+        $posts = Post::getHotList($section_id);
         $feed = Feed::make();
         $feed->title = $section_title;
-        $feed->description = "$section_title of spreadit :: " . SectionController::getSidebar($section_id);
+        $feed->description = "$section_title of spreadit :: " . Section::getSidebar($section_id);
         $feed->link = URL::to("/s/$section_title");
         $feed->lang = 'en';
 
@@ -30,5 +29,15 @@ class FeedController extends BaseController
         $feed->pubdate = date(DATE_ATOM, $created_at_counter);
 
         return $feed;
+    }
+
+    protected function rss($section_title="all")
+    {
+        return $this->generate($section_title)->render('rss');
+    }
+
+    protected function atom($section_title="all")
+    {
+        return $this->generate($section_title)->render('atom');
     }
 }
