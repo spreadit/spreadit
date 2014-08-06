@@ -42,11 +42,13 @@ $(document).ready(function() {
             if($(this).data('type') == 'comment') {
                 $.get('/util/generate_view/commentreplybox', { parent_id: $(this).data('id') }, function(data) {
                     that.after(data);
+                    applyPreview();
                     that.parent().find('.replybox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             } else if($(this).data('type') == 'post') {
                 $.get('/util/generate_view/postreplybox', { post_id: $(this).data('id') }, function(data) {
                     that.after(data);
+                    applyPreview();
                     that.parent().find('.replybox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             }
@@ -87,11 +89,13 @@ $(document).ready(function() {
             if($(this).data('type') == 'comment') {
                 $.get('/util/generate_view/commenteditbox', { comment_id: $(this).data('id') }, function(data) {
                     that.after(data);
+                    applyPreview();
                     that.parent().find('.editbox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             } else if($(this).data('type') == 'post') {
                 $.get('/util/generate_view/posteditbox', { post_id: $(this).data('id') }, function(data) {
                     that.after(data);
+                    applyPreview();
                     that.parent().find('.editbox textarea[maxlength]').maxlength({alwaysShow:true});
                 });
             }
@@ -135,4 +139,40 @@ $(document).ready(function() {
             $(this).attr("src", "");
         }
     });
+
+    applyPreview();
 });
+
+function applyPreview()
+{
+    $(".preview").click(function() {
+        var pbox = $(this).closest("form").parent().find(".preview-box");
+        var pdata = $(this).closest("form").find("#data").val();
+
+        $.post("/util/preview", {data: pdata}, function(data) {
+            pbox.html(data);
+            
+            pbox.find("pre code").each(function(i, block){
+                var decoded = $(this).text()
+                    .replaceAll('&lt;', '<')
+                    .replaceAll('&gt;', '>')
+                    .replaceAll('&quot;', '"')
+                    .replaceAll('&#039;', '\'')
+                $(this).text(decoded);
+
+                hljs.highlightBlock(block);
+            });
+
+            pbox.find("img.lazy-loaded").click(function() {
+                if(!$(this).is("[src]") || $(this).attr("src") === "") {
+                    $(this).lazyload({ effect: "fadeIn" });
+                } else {
+                    $(this).attr("src", "");
+                }
+            });
+
+        });
+
+        return false;
+    });
+}

@@ -1,4 +1,6 @@
 <?php
+use \Michelf\MarkdownExtra;
+
 class UtilityController extends BaseController
 {
     protected function imagewrapper()
@@ -17,5 +19,10 @@ class UtilityController extends BaseController
     {
         $result = Input::has('url') ? Utility::titleFromUrl(Input::get('url')) : "url not given";
         return Response::json(['response' => $result]);
+    }
+
+    protected function preview()
+    {
+       return Response::make(MarkdownExtra::defaultTransform(e(Input::get('data'))));
     }
 }

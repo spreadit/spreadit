@@ -38,10 +38,13 @@
                     {{ $errors->first('data') }}
                 </p>
                 <div class="submit">
+                    <button class="preview">Preview</button>
                     <button type="submit">Post</button>
                     <div class="ease"></div>
                 </div>
             </form>
+            <div class="preview-box">
+            </div>
             @endif
         </div>
         <div class="span6">
@@ -71,5 +74,4 @@
 @stop
 
 @section('script')
-<!-- todo validation -->
 @stop
