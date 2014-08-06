@@ -13,7 +13,6 @@ $(document).ready(function() {
 
 		$.post('/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown'), function(data) {
 			var json = data;
-            console.log(json);
 			
 			if(json.success) {
 				that.addClass('selected');
