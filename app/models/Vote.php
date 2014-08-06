@@ -72,19 +72,14 @@ class Vote extends BaseModel
     {
         $check = $check[0];
         if($check->updown == self::UP) {
-            return json_encode(array('success'=>false, 'errors'=>array(self::$errors['same_stored'])));
+            return ['success'=>false, 'errors'=>array(self::$errors['same_stored'])];
         } else {
-            return json_encode(array('success'=>false, 'errors'=>array(self::$errors['reverse'])));
+            return ['success'=>false, 'errors'=>array(self::$errors['reverse'])];
         }
     }
 
-    public static function applyVote($type, $type_id, $updown)
+    public static function applyVote($user, $type, $type_id, $updown)
     {
-        //deal with user table
-        $user = User::findOrFail(Auth::id());
-        if($user->points < 1) {
-            return false;
-        }
         $user->decrement('points');
 
         //deal with votes table
@@ -122,7 +117,7 @@ class Vote extends BaseModel
         }
 
 
-        return false;
+        return true;
     }
 
     public static function getPostVotes($type_id)
@@ -154,6 +149,12 @@ class Vote extends BaseModel
             return self::alreadyExists($check);
         }
 
-        return self::applyVote($type, $type_id, $updown);
+        $user = User::findOrFail(Auth::id());
+        if($user->points < 1) {
+            return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];
+        }
+
+        self::applyVote($user, $type, $type_id, $updown);
+        return ['success' => true, 'errors' => []];
     }
 } 
