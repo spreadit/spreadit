@@ -15,8 +15,7 @@ class UtilityController extends BaseController
 
     protected function titlefromurl()
     {
-        $result = Input::has('url') ? UtilController::titleFromUrl(Input::get('url')) : "url not given";
-     
-        return Response::make(json_encode(['response' => $result]))->header('Content-Type', 'application/json');
+        $result = Input::has('url') ? Utility::titleFromUrl(Input::get('url')) : "url not given";
+        return Response::json(['response' => $result]);
     }
 }
