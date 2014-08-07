@@ -1,8 +1,8 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+	"name": "spreadit/spreadit",
+	"description": "Link sharing and bullshit generator",
+	"keywords": ["yes", "spreadit"],
+	"license": "Spreadit non-free public license",
     "repositories": [
         {
             "type":"package",
