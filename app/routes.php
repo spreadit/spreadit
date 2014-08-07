@@ -103,6 +103,7 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 Route::group(['prefix' => '/api'], function()
 {
 	Route::get('/', 'SwaggerController@index');
+	Route::get('/terms', 'SwaggerController@terms');
 	Route::get('/license', 'SwaggerController@license');
 	Route::get('/routes', 'SwaggerController@routes');
 	Route::get('/routes/{type}', 'SwaggerController@getRoute');

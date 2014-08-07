@@ -11,6 +11,11 @@ class SwaggerController extends BaseController
         return View::make('swagger/license');
     }
 
+    protected function terms()
+    {
+        return View::make('swagger/terms');
+    }
+
     protected function routes()
     {
         return Response::make(View::make('swagger/json/routes'))->header('Content-Type', 'application/json');
