@@ -3,6 +3,11 @@ Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');
 Route::pattern('section_title', '[a-zA-Z0-9_-]+');
 
+Route::get('/', 'SectionController@get');
+Route::get('/.json', 'SectionController@getSpreaditsJson');
+Route::get('/.rss', 'FeedController@rss');
+Route::get('/.atom', 'FeedController@atom');
+
 Route::get('/about', 'PageController@about');
 Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
@@ -10,16 +15,11 @@ Route::get('/login', 'PageController@login');
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
+
 Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register']);
+
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserController@notificationsJson']);
-Route::get('/unotifications', ['before' => 'auth', 'uses' => 'UserController@unreadNotifications']);
-
-Route::get('/', 'SectionController@get');
-Route::get('/.json', 'SectionController@getSpreaditsJson');
-
-Route::get('/.rss', 'FeedController@rss');
-Route::get('/.atom', 'FeedController@atom');
 
 Route::group(['prefix' => '/s'], function()
 {
@@ -62,8 +62,8 @@ Route::group(['prefix' => '/u/{username}'], function($username)
 {
     Route::get('/', 'UserController@mainVote');
     Route::get('/comments', 'UserController@comments');
-    Route::get('/posts', 'UserController@posts');
     Route::get('/votes/comments', 'UserController@commentsVotes');
+    Route::get('/posts', 'UserController@posts');
     Route::get('/votes/posts', 'UserController@postsVotes');
 });
 
@@ -111,14 +111,12 @@ Route::group(['prefix' => '/api'], function()
 
 App::missing(function(Exception $exception)
 {
-	$message = $exception->getMessage();
-	if(Request::is('.json/*')) {
-		return Response::make(json_encode(['error' => $message]), 404)->header('Content-Type', 'application/json');
+    if(Request::is('*/.json')) {
+		return Response::json(['error' => 'not found'], 404);
 	}
-	$sections = Section::get();
 
 	return View::make('404', [
-		'message' => $message,
-		'sections' => $sections
+		'message' => $exception->getMessage(),
+		'sections' => Section::get()
 	]);
 });

@@ -71,13 +71,6 @@ class UserController extends BaseController
 		return Response::json($results);
 	}
 
-    protected function unreadNotifications()
-    {
-		$json = Notification::getUnread();
-		return Response::make($json)->header('Content-Type', 'application/json');
-    }
-
-
     protected function comments($username)
     {
         return View::make('user_comments', [
