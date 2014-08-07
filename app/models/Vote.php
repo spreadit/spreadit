@@ -1,3 +1,4 @@
+
 <?php
 use \Functional as F;
 
@@ -12,6 +13,7 @@ class Vote extends BaseModel
     const UP = 1;
     const DOWN = -1;
     const VOTES_PAGE_RESULTS = 25;
+    const COMMENT_PAGE_RESULTS = 25;
 
     protected static $errors = [
         'same_stored' => 'vote is same as stored value',
@@ -138,7 +140,7 @@ class Vote extends BaseModel
             ->join('users', 'users.id', '=', 'votes.user_id')
             ->where('votes.type', '=', self::COMMENT_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->paginate();
+            ->simplePaginate(self::COMMENT_PAGE_RESULTS);
     }
 
     protected  function action($type, $type_id, $updown)

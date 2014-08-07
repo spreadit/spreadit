@@ -86,6 +86,7 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 	Route::group(['prefix' => 'post'], function()
 	{
 		Route::get('/{id}',       'VoteController@postView');
+		Route::get('/{id}/.json', 'VoteController@postJson');
 		Route::post('/{id}/up',   'VoteController@postUp');
 		Route::post('/{id}/down', 'VoteController@postDown');
 	});
@@ -93,6 +94,7 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 	Route::group(['prefix' => 'comment'], function()
 	{
 		Route::get('/{id}',       'VoteController@commentView');
+		Route::get('/{id}/.json', 'VoteController@commentJson');
 		Route::post('/{id}/up',   'VoteController@commentUp');
 		Route::post('/{id}/down', 'VoteController@commentDown');
 	});
@@ -104,29 +106,6 @@ Route::group(['prefix' => '/api'], function()
 	Route::get('/license', 'SwaggerController@license');
 	Route::get('/routes', 'SwaggerController@routes');
 	Route::get('/routes/{type}', 'SwaggerController@getRoute');
-});
-
-Route::group(['prefix' => '.json'], function()
-{
-
-    
-	Route::group(['prefix' => 'vote'], function()
-	{
-        //Route::get('/section/{id}', function($id) {
-         //   $json = VoteController::getSectionVotes($id);
-		  //  return Response::make($json)->header('Content-Type', 'application/json');
-        //});
-
-        Route::get('/post/{id}', function($id) {
-            $json = VoteController::getPostVotes($id);
-		    return Response::make($json)->header('Content-Type', 'application/json');
-        });
-        
-        Route::get('/comment/{id}', function($id) {
-            $json = VoteController::getCommentVotes($id);
-		    return Response::make($json)->header('Content-Type', 'application/json');
-        });
-    });
 });
 
 App::missing(function(Exception $exception)

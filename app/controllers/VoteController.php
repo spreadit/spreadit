@@ -8,6 +8,11 @@ class VoteController extends BaseController
             'sections' => Section::get()
         ]);
     }
+
+    protected function postJson($type_id)
+    {
+        return Response::json(iterator_to_array(Vote::getPostVotes($type_id)));
+    }
     
     protected function postUp($type_id)
     {
@@ -25,6 +30,11 @@ class VoteController extends BaseController
             'votes' => Vote::getCommentVotes($type_id),
             'sections' => Section::get()
         ]);
+    }
+
+    protected function commentJson($type_id)
+    {
+        return Response::json(iterator_to_array(Vote::getCommentVotes($type_id)));
     }
 
     protected function commentUp($type_id)

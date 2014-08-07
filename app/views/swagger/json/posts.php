@@ -169,7 +169,7 @@
       ]
     },
     {
-      "path": "/.json/vote/post/{post_id}",
+      "path": "/vote/post/{post_id}/.json",
       "operations": [
         {
           "method": "GET",

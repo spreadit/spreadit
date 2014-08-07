@@ -8,7 +8,7 @@
   ],
   "apis": [
     {
-      "path": "/.json/vote/comment/{comment_id}",
+      "path": "/vote/comment/{comment_id}/.json",
       "operations": [
         {
           "method": "GET",
