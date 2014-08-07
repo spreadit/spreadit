@@ -115,6 +115,10 @@ class Utility
                 $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode("http://img.youtube.com/vi/".$vars['v']."/0.jpg")));
             } else if(strcmp($host, "youtu.be") == 0) {
                 $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode("http://img.youtube.com/vi".parse_url($url, PHP_URL_PATH)."/0.jpg")));
+            } else if(strcmp($host, "vimeo.com") == 0) {
+                $img_id = parse_url($url, PHP_URL_PATH);
+                $img_hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video$img_id.php"));
+                $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".$img_hash[0]['thumbnail_large']));
             } else {
                 if($ftype == "text/html") {
                     $image = $snappy->getOutput($url);
