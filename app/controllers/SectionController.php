@@ -22,9 +22,19 @@ class SectionController extends BaseController
         return $this->get($section_title, 'hot');
     }
 
+    protected function hotJson($section_title)
+    {
+        return $this->getJson($section_title, 'hot');
+    }
+
     protected function new_($section_title)
     {
         return $this->get($section_title, 'new');
+    }
+
+    protected function new_Json($section_title)
+    {
+        return $this->getJson($section_title, 'new');
     }
 
     protected function top($section_title, $timeframe)
@@ -32,12 +42,23 @@ class SectionController extends BaseController
         return $this->get($section_title, 'top', $timeframe);
     }
 
+    protected function topJson($section_title, $timeframe)
+    {
+        return $this->getJson($section_title, 'top', $timeframe);
+    }
+
+
     protected function controversial($section_title, $timeframe)
     {
         return $this->get($section_title, 'controversial', $timeframe);
     }
 
-    protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null)
+    protected function controversialJson($section_title, $timeframe)
+    {
+        return $this->getJson($section_title, 'controversial', $timeframe);
+    }
+
+    protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null, $no_view=false)
     {
         $section_id = Section::getId($section_title);
 
@@ -49,9 +70,13 @@ class SectionController extends BaseController
             $timeframe_mode = Utility::getSortTimeframe();
         }
 
-        $response = Response::make(View::make('section', [
+        $posts = $this->getPosts($sort_mode, $section_id, $this->getSecondsFromTimeframe($timeframe_mode));
+
+        if($no_view) return $posts;
+
+        return Response::make(View::make('section', [
             'sections'      => Section::get(),
-            'posts'         => $this->getPosts($sort_mode, $section_id, $this->getSecondsFromTimeframe($timeframe_mode)),
+            'posts'         => $posts,
             'section_title' => $section_title,
             'sidebar'       => Section::getSidebar($section_id),
             'sort_highlight'           => $sort_mode,
@@ -59,8 +84,16 @@ class SectionController extends BaseController
         ]))
         ->withCookie(Cookie::make('posts_sort_mode', $sort_mode))
         ->withCookie(Cookie::make('posts_sort_timeframe', $timeframe_mode));
+    }
 
-        return $response;
+    protected function getJson($section_title="all", $sort_mode=null, $timeframe_mode=null)
+    {
+        return Response::json(iterator_to_array($this->get($section_title, $sort_mode, $timeframe_mode, true)));
+    }
+
+    protected function getSpreaditsJson()
+    {
+        return Response::json(Section::get());
     }
 
     protected function getSecondsFromTimeframe($timeframe)

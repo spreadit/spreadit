@@ -8,19 +8,110 @@
   ],
   "apis": [
     {
-      "path": "/.json/s/{section_title}",
+      "path": "/s/{section_title}/.json",
       "operations": [
         {
           "method": "GET",
           "summary": "Get listing of posts from spreadit",
           "notes": "",
           "type": "",
-          "nickname": "getById",
+          "nickname": "getPosts",
           "authorizations": {},
           "parameters": [
             {
               "name": "section_title",
               "description": "title of spreadit to be retrieved.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved spreadits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/s/{section_title}/{sort_mode}/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get sorted listing of posts from spreadit",
+          "notes": "",
+          "type": "",
+          "nickname": "getPostsSorted",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "section_title",
+              "description": "title of spreadit to be retrieved.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sort_mode",
+              "description": "method of sorting.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved spreadits"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/s/{section_title}/{sort_mode}/{timeframe}/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get sorted listing limited by timeframe of posts from spreadit",
+          "notes": "",
+          "type": "",
+          "nickname": "getPostsSortedTimeframe",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "section_title",
+              "description": "title of spreadit to be retrieved.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "sort_mode",
+              "description": "method of sorting.",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "timeframe",
+              "description": "time method to apply.",
               "required": true,
               "type": "string",
               "paramType": "path"

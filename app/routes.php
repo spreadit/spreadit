@@ -16,6 +16,8 @@ Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserControlle
 Route::get('/unotifications', ['before' => 'auth', 'uses' => 'UserController@unreadNotifications']);
 
 Route::get('/', 'SectionController@get');
+Route::get('/.json', 'SectionController@getSpreaditsJson');
+
 Route::get('/.rss', 'FeedController@rss');
 Route::get('/.atom', 'FeedController@atom');
 
@@ -24,13 +26,18 @@ Route::group(['prefix' => '/s'], function()
 	Route::group(['prefix' => '/{section_title}'], function($section_title)
 	{
 		Route::get('/', 'SectionController@get');
+        Route::get('/.json', 'SectionController@getJson');
         Route::get('/.rss', 'FeedController@rss'); 
         Route::get('/.atom', 'FeedController@atom'); 
 
 		Route::get('/hot', 'SectionController@hot');
+		Route::get('/hot/.json', 'SectionController@hotJson');
 		Route::get('/new', 'SectionController@new_');
+		Route::get('/new/.json', 'SectionController@new_Json');
 		Route::get('/top/{timeframe}', 'SectionController@top');
+		Route::get('/top/{timeframe}/.json', 'SectionController@topJson');
 		Route::get('/controversial/{timeframe}', 'SectionController@controversial');
+		Route::get('/controversial/{timeframe}/.json', 'SectionController@controversialJson');
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
         Route::post('/posts/{post_id}/{post_title?}', ['before' => 'auth', 'uses' =>'CommentController@post']);
@@ -100,19 +107,6 @@ Route::group(['prefix' => '/api'], function()
 
 Route::group(['prefix' => '.json'], function()
 {
-	Route::get('/', function()
-	{
-		$json = SectionController::get();
-		return Response::make($json)->header('Content-Type', 'application/json');
-	});
-
-
-	Route::get('/s/{section_title}', function($section_title)
-	{
-		$json = json_encode(iterator_to_array(PostController::getNewList(SectionController::getId($section_title), $section_title)));
-		return Response::make($json)->header('Content-Type', 'application/json');
-	});
-
 	Route::get('/s/{section_title}/posts/{post_id}/{post_title?}', function($section_title, $post_id)
 	{
 		$post = PostController::get($post_id);
