@@ -12,9 +12,9 @@ Route::get('/about', 'PageController@about');
 Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login', 'PageController@login');
+Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
-Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
 
 Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register']);
 

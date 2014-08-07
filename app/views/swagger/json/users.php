@@ -27,6 +27,27 @@
           ]
         }
       ]
+    },
+    {
+      "path": "/logout",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "logout of spreadit",
+          "notes": "",
+          "type": "",
+          "nickname": "logout",
+          "authorizations": {},
+          "parameters": [
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Success"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
