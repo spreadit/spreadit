@@ -134,7 +134,7 @@
       ]
     },
     {
-      "path": "/.json/s/{section_title}/posts/{post_id}",
+      "path": "/s/{section_title}/posts/{post_id}/.json",
       "operations": [
         {
           "method": "GET",

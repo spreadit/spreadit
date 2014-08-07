@@ -40,6 +40,7 @@ Route::group(['prefix' => '/s'], function()
 		Route::get('/controversial/{timeframe}/.json', 'SectionController@controversialJson');
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
+    	Route::get('/posts/{post_id}/.json', 'PostController@getJson');
         Route::post('/posts/{post_id}/{post_title?}', ['before' => 'auth', 'uses' =>'CommentController@post']);
 
 	    Route::get('/add', ['before' => 'auth', 'uses' =>'SectionController@add']);
@@ -107,19 +108,6 @@ Route::group(['prefix' => '/api'], function()
 
 Route::group(['prefix' => '.json'], function()
 {
-	Route::get('/s/{section_title}/posts/{post_id}/{post_title?}', function($section_title, $post_id)
-	{
-		$post = PostController::get($post_id);
-		$my_votes = VoteController::getMatchingVotes(VoteController::POST_TYPE, [$post]);
-		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-
-		$json = json_encode([
-			'post' => $post,
-			'comments' => CommentController::getNewList($post_id),
-		]);
-
-		return Response::make($json)->header('Content-Type', 'application/json');
-	});
 
     
 	Route::group(['prefix' => 'vote'], function()

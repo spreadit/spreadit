@@ -29,6 +29,19 @@ class PostController extends BaseController
         ]);
     }
 
+    protected function getJson($section_title, $post_id)
+    {
+		$post = Post::get($post_id);
+		$my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
+		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
+        $commentTree = new CommentTree(Comment::get($post_id));
+
+		return Response::json([
+			'post' => $post,
+			'comments' => $commentTree->grab()->sort('new')
+        ]);
+    }
+
     protected function post($section_title)
     {
         return Post::make($section_title, Input::get('data'), Input::get('title'), Input::get('url'));
