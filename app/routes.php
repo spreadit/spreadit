@@ -12,6 +12,7 @@ Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
 Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register']);
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
+Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserController@notificationsJson']);
 Route::get('/unotifications', ['before' => 'auth', 'uses' => 'UserController@unreadNotifications']);
 
 Route::get('/', 'SectionController@get');
@@ -105,11 +106,6 @@ Route::group(['prefix' => '.json'], function()
 		return Response::make($json)->header('Content-Type', 'application/json');
 	});
 
-	Route::get('/notifications', function() {
-		$json = json_encode(iterator_to_array(NotificationController::get()));
-		NotificationController::markAllAsRead();
-		return Response::make($json)->header('Content-Type', 'application/json');
-	});
 
 	Route::get('/s/{section_title}', function($section_title)
 	{

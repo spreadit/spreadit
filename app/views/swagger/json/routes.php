@@ -4,7 +4,8 @@
    "apis":[
      {"path":"/sections", "description":"operations for sections"},
      {"path":"/posts", "description":"operations for posts"},
-     {"path":"/comments", "description":"operations for comments"}
+     {"path":"/comments", "description":"operations for comments"},
+     {"path":"/users", "description":"operations for users"}
   ],
   "info": {
     "title": "spreadit api",

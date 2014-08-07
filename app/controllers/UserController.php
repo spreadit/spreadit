@@ -64,6 +64,13 @@ class UserController extends BaseController
 		return $view;
     }
 
+    protected function notificationsJson()
+    {
+		$results = iterator_to_array(Notification::get());
+		Notification::markAllAsRead();
+		return Response::json($results);
+	}
+
     protected function unreadNotifications()
     {
 		$json = Notification::getUnread();
