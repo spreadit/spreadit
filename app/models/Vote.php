@@ -23,7 +23,7 @@ class Vote extends BaseModel
 
     public static function applySelection($items, $type)
     {
-        $votes = Vote::getMatchingVotes($type, $items);
+        $votes = self::getMatchingVotes($type, $items);
 
         F\each($items, function($v) use($votes) {
             $v->selected = isset($votes[$v->id]) ? $votes[$v->id] : 0;
@@ -109,15 +109,23 @@ class Vote extends BaseModel
                 throw new UnexpectedValueException("type: $type not enumerated");
         }
 
-        $rec_user = User::findOrFail($item->user_id);
+        //upvote/downvote the item itself
         if($updown == self::UP) {
             $item->increment('upvotes');
-            $rec_user->increment('points');
         } else if($updown == self::DOWN) {
             $item->increment('downvotes');
-            $rec_user->decrement('points');
         }
 
+        //upvote/downvote user who posted (ignore for sections)
+        if($type == self::POST_TYPE || $type = self::COMMENT_TYPE) {
+            $rec_user = User::findOrFail($item->user_id);
+
+            if($updown == self::UP) {
+                $rec_user->increment('points');
+            } else if($updown == self::DOWN) {
+                $rec_user->decrement('points');
+            }
+        }
 
         return true;
     }

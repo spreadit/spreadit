@@ -11,9 +11,7 @@ $(document).ready(function() {
 	$(".vote").click(function() {
 		var that = $(this);
 
-		$.post('/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown'), function(data) {
-			var json = data;
-			
+		$.post('/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown'), function(json) {
 			if(json.success) {
 				that.addClass('selected');
 				that.parent().find('.vote').addClass('disable-click');

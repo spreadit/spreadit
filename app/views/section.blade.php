@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('title')
-    <title>spreadit.io :: {{ $section_title }}</title>
+    <title>spreadit.io :: {{ $section->title }}</title>
 @stop
 
 @section('style')
@@ -19,7 +19,7 @@
 
     <div class="sidebar">
         <div class="section-description">
-            {{ $sidebar }}
+            {{ $section->data }}
         </div>
         <div class="section-image">
             <img src="/assets/section_images/300x250.gif">

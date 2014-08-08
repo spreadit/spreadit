@@ -56,7 +56,7 @@
     </div>
     <div class="sidebar">
         <div class="section-description">
-            {{ $sidebar }}
+            {{ $section->data }}
         </div>
         <div class="section-image">
             <img src="/assets/section_images/300x250.gif">

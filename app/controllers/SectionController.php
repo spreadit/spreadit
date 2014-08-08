@@ -7,13 +7,9 @@ class SectionController extends BaseController
 
     protected function add($section_title)
     {
-		$section_id = Section::getId($section_title);
-		$sections = Section::get();
-
 		return View::make('newpost', [
-			'sections' => $sections,
-			'title' => $section_title,
-            'formurl' => '/s/'.$section_title.'/add'
+			'sections' => Section::get(),
+			'section' => Section::getByTitle($section_title)
         ]);
     }
 
@@ -60,7 +56,9 @@ class SectionController extends BaseController
 
     protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null, $no_view=false)
     {
-        $section_id = Section::getId($section_title);
+        $section = Section::getByTitle($section_title);
+        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, [$section]);
+        $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
 
         if(is_null($sort_mode)) {
             $sort_mode = Utility::getSortMode();
@@ -70,15 +68,14 @@ class SectionController extends BaseController
             $timeframe_mode = Utility::getSortTimeframe();
         }
 
-        $posts = $this->getPosts($sort_mode, $section_id, $this->getSecondsFromTimeframe($timeframe_mode));
+        $posts = $this->getPosts($sort_mode, $section->id, $this->getSecondsFromTimeframe($timeframe_mode));
 
         if($no_view) return $posts;
 
         return Response::make(View::make('section', [
             'sections'      => Section::get(),
             'posts'         => $posts,
-            'section_title' => $section_title,
-            'sidebar'       => Section::getSidebar($section_id),
+            'section'       => $section,
             'sort_highlight'           => $sort_mode,
             'sort_timeframe_highlight' => $timeframe_mode
         ]))

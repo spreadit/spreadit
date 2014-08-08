@@ -116,7 +116,12 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	display:inline;
 	float:left;
 	margin-left:20px;
-	margin-right:50px;
+	margin-right:10px;
+}
+
+#header-nav .section-points {
+    float:left;
+    margin-right:35px;
 }
 
 #header-nav .nav {

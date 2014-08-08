@@ -7,46 +7,39 @@ class Section extends BaseModel
     const SECTION_HRENDER_CACHE_MINS = 15;
     const ALL_SECTIONS_TITLE = "all";
 
-    /**
-     * gets numerical id from title
+    /*
+     * get a single section by its title name
      *
-     * @param $section_title string
+     * @param string $section_title title in db
      *
-     * @return int
+     * @throws 404
+     *
+     * @return db obj
      */
-    public static function getId($section_title)
+    public static function getByTitle($section_title)
     {
-        if($section_title == self::ALL_SECTIONS_TITLE) return 0;
+        $section = DB::table('sections')
+            ->select('id', 'title', 'data')
+            ->where('title', 'LIKE', $section_title)
+            ->first();
 
-        return Cache::remember('sections_id_'.$section_title, self::SECTION_HRENDER_CACHE_MINS, function() use($section_title)
-        {
-            $id = DB::table('sections')->where('title', 'LIKE', $section_title)->pluck('id');
+        if(is_null($section)) {
+            App::abort(404, "spreadit section not found");
+        }
 
-            if(is_null($id)) {
-                App::abort(404, "spreadit section not found");
-            }
-
-            return $id;
-        });
+        return $section;
     }
 
+    /*
+     * get all sections sorted by top
+     *
+     * @return list of sections
+     */
 	public static function get()
 	{
-		return Cache::remember('sections', self::SECTION_HRENDER_CACHE_MINS, function()
-		{
-			return DB::table('sections')
-				->select('id', 'title')
-				->orderBy('id', 'asc')
-				->get();
-		});
-    }
-
-    public static function getSidebar($id)
-    {
-        //todo cache this
-            return DB::table('sections')
-                ->select('data')
-                ->where('id', '=', $id)
-                ->first()->data;
+        return DB::table('sections')
+            ->select('sections.id', 'sections.title')
+            ->orderBy(DB::raw('(sections.upvotes - sections.downvotes)'), 'desc')
+            ->get();
     }
 }

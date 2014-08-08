@@ -7,13 +7,11 @@
         <div id="fullpage-container">
             <div class="navbar navbar-inverse">
                 @include ('sections_nav', ['sections' => $sections])
-                @if (isset($section_title))
                 @include('sorting_nav', [
-                    'section_title' => $section_title, 
+                    'section' => $section,
                     'sort_highlight' => $sort_highlight, 
                     'sort_timeframe_highlight' => $sort_timeframe_highlight
                 ])
-                @endif
             </div>
 
             @yield('content')
