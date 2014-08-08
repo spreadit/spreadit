@@ -52,10 +52,8 @@ class UserController extends BaseController
 
     protected function notifications()
     {
-		$sections = Section::get();
-
 		$view = View::make('notifications', [
-			'sections' => $sections,
+			'sections' => Section::get(),
 			'notifications' => Notification::get()
 		]);
 
@@ -70,6 +68,20 @@ class UserController extends BaseController
 		Notification::markAllAsRead();
 		return Response::json($results);
 	}
+    
+    protected function preferences()
+    {
+		$view = View::make('preferences', [
+			'sections' => Section::get()
+		]);
+
+		return $view;
+    }
+
+    protected function preferencesJson()
+    {
+        return Response::json("moo");
+    }
 
     protected function comments($username)
     {

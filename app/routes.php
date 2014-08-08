@@ -21,6 +21,9 @@ Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserController@notificationsJson']);
 
+Route::get('/preferences', ['before' => 'auth', 'uses' => 'UserController@preferences']);
+Route::get('/preferences/.json', ['before' => 'auth', 'uses' => 'UserController@preferencesJson']);
+
 Route::group(['prefix' => '/s'], function()
 {
 	Route::group(['prefix' => '/{section_title}'], function($section_title)
