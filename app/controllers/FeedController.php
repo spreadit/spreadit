@@ -10,11 +10,11 @@ class FeedController extends BaseController
      */
     protected function generate($section_title)
     {
-        $section_id = Section::getId($section_title);
-        $posts = Post::getHotList($section_id);
+        $section = Section::getByTitle($section_title);
+        $posts = Post::getHotList($section->id);
         $feed = Feed::make();
         $feed->title = $section_title;
-        $feed->description = "$section_title of spreadit :: " . Section::getSidebar($section_id);
+        $feed->description = "$section_title of spreadit :: " . Section::getSidebar($section->id);
         $feed->link = URL::to("/s/$section_title");
         $feed->lang = 'en';
 

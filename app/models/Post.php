@@ -153,14 +153,14 @@ class Post extends BaseModel
             return Redirect::to("/s/$section_title/add")->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
         }
 
-        $section_id = Section::getId($section_title);
+        $section = Section::getByTitle($section_title);;
 
         $data = [
             'data' => $content,
             'title' => $title,
             'url' => $url,
             'user_id' => Auth::id(),
-            'section_id' => $section_id
+            'section_id' => $section->id
         ];
 
         $rules = array(
