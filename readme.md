@@ -30,6 +30,7 @@ Instructions:
 * `mysql -uroot -e "create database spreadit;"`
 * `cd scripts`
 * `mysql -uroot spreadit < spreadit.sql` #import db schema
+* add appropriate `scripts/vhosts/` to your webserver
  
 Configuration:
  
