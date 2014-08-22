@@ -24,7 +24,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     public static $passwordAttributes = ['password'];
     
     public static $rules = [
-        'username' => 'required|unique:users|max:24',
+        'username' => 'required|alphanum|unique:users|max:24',
         'password' => 'required|confirmed|max:128',
         'password_confirmation' => 'required|max:128',
         'captcha' => 'required|captcha'
