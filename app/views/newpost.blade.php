@@ -34,6 +34,16 @@
                     </div>
                 </p>
                 <p class="text">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <input name="section" type="text" value="{{{ $section->title }}}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" />
+                            {{ $errors->first('section') }}
+                        </div>
+                        <div class="span6">
+                        </div>
+                    </div>
+                </p>
+                <p class="text">
                     <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
                     {{ $errors->first('data') }}
                 </p>

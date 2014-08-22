@@ -7,6 +7,10 @@ class PostController extends BaseController
 {
     protected function get($section_title, $post_id)
     {
+        $section = Section::getByTitle($section_title);
+        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, [$section]);
+        $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
+        
         $post = Post::get($post_id);
         $my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
         $post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
@@ -15,7 +19,7 @@ class PostController extends BaseController
         $sort_timeframe_highlight = Utility::getSortTimeframe();
 
         return View::make('post', [
-            'section' => Section::getByTitle($section_title),
+            'section' => $section,
             'sections' => Section::get(),
             'comments' => $commentTree->grab()->sort('new')->render(),
             'post' => $post,
@@ -39,7 +43,7 @@ class PostController extends BaseController
 
     protected function post($section_title)
     {
-        return Post::make($section_title, Input::get('data'), Input::get('title'), Input::get('url'));
+        return Post::make(Input::get('section'), Input::get('data'), Input::get('title'), Input::get('url'));
     }
 
     protected function update($post_id)

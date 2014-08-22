@@ -153,21 +153,17 @@ class Post extends BaseModel
             return Redirect::to("/s/$section_title/add")->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
         }
 
-        $section = Section::getByTitle($section_title);;
-
         $data = [
             'data' => $content,
             'title' => $title,
             'url' => $url,
             'user_id' => Auth::id(),
-            'section_id' => $section->id
         ];
 
         $rules = array(
             'user_id' => 'required|numeric',
             'type' => 'required|numeric|between:0,2',
             'title' => 'required|max:'.self::MAX_TITLE_LENGTH,
-            'section_id' => 'required|numeric',
         );
 
         $rule_data = 'max:'.self::MAX_MARKDOWN_LENGTH;
@@ -208,6 +204,17 @@ class Post extends BaseModel
 
             $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
         }
+
+        if(!Section::exists($section_title)) {
+            $ssuccess = Section::make($section_title);
+            if(!$ssuccess) {
+                return Redirect::to("/s/$section_title/add")
+                    ->withErrors($sm->errors)
+                    ->withInput();
+            }
+        }
+        $section = Section::getByTitle($section_title);
+        $data['section_id'] = $section->id;
 
         $item = new Post($data);
         $item->save();

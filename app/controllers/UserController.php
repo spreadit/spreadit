@@ -10,7 +10,7 @@ class UserController extends BaseController
 
     protected function register()
     {
-        $user = new User;
+        $user = new User();
         $user->username = e(Input::get('username'));
         $user->password = Input::get('password');
         $user->password_confirmation = Input::get('password_confirmation');

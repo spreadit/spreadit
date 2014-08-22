@@ -1,11 +1,24 @@
 <?php
+
 class Section extends BaseModel
 {
-    protected $table = 'sections';
-
     const PAGE_POST_COUNT = 25;
     const SECTION_HRENDER_CACHE_MINS = 15;
     const ALL_SECTIONS_TITLE = "all";
+    const TOPBAR_SECTIONS = 15;
+    const MAX_TITLE_LENGTH = 24;
+    const MIN_TITLE_LENGTH = 1;
+
+    protected $table = 'sections';
+    
+    protected $attributes = array(
+        'upvotes' => '0',
+        'downvotes' => '0'
+    );
+
+    public static $rules = [
+        'title' => "required|min:2|max:24"
+    ];
 
     /*
      * get a single section by its title name
@@ -28,6 +41,18 @@ class Section extends BaseModel
         }
 
         return $section;
+    }
+
+    public static function exists($section_title)
+    {
+        return !is_null(DB::table('sections')->where('title', 'LIKE', $section_title)->first());
+    }
+
+    public static function make($section_title)
+    {
+        $section = new Section();
+        $section->title = $section_title;
+        return $section->save();
     }
 
     /*
