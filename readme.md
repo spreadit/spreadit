@@ -34,8 +34,8 @@ Instructions:
  
 Configuration:
  
-* `app/config.php`
-* `app/database.php`
+* `app/config/app.php`
+* `app/config/database.php`
 
 ### Contributing to spreadit
  
