@@ -150,7 +150,7 @@ class Post extends BaseModel
     public static function make($section_title, $content, $title, $url)
     {
         if(!self::canPost()) {
-            return Redirect::to("/s/$section_title/add")->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
+            return Redirect::back()->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
         }
 
         $data = [
@@ -191,12 +191,12 @@ class Post extends BaseModel
         
         $validate = Validator::make($data, $rules);
         if($validate->fails()) {
-            return Redirect::to("/s/$section_title/add")->withErrors($validate->messages())->withInput();
+            return Redirect::back()->withErrors($validate->messages())->withInput();
         }
 
         if(isset($rules['url'])) {
             if(!Utility::urlExists($data['url'])) {
-                return Redirect::to("/s/$section_title/add")
+                return Redirect::back()
                     ->withErrors(['message' => 'website doesn\'t exist'])
                     ->withInput();
 
@@ -206,10 +206,12 @@ class Post extends BaseModel
         }
 
         if(!Section::exists($section_title)) {
-            $ssuccess = Section::make($section_title);
-            if(!$ssuccess) {
-                return Redirect::to("/s/$section_title/add")
-                    ->withErrors($sm->errors)
+            $ssect = new Section(['title' => $section_title]);
+
+            if(! $ssect->save()) {
+                $section_title = str_replace(' ', '_', $section_title);
+                return Redirect::back()
+                    ->withErrors($ssect->errors())
                     ->withInput();
             }
         }

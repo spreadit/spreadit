@@ -10,6 +10,9 @@ class Section extends BaseModel
     const MIN_TITLE_LENGTH = 1;
 
     protected $table = 'sections';
+
+    protected $guarded = array();
+    protected $fillable = array('title');
     
     protected $attributes = array(
         'upvotes' => '0',
@@ -17,7 +20,7 @@ class Section extends BaseModel
     );
 
     public static $rules = [
-        'title' => "required|min:2|max:24"
+        'title' => "required|andu|min:2|max:24"
     ];
 
     /*
@@ -46,13 +49,6 @@ class Section extends BaseModel
     public static function exists($section_title)
     {
         return !is_null(DB::table('sections')->where('title', 'LIKE', $section_title)->first());
-    }
-
-    public static function make($section_title)
-    {
-        $section = new Section();
-        $section->title = $section_title;
-        return $section->save();
     }
 
     /*
