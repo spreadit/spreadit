@@ -8,6 +8,146 @@
   ],
   "apis": [
     {
+      "path": "/u/{username}/comments/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get listing of comments from user",
+          "notes": "",
+          "type": "",
+          "nickname": "getUserComments",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "username to grab comments from",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved comments"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/u/{username}/posts/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get listing of posts from user",
+          "notes": "",
+          "type": "",
+          "nickname": "getUserPosts",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "username to grab posts from",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved posts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/u/{username}/votes/comments/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get listing of comment votes from user",
+          "notes": "",
+          "type": "",
+          "nickname": "getUserCommentVotes",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "username to grab post votes from",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved votes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/u/{username}/votes/posts/.json",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get listing of post votes from user",
+          "notes": "",
+          "type": "",
+          "nickname": "getUserPostsVotes",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "username",
+              "description": "username to grab post votes from",
+              "required": true,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "page",
+              "description": "page of results",
+              "required": false,
+              "type": "integer",
+              "paramType": "query"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved votes"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/notifications/.json",
       "operations": [
         {

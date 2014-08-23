@@ -93,6 +93,11 @@ class UserController extends BaseController
         ]);
     }
 
+    protected function commentsJson($username)
+    {
+        return Response::json(iterator_to_array(User::comments($username)));
+    }
+
     protected function posts($username)
     {
         return View::make('user_posts', [
@@ -101,6 +106,11 @@ class UserController extends BaseController
             'username' => $username,
             'highlight' => 'posts'
         ]);
+    }
+
+    protected function postsJson($username)
+    {
+        return Response::json(iterator_to_array(User::posts($username)));
     }
 
     protected function postsVotes($username)
@@ -113,6 +123,11 @@ class UserController extends BaseController
         ]);
     }
 
+    protected function postsVotesJson($username)
+    {
+        return Response::json(iterator_to_array(User::postsVotes($username)));
+    }
+
     protected function commentsVotes($username)
     {
         return View::make('user_comments_votes', [
@@ -121,6 +136,11 @@ class UserController extends BaseController
             'username' => $username,
             'highlight' => 'cvotes'
         ]);
+    }
+
+    protected function commentsVotesJson($username)
+    {
+        return Response::json(iterator_to_array(User::commentsVotes($username)));
     }
 
     protected function mainVote($username)

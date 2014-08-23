@@ -65,9 +65,13 @@ Route::group(['prefix' => '/u/{username}'], function($username)
 {
     Route::get('/', 'UserController@mainVote');
     Route::get('/comments', 'UserController@comments');
+    Route::get('/comments/.json', 'UserController@commentsJson');
     Route::get('/votes/comments', 'UserController@commentsVotes');
+    Route::get('/votes/comments/.json', 'UserController@commentsVotesJson');
     Route::get('/posts', 'UserController@posts');
+    Route::get('/posts/.json', 'UserController@postsJson');
     Route::get('/votes/posts', 'UserController@postsVotes');
+    Route::get('/votes/posts/.json', 'UserController@postsVotesJson');
 });
 
 Route::group(['prefix' => '/comments/{comment_id}'], function($comment_id)
