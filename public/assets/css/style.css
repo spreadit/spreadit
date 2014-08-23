@@ -146,8 +146,12 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	font-size:1.5em;
 }
 
-.vote:hover {
+.logged-in .vote:hover {
 	cursor:pointer;
+}
+
+.logged-out .vote:hover {
+	cursor:not-allowed;
 }
 
 .vote.selected {

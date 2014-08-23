@@ -3,7 +3,7 @@
     <head>
         @include('metahead')
     </head>
-    <body data-spy="scroll" data-target=".bs-docs-sidebar" class="user-layout">
+    <body data-spy="scroll" data-target=".bs-docs-sidebar" class="user-layout" class="{{ (Auth::check() ? 'logged-in' : 'logged-out') }}">
         <div id="fullpage-container">
             <div class="navbar navbar-inverse">
                 @include('user_actions_nav')
