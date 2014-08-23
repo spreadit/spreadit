@@ -19,7 +19,7 @@
             <form id="post-form" action="/s/{{{ $section->title }}}/add" method="post" class="flat-form flatpop-left">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <p class="text">
-                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}"/>
+                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}" />
                     {{ $errors->first('title') }}
                 </p>
                 <p class="text">
@@ -36,7 +36,7 @@
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span6">
-                            <input name="section" type="text" value="{{{ $section->title }}}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" />
+                            <input name="section" type="text" value="{{{ $section->title }}}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">
