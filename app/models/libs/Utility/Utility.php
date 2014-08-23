@@ -99,6 +99,11 @@ class Utility
             $finfo = new finfo(FILEINFO_MIME_TYPE);
             $fcontents = file_get_contents($url);
             $ftype = $finfo->buffer($fcontents);
+            $ftype_pieces = explode("/", $ftype);
+            $is_text = ((count($ftype_pieces) == 2) && strcmp($ftype_pieces[0], "text") == 0);
+
+            $image_types = ["image/gif", "image/jpeg", "image/jpg", "image/bmp", "image/png", "image/tiff", "image/svg"];
+            $is_image = in_array(strtolower($ftype), $image_types);
         } catch (Exception $e) {
             return "";
         }
@@ -120,10 +125,12 @@ class Utility
                 $img_hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video$img_id.php"));
                 $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".$img_hash[0]['thumbnail_large']));
             } else {
-                if($ftype == "text/html") {
+                if($is_text) {
                     $image = $snappy->getOutput($url);
-                } else { //blindly assume an image todo - improve
+                } else if($is_image) { 
                     $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
+                } else {
+                    return "";
                 }
             }
         } catch (Exception $e) {
