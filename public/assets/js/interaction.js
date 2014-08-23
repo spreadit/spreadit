@@ -66,40 +66,4 @@ $(document).ready(function() {
             $(this).attr("src", "");
         }
     });
-
-    applyPreview();
 });
-
-function applyPreview()
-{
-    $(".preview").click(function() {
-        var pbox = $(this).closest("form").parent().find(".preview-box");
-        var pdata = $(this).closest("form").find("#data").val();
-
-        $.post("/util/preview", {data: pdata}, function(data) {
-            pbox.html(data);
-            
-            pbox.find("pre code").each(function(i, block){
-                var decoded = $(this).text()
-                    .replaceAll('&lt;', '<')
-                    .replaceAll('&gt;', '>')
-                    .replaceAll('&quot;', '"')
-                    .replaceAll('&#039;', '\'')
-                $(this).text(decoded);
-
-                hljs.highlightBlock(block);
-            });
-
-            pbox.find("img.lazy-loaded").click(function() {
-                if(!$(this).is("[src]") || $(this).attr("src") === "") {
-                    $(this).lazyload({ effect: "fadeIn" });
-                } else {
-                    $(this).attr("src", "");
-                }
-            });
-
-        });
-
-        return false;
-    });
-}

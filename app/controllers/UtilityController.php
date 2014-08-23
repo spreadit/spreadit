@@ -23,6 +23,7 @@ class UtilityController extends BaseController
 
     protected function preview()
     {
-       return Response::make(MarkdownExtra::defaultTransform(e(Input::get('data'))));
+
+        return View::make('preview', ['data' => MarkdownExtra::defaultTransform(e(Input::get('data')))]);
     }
 }

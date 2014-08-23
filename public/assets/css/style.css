@@ -27,7 +27,12 @@ img {
     filter:none;
 }
 
-iframe { height:1em; border:0; }
+iframe {
+    height:100%!important;
+    width:100%!important;
+    display:block;
+    border:0;
+}
 
 *::-webkit-input-placeholder {
     color: #222;
