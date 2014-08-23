@@ -35,10 +35,49 @@
                     {{ $post->data }}
                     <menu>
                     @if (Auth::check())
-                        <a class="post-action reply" data-type="post" data-id="{{ $post->id }}">reply </a>
-                        <a class="post-action source" data-type="post" data-id="{{ $post->id }}">source </a>
+                        <label class="post-action reply" for="collapse-postreply{{ $post->id }}">reply </label>
+                        <input class="collapse" id="collapse-postreply{{ $post->id }}" type="checkbox">
+                        <div class="replybox">
+                            <form id="comment-form" method="post" class="flat-form flatpop-left">
+                                <input type="hidden" name="parent_id" value="0">
+                                <p class="text">
+                                    <textarea name="data" id="data" placeholder="You have {{ (Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) }} of {{ Comment::MAX_COMMENTS_PER_DAY }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
+                                </p>
+                                @if ((Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) > 0)
+                                <div class="submit">
+                                    <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewpost-reply-box{{ $post->id }}" class="preview">Preview</button>
+                                    <button type="submit">Post</button>
+                                </div>
+                                 @endif
+                            </form>
+                            <div class="preview-box"><iframe name="previewpost-reply-box{{ $post->id }}"></iframe></div>
+                        </div>
+                        
+
+                        <label class="post-action source" for="collapse-postsource{{ $post->id }}">source </label>
+                        <input class="collapse" id="collapse-postsource{{ $post->id }}" type="checkbox">
+                        <div class="sourcebox">
+                            <p class="text">
+                                <textarea readonly>{{ $post->markdown }}</textarea>
+                            </p>
+                        </div>
+
+
                         @if ($post->user_id == Auth::id())
-                            <a class="post-action edit" data-type="post" data-id="{{ $post->id }}">edit </a>
+                            <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>
+                            <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
+                            <div class="editbox">
+                                <form id="edit-form" action="/update_post/{{ $post->id }}" method="post">
+                                    <p class="text">
+                                        <textarea name="data" id="data" required maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ $post->markdown }}</textarea>
+                                    </p>
+                                    <div class="submit">
+                                        <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewpost-edit-box{{ $post->id }}" class="preview">Preview</button>
+                                        <button type="submit">Update</button>
+                                    </div>
+                                </form>
+                                <div class="preview-box"><iframe name="previewpost-edit-box{{ $post->id }}"></iframe></div>
+                            </div>
                         @endif
                     @else
                         <a href="{{ URL::to("/login") }}">Register</a> to post replies

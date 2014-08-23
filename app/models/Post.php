@@ -73,7 +73,7 @@ class Post extends BaseModel
     public static function get($post_id)
     {
         $post = DB::table('posts')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.thumbnail', 'users.username', 'users.points')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points')
             ->join('users', 'users.id', '=', 'posts.user_id')
             ->where('posts.id', '=', $post_id)
             ->orderBy('posts.id', 'desc')

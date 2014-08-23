@@ -27,6 +27,8 @@ img {
     filter:none;
 }
 
+iframe { height:1em; border:0; }
+
 *::-webkit-input-placeholder {
     color: #222;
 }
@@ -306,4 +308,15 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .notification-unread header,
 .notification-unread footer {
 	background:rgba(255, 255, 255, 0.1);
+}
+
+input.collapse { display:none; }
+input.collapse + *{ display:none; }
+input.collapse:checked + *{ display:block; }
+
+.comment-piece label,
+.post-piece label {
+    font-size:12px;
+    display:inline-block;
+    color:#BCD42A;
 }

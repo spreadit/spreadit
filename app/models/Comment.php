@@ -36,18 +36,13 @@ class Comment extends BaseModel
         });
     }
 
-    public static function getSourceFromId($id)
-    {
-        return Comment::findOrFail($id)->markdown;
-    }
-
     public static function get($post_id)
     {
         $comments = Cache::remember(self::CACHE_NEWLIST_NAME.$post_id, self::CACHE_NEWLIST_MINS, function() use($post_id)
         {
             return DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'users.username', 'users.points', 'users.id AS users_user_id')
+                ->select('comments.id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id')
                 ->where('post_id', '=', $post_id)
                 ->orderBy('id', 'asc')
                 ->get();

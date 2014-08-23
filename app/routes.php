@@ -79,7 +79,6 @@ Route::group(['prefix' => '/u/{username}'], function($username)
 Route::group(['prefix' => '/comments/{comment_id}'], function($comment_id)
 {
     Route::get('/', 'CommentController@get');
-	Route::get('/source', 'CommentController@getSourceFromId');
 	Route::any('/update', 'CommentController@update');
 });
 
