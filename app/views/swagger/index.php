@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Swagger UI</title>
+  <title>spreadit.io :: Swagger UI</title>
 
   <link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
   <link href='/assets/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -57,7 +57,7 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.wordnik.com">spreadit swag</a>
+    <a id="logo" href="http://swagger.wordnik.com">spreadit</a>
   </div>
 </div>
 
