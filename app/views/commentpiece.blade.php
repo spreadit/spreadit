@@ -51,7 +51,7 @@
                                 <textarea name="data" id="data" required maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}">{{ $comment->markdown }}</textarea>
                             </p>
                             <div class="submit">
-                                <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-reply-box{{ $comment->id }}" class="preview">Preview</button>
+                                <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-edit-box{{ $comment->id }}" class="preview">Preview</button>
                                 <button type="submit">Update</button>
                             </div>
                         </form>
