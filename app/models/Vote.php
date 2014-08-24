@@ -1,4 +1,3 @@
-
 <?php
 use \Functional as F;
 

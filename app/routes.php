@@ -52,7 +52,6 @@ Route::group(['prefix' => '/s'], function()
 	    Route::post('/add', ['before' => 'auth|csrf', 'uses' => 'PostController@post']);
     });
 });
-Route::any('/update_post/{post_id}', ['before' => 'auth', 'uses' => 'PostController@update']);
 
 Route::group(['prefix' => '/util'], function()
 {
@@ -78,9 +77,18 @@ Route::group(['prefix' => '/u/{username}'], function($username)
 
 Route::group(['prefix' => '/comments/{comment_id}'], function($comment_id)
 {
-    Route::get('/', 'CommentController@get');
-	Route::any('/update', 'CommentController@update');
+    Route::get('/', 'CommentController@getRedir');
+	Route::post('/update', 'CommentController@update');
+    Route::post('/delete', 'CommentController@delete');
 });
+
+Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
+{
+    Route::get('/', 'PostController@getRedir');
+    Route::post('/update', ['before' => 'auth', 'uses' => 'PostController@update']);
+    Route::post('/delete', ['before' => 'auth', 'uses' => 'PostController@delete']);
+});
+
 
 Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 {

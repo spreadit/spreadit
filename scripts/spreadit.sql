@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `upvotes` int(12) NOT NULL,
   `downvotes` int(12) NOT NULL,
   `markdown` text NOT NULL,
+  `deleted_at` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
@@ -73,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `comment_count` int(10) unsigned NOT NULL,
   `markdown` text NOT NULL,
   `thumbnail` varchar(32) NOT NULL,
+  `deleted_at` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 

@@ -1,4 +1,5 @@
 <?php
+use \Functional as F;
 use \Michelf\MarkdownExtra;
 
 class Comment extends BaseModel
@@ -42,10 +43,19 @@ class Comment extends BaseModel
         {
             return DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id')
+                ->select('comments.id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id')
                 ->where('post_id', '=', $post_id)
                 ->orderBy('id', 'asc')
                 ->get();
+        });
+
+        F\each($comments, function($v) {
+            if($v->deleted_at != 0) {
+                $v->username = "deleted";
+                $v->data = "<p>user deleted this comment</p>";
+                $v->markdown = "user deleted this comment";
+            }
+            return $v;
         });
 
         return Vote::applySelection($comments, Vote::COMMENT_TYPE);
@@ -164,4 +174,24 @@ class Comment extends BaseModel
 
         return Redirect::to('/comments/'.$comment_id);
     }
+
+    public static function remove($comment_id)
+    {
+        $comment = Comment::findOrFail($comment_id);
+        $post_id = $comment->post_id;
+
+        if(Auth::user()->points < 1) {
+            return Redirect::to("/posts/$post_id")->withErrors(['message' => 'You need at least one point to delete a comment']);
+        }
+
+        if($comment->user_id != Auth::id()) {
+            return Redirect::to("/posts/$post_id")->withErrors(['message' => 'This comment does not have the same user id as you']);
+        }
+
+        $comment->deleted_at = time();
+        $comment->save();
+
+        return Redirect::to("/posts/$post_id");
+    }
+
 }

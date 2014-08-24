@@ -67,7 +67,7 @@
                             <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>
                             <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
                             <div class="editbox">
-                                <form id="edit-form" action="/update_post/{{ $post->id }}" method="post">
+                                <form id="edit-form" action="{{ URL::to("/posts/" . $post->id . "/update") }}" method="post">
                                     <p class="text">
                                         <textarea name="data" id="data" required maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ $post->markdown }}</textarea>
                                     </p>
@@ -77,6 +77,17 @@
                                     </div>
                                 </form>
                                 <div class="preview-box"><iframe name="previewpost-edit-box{{ $post->id }}"></iframe></div>
+                            </div>
+
+                            <label class="post-action delete" for="collapse-postdelete{{ $post->id }}">delete </label>
+                            <input class="collapse" id="collapse-postdelete{{ $post->id }}" type="checkbox">
+                            <div class="deletebox">
+                                <form id="delete-form" action="{{ URL::to("/posts/" . $post->id . "/delete") }}" method="post">
+                                    <p class="text">Are you positive?</p>
+                                    <div class="submit">
+                                        <button type="submit">Yup</button>
+                                    </div>
+                                </form>
                             </div>
                         @endif
                     @else

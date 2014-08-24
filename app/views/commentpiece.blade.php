@@ -33,35 +33,49 @@
                     <div class="preview-box"><iframe name="previewcomment-reply-box{{ $comment->id }}"></iframe></div>
                 </div>
 
-                <label class="comment-action source" for="collapse-source{{ $comment->id }}">source </label>
-                <input class="collapse" id="collapse-source{{ $comment->id }}" type="checkbox">
-                <div class="sourcebox">
-                    <p class="text">
-                        <textarea readonly>{{ $comment->markdown }}</textarea>
-                    </p>
-                </div>
-                
-
-                @if ($comment->users_user_id == Auth::id())
-                    <label class="comment-action edit" for="collapse-edit{{ $comment->id }}">edit </label>
-                    <input class="collapse" id="collapse-edit{{ $comment->id }}" type="checkbox">
-                    <div class="editbox">
-                        <form id="edit-form" action="/comments/{{ $comment->id }}/update" method="post">
-                            <p class="text">
-                                <textarea name="data" id="data" required maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}">{{ $comment->markdown }}</textarea>
-                            </p>
-                            <div class="submit">
-                                <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-edit-box{{ $comment->id }}" class="preview">Preview</button>
-                                <button type="submit">Update</button>
-                            </div>
-                        </form>
-                        <div class="preview-box"><iframe name="previewcomment-edit-box{{ $comment->id }}"></iframe></div>
+                @if ($comment->deleted_at == 0)
+                    <label class="comment-action source" for="collapse-source{{ $comment->id }}">source </label>
+                    <input class="collapse" id="collapse-source{{ $comment->id }}" type="checkbox">
+                    <div class="sourcebox">
+                        <p class="text">
+                            <textarea readonly>{{ $comment->markdown }}</textarea>
+                        </p>
                     </div>
+                    
+
+                    @if ($comment->users_user_id == Auth::id())
+                        <label class="comment-action edit" for="collapse-edit{{ $comment->id }}">edit </label>
+                        <input class="collapse" id="collapse-edit{{ $comment->id }}" type="checkbox">
+                        <div class="editbox">
+                            <form id="edit-form" action="/comments/{{ $comment->id }}/update" method="post">
+                                <p class="text">
+                                    <textarea name="data" id="data" required maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}">{{ $comment->markdown }}</textarea>
+                                </p>
+                                <div class="submit">
+                                    <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-edit-box{{ $comment->id }}" class="preview">Preview</button>
+                                    <button type="submit">Update</button>
+                                </div>
+                            </form>
+                            <div class="preview-box"><iframe name="previewcomment-edit-box{{ $comment->id }}"></iframe></div>
+                        </div>
+
+                        <label class="comment-action delete" for="collapse-commentdelete{{ $comment->id }}">delete </label>
+                        <input class="collapse" id="collapse-commentdelete{{ $comment->id }}" type="checkbox">
+                        <div class="deletebox">
+                            <form id="delete-form" action="/comments/{{ $comment->id }}/delete" method="post">
+                                <p class="text">Are you positive?</p>
+
+                                <div class="submit">
+                                    <button type="submit">Yup</button>
+                                </div>
+                            </form>
+                        </div>
+                    @endif
                 @endif
             @endif
 
-            <label class="comment-action" for="collapse-permalink">permalink </label>
-            <input class="collapse" id="collapse-permalink" type="checkbox">
+            <label class="comment-action" for="collapse-commentpermalink{{ $comment->id }}">permalink </label>
+            <input class="collapse" id="collapse-commentpermalink{{ $comment->id }}" type="checkbox">
             <div class="permalinkbox">
                 <input type="text" size="20" value="{{ URL::to("/comments/" . $comment->id) }}" readonly>
             </div>

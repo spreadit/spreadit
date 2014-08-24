@@ -35,7 +35,8 @@ class Post extends BaseModel
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'sections.title AS section_title');
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'sections.title AS section_title')
+            ->where('posts.deleted_at', '=', 0);
 
         if($section_id != 0) {
             $posts = $posts->where('posts.section_id', $section_id == 0 ? '>' : '=', $section_id == 0 ? '0' : $section_id);
@@ -76,6 +77,7 @@ class Post extends BaseModel
             ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points')
             ->join('users', 'users.id', '=', 'posts.user_id')
             ->where('posts.id', '=', $post_id)
+            ->where('posts.deleted_at', '=', 0)
             ->orderBy('posts.id', 'desc')
             ->first();
 
@@ -131,6 +133,29 @@ class Post extends BaseModel
         $post->save();
 
         return Redirect::to($prev_path);
+    }
+
+    public static function remove($post_id)
+    {
+        $section_title = Post::getSectionTitleFromId($post_id);
+        $prev_path = "/s/$section_title/posts/$post_id";
+
+        if(Auth::user()->points < 1) {
+            return "not enough points";
+            return Redirect::to($prev_path)->withErrors(['message' => 'You need at least one point to delete a post']);
+        }
+
+        $post = Post::findOrFail($post_id);
+
+
+        if($post->user_id != Auth::id()) {
+            return Redirect::to($prev_path)->withErrors(['message' => 'This post does not have the same user id as you']);
+        }
+
+        $post->deleted_at = time();
+        $post->save();
+
+        return Redirect::to("/s/$section_title");
     }
 
     public static function getPostsInTimeoutRange()

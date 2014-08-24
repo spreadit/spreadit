@@ -41,6 +41,14 @@ class PostController extends BaseController
         ]);
     }
 
+    protected function getRedir($post_id)
+    {
+        $post = Post::findOrFail($post_id);
+        $section_title = Section::findOrFail($post->section_id)->title;
+        
+        return Redirect::to("/s/$section_title/posts/$post_id");
+    }
+
     protected function post($section_title)
     {
         return Post::make(Input::get('section'), Input::get('data'), Input::get('title'), Input::get('url'));
@@ -49,5 +57,10 @@ class PostController extends BaseController
     protected function update($post_id)
     {
         return Post::amend($post_id, Input::get('data'));
+    }
+
+    protected function delete($post_id)
+    {
+        return Post::remove($post_id);
     }
 }

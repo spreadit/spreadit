@@ -4,7 +4,7 @@ use \Functional as F;
 
 class CommentController extends BaseController
 {
-    protected function get($comment_id)
+    protected function getRedir($comment_id)
     {
 		$data = Comment::getPathDataFromId($comment_id);
 		return Redirect::to('/s/'.$data->section_title.'/posts/'.$data->post_id.'#comment_'.$comment_id);
@@ -18,5 +18,10 @@ class CommentController extends BaseController
     protected function post($section_title, $post_id)
     {
         return Comment::make($post_id, Input::get('data'), Input::get('parent_id'));
+    }
+
+    protected function delete($comment_id)
+    {
+        return Comment::remove($comment_id);
     }
 }
