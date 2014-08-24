@@ -48,13 +48,12 @@
                     {{ $errors->first('data') }}
                 </p>
                 <div class="submit">
-                    <button class="preview">Preview</button>
+                    <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="preview-box" class="preview">Preview</button>
                     <button type="submit">Post</button>
                     <div class="ease"></div>
                 </div>
             </form>
-            <div class="preview-box">
-            </div>
+            <div class="preview-box"><iframe name="preview-box"></iframe></div>
             @endif
         </div>
         <div class="span6">
