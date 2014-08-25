@@ -28,6 +28,8 @@ Route::get('/preferences/.json', ['before' => 'auth', 'uses' => 'UserController@
 
 Route::group(['prefix' => '/s'], function()
 {
+    Route::get('/all', 'SectionController@get');
+
 	Route::group(['prefix' => '/{section_title}'], function($section_title)
 	{
 		Route::get('/', 'SectionController@get');
