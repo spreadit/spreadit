@@ -16,11 +16,6 @@ class Post extends BaseModel
     protected $table = 'posts';
     protected $guarded = array('id');
 
-    public static function getSourceFromId($id)
-    {
-        return Post::findOrFail($id)->markdown;
-    }
-
     public static function getSectionTitleFromId($id)
     {
         return DB::table('sections')
