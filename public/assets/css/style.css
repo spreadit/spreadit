@@ -174,7 +174,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .posts-container {
     float:left;
     /* width: calc(100% - 310px); /* nobody here uses ie 8.. tgis */
-    width:100%;
+    width:99.5%;
     word-wrap:break-word;
     word-break:break-all;
 }
@@ -329,6 +329,7 @@ input.collapse:checked + *{ display:block; }
 
 #sections-navbar .nav {
     height:20px;
-    width:1000%;
+    width:100%;
     overflow:hidden;
+    background:#222;
 }
