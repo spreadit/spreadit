@@ -6,7 +6,8 @@ Route::pattern('post_title', '[a-zA-Z0-9_-]+');
 Route::pattern('section_title', '[a-zA-Z0-9_-]+');
 
 Route::get('/', 'SectionController@get');
-Route::get('/.json', 'SectionController@getSpreaditsJson');
+Route::get('/spreadits', 'SectionController@getSpreadits');
+Route::get('/spreadits/.json', 'SectionController@getSpreaditsJson');
 Route::get('/.rss', 'FeedController@rss');
 Route::get('/.atom', 'FeedController@atom');
 

@@ -8,7 +8,7 @@
   ],
   "apis": [
     {
-      "path": "/.json",
+      "path": "/spreadits/.json",
       "operations": [
         {
           "method": "GET",
