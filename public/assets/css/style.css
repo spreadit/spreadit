@@ -326,3 +326,9 @@ input.collapse:checked + *{ display:block; }
     display:inline-block;
     color:#BCD42A;
 }
+
+#sections-navbar .nav {
+    height:20px;
+    width:1000%;
+    overflow:hidden;
+}
