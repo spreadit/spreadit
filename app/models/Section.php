@@ -8,6 +8,7 @@ class Section extends BaseModel
     const TOPBAR_SECTIONS = 15;
     const MAX_TITLE_LENGTH = 24;
     const MIN_TITLE_LENGTH = 1;
+    const PAGINATION_AMOUNT = 30;
 
     protected $table = 'sections';
 
@@ -50,9 +51,9 @@ class Section extends BaseModel
     {
         return !is_null(DB::table('sections')->where('title', 'LIKE', $section_title)->first());
     }
-
+    
     /*
-     * get all sections sorted by top
+     * get top sections sorted by top rank
      *
      * @return list of sections
      */
@@ -61,6 +62,20 @@ class Section extends BaseModel
         return DB::table('sections')
             ->select('sections.id', 'sections.title')
             ->orderBy(DB::raw('(sections.upvotes - sections.downvotes)'), 'desc')
+            ->simplePaginate(self::PAGINATION_AMOUNT);
+    }
+
+    /*
+     * get all sections sorted by top rank
+     *
+     * @return list of sections
+     */
+	public static function getAll()
+	{
+        return DB::table('sections')
+            ->select('sections.id', 'sections.title')
+            ->orderBy(DB::raw('(sections.upvotes - sections.downvotes)'), 'desc')
             ->get();
     }
 }
+

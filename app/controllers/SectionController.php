@@ -88,9 +88,17 @@ class SectionController extends BaseController
         return Response::json(iterator_to_array($this->get($section_title, $sort_mode, $timeframe_mode, true)));
     }
 
+    protected function getSpreadits()
+    {
+        return View::make('spreadits', [
+            'sections' => Section::get(),
+            'spreadits' => Section::getAll()
+        ]);
+    }
+
     protected function getSpreaditsJson()
     {
-        return Response::json(Section::get());
+        return Response::json(Section::getAll());
     }
 
     protected function getSecondsFromTimeframe($timeframe)
