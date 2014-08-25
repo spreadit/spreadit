@@ -104,14 +104,6 @@
             {{ $comments }}
         </div>
     </div>
-    <div class="sidebar">
-        <div class="section-description">
-            {{ $section->data }}
-        </div>
-        <div class="section-image">
-            <img src="/assets/section_images/300x250.gif">
-        </div>
-    </div>
 </div>
 @stop
 @section('script')

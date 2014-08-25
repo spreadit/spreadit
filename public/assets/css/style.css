@@ -173,7 +173,8 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 
 .posts-container {
     float:left;
-    width: calc(100% - 310px); /* nobody here uses ie 8.. tgis */
+    /* width: calc(100% - 310px); /* nobody here uses ie 8.. tgis */
+    width:100%;
     word-wrap:break-word;
     word-break:break-all;
 }
