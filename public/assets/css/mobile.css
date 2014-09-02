@@ -4,14 +4,9 @@
         padding:0;
         margin:0;
     }
-
-    #sections-navbar {
-        display:none;
-    }
 }
 
 @media (max-width: 640px) {
-    /* section-nav auto collapse fucks this up for some reason */
     #header-nav {
         height:100px;
         position:relative;
