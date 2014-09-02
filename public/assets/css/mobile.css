@@ -8,7 +8,7 @@
 
 @media (max-width: 640px) {
     #header-nav {
-        height:100px;
+        height:130px;
         position:relative;
     }
 
@@ -19,13 +19,19 @@
     }
 
     #header-nav h2 {
-        width:100%;
         margin:0;
+        margin-left:1em;
         text-align:left;
+        float:left;
+    }
+
+    #header-nav .nav {
+        margin-top:30px;
     }
 
     #header-nav .section-points {
-        width:100%;
+        float:left;
+        margin-left:1em;
     }
 
     #header-nav .nav {
