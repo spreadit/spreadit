@@ -31,7 +31,8 @@ module.exports = function(grunt) {
 					'public/assets/css/bootstrap.css',
 					'public/assets/css/bootstrap-responsive.css',
 					'public/assets/css/monokai.css',
-					'public/assets/css/style.css'
+					'public/assets/css/style.css',
+                    'public/assets/css/mobile.css'
 				],
 				dest: 'public/assets/prod/build.css'
 			},
