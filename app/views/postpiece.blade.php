@@ -14,7 +14,7 @@
     </div>
     <div class="post-data">
         <div class="breaker data-title-and-section">
-            <a rel="nofollow" href="{{ $post->type == Post::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) : URL::to($post->url) }}">{{ $post->title }}</a> | {{ $post->section_title }}
+            <a rel="nofollow" href="{{ $post->type == Post::SELF_POST_TYPE ? URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) : URL::to($post->url) }}">{{ $post->title }}</a> | <a class="post-section" href="{{ URL::to('/s/' . $post->section_title) }}">{{ $post->section_title }}</a>
         </div>
         <div class="breaker data-url-and-comments">
             <span class="post-url">{{ parse_url($post->type == Post::SELF_POST_TYPE ? URL::to('/') : $post->url, PHP_URL_HOST) }}</span> :: <a href="{{ URL::to("/s/{$post->section_title}/posts/{$post->id}/" . Utility::prettyUrl($post->title)) }}">view comments({{ $post->comment_count }})</a>

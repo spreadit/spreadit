@@ -8,12 +8,12 @@ html, body {
 	background-color:#333;
 	font-family: Monaco,Consolas,"Lucida Console",monospace;
 	font-size:12px;
-	height:100%;
+    overflow:hidden;
 }
 
 h1 {
-        font-size:14px;
-        text-transform: none;
+    font-size:14px;
+    text-transform: none;
 }
 
 table {
@@ -95,10 +95,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 #footer-navbar {
-	position:fixed;
-	bottom:0;
-	right:0;
-	margin-top:100px;
+	margin-top:40%;
 	margin-bottom:0px;
 }
 
@@ -184,7 +181,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     width:100%;
     clear:both;
     display:block;
-    overflow:auto;
+    overflow:hidden;
     padding:0.25em;
     min-height:72px;
     box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1);
@@ -235,16 +232,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 .post-thumbnail img {
     width:128px;
     height:72px;
-}
-
-@media (max-width: 1200px) {
-    .posts-container {
-        width: 100%;
-    }
-
-    .sidebar {
-        display:none;
-    }
 }
 
 .post {
@@ -333,4 +320,25 @@ input.collapse:checked + *{ display:block; }
     width:100%;
     overflow:hidden;
     background:#222;
+}
+
+.section-title a {
+    color:#DDD;
+}
+
+.comment-piece a {
+    color:#DDD;
+}
+
+.post-piece a {
+    color:#DDD;
+}
+
+.post-data a,
+.comment-data a {
+    color:#BCD42A;
+}
+
+a.post-section {
+    color:#CCC;
 }

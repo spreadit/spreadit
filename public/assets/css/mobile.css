@@ -47,9 +47,13 @@
     }
 
     .post-piece .post-thumbnail {
-        margin:3em auto 0 auto;
+        margin:0 auto;
         float:none;
         display:block;
+    }
+
+    .post-piece .post-thumbnail img {
+        float:left;
     }
 
     .post-piece .breaker {
