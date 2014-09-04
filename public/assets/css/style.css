@@ -95,8 +95,11 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 #footer-navbar {
-	margin-top:40%;
 	margin-bottom:0px;
+}
+
+#footer-navbar .navbar.navbar-inverse .navbar-inner.dark-navbar {
+    background-color:transparent;
 }
 
 .strikethrough {
