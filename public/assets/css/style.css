@@ -352,3 +352,18 @@ address:after, address:before, cite:after, cite:before, dfn:after, dfn:before, e
 em {
     font-style:italic;
 }
+
+.help-nav {
+    float:left;
+    background-color:#444;
+    margin:2em;
+    padding:2em 2em 2em 1em;
+}
+
+.help-page {
+}
+
+.help-page pre {
+    background-color:#555;
+    color:#FFF;
+}

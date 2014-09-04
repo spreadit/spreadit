@@ -128,6 +128,17 @@ Route::group(['prefix' => '/api'], function()
 	Route::get('/routes/{type}', 'SwaggerController@getRoute');
 });
 
+Route::group(['prefix' => '/help'], function()
+{
+	Route::get('/', 'HelpController@index');
+	Route::get('/feeds', 'HelpController@feeds');
+	Route::get('/posting', 'HelpController@posting');
+	Route::get('/formatting', 'HelpController@formatting');
+	Route::get('/points', 'HelpController@points');
+	Route::get('/moderation', 'HelpController@moderation');
+	Route::get('/help', 'HelpController@help');
+});
+
 App::missing(function(Exception $exception)
 {
     if(Request::is('*/.json')) {
