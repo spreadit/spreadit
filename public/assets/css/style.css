@@ -342,3 +342,7 @@ input.collapse:checked + *{ display:block; }
 a.post-section {
     color:#CCC;
 }
+
+.lazy-loaded:hover {
+    cursor:pointer;
+}
