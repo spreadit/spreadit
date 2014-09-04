@@ -225,6 +225,21 @@ class Post extends BaseModel
             $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
         }
 
+        //check if .gif & gfycat it
+        if(Utility::endsWith($data['url'], ".gif")) {
+            $successful_conv = true;
+
+            try {
+                $tmp_url = Utility::gfycat($data['url']);
+            } catch(Exception $e) {
+                $successful_conv = false;
+            }
+
+            if($successful_conv) {
+                $data['url'] = $tmp_url;
+            }
+        }
+
         if(!Section::exists($section_title)) {
             $ssect = new Section(['title' => $section_title]);
 

@@ -169,4 +169,31 @@ class Utility
         return Cookie::get(SortController::SORTBY_COOKIE_NAME, SortController::SORTBY_COOKIE_DEFAULT);
     }
 
+    public static function gfycat($url)
+    {
+        $json = file_get_contents("http://upload.gfycat.com/transcode?fetchUrl=" . urlencode($url));
+        $data = json_decode($json);
+        if(isset($data->error)) {
+            throw Exception("gfycat:" . $data->error);
+        }
+
+        return "http://gfycat.com/" . $data->gfyName;
+    }
+
+    //http://stackoverflow.com/a/834355/778858
+    public static function startsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    public static function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if($length == 0) {
+            return true;
+        }
+        
+        return (substr($haystack, -$length) === $needle);
+    }
 }
