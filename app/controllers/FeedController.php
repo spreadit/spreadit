@@ -14,7 +14,7 @@ class FeedController extends BaseController
         $posts = Post::getHotList($section->id);
         $feed = Feed::make();
         $feed->title = $section_title;
-        $feed->description = "$section_title of spreadit :: " . Section::getSidebar($section->id);
+        $feed->description = "read hot posts from $section_title"; 
         $feed->link = URL::to("/s/$section_title");
         $feed->lang = 'en';
 
