@@ -346,3 +346,9 @@ a.post-section {
 .lazy-loaded:hover {
     cursor:pointer;
 }
+
+address:after, address:before, cite:after, cite:before, dfn:after, dfn:before, em:after, em:before, i:after, i:before, var:after, var:before { content: ''; }
+
+em {
+    font-style:italic;
+}
