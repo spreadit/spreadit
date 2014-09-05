@@ -25,7 +25,13 @@
     </div>
     <div class="post-thumbnail">
         @if (!empty($post->thumbnail))
-        <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+            @if (!empty($post->url))
+                <a rel="nofollow" href="{{ URL::to($post->url) }}">
+                    <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                </a>
+            @else
+                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+            @endif
         @endif
     </div>
 </div>

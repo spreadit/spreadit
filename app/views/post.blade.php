@@ -41,7 +41,6 @@
                         {{ $post->data }}
                     </div>
                     <menu>
-                    @if (Auth::check())
                         <label class="post-action reply" for="collapse-postreply{{ $post->id }}">reply </label>
                         <input class="collapse" id="collapse-postreply{{ $post->id }}" type="checkbox">
                         <div class="replybox">
@@ -97,14 +96,17 @@
                                 </form>
                             </div>
                         @endif
-                    @else
-                        <a href="{{ URL::to("/login") }}">Register</a> to post replies
-                    @endif
                     </menu>
                 </div>
                 <div class="post-thumbnail">
                     @if (!empty($post->thumbnail))
-                    <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                        @if (!empty($post->url))
+                            <a rel="nofollow" href="{{ URL::to($post->url) }}">
+                                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                            </a>
+                        @else
+                            <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                        @endif
                     @endif
                 </div>
             </div>
