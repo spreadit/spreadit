@@ -91,6 +91,7 @@ class Vote extends BaseModel
                 break;
             case self::COMMENT_TYPE:
                 $item = Comment::findOrFail($type_id);
+                Cache::forget(Comment::CACHE_NEWLIST_NAME.$item->post_id);
                 break;
             case self::SECTION_TYPE:
                 $item = Section::findOrFail($type_id);
