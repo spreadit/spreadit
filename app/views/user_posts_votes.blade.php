@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: {{ $username }}'s post votes</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="let's spy on {{ $username }}'s post votes.. for science!">
 @stop
 
 @section('content')
@@ -32,7 +32,4 @@
 </table>
 
 {{ $votes->links() }}
-@stop
-
-@section('script')
 @stop

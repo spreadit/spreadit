@@ -3,6 +3,9 @@
 @section('title')
     <title>spreadit.io :: help/feeds</title>
 @stop
+@section('description')
+    <meta name="description" content="get help regarding atom and rss feeds">
+@stop
 
 @section('content')
 <h2>RSS &amp; Atom Feeds</h2>

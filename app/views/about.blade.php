@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: a little spec out in the universe</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="spreadit is a link sharing and bullshit generator">
 @stop
 
 @section('content')
@@ -78,7 +78,4 @@
         </ul>
     </div>
 </div>
-@stop
-
-@section('script')
 @stop

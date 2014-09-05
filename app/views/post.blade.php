@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: {{ $post->title }}</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="spreadit discussion regarding {{ $post->title }}">
 @stop
 
 @section('content')
@@ -112,6 +112,4 @@
         </div>
     </div>
 </div>
-@stop
-@section('script')
 @stop

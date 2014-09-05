@@ -3,6 +3,9 @@
 @section('title')
     <title>spreadit.io :: help/moderation</title>
 @stop
+@section('description')
+    <meta name="description" content="information on our way of moderating the site">
+@stop
 
 @section('content')
 <h2>spreadit moderation</h2>

@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: {{ $username }}'s posts</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="let's spy on {{ $username }}'s posts.. for science!">
 @stop
 
 @section('content')
@@ -13,7 +13,4 @@
 @endforeach
 
 {{ $posts->links() }}
-@stop
-
-@section('script')
 @stop

@@ -3,6 +3,9 @@
 @section('title')
     <title>spreadit.io :: Login</title>
 @stop
+@section('description')
+    <meta name="description" content="login or register to spreadit right meow">
+@stop
 
 @section('content')
     @if ($errors->any())

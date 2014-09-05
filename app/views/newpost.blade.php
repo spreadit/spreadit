@@ -3,6 +3,9 @@
 @section('title')
     <title>spreadit.io :: add a post to {{{ $section->title }}}</title>
 @stop
+@section('description')
+    <meta name="description" content="add a new post to spreadit with our intuitive keyboard/mouse interface">
+@stop
 
 @section('content')
     <h1>Posting to /s/{{{ $section->title }}}</h1>

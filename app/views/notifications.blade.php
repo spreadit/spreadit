@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: notifications</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="check all of your notifications in one place">
 @stop
 
 @section('content')
@@ -52,7 +52,4 @@
 @endforeach
 
 {{ $notifications->links() }}
-@stop
-
-@section('script')
 @stop

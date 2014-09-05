@@ -1,10 +1,10 @@
 @extends('layout.default')
 
 @section('title')
-    <title>spreadit.io :: {{ $section->title }}</title>
+    <title>spreadit.io :: discuss {{ $section->title }}</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="discussion and new links regarding {{ $section->title }}">
 @stop
 
 @section('content')
@@ -17,7 +17,4 @@
         {{ $posts->links() }}
     </div>
 </div>
-@stop
-
-@section('script')
 @stop

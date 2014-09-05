@@ -3,9 +3,10 @@
 @section('title')
     <title>spreadit.io :: {{ $username }}'s comments</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="let's spy on {{ $username }}'s comments.. for science!">
 @stop
+
 
 @section('content')
 @foreach ($comments as $comment)
@@ -13,7 +14,4 @@
 @endforeach
 
 {{ $comments->links() }}
-@stop
-
-@section('script')
 @stop

@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: preferences</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="check & change your user preferences here">
 @stop
 
 @section('content')

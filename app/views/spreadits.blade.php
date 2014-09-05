@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: all spreadits list</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="check out all of the spreadits we've accumulated">
 @stop
 
 @section('content')
@@ -15,7 +15,4 @@
         @endforeach
     </div>
 </div>
-@stop
-
-@section('script')
 @stop

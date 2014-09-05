@@ -3,8 +3,8 @@
 @section('title')
     <title>spreadit.io :: you serve your master well. and you will be rewarded.</title>
 @stop
-
-@section('style')
+@section('description')
+    <meta name="description" content="has spreadit received any legal threats?">
 @stop
 
 @section('content')
@@ -27,7 +27,4 @@
         </table>
     </div>
 </div>
-@stop
-
-@section('script')
 @stop

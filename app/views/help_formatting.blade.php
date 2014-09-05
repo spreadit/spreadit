@@ -3,6 +3,9 @@
 @section('title')
     <title>spreadit.io :: help/formatting</title>
 @stop
+@section('description')
+    <meta name="description" content="get help regarding formatting of posts and comments">
+@stop
 
 @section('content')
 <h2>Formatting text using markdown and LaTeX</h2>
