@@ -9,7 +9,7 @@
             {{ Utility::prettyAgo($post->created_at) }}
         </div>
         <div class="breaker points-creator">
-            <a class="username" rel="nofollow" href="{{ URL::to("/u/{$post->username}") }}">{{ $post->username }}</a>({{ $post->points }},{{ $post->votes }})
+            <a class="username" rel="nofollow" href="{{ URL::to("/u/{$post->username}") }}">{{ $post->username }}</a>(<span class="upoints">{{ $post->points }}</span>,<span class="uvotes">{{ $post->votes }}</span>)
         </div>
     </div>
     <div class="post-data">

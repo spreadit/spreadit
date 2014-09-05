@@ -21,10 +21,12 @@ $(document).ready(function() {
 				if(that.data('updown') == 'down') {
 					that.parent().find('.downvotes').html(function(i, val) { return +val+1; });
 					that.parent().find('.total-points').html(function(i, val) { return +val-1; });
+                    that.parent().parent().find(".upoints").html(function(i, val) { return +val-1; });
 					$(".my-points").html(function(i, val) { return +val-1; });
 				} else if(that.data('updown') == 'up') {
 					that.parent().find('.upvotes').html(function(i, val) { return +val+1; });
 					that.parent().find('.total-points').html(function(i, val) { return +val+1; });
+                    that.parent().parent().find(".upoints").html(function(i, val) { return +val+1; });
 					$(".my-points").html(function(i, val) { return +val-1; });
 				}
 			}
