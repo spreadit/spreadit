@@ -98,28 +98,18 @@ class Vote extends BaseModel
                 throw new UnexpectedValueException("type: $type not enumerated");
         }
 
+        //increment our total vote counter
+        $user->increment('votes');
+
         //decrement one point for voting
         $user->decrement('points');
 
-        //double decrement for self vote
+        //double decrement for self upvote
         if($type == self::POST_TYPE || $type = self::COMMENT_TYPE) {
             if($item->user_id == Auth::id() && $updown == self::UP) {
                 $user->decrement('points');
             }
         }
-
-        //increment our total vote counter
-        $user->increment('votes');
-
-        //deal with votes table
-        $vote = new Vote(array(
-            'type'    => $type,
-            'user_id' => Auth::id(),
-            'item_id' => $type_id,
-            'updown'  => $updown
-        ));
-        $vote->save();
-
 
         //upvote/downvote the item itself
         if($updown == self::UP) {
@@ -138,6 +128,16 @@ class Vote extends BaseModel
                 $rec_user->decrement('points');
             }
         }
+
+
+        //deal with votes table
+        $vote = new Vote(array(
+            'type'    => $type,
+            'user_id' => Auth::id(),
+            'item_id' => $type_id,
+            'updown'  => $updown
+        ));
+        $vote->save();
 
         return true;
     }

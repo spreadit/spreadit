@@ -1,7 +1,7 @@
 <ul class="nav nav-pills" id="user-navbar">
     @if(Auth::check())
     <li>
-        <a role="button" href="/u/{{ Auth::user()->username }}">{{ Auth::user()->username }}(<span class="my-points">{{ Auth::user()->points }},{{ Auth::user()->votes }}</span>)</a>
+        <a role="button" href="/u/{{ Auth::user()->username }}">{{ Auth::user()->username }}(<span class="my-points">{{ Auth::user()->points }}</span>,<span class="my-votes">{{ Auth::user()->votes }}</span></span>)</a>
     </li>
 
     <?php $notification_count = Notification::getUnreadCount(); ?>

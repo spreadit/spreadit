@@ -16,6 +16,7 @@ $(document).ready(function() {
 				that.addClass('selected');
 				that.parent().find('.vote').addClass('disable-click');
 
+                $(".my-votes").html(function(i, val) { return +val+1; });
 				if(that.data('updown') == 'down') {
 					that.parent().find('.downvotes').html(function(i, val) { return +val+1; });
 					that.parent().find('.total-points').html(function(i, val) { return +val-1; });
