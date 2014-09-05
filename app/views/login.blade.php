@@ -52,8 +52,8 @@
                     {{ $errors->first('password_confirmation') }}
                 </p>
                 <p class="captcha">
-                                        {{  HTML::image(Captcha::img(), 'Captcha image') }}
-                                        <input type="text" name="captcha" placeholder="Captcha text">
+                    {{  HTML::image(Captcha::img(), 'Captcha image') }}
+                    <input type="text" name="captcha" placeholder="Captcha text">
                 </p>
                 <div class="submit">
                     <button type="submit">Submit</button>
