@@ -335,6 +335,10 @@ input.collapse:checked + *{ display:block; }
     color:#DDD;
 }
 
+.username {
+    color:#DDD;
+}
+
 .post-data a,
 .comment-data a {
     color:#BCD42A;

@@ -108,6 +108,9 @@ class Vote extends BaseModel
             }
         }
 
+        //increment our total vote counter
+        $user->increment('votes');
+
         //deal with votes table
         $vote = new Vote(array(
             'type'    => $type,
@@ -142,7 +145,7 @@ class Vote extends BaseModel
     public static function getPostVotes($type_id)
     {
         return DB::table('votes')
-            ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username')
+            ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
             ->where('votes.type', '=', self::POST_TYPE)
             ->where('votes.item_id', '=', $type_id)
@@ -153,7 +156,7 @@ class Vote extends BaseModel
     public static function getCommentVotes($type_id)
     {
         return DB::table('votes')
-            ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username')
+            ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
             ->where('votes.type', '=', self::COMMENT_TYPE)
             ->where('votes.item_id', '=', $type_id)

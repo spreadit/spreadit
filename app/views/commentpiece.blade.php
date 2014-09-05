@@ -1,7 +1,7 @@
 <div class="comment-piece" tabindex="1">
     <div class="comment-points">
         <div class="breaker comment-user-points">
-            <a rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a> ({{ $comment->points }})
+            <a class="username" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a>({{ $comment->points }},{{ $comment->votes }})
         </div>
         <div class="breaker comment-votes">
             <span class="vote {{ $comment->selected == Vote::UP ? 'selected' : '' }} {{ $comment->selected == Vote::DOWN ? 'disable-click' : '' }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</span>

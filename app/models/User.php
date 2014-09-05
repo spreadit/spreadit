@@ -102,7 +102,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     protected function comments($username)
     {
         $comments = DB::table('comments')
-            ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id')
+            ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes')
             ->leftJoin('users', 'users.id', '=', 'comments.user_id')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
@@ -116,7 +116,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'users.username', 'users.points', 'sections.title AS section_title')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'users.username', 'users.points', 'users.votes', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
@@ -131,7 +131,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->join('posts', 'votes.item_id', '=', 'posts.id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
             ->join('users AS users_r', 'posts.user_id', '=', 'users_r.id')
-            ->select('votes.updown', 'votes.created_at', 'posts.id', 'posts.title', 'posts.upvotes', 'posts.downvotes', 'posts.user_id', 'users_r.username', 'users_r.points', 'sections.title AS section_title')
+            ->select('votes.updown', 'votes.created_at', 'posts.id', 'posts.title', 'posts.upvotes', 'posts.downvotes', 'posts.user_id', 'users_r.username', 'users_r.points', 'users_r.votes', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('votes.id', 'desc')
             ->simplePaginate(User::PAGE_RESULTS);
@@ -145,7 +145,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->join('posts', 'posts.id', '=', 'comments.post_id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
             ->join('users AS users_r', 'comments.user_id', '=', 'users_r.id')
-            ->select('votes.updown', 'votes.created_at', 'comments.id', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'comments.user_id', 'users_r.username AS username', 'users_r.points', 'sections.title AS section_title')
+            ->select('votes.updown', 'votes.created_at', 'comments.id', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'comments.user_id', 'users_r.username AS username', 'users_r.points', 'users_r.votes', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('votes.id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);

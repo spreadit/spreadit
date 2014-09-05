@@ -103,6 +103,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `points` int(11) NOT NULL,
   `upvotes` int(12) unsigned NOT NULL,
   `downvotes` int(12) unsigned NOT NULL,
+  `anonymous` tinyint(1) NOT NULL DEFAULT '0',
+  `votes` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 

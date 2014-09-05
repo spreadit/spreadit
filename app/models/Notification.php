@@ -21,7 +21,7 @@ class Notification extends BaseModel
     public static function get()
     {
         return DB::table('notifications')
-            ->select('notifications.type', 'notifications.item_id', 'notifications.read', 'notifications.created_at', 'comments.data', 'users.username')
+            ->select('notifications.type', 'notifications.item_id', 'notifications.read', 'notifications.created_at', 'comments.data', 'users.username', 'users.points', 'users.votes')
             ->leftJoin('comments', 'notifications.item_id', '=', 'comments.id')
             ->leftJoin('users', 'comments.user_id', '=', 'users.id')
             ->where('notifications.user_id', '=', Auth::id())

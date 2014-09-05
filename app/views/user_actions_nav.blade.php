@@ -1,7 +1,7 @@
 <ul class="nav nav-pills" id="user-navbar">
     @if(Auth::check())
     <li>
-        <a role="button" href="/u/{{ Auth::user()->username }}">{{ Auth::user()->username }}(<span class="my-points">{{ Auth::user()->points }}</span>)</a>
+        <a role="button" href="/u/{{ Auth::user()->username }}">{{ Auth::user()->username }}(<span class="my-points">{{ Auth::user()->points }},{{ Auth::user()->votes }}</span>)</a>
     </li>
     <li class="{{ Notification::hasUnread() ? 'unread-notifications' : '' }} {{ Request::segment(1) == 'notifications' ? 'active' : '' }}">
         <a role="button" href="/notifications">notifications</a>

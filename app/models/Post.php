@@ -30,7 +30,7 @@ class Post extends BaseModel
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'sections.title AS section_title')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'users.votes', 'sections.title AS section_title')
             ->where('posts.deleted_at', '=', 0);
 
         if($section_id != 0) {
@@ -69,7 +69,7 @@ class Post extends BaseModel
     public static function get($post_id)
     {
         $post = DB::table('posts')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'posts.user_id')
             ->where('posts.id', '=', $post_id)
             ->where('posts.deleted_at', '=', 0)
