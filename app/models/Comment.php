@@ -188,6 +188,7 @@ class Comment extends BaseModel
             return Redirect::to("/posts/$post_id")->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 
+        Cache::forget(self::CACHE_NEWLIST_NAME.$comment->post_id);
         $comment->deleted_at = time();
         $comment->save();
 
