@@ -58,7 +58,7 @@ class Vote extends BaseModel
         return $rval;
     }
 
-    protected static function checkVote($type, $type_id)
+    protected function checkVote($type, $type_id)
     {
         return DB::table('votes')
             ->select('updown')
@@ -69,7 +69,7 @@ class Vote extends BaseModel
             ->get();
     }
 
-    protected static function alreadyExists($check)
+    protected function alreadyExists($check)
     {
         $check = $check[0];
         if($check->updown == self::UP) {
@@ -79,9 +79,33 @@ class Vote extends BaseModel
         }
     }
 
-    public static function applyVote($user, $type, $type_id, $updown)
+    public function applyVote($user, $type, $type_id, $updown)
     {
+        //deal with item table
+        $item = "";
+        switch($type) {
+            case self::POST_TYPE:
+                $item = Post::findOrFail($type_id);
+                break;
+            case self::COMMENT_TYPE:
+                $item = Comment::findOrFail($type_id);
+                break;
+            case self::SECTION_TYPE:
+                $item = Section::findOrFail($type_id);
+                break;
+            default:
+                throw new UnexpectedValueException("type: $type not enumerated");
+        }
+
+        //decrement one point for voting
         $user->decrement('points');
+
+        //double decrement for self vote
+        if($type == self::POST_TYPE || $type = self::COMMENT_TYPE) {
+            if($item->user_id == Auth::id() && $updown == self::UP) {
+                $user->decrement('points');
+            }
+        }
 
         //deal with votes table
         $vote = new Vote(array(
@@ -150,9 +174,9 @@ class Vote extends BaseModel
             ->simplePaginate(self::COMMENT_PAGE_RESULTS);
     }
 
-    protected  function action($type, $type_id, $updown)
+    protected function action($type, $type_id, $updown)
     {
-        $check = self::checkVote($type, $type_id);
+        $check = $this->checkVote($type, $type_id);
 
         if(count($check) > 0) {
             return self::alreadyExists($check);
@@ -163,7 +187,7 @@ class Vote extends BaseModel
             return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];
         }
 
-        self::applyVote($user, $type, $type_id, $updown);
+        $this->applyVote($user, $type, $type_id, $updown);
         return ['success' => true, 'errors' => []];
     }
 } 
