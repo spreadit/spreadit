@@ -18,7 +18,8 @@ class Vote extends BaseModel
         'same_stored' => 'vote is same as stored value',
         'reverse' => 'vote cannot be reversed',
         'lackingpoints' => 'vote cannot be completed as you do not have enough points',
-        'anonymous' => 'votes cannot come from an anon user, please register'
+        'anonymous' => 'votes cannot come from an anon user, please register',
+        'systemerror' => 'general system error occurred'
     ];
 
     public static function applySelection($items, $type)
@@ -119,7 +120,7 @@ class Vote extends BaseModel
         }
 
         //upvote/downvote user who posted (ignore for sections)
-        if($type == self::POST_TYPE || $type = self::COMMENT_TYPE) {
+        if($type == self::POST_TYPE || $type == self::COMMENT_TYPE) {
             $rec_user = User::findOrFail($item->user_id);
 
             if($updown == self::UP) {
@@ -139,7 +140,6 @@ class Vote extends BaseModel
         ));
         $vote->save();
 
-        return true;
     }
 
     public static function getPostVotes($type_id)
@@ -181,7 +181,13 @@ class Vote extends BaseModel
             return ['success' => false, 'errors' => array(self::$errors['anonymous'])];
         }
 
-        $this->applyVote($user, $type, $type_id, $updown);
+        try {
+            $this->applyVote($user, $type, $type_id, $updown);
+        } catch (Exception $e) {
+            Log::error($e);
+            return ['success' => false, 'errors' => array(self::$errors['systemerror'])];
+        }
+
         return ['success' => true, 'errors' => []];
     }
 } 

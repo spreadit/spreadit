@@ -12,6 +12,7 @@ $(document).ready(function() {
 		var that = $(this);
 
 		$.post('/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown'), function(json) {
+            console.log(json);
 			if(json.success) {
 				that.addClass('selected');
 				that.parent().find('.vote').addClass('disable-click');
