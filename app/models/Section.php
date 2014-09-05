@@ -62,7 +62,8 @@ class Section extends BaseModel
         return DB::table('sections')
             ->select('sections.id', 'sections.title')
             ->orderBy(DB::raw('(sections.upvotes - sections.downvotes)'), 'desc')
-            ->simplePaginate(self::PAGINATION_AMOUNT);
+            ->take(self::PAGINATION_AMOUNT)
+            ->get();
     }
 
     /*
