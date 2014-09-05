@@ -17,7 +17,10 @@ class CommentController extends BaseController
 
     protected function post($section_title, $post_id)
     {
-        return Comment::make($post_id, Input::get('data'), Input::get('parent_id'));
+        $anon = Anon::make(Input::get('captcha'));
+        if($anon == "success") {
+            return Comment::make($post_id, Input::get('data'), Input::get('parent_id'));
+        } else return $anon;
     }
 
     protected function delete($comment_id)

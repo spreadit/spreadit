@@ -51,7 +51,10 @@ class PostController extends BaseController
 
     protected function post($section_title)
     {
-        return Post::make(Input::get('section'), Input::get('data'), Input::get('title'), Input::get('url'));
+        $anon = Anon::make(Input::get('captcha'));
+        if($anon == "success") {
+            return Post::make(Input::get('section'), Input::get('data'), Input::get('title'), Input::get('url'));
+        } else return $anon;
     }
 
     protected function update($post_id)

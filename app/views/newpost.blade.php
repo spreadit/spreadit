@@ -51,6 +51,12 @@
                     {{ $errors->first('data') }}
                 </p>
                 <div class="submit">
+                    @if (!Auth::check())
+                        <p class="captcha">
+                            {{  HTML::image(Captcha::img(), 'Captcha image') }}
+                            <input type="text" name="captcha" placeholder="Captcha text" size="8" required>
+                        </p>
+                    @endif
                     <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="preview-box" class="preview">Preview</button>
                     <button type="submit">Post</button>
                     <div class="ease"></div>

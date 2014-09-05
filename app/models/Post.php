@@ -257,7 +257,9 @@ class Post extends BaseModel
         $item->save();
 
         //add a point for adding posts
-        Auth::user()->increment('points');
+        if(Auth::user()->anonymous == 0) {
+            Auth::user()->increment('points');
+        }
 
         return Redirect::to("/s/$section_title/posts/$item->id/" . Utility::prettyUrl($data['title']));
     }

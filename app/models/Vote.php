@@ -17,7 +17,8 @@ class Vote extends BaseModel
     protected static $errors = [
         'same_stored' => 'vote is same as stored value',
         'reverse' => 'vote cannot be reversed',
-        'lackingpoints' => 'vote cannot be completed as you do not have enough points'
+        'lackingpoints' => 'vote cannot be completed as you do not have enough points',
+        'anonymous' => 'votes cannot come from an anon user, please register'
     ];
 
     public static function applySelection($items, $type)
@@ -116,21 +117,6 @@ class Vote extends BaseModel
         ));
         $vote->save();
 
-        //deal with item table
-        $item = "";
-        switch($type) {
-            case self::POST_TYPE:
-                $item = Post::findOrFail($type_id);
-                break;
-            case self::COMMENT_TYPE:
-                $item = Comment::findOrFail($type_id);
-                break;
-            case self::SECTION_TYPE:
-                $item = Section::findOrFail($type_id);
-                break;
-            default:
-                throw new UnexpectedValueException("type: $type not enumerated");
-        }
 
         //upvote/downvote the item itself
         if($updown == self::UP) {
@@ -183,8 +169,13 @@ class Vote extends BaseModel
         }
 
         $user = User::findOrFail(Auth::id());
+        
         if($user->points < 1) {
             return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];
+        }
+
+        if($user->anonymous == 1) {
+            return ['success' => false, 'errors' => array(self::$errors['anonymous'])];
         }
 
         $this->applyVote($user, $type, $type_id, $updown);

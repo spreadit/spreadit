@@ -29,7 +29,7 @@
                     <li {{ $sort_highlight == 'controversial' && $sort_timeframe_highlight == 'forever' ? 'class="active"' : '' }} role="presentation"><a role="menuitem" tabindex="-1" href="/s/{{ $section->title }}/controversial/forever">Forever</a></li>
                 </ul>
             </li>
-            @if(Auth::check() && isset($section->title))
+            @if (isset($section->title))
             <li {{ $sort_highlight == 'add' ? 'class="active"' : '' }}><a role="button" href="/s/{{ $section->title }}/add">add post</a></li>
             @endif
         </ul>

@@ -40,6 +40,20 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         };
     }
 
+    public static function create_anon($username)
+    {
+        DB::table('users')->insert([
+            'username' => $username,
+            'password' => Hash::make(''),
+            'anonymous' => 1,
+            'points' => 1,
+            'upvotes' => 0,
+            'downvotes' => 0,
+            'created_at' => time(),
+            'updated_at' => time()
+        ]);
+    }
+
     /**
      * Get the unique identifier for the user.
      *

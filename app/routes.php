@@ -49,10 +49,10 @@ Route::group(['prefix' => '/s'], function()
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
     	Route::get('/posts/{post_id}/.json', 'PostController@getJson');
-        Route::post('/posts/{post_id}/{post_title?}', ['before' => 'auth', 'uses' =>'CommentController@post']);
+        Route::post('/posts/{post_id}/{post_title?}', 'CommentController@post');
 
-	    Route::get('/add', ['before' => 'auth', 'uses' =>'SectionController@add']);
-	    Route::post('/add', ['before' => 'auth|csrf', 'uses' => 'PostController@post']);
+	    Route::get('/add', 'SectionController@add');
+	    Route::post('/add', ['before' => 'csrf', 'uses' => 'PostController@post']);
     });
 });
 
