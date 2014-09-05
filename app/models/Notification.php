@@ -29,11 +29,11 @@ class Notification extends BaseModel
             ->simplePaginate(self::PAGE_NOTIFICATION_COUNT);
     }
 
-    public static function hasUnread()
+    public static function getUnreadCount()
     {
         return Notification::where('user_id', '=', Auth::id())
             ->where('read', '=', self::UNREAD)
-            ->count() > 0; 
+            ->count();
     }
 
     public static function markAllAsRead()
