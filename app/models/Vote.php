@@ -107,7 +107,7 @@ class Vote extends BaseModel
         $user->decrement('points');
 
         //double decrement for self upvote
-        if($type == self::POST_TYPE || $type = self::COMMENT_TYPE) {
+        if($type == self::POST_TYPE || $type == self::COMMENT_TYPE) {
             if($item->user_id == Auth::id() && $updown == self::UP) {
                 $user->decrement('points');
             }
