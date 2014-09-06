@@ -121,7 +121,6 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Greggilbert\Recaptcha\RecaptchaServiceProvider',
 		'Mews\Captcha\CaptchaServiceProvider',
         'Roumen\Feed\FeedServiceProvider',
         'Intervention\Image\ImageServiceProvider',

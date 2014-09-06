@@ -24,7 +24,6 @@
 		"laravel/framework": "4.2.*",
 		"spreadit/php-markdown": "dev-master",
 		"loic-sharma/profiler": "1.1.*",
-		"greggilbert/recaptcha": "dev-master",
 		"lstrojny/functional-php": "dev-master",
         "mews/captcha": "dev-master",
         "sunra/php-simple-html-dom-parser": "dev-master",
