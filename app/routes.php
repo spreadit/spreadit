@@ -100,7 +100,9 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 	{
 		//Route::get('/{id}',     'VoteController@sectionView');
 		Route::post('/{id}/up',   'VoteController@sectionUp');
+		Route::post('/{id}/up/.json', ['before' => 'auth.token', 'uses' => 'VoteController@sectionUp']);
 		Route::post('/{id}/down', 'VoteController@sectionDown');
+		Route::post('/{id}/down/.json', ['before' => 'auth.token', 'uses' => 'VoteController@sectionDown']);
 	});
 
 	Route::group(['prefix' => 'post'], function()
@@ -108,7 +110,9 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 		Route::get('/{id}',       'VoteController@postView');
 		Route::get('/{id}/.json', 'VoteController@postJson');
 		Route::post('/{id}/up',   'VoteController@postUp');
+		Route::post('/{id}/up/.json', ['before' => 'auth.token', 'uses' => 'VoteController@postUp']);
 		Route::post('/{id}/down', 'VoteController@postDown');
+		Route::post('/{id}/down/.json', ['before' => 'auth.token', 'uses' => 'VoteController@postDown']);
 	});
 
 	Route::group(['prefix' => 'comment'], function()
@@ -116,7 +120,9 @@ Route::group(['prefix' => 'vote', 'before' => 'auth'], function()
 		Route::get('/{id}',       'VoteController@commentView');
 		Route::get('/{id}/.json', 'VoteController@commentJson');
 		Route::post('/{id}/up',   'VoteController@commentUp');
+		Route::post('/{id}/up/.json',   ['uses' => 'auth.token', 'uses' => 'VoteController@commentUp']);
 		Route::post('/{id}/down', 'VoteController@commentDown');
+		Route::post('/{id}/down/.json',   ['uses' => 'auth.token', 'uses' => 'VoteController@commentDown']);
 	});
 });
 

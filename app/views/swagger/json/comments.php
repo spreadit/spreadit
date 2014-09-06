@@ -36,7 +36,7 @@
       ]
     },
     {
-      "path": "/vote/comment/{comment_id}/up",
+      "path": "/vote/comment/{comment_id}/up/.json",
       "operations": [
         {
           "method": "POST",
@@ -46,6 +46,13 @@
           "nickname": "getById",
           "authorizations": {},
           "parameters": [
+            {
+              "name": "X-Auth-Token",
+              "description": "public authentication token",
+              "required": true,
+              "type": "string",
+              "paramType": "header"
+            },
             {
               "name": "comment_id",
               "description": "id of item to upvote",
@@ -58,13 +65,17 @@
             {
               "code": 200,
               "message": "Successfully upvoted"
+            },
+            {
+              "code": 401,
+              "message": "Not authorized"
             }
           ]
         }
       ]
     },
     {
-      "path": "/vote/comment/{comment_id}/down",
+      "path": "/vote/comment/{comment_id}/down/.json",
       "operations": [
         {
           "method": "POST",
@@ -74,6 +85,13 @@
           "nickname": "getById",
           "authorizations": {},
           "parameters": [
+            {
+              "name": "X-Auth-Token",
+              "description": "public authentication token",
+              "required": true,
+              "type": "string",
+              "paramType": "header"
+            },
             {
               "name": "comment_id",
               "description": "id of item to downvote",
@@ -86,6 +104,10 @@
             {
               "code": 200,
               "message": "Successfully downvoted"
+            },
+            {
+              "code": 401,
+              "message": "Not authorized"
             }
           ]
         }
