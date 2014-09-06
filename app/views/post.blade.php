@@ -20,8 +20,8 @@
             <div class="post-piece" tabindex="1">
                 <div class="post-points">
                     <div class="breaker points-actions">
-                        <span class="vote {{ $post->selected == Vote::UP ? 'selected' : '' }} {{ $post->selected == Vote::DOWN ? 'disable-click' : ''}}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
-                        <span class="vote {{ $post->selected == Vote::DOWN ? 'selected' : '' }} {{ $post->selected == Vote::UP ? 'disable-click' : '' }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
+                        <span data-hint="{{ (!Auth::check() || Auth::user()->anonymous) ? 'need to register to vote' : 'costs one point to vote' }}" class="vote hint--right hint--bounce hint--warning {{ $post->selected == Vote::UP ? 'selected' : '' }} {{ $post->selected == Vote::DOWN ? 'disable-click' : ''}}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
+                        <span data-hint="{{ (!Auth::check() || Auth::user()->anonymous) ? 'need to register to vote' : 'costs one point to vote' }}" class="vote hint--right hint--bounce hint--warning {{ $post->selected == Vote::DOWN ? 'selected' : '' }} {{ $post->selected == Vote::UP ? 'disable-click' : '' }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
                         <a href="{{ URL::to("/vote/post/".$post->id) }}">
                             <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                         </a>
