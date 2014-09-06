@@ -19,7 +19,6 @@
             <h2>Login to spreadit</h2>
             <br>
             <form id="login-form" action="{{ url('login') }}" method="post" class="flat-form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <p class="username">
                     <input name="username" type="username" value="{{ Input::old('username') }}" data-validation="nonempty username" id="username" placeholder="username" />
                     {{ $errors->first('username') }}
@@ -38,7 +37,6 @@
             <h2>Enable site interaction</h2>
             <br>
             <form id="register-form" action="{{ url('register') }}" method="post" class="flat-form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <p class="username">
                     <input name="username" type="username" value="{{ Input::old('username') }}" data-validation="nonempty username" id="username" placeholder="username" />
                     {{ $errors->first('username') }}

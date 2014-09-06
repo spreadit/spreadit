@@ -15,11 +15,11 @@ Route::get('/about', 'PageController@about');
 Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login', 'PageController@login');
-Route::post('/login', ['before' => 'csrf', 'uses' => 'UserController@login']);
+Route::post('/login', 'UserController@login');
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 
-Route::post('/register', ['before' => 'csrf', 'uses' => 'UserController@register']);
+Route::post('/register', 'UserController@register');
 
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserController@notificationsJson']);
@@ -52,7 +52,7 @@ Route::group(['prefix' => '/s'], function()
         Route::post('/posts/{post_id}/{post_title?}', 'CommentController@post');
 
 	    Route::get('/add', 'SectionController@add');
-	    Route::post('/add', ['before' => 'csrf', 'uses' => 'PostController@post']);
+	    Route::post('/add', 'PostController@post');
     });
 });
 
