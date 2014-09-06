@@ -188,41 +188,6 @@
           ]
         }
       ]
-    },
-    {
-      "path": "/login/.json",
-      "operations": [
-        {
-          "method": "POST",
-          "summary": "login to spreadit",
-          "notes": "",
-          "type": "",
-          "nickname": "login",
-          "authorizations": {},
-          "parameters": [
-            {
-              "name": "username",
-              "description": "username to login with",
-              "required": true,
-              "type": "string",
-              "paramType": "form"
-            },
-            {
-              "name": "password",
-              "description": "password to login with",
-              "required": true,
-              "type": "string",
-              "paramType": "form"
-            }
-          ],
-          "responseMessages": [
-            {
-              "code": 200,
-              "message": "Successfully executed login action (not necessarily logged in)"
-            }
-          ]
-        }
-      ]
     }
   ]
 }

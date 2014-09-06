@@ -57,45 +57,6 @@ class UserController extends BaseController
         return Redirect::to('/');
     }
 
-    protected function loginJson()
-    {
-        $data     = Input::only('username', 'password');
-        $validate = $this->validateLogin($data);
-
-        $success = true;
-        $errors  = [];
-        $user    = null;
-
-
-        if($success) {
-            if($validate->fails()) {
-                $success = false;
-         
-                foreach($validate->messages()->all() as $v) {
-                    $errors[] = $v;
-                }
-            }
-        }
-        
-        if($success) {    
-            if(!Auth::attempt($data, true)) {
-                $success = false;
-         
-                $errors = ['wrong username or password'];
-            }   
-        }
-
-        if($success) {
-            $user = Auth::user();
-        }
-
-        return Response::json([
-            'success' => $success,
-            'errors'  => $errors,
-            'user'    => $user
-        ]);
-    }
-
     protected function notifications()
     {
 		$view = View::make('notifications', [
