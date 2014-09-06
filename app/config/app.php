@@ -124,7 +124,8 @@ return array(
 		'Greggilbert\Recaptcha\RecaptchaServiceProvider',
 		'Mews\Captcha\CaptchaServiceProvider',
         'Roumen\Feed\FeedServiceProvider',
-        'Intervention\Image\ImageServiceProvider'
+        'Intervention\Image\ImageServiceProvider',
+        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider'
 	),
 
 	/*
