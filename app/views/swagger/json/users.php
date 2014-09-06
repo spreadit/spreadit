@@ -158,6 +158,13 @@
           "nickname": "getUserNotifications",
           "authorizations": {},
           "parameters": [
+            {
+              "name": "X-Auth-Token",
+              "description": "public authentication token",
+              "required": true,
+              "type": "string",
+              "paramType": "header"
+            }
           ],
           "responseMessages": [
             {

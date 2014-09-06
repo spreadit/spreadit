@@ -167,19 +167,8 @@ class Post extends BaseModel
         return (self::getPostsInTimeoutRange() <= self::MAX_POSTS_PER_DAY);
     }
 
-    public static function make($section_title, $content, $title, $url)
+    public static function generateRules($data)
     {
-        if(!self::canPost()) {
-            return Redirect::back()->withErrors(['message' => 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day'])->withInput();
-        }
-
-        $data = [
-            'data' => $content,
-            'title' => $title,
-            'url' => $url,
-            'user_id' => Auth::id(),
-        ];
-
         $rules = array(
             'user_id' => 'required|numeric',
             'type' => 'required|numeric|between:0,2',
@@ -191,16 +180,27 @@ class Post extends BaseModel
         
         if(empty($data['data']) && empty($data['url'])) {
             $rules['data'] = $rule_data;
-            $data['type'] = 1;
         } else if(!empty($data['data']) && !empty($data['url'])) {
             $rules['data'] = $rule_data;
             $rules['url'] = $rule_url;
-            $data['type'] = 0;
         } else if(!empty($data['data'])) {
             $rules['data'] = $rule_data;
-            $data['type'] = 1;
         } else if(!empty($data['url'])) {
             $rules['url'] = $rule_url;
+        }
+
+        return $rules;
+    }
+
+    public static function prepareData($data)
+    {
+        if(empty($data['data']) && empty($data['url'])) {
+            $data['type'] = 1;
+        } else if(!empty($data['data']) && !empty($data['url'])) {
+            $data['type'] = 0;
+        } else if(!empty($data['data'])) {
+            $data['type'] = 1;
+        } else if(!empty($data['url'])) {
             $data['type'] = 0;
         }
 
@@ -209,58 +209,111 @@ class Post extends BaseModel
         $data['markdown'] = $data['data'];
         $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
         
-        $validate = Validator::make($data, $rules);
-        if($validate->fails()) {
-            return Redirect::back()->withErrors($validate->messages())->withInput();
-        }
+        return $data;
+    }
 
-        if(isset($rules['url'])) {
-            if(!Utility::urlExists($data['url'])) {
-                return Redirect::back()
-                    ->withErrors(['message' => 'website doesn\'t exist'])
-                    ->withInput();
-
-            }
-
-            $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
-        }
-
-        //check if .gif & gfycat it
-        if(Utility::endsWith($data['url'], ".gif")) {
+    public static function gfycatUrl($url)
+    {
+        if(Utility::endsWith($url, ".gif")) {
             $successful_conv = true;
 
             try {
-                $tmp_url = Utility::gfycat($data['url']);
+                $gfy_url = Utility::gfycat($url);
             } catch(Exception $e) {
                 $successful_conv = false;
             }
 
             if($successful_conv) {
-                $data['url'] = $tmp_url;
+                return $gfy_url;
             }
         }
 
-        if(!Section::exists($section_title)) {
-            $ssect = new Section(['title' => $section_title]);
+        return $url;
+    }
 
-            if(! $ssect->save()) {
-                $section_title = str_replace(' ', '_', $section_title);
-                return Redirect::back()
-                    ->withErrors($ssect->errors())
-                    ->withInput();
+    public static function make($section_title, $content, $title, $url)
+    {
+        $success = true;
+        $errors = [];
+
+        if($success) {
+            if(!self::canPost()) {
+                $success = false;
+                $errors = ['can only post ' . self::MAX_POSTS_PER_DAY . ' per day'];
             }
         }
-        $section = Section::getByTitle($section_title);
-        $data['section_id'] = $section->id;
 
-        $item = new Post($data);
-        $item->save();
+        if($success) {
+            $data = self::prepareData([
+                'data'    => $content,
+                'title'   => $title,
+                'url'     => $url,
+                'user_id' => Auth::id()
+            ]);
 
-        //add a point for adding posts
-        if(Auth::user()->anonymous == 0) {
-            Auth::user()->increment('points');
+            $rules = self::generateRules($data);
+            $validate = Validator::make($data, self::generateRules($data));
+
+            if($validate->fails()) {
+                $success = false;
+
+                foreach($validate->messages()->all() as $v) {
+                    $errors[] = $v;
+                }
+            }
         }
 
-        return Redirect::to("/s/$section_title/posts/$item->id/" . Utility::prettyUrl($data['title']));
+        if($success) {
+            if(isset($rules['url'])) {
+                if(!Utility::urlExists($data['url'])) {
+                    $success = false;
+
+                    $errors[] = ['message' => 'website doesn\'t exist'];
+                }
+
+                $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
+            }
+        }
+
+        if($success) {
+            //check if .gif & gfycat it
+            $data['url'] = self::gfycatUrl($data['url']);
+
+            if(!Section::exists($section_title)) {
+                $ssect = new Section(['title' => $section_title]);
+
+                if(! $ssect->save()) {
+                    $success = false;
+                    $section_title = str_replace(' ', '_', $section_title);
+
+                    $errors = ['unable to create new spreadit']; 
+                }
+            }
+        }
+
+        $block = new SuccessBlock();
+        if($success) {
+            $section = Section::getByTitle($section_title);
+            $data['section_id'] = $section->id;
+
+            $item = new Post($data);
+            $item->save();
+
+            //add a point for adding posts
+            if(Auth::user()->anonymous == 0) {
+                Auth::user()->increment('points');
+            }
+
+            $block->data->item_id = $item->id;
+        } else {
+            $block->data->item_id = null;
+        }
+
+        $block->success = $success;
+        $block->errors = $errors;
+        $block->data->section_title = $section_title;
+        $block->data->item_title = $data['title'];
+
+        return $block;
     }
 }

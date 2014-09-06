@@ -124,7 +124,8 @@ return array(
 		'Mews\Captcha\CaptchaServiceProvider',
         'Roumen\Feed\FeedServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider'
+        'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
+        'Tappleby\AuthToken\AuthTokenServiceProvider',
 	),
 
 	/*
@@ -156,6 +157,8 @@ return array(
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
 		'Auth'            => 'Illuminate\Support\Facades\Auth',
+        'AuthToken' => 'Tappleby\Support\Facades\AuthToken',
+        'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
 		'Blade'           => 'Illuminate\Support\Facades\Blade',
 		'Cache'           => 'Illuminate\Support\Facades\Cache',
 		'Captcha'         => 'Mews\Captcha\Facades\Captcha',

@@ -16,17 +16,16 @@ Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login', 'PageController@login');
 Route::post('/login', 'UserController@login');
-Route::post('/login/.json', 'UserController@loginJson');
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 
 Route::post('/register', 'UserController@register');
 
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
-Route::get('/notifications/.json', ['before' => 'auth', 'uses' => 'UserController@notificationsJson']);
+Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
 
 Route::get('/preferences', ['before' => 'auth', 'uses' => 'UserController@preferences']);
-Route::get('/preferences/.json', ['before' => 'auth', 'uses' => 'UserController@preferencesJson']);
+Route::get('/preferences/.json', ['before' => 'auth.token', 'uses' => 'UserController@preferencesJson']);
 
 Route::group(['prefix' => '/s'], function()
 {
@@ -54,6 +53,7 @@ Route::group(['prefix' => '/s'], function()
 
 	    Route::get('/add', 'SectionController@add');
 	    Route::post('/add', 'PostController@post');
+        Route::post('/add/.json', ['before' => 'auth.token', 'uses' => 'PostController@postJson']);
     });
 });
 
@@ -127,6 +127,13 @@ Route::group(['prefix' => '/api'], function()
 	Route::get('/license', 'SwaggerController@license');
 	Route::get('/routes', 'SwaggerController@routes');
 	Route::get('/routes/{type}', 'SwaggerController@getRoute');
+
+    Route::group(['prefix' => '/auth'], function()
+    {
+        Route::get('/.json',   'Tappleby\AuthToken\AuthTokenController@index');
+        Route::post('/.json',  'Tappleby\AuthToken\AuthTokenController@store');
+        Route::delete('.json', 'Tappleby\AuthToken\AuthTokenController@destroy');
+    });
 });
 
 Route::group(['prefix' => '/help'], function()
@@ -150,4 +157,9 @@ App::missing(function(Exception $exception)
 		'message' => $exception->getMessage(),
 		'sections' => Section::get()
 	]);
+});
+
+
+App::error(function(AuthTokenNotAuthorizedException $exception) {
+    return Response::json(array('error' => $exception->getMessage()), $exception->getCode());
 });

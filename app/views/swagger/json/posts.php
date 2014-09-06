@@ -169,6 +169,66 @@
       ]
     },
     {
+      "path": "/s/{section_title}/add/.json",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "create a post",
+          "notes": "",
+          "type": "",
+          "nickname": "createPost",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "X-Auth-Token",
+              "description": "public authentication token",
+              "required": true,
+              "type": "string",
+              "paramType": "header"
+            },
+            {
+              "name": "title",
+              "description": "title of post",
+              "required": true,
+              "type": "string",
+              "paramType": "form"
+            },
+            {
+              "name": "section",
+              "description": "spreadit to post into",
+              "required": true,
+              "type": "string",
+              "paramType": "form"
+            },
+            {
+              "name": "url",
+              "description": "url/link for post",
+              "required": false,
+              "type": "string",
+              "paramType": "form"
+            },
+            {
+              "name": "data",
+              "description": "content of post",
+              "required": false,
+              "type": "string",
+              "paramType": "form"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved spreadits"
+            },
+            {
+              "code": 401,
+              "message": "Not authorized"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/vote/post/{post_id}/.json",
       "operations": [
         {

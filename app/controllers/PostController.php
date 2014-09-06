@@ -52,9 +52,46 @@ class PostController extends BaseController
     protected function post($section_title)
     {
         $anon = Anon::make(Input::get('captcha'));
-        if($anon == "success") {
-            return Post::make(Input::get('section'), Input::get('data'), Input::get('title'), Input::get('url'));
-        } else return $anon;
+
+        if(strcmp($anon, "success") != 0) {
+            return $anon;
+        }
+                    
+        $post = Post::make(
+            Input::get('section', ''),
+            Input::get('data',    ''),
+            Input::get('title',   ''),
+            Input::get('url',     '')
+        );
+
+        if($post->success) {
+            $location = sprintf("/s/%s/posts/%s/%s", $post->data->section_title, $post->data->item_id, $post->data->item_title);
+        
+            return Redirect::to($location);
+        } else {
+            $message = "";
+            foreach($post->errors as $v) {
+                $message .= $v . ' ';
+            }
+
+            return Redirect::back()->withErrors(['message' => $message])->withInput();
+        }
+    }
+
+    protected function postJson($section_title)
+    {
+        $post = Post::make(
+            Input::get('section', ''),
+            Input::get('data',    ''),
+            Input::get('title',   ''),
+            Input::get('url',     '')
+        );
+
+        return Response::json([
+            'success' => $post->success,
+            'errors'  => $post->errors,
+            'item_id' => $post->data->item_id
+        ]);
     }
 
     protected function update($post_id)

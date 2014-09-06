@@ -5,7 +5,8 @@
      {"path":"/sections", "description":"operations for sections"},
      {"path":"/posts", "description":"operations for posts"},
      {"path":"/comments", "description":"operations for comments"},
-     {"path":"/users", "description":"operations for users"}
+     {"path":"/users", "description":"operations for users"},
+     {"path":"/auth", "description":"authentication operations"}
   ],
   "info": {
     "title": "spreadit api",
