@@ -29,16 +29,23 @@ class UserController extends BaseController
         }
     }
 
-    protected function login()
+    protected function validateLogin(array $data)
     {
-        $data = Input::only('username', 'password');
         $data['username'] = e($data['username']);
         
         $rules = array(
             'username' => 'required|max:24',
             'password' => 'required|max:128',
         );
-        $validate = Validator::make($data, $rules);
+
+        return Validator::make($data, $rules);
+    }
+
+    protected function login()
+    {
+        $data = Input::only('username', 'password');
+        $validate = $this->validateLogin($data);
+
         if($validate->fails()) {
             return Redirect::to('/login')->withErrors($validate->messages())->withInput();
         }
@@ -48,6 +55,45 @@ class UserController extends BaseController
         }
 
         return Redirect::to('/');
+    }
+
+    protected function loginJson()
+    {
+        $data     = Input::only('username', 'password');
+        $validate = $this->validateLogin($data);
+
+        $success = true;
+        $errors  = [];
+        $user    = null;
+
+
+        if($success) {
+            if($validate->fails()) {
+                $success = false;
+         
+                foreach($validate->messages()->all() as $v) {
+                    $errors[] = $v;
+                }
+            }
+        }
+        
+        if($success) {    
+            if(!Auth::attempt($data, true)) {
+                $success = false;
+         
+                $errors = ['wrong username or password'];
+            }   
+        }
+
+        if($success) {
+            $user = Auth::user();
+        }
+
+        return Response::json([
+            'success' => $success,
+            'errors'  => $errors,
+            'user'    => $user
+        ]);
     }
 
     protected function notifications()

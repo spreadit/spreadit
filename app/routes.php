@@ -16,6 +16,7 @@ Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login', 'PageController@login');
 Route::post('/login', 'UserController@login');
+Route::post('/login/.json', 'UserController@loginJson');
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 
