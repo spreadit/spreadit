@@ -14,7 +14,7 @@
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-42844259-2', 'auto');
-ga('set', '&uid', {{ (Auth::check() ? Auth::id() : 0) }});
+ga('set', '&uid', {{ (Auth::check() ? Auth::user()->id : 0) }});
 ga('require', 'linkid', 'linkid.js');
 ga('require', 'displayfeatures');
 ga('send', 'pageview');

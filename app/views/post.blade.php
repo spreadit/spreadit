@@ -75,7 +75,7 @@
                         </div>
 
 
-                        @if ($post->user_id == Auth::id())
+                        @if ($post->user_id == Auth::user()->id)
                             <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>
                             <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
                             <div class="editbox">

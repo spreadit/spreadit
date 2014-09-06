@@ -165,6 +165,10 @@ App::missing(function(Exception $exception)
 	]);
 });
 
+Event::listen('auth.token.valid', function($user)
+{
+  Auth::setUser($user);
+});
 
 App::error(function(AuthTokenNotAuthorizedException $exception) {
     return Response::json(array('error' => $exception->getMessage()), $exception->getCode());

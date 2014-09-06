@@ -95,11 +95,11 @@ class Post extends BaseModel
         $post = Post::findOrFail($post_id);
 
 
-        if($post->user_id != Auth::id()) {
+        if($post->user_id != Auth::user()->id) {
             return Redirect::to($prev_path)->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = Auth::user()->id;
         $data['data'] = $content;
         $data['markdown'] = $data['data'];
         $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
@@ -117,7 +117,7 @@ class Post extends BaseModel
         $history = new History;
         $history->data     = $post->data;
         $history->markdown = $post->markdown;
-        $history->user_id  = Auth::id();
+        $history->user_id  = Auth::user()->id;
         $history->type     = HistoryController::POST_TYPE;
         $history->type_id  = $post->id;
         $history->save();
@@ -143,7 +143,7 @@ class Post extends BaseModel
         $post = Post::findOrFail($post_id);
 
 
-        if($post->user_id != Auth::id()) {
+        if($post->user_id != Auth::user()->id) {
             return Redirect::to($prev_path)->withErrors(['message' => 'This post does not have the same user id as you']);
         }
 
@@ -157,7 +157,7 @@ class Post extends BaseModel
     {
         return DB::table('posts')
             ->select('id')
-            ->where('posts.user_id', '=', Auth::id())
+            ->where('posts.user_id', '=', Auth::user()->id)
             ->where('posts.created_at', '>', time() - self::MAX_POSTS_TIMEOUT_SECONDS)
             ->count();
     }
@@ -248,7 +248,7 @@ class Post extends BaseModel
                 'data'    => $content,
                 'title'   => $title,
                 'url'     => $url,
-                'user_id' => Auth::id()
+                'user_id' => Auth::user()->id
             ]);
 
             $rules = self::generateRules($data);

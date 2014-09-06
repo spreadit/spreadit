@@ -51,7 +51,7 @@
                 </div>
                 
 
-                @if ($comment->users_user_id == Auth::id())
+                @if ($comment->users_user_id == Auth::user()->id)
                     <label class="comment-action edit" for="collapse-edit{{ $comment->id }}">edit </label>
                     <input class="collapse" id="collapse-edit{{ $comment->id }}" type="checkbox">
                     <div class="editbox">

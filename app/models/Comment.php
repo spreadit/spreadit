@@ -65,7 +65,7 @@ class Comment extends BaseModel
     {
         return DB::table('comments')
             ->select('id')
-            ->where('comments.user_id', '=', Auth::id())
+            ->where('comments.user_id', '=', Auth::user()->id)
             ->where('comments.created_at', '>', time() - self::MAX_COMMENTS_TIMEOUT_SECONDS)
             ->count();
     }
@@ -88,7 +88,7 @@ class Comment extends BaseModel
         $data = [
             'data' => $content,
             'parent_id' => $parent_id,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->id,
             'post_id' => $post_id
         ];
         $data['markdown'] = $content;
@@ -123,7 +123,7 @@ class Comment extends BaseModel
         $post->increment('comment_count');
 
         $notification->item_id = $comment->id;
-        if($notification->user_id != Auth::id()) {
+        if($notification->user_id != Auth::user()->id) {
             $notification->save();
         }
                 
@@ -139,11 +139,11 @@ class Comment extends BaseModel
 
         $comment = Comment::findOrFail($comment_id);
 
-        if($comment->user_id != Auth::id()) {
+        if($comment->user_id != Auth::user()->id) {
             return Redirect::to('/comments/'.$comment_id)->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 
-        $data['user_id'] = Auth::id();
+        $data['user_id'] = Auth::user()->id;
         $data['data'] = $content;
         $data['markdown'] = $content;
         $data['data'] = MarkdownExtra::defaultTransform(e($content));
@@ -161,7 +161,7 @@ class Comment extends BaseModel
         $history = new History;
         $history->data     = $comment->data;
         $history->markdown = $comment->markdown;
-        $history->user_id  = Auth::id();
+        $history->user_id  = Auth::user()->id;
         $history->type     = HistoryController::COMMENT_TYPE;
         $history->type_id  = $comment->id;
         $history->save();
@@ -184,7 +184,7 @@ class Comment extends BaseModel
             return Redirect::to("/posts/$post_id")->withErrors(['message' => 'You need at least one point to delete a comment']);
         }
 
-        if($comment->user_id != Auth::id()) {
+        if($comment->user_id != Auth::user()->id) {
             return Redirect::to("/posts/$post_id")->withErrors(['message' => 'This comment does not have the same user id as you']);
         }
 

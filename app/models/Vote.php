@@ -47,7 +47,7 @@ class Vote extends BaseModel
 
         $votes = DB::table('votes')
             ->select('item_id', 'updown')
-            ->where('user_id', '=', Auth::id())
+            ->where('user_id', '=', Auth::user()->id)
             ->where('type', '=', $type)
             ->whereIn('item_id', $items_to_check)
             ->get();
@@ -66,7 +66,7 @@ class Vote extends BaseModel
             ->select('updown')
             ->where('type',    '=', $type)
             ->where('item_id', '=', $type_id)
-            ->where('user_id', '=', Auth::id())
+            ->where('user_id', '=', Auth::user()->id)
             ->orderBy('id', 'asc')
             ->get();
     }
@@ -108,7 +108,7 @@ class Vote extends BaseModel
 
         //double decrement for self upvote
         if($type == self::POST_TYPE || $type == self::COMMENT_TYPE) {
-            if($item->user_id == Auth::id() && $updown == self::UP) {
+            if($item->user_id == Auth::user()->id && $updown == self::UP) {
                 $user->decrement('points');
             }
         }
@@ -135,7 +135,7 @@ class Vote extends BaseModel
         //deal with votes table
         $vote = new Vote(array(
             'type'    => $type,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->id,
             'item_id' => $type_id,
             'updown'  => $updown
         ));
@@ -172,7 +172,7 @@ class Vote extends BaseModel
             return self::alreadyExists($check);
         }
 
-        $user = User::findOrFail(Auth::id());
+        $user = User::findOrFail(Auth::user()->id);
         
         if($user->points < 1) {
             return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];

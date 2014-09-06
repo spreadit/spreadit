@@ -24,21 +24,21 @@ class Notification extends BaseModel
             ->select('notifications.type', 'notifications.item_id', 'notifications.read', 'notifications.created_at', 'comments.data', 'users.username', 'users.points', 'users.votes')
             ->leftJoin('comments', 'notifications.item_id', '=', 'comments.id')
             ->leftJoin('users', 'comments.user_id', '=', 'users.id')
-            ->where('notifications.user_id', '=', Auth::id())
+            ->where('notifications.user_id', '=', Auth::user()->id)
             ->orderBy('notifications.id', 'desc')
             ->simplePaginate(self::PAGE_NOTIFICATION_COUNT);
     }
 
     public static function getUnreadCount()
     {
-        return Notification::where('user_id', '=', Auth::id())
+        return Notification::where('user_id', '=', Auth::user()->id)
             ->where('read', '=', self::UNREAD)
             ->count();
     }
 
     public static function markAllAsRead()
     {
-        Notification::where('user_id', '=', Auth::id())
+        Notification::where('user_id', '=', Auth::user()->id)
             ->where('read', '=', self::UNREAD)
             ->update(['read' => self::READ]);
     }
