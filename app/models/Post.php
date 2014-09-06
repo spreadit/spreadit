@@ -312,7 +312,7 @@ class Post extends BaseModel
         $block->success = $success;
         $block->errors = $errors;
         $block->data->section_title = $section_title;
-        $block->data->item_title = $data['title'];
+        $block->data->item_title = Utility::prettyUrl($data['title']);
 
         return $block;
     }
