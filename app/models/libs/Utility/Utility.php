@@ -85,7 +85,7 @@ class Utility
     public static function urlExists($url)
     {
         try {
-            file_get_contents($url);
+            file_get_contents($url, false, null, 0, 1);
         } catch(Exception $e) {
             return false;
         }
