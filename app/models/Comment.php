@@ -63,9 +63,11 @@ class Comment extends BaseModel
 
     public static function getCommentsInTimeoutRange()
     {
+        $user_id = (isset(Auth::user()->id)) ? Auth::user()->id : -1;
+
         return DB::table('comments')
             ->select('id')
-            ->where('comments.user_id', '=', Auth::user()->id)
+            ->where('comments.user_id', '=', $user_id)
             ->where('comments.created_at', '>', time() - self::MAX_COMMENTS_TIMEOUT_SECONDS)
             ->count();
     }

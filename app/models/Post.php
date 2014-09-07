@@ -155,9 +155,11 @@ class Post extends BaseModel
 
     public static function getPostsInTimeoutRange()
     {
+        $user_id = (isset(Auth::user()->id)) ? Auth::user()->id : -1;
+
         return DB::table('posts')
             ->select('id')
-            ->where('posts.user_id', '=', Auth::user()->id)
+            ->where('posts.user_id', '=', $user_id)
             ->where('posts.created_at', '>', time() - self::MAX_POSTS_TIMEOUT_SECONDS)
             ->count();
     }
