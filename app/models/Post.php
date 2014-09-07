@@ -241,7 +241,7 @@ class Post extends BaseModel
         if($success) {
             if(!self::canPost()) {
                 $success = false;
-                $errors = ['can only post ' . self::MAX_POSTS_PER_DAY . ' per day'];
+                $errors[] = 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day';
             }
         }
 
@@ -270,7 +270,7 @@ class Post extends BaseModel
                 if(!Utility::urlExists($data['url'])) {
                     $success = false;
 
-                    $errors[] = ['message' => 'website doesn\'t exist'];
+                    $errors[] = 'website doesn\'t exist';
                 }
 
                 $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
@@ -288,7 +288,7 @@ class Post extends BaseModel
                     $success = false;
                     $section_title = str_replace(' ', '_', $section_title);
 
-                    $errors = ['unable to create new spreadit']; 
+                    $errors[] = 'unable to create new spreadit'; 
                 }
             }
         }
@@ -300,6 +300,7 @@ class Post extends BaseModel
 
             $item = new Post($data);
             $item->save();
+
 
             //add a point for adding posts
             if(Auth::user()->anonymous == 0) {

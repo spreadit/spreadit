@@ -70,6 +70,7 @@ class PostController extends BaseController
             return Redirect::to($location);
         } else {
             $message = "";
+
             foreach($post->errors as $v) {
                 $message .= $v . ' ';
             }
