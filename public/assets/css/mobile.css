@@ -44,12 +44,16 @@
 
     .post-piece .post-data {
         width:100%;
+        left:0;
     }
 
     .post-piece .post-thumbnail {
         margin:0 auto;
         float:none;
         display:block;
+        left:0;
+        top:0;
+        position:static;
     }
 
     .post-piece .post-thumbnail img {

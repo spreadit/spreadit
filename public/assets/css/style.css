@@ -199,9 +199,9 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 .post-data {
-    float:left;
+    float:right;
     display:inline-block;
-    width:calc(100% - 16em - 128px);
+    width:calc(100% - 16em - 138px);
     word-wrap:normal;
     word-break:normal;
 }
@@ -224,7 +224,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 }
 
 .post-thumbnail {
-    float:right;
+    float:left;
     display:inline-block;
     width:128px;
     height:72px;
@@ -237,6 +237,18 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 
 .post {
 	margin-bottom:0.25em;
+}
+
+.post .post-thumbnail {
+    position:relative;
+    left:-16em;
+    top:7em;
+}
+
+.post .post-data {
+    width:calc(100% - 16em - 128px);
+    position:relative;
+    left:-120px;
 }
 
 .comment-piece {

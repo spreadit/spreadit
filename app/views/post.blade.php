@@ -33,6 +33,17 @@
                         <a class="username {{ UtilityController::anonymousClasses($post) }}" rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a>(<span class="upoints">{{ $post->points }}</span>,<span class="uvotes">{{ $post->votes }}</span>)
                     </div>
                 </div>
+                <div class="post-thumbnail">
+                    @if (!empty($post->thumbnail))
+                        @if (!empty($post->url))
+                            <a rel="nofollow" href="{{ URL::to($post->url) }}">
+                                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                            </a>
+                        @else
+                            <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                        @endif
+                    @endif
+                </div>
                 <div class="post-data">
                     <div class="breaker data-title">
                         <h1><a rel="nofollow" href="{{ !empty($post->url) ? URL::to($post->url) : URL::to(Request::url()) }}">{{ $post->title }}</a></h1>
@@ -103,17 +114,6 @@
                             </div>
                         @endif
                     </menu>
-                </div>
-                <div class="post-thumbnail">
-                    @if (!empty($post->thumbnail))
-                        @if (!empty($post->url))
-                            <a rel="nofollow" href="{{ URL::to($post->url) }}">
-                                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
-                            </a>
-                        @else
-                            <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
-                        @endif
-                    @endif
                 </div>
             </div>
             {{ $comments }}
