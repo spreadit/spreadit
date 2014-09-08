@@ -192,6 +192,10 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     background-color:#383838;
 }
 
+.post .post-piece {
+    min-height:calc(8em + 72px);
+}
+
 .post-points {
     float:left;
     width:16em;
@@ -204,6 +208,10 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     width:calc(100% - 16em - 138px);
     word-wrap:normal;
     word-break:normal;
+}
+
+.post .post-data .data-data {
+    min-height:90px;
 }
 
 .post-data ul li,
