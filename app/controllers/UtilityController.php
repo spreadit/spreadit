@@ -27,36 +27,44 @@ class UtilityController extends BaseController
         return View::make('preview', ['data' => MarkdownExtra::defaultTransform(e(Input::get('data')))]);
     }
 
+    public static function showBubble()
+    {
+        return (!Auth::check()
+            || Auth::user()->anonymous
+            || (Auth::check() && Auth::user()->votes < 6));
+    }
+
     public static function bubbleText()
     {
-        return (!Auth::check() || Auth::user()->anonymous) 
-            ? 'need to register to vote'
-            : 'costs one point to vote';
+        if(self::showBubble()) {
+            return (!Auth::check() || Auth::user()->anonymous) 
+                ? 'data-hint="need to register to vote"'
+                : 'data-hint="costs one point to vote"';
+        } else {
+            return "";
+        }
     }
 
     public static function bubbleClasses()
     {
-        return (!Auth::check()
-            || Auth::user()->anonymous
-            || (Auth::check() && Auth::user()->votes < 6)
-        ) ? "hint--right hint--bounce hint--warning" : '';
+        return self::showBubble() ? "hint--right hint--bounce hint--warning" : '';
     }
 
     public static function upvoteClasses($item)
     {
-        return  ($item->selected == Vote::UP   ? ' selected' : '')
+        return  ($item->selected == Vote::UP   ? 'selected' : '')
               . ($item->selected == Vote::DOWN ? ' disable-click' : '');
     }
 
     public static function downvoteClasses($item)
     {
-        return ($item->selected == Vote::DOWN ? ' selected' : '') 
+        return ($item->selected == Vote::DOWN ? 'selected' : '') 
              . ($item->selected == Vote::UP   ? ' disable-click' : '');
     }
 
     public static function anonymousClasses($item)
     {
-        return $item->anonymous ? ' user-anonymous' : '';
+        return $item->anonymous ? 'user-anonymous' : '';
     }
 
     public static function commentsPrettyUrl($item)

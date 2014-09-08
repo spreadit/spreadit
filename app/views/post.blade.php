@@ -20,8 +20,8 @@
             <div class="post-piece" tabindex="1">
                 <div class="post-points">
                     <div class="breaker points-actions">
-                        <span data-hint="{{ UtilityController::bubbleText() }}" class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
-                        <span data-hint="{{ UtilityController::bubbleText() }}" class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::downvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
+                        <span {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up">&#x25B2;</span>
+                        <span {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::downvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="down">&#x25BC;</span>
                         <a href="{{ URL::to("/vote/post/".$post->id) }}">
                             <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                         </a>
