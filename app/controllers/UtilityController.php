@@ -26,4 +26,58 @@ class UtilityController extends BaseController
 
         return View::make('preview', ['data' => MarkdownExtra::defaultTransform(e(Input::get('data')))]);
     }
+
+    public static function bubbleText()
+    {
+        return (!Auth::check() || Auth::user()->anonymous) 
+            ? 'need to register to vote'
+            : 'costs one point to vote';
+    }
+
+    public static function bubbleClasses()
+    {
+        return (!Auth::check()
+            || Auth::user()->anonymous
+            || (Auth::check() && Auth::user()->votes < 6)
+        ) ? "hint--right hint--bounce hint--warning" : '';
+    }
+
+    public static function upvoteClasses($item)
+    {
+        return  ($item->selected == Vote::UP   ? ' selected' : '')
+              . ($item->selected == Vote::DOWN ? ' disable-click' : '');
+    }
+
+    public static function downvoteClasses($item)
+    {
+        return ($item->selected == Vote::DOWN ? ' selected' : '') 
+             . ($item->selected == Vote::UP   ? ' disable-click' : '');
+    }
+
+    public static function anonymousClasses($item)
+    {
+        return $item->anonymous ? ' user-anonymous' : '';
+    }
+
+    public static function commentsPrettyUrl($item)
+    {
+        return parse_url($item->type == Post::SELF_POST_TYPE ? URL::to('/') : $item->url, PHP_URL_HOST);
+    }
+    
+    public static function commentsUrl($item)
+    {
+        return URL::to("/s/{$item->section_title}/posts/{$item->id}/" . Utility::prettyUrl($item->title));
+    }
+
+    public static function postUrl($item)
+    {
+        return ($item->type == Post::SELF_POST_TYPE)
+            ? URL::to("/s/{$item->section_title}/posts/{$item->id}/" . Utility::prettyUrl($item->title))
+            : URL::to($item->url);
+    }
+
+    public static function sectionUrl($item)
+    {
+        return URL::to('/s/' . $item->section_title);
+    }
 }
