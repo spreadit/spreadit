@@ -22,7 +22,6 @@
     ],
 	"require": {
 		"laravel/framework": "4.2.*",
-		"spreadit/php-markdown": "dev-master",
 		"loic-sharma/profiler": "1.1.*",
 		"lstrojny/functional-php": "dev-master",
         "mews/captcha": "dev-master",
@@ -39,9 +38,7 @@
 			"app/commands",
 			"app/controllers",
 			"app/models",
-            "app/models/libs/CommentTree",
-            "app/models/libs/Utility",
-            "app/models/libs/SuccessBlock",
+            "app/models/libs",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"
