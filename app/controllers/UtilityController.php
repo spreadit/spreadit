@@ -80,4 +80,13 @@ class UtilityController extends BaseController
     {
         return URL::to('/s/' . $item->section_title);
     }
+
+    public static function colorschemeHtml()
+    {
+        if(strcmp(Cookie::get('colorscheme'), "light") == 0) {
+            return '<link rel="stylesheet" href="/assets/css/colorschemes/light.css">';
+        }
+        
+        return '';
+    }
 }

@@ -154,6 +154,13 @@ Route::group(['prefix' => '/help'], function()
 	Route::get('/help', 'HelpController@help');
 });
 
+Route::group(['prefix' => '/color'], function()
+{
+    Route::get('/', 'ColorSchemeController@index');
+    Route::get('/dark', 'ColorSchemeController@dark');
+    Route::get('/light', 'ColorSchemeController@light');
+});
+
 App::missing(function(Exception $exception)
 {
     if(Request::is('*/.json')) {

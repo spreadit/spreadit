@@ -1,0 +1,153 @@
+@import url(http://fonts.googleapis.com/css?family=Cabin);
+
+html, body {
+    background-color:#fff;
+    color:#222;
+    font-family: 'Cabin';
+}
+
+h1 {
+    font-size:2em;
+    margin-top:0.3em;
+    margin-bottom:0.3em;
+}
+
+h2 {
+    font-size:1.6em;
+}
+
+a:hover {
+    background-color:transparent;
+    text-decoration:underline;
+}
+
+a,
+a:active,
+a:hover,
+a:focus,
+a:visited {
+    color:#222;
+}
+
+.post-piece a,
+.comment-piece a {
+    color:#222;
+}
+
+.post-data .data-data a,
+.comment-data a {
+    color:#228;
+}
+
+a.username {
+    color:#030;
+}
+
+a.user-anonymous {
+    color:#800;
+}
+
+textarea, input {
+    font-family:monospace;
+    color:#333;
+    font-size:1em;
+    border:1px solid #777;
+}
+
+button {
+    font-family:'Cabin';
+    color:#333;
+    border:1px solid #555;
+    border-radius:2px;
+}
+
+.post-piece label,
+.comment-piece label {
+    /* this is for the menu items like reply, source, etc */
+    color:#228;
+}
+
+.post-piece,
+.comment-piece {
+    background-color:#fff;
+}
+
+.post-piece:nth-child(odd),
+.comment-alt {
+    /* these are for the odd numbered posts and comments*/
+    background-color:#DDD;
+}
+
+.post-piece .post-url {
+    color:#444;
+}
+
+.post-piece .summary {
+    color:#555;
+}
+
+
+#header-nav {
+    background:none;
+}
+
+.section-title a {
+    color:#222;
+}
+
+.vote {
+    color:#AAA;
+}
+.vote.selected {
+    color:#444;
+}
+
+
+/* navbar : these are for the new, hot, top, controversial items */
+.navbar-inverse .nav>li>a {
+    background-color:#FFF;
+}
+
+.navbar-inverse .nav .active>a, .navbar-inverse .nav .active>a:focus, .navbar-inverse .nav .active>a:hover {
+    /* hovered version of above */
+    background-color:#000;
+    color:#EEE;
+}
+
+/* dropdown-menu is for the top->day,week and controversial->day,week etc dropdowns */
+.dropdown-menu {
+    background-color:#FFF;
+    border:0;
+    box-shadow:none;
+    webkit-box-shadow:none;
+}
+
+.dropdown-menu>li>a {
+    color:#222;
+}
+
+.dropdown-menu>li>a:hover {
+    color:#999;
+}
+
+body .navbar.navbar-inverse .navbar-inner.dark-navbar,
+body .navbar.navbar-inverse .navbar-inner.dark-navbar li a,
+#sections-navbar .nav {
+    /* spreadit bar and footer bar */
+    background-color:#333;
+}
+
+body .navbar.navbar-inverse .navbar-inner.dark-navbar {
+    /* spreadit bar */
+    box-shadow:5px 1px 5px #777;
+}
+
+body .navbar.navbar-inverse .navbar-inner.dark-navbar li a {
+    /* spreadit bar default links */
+    color:#BABABA;
+}
+
+#sections-navbar .nav .active a {
+    /* when you are on this spreadit the related spreadit bar piece has this applied to it */
+    background-color:#CCC;
+}
