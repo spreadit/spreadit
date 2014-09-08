@@ -339,6 +339,10 @@ input.collapse:checked + *{ display:block; }
     color:#DDD;
 }
 
+a.user-anonymous {
+    color:#FCD;
+}
+
 .post-data a,
 .comment-data a {
     color:#BCD42A;

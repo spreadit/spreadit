@@ -1,7 +1,7 @@
 <div class="comment-piece" tabindex="1">
     <div class="comment-points">
         <div class="breaker comment-user-points">
-            <a class="username" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a>(<span class="upoints">{{ $comment->points }}</span>,<span class="uvotes">{{ $comment->votes }}</span>)
+            <a class="username {{ ($comment->anonymous) ? 'user-anonymous' : '' }}" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a>(<span class="upoints">{{ $comment->points }}</span>,<span class="uvotes">{{ $comment->votes }}</span>)
         </div>
         <div class="breaker comment-votes">
             <span data-hint="{{ (!Auth::check() || Auth::user()->anonymous) ? 'need to register to vote' : 'costs one point to vote' }}" class="vote hint--right hint--bounce hint--warning {{ $comment->selected == Vote::UP ? 'selected' : '' }} {{ $comment->selected == Vote::DOWN ? 'disable-click' : '' }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</span>
