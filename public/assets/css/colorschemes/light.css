@@ -6,10 +6,15 @@ html, body {
     font-family: 'Cabin';
 }
 
-h1 {
-    font-size:2em;
+
+h1, h2, h3, h4, h5, h6 {
+    color: #222;
     margin-top:0.3em;
     margin-bottom:0.3em;
+}
+
+h1 {
+    font-size:2em;
 }
 
 h2 {
