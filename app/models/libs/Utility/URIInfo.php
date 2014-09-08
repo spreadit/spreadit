@@ -26,7 +26,7 @@ class URIInfo
 
     public function getContentType() 
     {
-        return $this->info['content_type'];
+        return explode(';', $this->info['content_type'])[0];
     }
 
     public function getHttpCode()
