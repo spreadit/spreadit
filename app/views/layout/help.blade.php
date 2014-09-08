@@ -25,6 +25,7 @@
                                 <li><a href="/help/formatting">Formatting</a></li>
                                 <li><a href="/help/points">Points</a></li>
                                 <li><a href="/help/moderation">Moderation</a></li>
+                                <li><a href="/help/anonymity">Anonymity</a></li>
                                 <li><a href="/help/help">How to Help</a></li>
                             </ul>
                         </nav>

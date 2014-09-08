@@ -150,6 +150,7 @@ Route::group(['prefix' => '/help'], function()
 	Route::get('/formatting', 'HelpController@formatting');
 	Route::get('/points', 'HelpController@points');
 	Route::get('/moderation', 'HelpController@moderation');
+	Route::get('/anonymity', 'HelpController@anonymity');
 	Route::get('/help', 'HelpController@help');
 });
 

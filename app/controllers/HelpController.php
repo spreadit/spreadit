@@ -31,6 +31,11 @@ class HelpController extends BaseController
         return View::make('help_moderation', ['sections' => Section::get()]);
     }
 
+    protected function anonymity()
+    {
+        return View::make('help_anonymity', ['sections' => Section::get()]);
+    }
+
     protected function help()
     {
         return View::make('help_help', ['sections' => Section::get()]);
