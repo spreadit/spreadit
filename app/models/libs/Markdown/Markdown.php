@@ -705,7 +705,7 @@ class Markdown implements MarkdownInterface {
 		$alt_text = $this->encodeAttribute($alt_text);
 		if (isset($this->urls[$link_id])) {
 			$url = $this->encodeAttribute($this->urls[$link_id]);
-			$result = "<img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
+			$result = "<noscript><img alt=\"$alt_text\" src=\"$url\"></noscript><img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
 			if (isset($this->titles[$link_id])) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
@@ -729,7 +729,7 @@ class Markdown implements MarkdownInterface {
 
 		$alt_text = $this->encodeAttribute($alt_text);
 		$url = $this->encodeAttribute($url);
-		$result = "<img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
+		$result = "<noscript><img alt=\"$alt_text\" src=\"$url\"></noscript><img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
 		if (isset($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\""; # $title already quoted
@@ -2413,7 +2413,7 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 		$alt_text = $this->encodeAttribute($alt_text);
 		if (isset($this->urls[$link_id])) {
 			$url = $this->encodeAttribute($this->urls[$link_id]);
-			$result = "<img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
+			$result = "<noscript><img alt=\"$alt_text\" src=\"$url\"></noscript><img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
 			if (isset($this->titles[$link_id])) {
 				$title = $this->titles[$link_id];
 				$title = $this->encodeAttribute($title);
@@ -2440,7 +2440,7 @@ abstract class _MarkdownExtra_TmpImpl extends \Michelf\Markdown {
 
 		$alt_text = $this->encodeAttribute($alt_text);
 		$url = $this->encodeAttribute($url);
-		$result = "<img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
+		$result = "<noscript><img alt=\"$alt_text\" src=\"$url\"></noscript><img class=\"lazy-loaded\" data-original=\"$url\" alt=\"$alt_text\"";
 		if (isset($title)) {
 			$title = $this->encodeAttribute($title);
 			$result .=  " title=\"$title\""; # $title already quoted
