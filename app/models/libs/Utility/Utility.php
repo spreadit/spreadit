@@ -45,6 +45,11 @@ class Utility
         return $x;
     }
 
+    public static function ellipsis($str)
+    {
+        return (strlen($str) > 0) ? $str.".." : '';
+    }
+
     public static function titleFromUrl($url)
     {
         if(filter_var($url, FILTER_VALIDATE_URL)) {
