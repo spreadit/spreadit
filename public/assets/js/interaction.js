@@ -61,7 +61,7 @@ $(document).ready(function() {
 	hljs.initHighlightingOnLoad();
 
     /* switch colors every comment */
-    $(".comment-piece").each(function(i) { if(i % 2 == 1) $(this).css("background", "#383838"); });
+    $(".comment-piece").each(function(i) { if(i % 2 == 1) $(this).addClass("comment-alt"); });
 
     $("img.lazy-loaded").click(function() {
         if(!$(this).is("[src]") || $(this).attr("src") === "") {

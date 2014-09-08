@@ -266,6 +266,10 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
     overflow:auto;
 }
 
+.comment-alt {
+    background-color:#383838;
+}
+
 .comment-points {
     float:left;
     width:16em;
