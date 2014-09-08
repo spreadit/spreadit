@@ -95,18 +95,13 @@ class Utility
 
     public static function getThumbnailFromUrl($url)
     {
-        try {
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $fcontents = file_get_contents($url);
-            $ftype = $finfo->buffer($fcontents);
-            $ftype_pieces = explode("/", $ftype);
-            $is_text = ((count($ftype_pieces) == 2) && strcmp($ftype_pieces[0], "text") == 0);
+        $uri_info = new URIInfo($url);
+        $ftype = $uri_info->getContentType();
+        $ftype_pieces = explode("/", $ftype);
+        $is_text = ((count($ftype_pieces) == 2) && strcmp($ftype_pieces[0], "text") == 0);
 
-            $image_types = ["image/gif", "image/jpeg", "image/jpg", "image/bmp", "image/png", "image/tiff", "image/svg"];
-            $is_image = in_array(strtolower($ftype), $image_types);
-        } catch (Exception $e) {
-            return "";
-        }
+        $image_types = ["image/gif", "image/jpeg", "image/jpg", "image/bmp", "image/png", "image/tiff", "image/svg"];
+        $is_image = in_array(strtolower($ftype), $image_types);
 
         try {
             $snappy = new ThumbDL('/usr/local/bin/wkhtmltoimage');
