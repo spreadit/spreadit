@@ -36,7 +36,7 @@
                 <div class="post-thumbnail">
                     @if (!empty($post->thumbnail))
                         @if (!empty($post->url))
-                            <a rel="nofollow" href="{{ URL::to($post->url) }}">
+                            <a rel="nofollow" href="{{ UtilityController::postUrl($post) }}">
                                 <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
                             </a>
                         @else
@@ -46,7 +46,7 @@
                 </div>
                 <div class="post-data">
                     <div class="breaker data-title">
-                        <h1><a rel="nofollow" href="{{ !empty($post->url) ? URL::to($post->url) : URL::to(Request::url()) }}">{{ $post->title }}</a></h1>
+                        <h1><a rel="nofollow" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a></h1>
                     </div>
                     <div class="breaker data-data">
                         {{ $post->data }}
