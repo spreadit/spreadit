@@ -2,8 +2,8 @@
     <div class="align-bottom">
         <h2 class="section-title"><a href="{{ URL::to('/s/' . $section->title) }}">{{ $section->title }}</a></h2>
         <div class="section-points">
-            <span data-hint="{{ (!Auth::check() || Auth::user()->anonymous) ? 'need to register to vote' : 'costs one point to vote' }}" class="vote hint--right hint--bounce hint--warning {{ $section->selected == Vote::UP ? 'selected' : '' }} {{ $section->selected == Vote::DOWN ? 'disable-click' : '' }}" data-id="{{ $section->id }}" data-type="section" data-updown="up">&#x25B2;</span>
-            <span data-hint="{{ (!Auth::check() || Auth::user()->anonymous) ? 'need to register to vote' : 'costs one point to vote' }}" class="vote hint--right hint--bounce hint--warning {{ $section->selected == Vote::DOWN ? 'selected' : '' }} {{ $section->selected == Vote::UP ? 'disable-click' : '' }}" data-id="{{ $section->id }}" data-type="section" data-updown="down">&#x25BC;</span>
+            <a href="/vote/section/{{ $section->id }}/up" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::upvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="up">&#x25B2;</a>
+            <a href="/vote/section/{{ $section->id }}/down" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::downvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="down">&#x25BC;</a>
         </div>
 
         <ul class="nav nav-pills">

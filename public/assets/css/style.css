@@ -147,7 +147,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	bottom:0px;
 }
 
-.vote {
+a.vote {
 	color:#0087AF;
 	font-size:1.5em;
 }

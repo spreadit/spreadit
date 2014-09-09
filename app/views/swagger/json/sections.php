@@ -29,7 +29,7 @@
       ]
     },
     {
-      "path": "/vote/section/{section_id}/up/.json",
+      "path": "/api/vote/section/{section_id}/up/.json",
       "operations": [
         {
           "method": "POST",
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "path": "/vote/section/{section_id}/down/.json",
+      "path": "/api/vote/section/{section_id}/down/.json",
       "operations": [
         {
           "method": "POST",

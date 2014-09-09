@@ -100,10 +100,11 @@ button {
     color:#222;
 }
 
-.vote {
+a.vote {
     color:#AAA;
 }
-.vote.selected {
+
+a.vote.selected {
     color:#444;
 }
 

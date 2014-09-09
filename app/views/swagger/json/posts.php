@@ -257,7 +257,7 @@
       ]
     },
     {
-      "path": "/vote/post/{post_id}/up/.json",
+      "path": "/api/vote/post/{post_id}/up/.json",
       "operations": [
         {
           "method": "POST",
@@ -296,7 +296,7 @@
       ]
     },
     {
-      "path": "/vote/post/{post_id}/down/.json",
+      "path": "/api/vote/post/{post_id}/down/.json",
       "operations": [
         {
           "method": "POST",

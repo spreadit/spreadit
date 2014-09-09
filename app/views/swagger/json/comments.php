@@ -36,7 +36,7 @@
       ]
     },
     {
-      "path": "/vote/comment/{comment_id}/up/.json",
+      "path": "/api/vote/comment/{comment_id}/up/.json",
       "operations": [
         {
           "method": "POST",
@@ -75,7 +75,7 @@
       ]
     },
     {
-      "path": "/vote/comment/{comment_id}/down/.json",
+      "path": "/api/vote/comment/{comment_id}/down/.json",
       "operations": [
         {
           "method": "POST",

@@ -1,12 +1,11 @@
-
 <div class="comment-piece" tabindex="1">
     <div class="comment-points">
         <div class="breaker comment-user-points">
             <a class="username {{ UtilityController::anonymousClasses($comment) }}" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a>(<span class="upoints">{{ $comment->points }}</span>,<span class="uvotes">{{ $comment->votes }}</span>)
         </div>
         <div class="breaker comment-votes">
-            <span {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::upvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</span>
-            <span {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::downvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down">&#x25BC;</span>
+            <a href="/vote/comment/{{ $comment->id }}/up" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::upvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up">&#x25B2;</a>
+            <a href="/vote/comment/{{ $comment->id }}/down" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::downvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down">&#x25BC;</a>
             <a href="{{ URL("/vote/comment/{$comment->id}") }}">
                 <span class="upvotes">{{ $comment->upvotes  }}</span>-<span class="downvotes">{{ $comment->downvotes }}</span> <span class="total-points">{{ ($comment->upvotes - $comment->downvotes) }}</span>
             </a>

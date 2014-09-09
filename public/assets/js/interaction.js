@@ -8,12 +8,17 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 $(document).ready(function() {
-	$(".vote").click(function() {
-		var that = $(this);
+	$(".vote").click(function(e) {
+        e.preventDefault();
 
-		$.post('/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown'), function(json) {
+		var that = $(this);
+        var url = '/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown') + '/.json';
+
+		$.post(url, function(json)
+        {
             console.log(json);
-			if(json.success) {
+			
+            if(json.success) {
 				that.addClass('selected');
 				that.parent().find('.vote').addClass('disable-click');
 
