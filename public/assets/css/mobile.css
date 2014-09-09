@@ -1,3 +1,13 @@
+@media (max-width: 867px) {
+    .posts-container {
+        width:99.5%;
+    }
+
+    .sidebar {
+        display:none;
+    }
+}
+
 @media (max-width: 767px) {
     body {
         width:100%;

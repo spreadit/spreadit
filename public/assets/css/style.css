@@ -172,8 +172,8 @@ a.vote {
 
 .posts-container {
     float:left;
-    /* width: calc(100% - 310px); /* nobody here uses ie 8.. tgis */
-    width:99.5%;
+    /* nobody here uses ie 8.. tgis */
+    width:calc(99.5% - 310px);
     word-wrap:break-word;
     word-break:break-all;
 }
@@ -305,7 +305,7 @@ a.vote {
 }
 
 .sidebar h2 {
-        white-space: normal
+    white-space: normal
 }
 
 .notification-read {
