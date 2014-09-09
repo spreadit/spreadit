@@ -38,6 +38,7 @@ $(document).ready(function() {
 		});
 	});
 
+    //move this to libs/Markdown.. smart dealing with code blocks
 	$("pre code").each(function(){
 		var decoded = $(this).text()
 			.replaceAll('&lt;', '<')
