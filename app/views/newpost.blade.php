@@ -1,14 +1,14 @@
 @extends('layout.pages')
 
 @section('title')
-    <title>spreadit.io :: add a post to {{{ $section->title }}}</title>
+    <title>spreadit.io :: add a post to {{ UtilityController::oldSectionHtml($section) }}</title>
 @stop
 @section('description')
     <meta name="description" content="add a new post to spreadit with our intuitive keyboard/mouse interface">
 @stop
 
 @section('content')
-    <h1>Posting to /s/{{{ $section->title }}}</h1>
+    <h1>Posting to /s/{{ UtilityController::oldSectionHtml($section) }}</h1>
     @if ($errors->any())
         <div class="alert alert-warning fade in">
             <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
@@ -38,7 +38,7 @@
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span6">
-                            <input name="section" type="text" value="{{{ $section->title }}}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
+                            <input name="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">

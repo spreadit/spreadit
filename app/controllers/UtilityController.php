@@ -97,4 +97,11 @@ class UtilityController extends BaseController
         
         return '';
     }
+
+    public static function oldSectionHtml($section)
+    {
+        return (!empty(Input::old('section')))
+            ? Input::old('section')
+            : $section->title;
+    }
 }
