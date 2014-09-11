@@ -111,11 +111,15 @@ button {
     color:#222;
 }
 
-a.vote {
+a.vote,
+.post-piece a.vote,
+.comment-piece a.vote {
     color:#AAA;
 }
 
-a.vote.selected {
+a.vote.selected,
+.post-piece a.vote.selected,
+.comment-piece a.vote.selected {
     color:#444;
 }
 

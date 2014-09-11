@@ -156,7 +156,9 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	bottom:0px;
 }
 
-a.vote {
+a.vote,
+.post-piece a.vote,
+.comment-piece a.vote {
 	color:#0087AF;
 	font-size:1.5em;
 }
