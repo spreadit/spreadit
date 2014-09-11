@@ -8,11 +8,12 @@ class ColorSchemeController extends BaseController
 
     protected function dark()
     {
-        return Redirect::back()->withCookie(Cookie::forever('colorscheme', 'dark'));
+        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', 'dark'));
     }
 
     protected function light()
     {
-        return Redirect::back()->withCookie(Cookie::forever('colorscheme', 'light'));
+        
+        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', 'light'));
     }
 }

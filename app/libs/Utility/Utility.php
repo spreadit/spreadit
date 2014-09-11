@@ -196,4 +196,9 @@ class Utility
         
         return (substr($haystack, -$length) === $needle);
     }
+
+    public static function backOrUrl($url = "")
+    {
+        return (!empty(URL::previous()) ? URL::previous() : $url);
+    }
 }
