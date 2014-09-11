@@ -167,7 +167,9 @@ a.vote,
 	cursor:not-allowed;
 }
 
-.vote.selected {
+.vote.selected,
+.post-piece a.vote.selected,
+.comment-piece a.vote.selected {
 	color:#EF7C61;
 }
 .vote.selected:hover {
