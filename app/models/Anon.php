@@ -15,24 +15,41 @@ class Anon extends BaseModel
 
     public static function make($captcha)
     {
+        $success = true;
+        $errors = [];
+
         if(!Auth::check()) {
-            $rules = ['captcha' => 'required|captcha'];
-            $data = ['captcha' => $captcha];
+            if($success) {
+                $rules = ['captcha' => 'required|captcha'];
+                $data = ['captcha' => $captcha];
 
-            $validate = Validator::make($data, $rules);
-            if($validate->fails()) {
-                return Redirect::refresh()->withErrors($validate->messages())->withInput(); 
-            } 
+                $validate = Validator::make($data, $rules);
+                if($validate->fails()) {
+                    $success = false;
 
-            $username = Anon::generate_name();
+                    foreach($validate->messages()->all() as $v) {
+                        $errors[] = $v;
+                    }
+                } 
+            }
 
-            User::create_anon($username);
-            if(!Auth::attempt(['username' => $username, 'password' => ''])) {
-                Log::error("anonymous $username failed login attempt on comment post @ " . time());
-                return "A general error has occurred with logging in, try <a href='/login'>instead</a> sorry!";
+            if($success) {
+                $username = Anon::generate_name();
+
+                User::create_anon($username);
+                if(!Auth::attempt(['username' => $username, 'password' => ''])) {
+                    $success = false;
+
+                    Log::error("anonymous $username failed login attempt on comment post @ " . time());
+                    $errors[] = "A general error has occurred with logging in, try <a href='/login'>instead</a> sorry!";
+                }
             }
         }
 
-        return "success";
+        $block = new SuccessBlock();
+        $block->success = $success;
+        $block->errors = $errors;
+
+        return $block;
     }
 }

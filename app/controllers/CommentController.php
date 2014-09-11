@@ -10,21 +10,63 @@ class CommentController extends BaseController
 		return Redirect::to('/s/'.$data->section_title.'/posts/'.$data->post_id.'#comment_'.$comment_id);
     }
 
-    protected function update($comment_id)
+    protected function preReply()
     {
-        return Comment::amend($comment_id, Input::get('data'));
+        return Response::make('loading...');
     }
 
-    protected function post($section_title, $post_id)
+    protected function curReply()
+    {
+        $comment = new stdClass;
+        $comment->parent_id = Input::get('parent_id');
+        $comment->post_id = Input::get('post_id');
+        $comment->form_action = URL::to('/comments/' . $comment->parent_id . '/create');
+
+        return View::make('commentreplybox', ['comment' => $comment]);
+    }
+
+    protected function postReply()
+    {
+        return Response::make('saved');
+    }
+
+    protected function update($comment_id)
+    {
+        $comment = Comment::amend($comment_id, Input::get('data'));
+
+        if($comment->success) {
+            return Redirect::to('/comments/'.$comment_id);
+        } else {
+            return Redirect::to('/comments/'.$comment_id)->withErrors($comment->errorMessage())->withInput();
+        }
+    }
+
+    protected function make()
     {
         $anon = Anon::make(Input::get('captcha'));
-        if($anon == "success") {
-            return Comment::make($post_id, Input::get('data'), Input::get('parent_id'));
-        } else return $anon;
+
+        if($anon->success) {
+            $comment = Comment::make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
+            
+            if($comment->success) {
+                return Redirect::to('/comments/post');
+            } else {
+                return Redirect::back()->withErrors($errors)->withInput();
+            }
+        } else {
+            return Redirect::back()->withErrors($anon->errorMessage())->withInput(); 
+        }
     }
+
 
     protected function delete($comment_id)
     {
-        return Comment::remove($comment_id);
+        $comment = Comment::remove($comment_id);
+
+        if($comment->success) {
+            return Redirect::to("/posts/$post_id");
+        } else {
+            return Redirect::to("/posts/$post_id")->withErrors($comment->errorMessage())->withInput();
+        }
     }
 }

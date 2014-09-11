@@ -54,10 +54,10 @@ class PostController extends BaseController
     {
         $anon = Anon::make(Input::get('captcha'));
 
-        if(strcmp($anon, "success") != 0) {
-            return $anon;
+        if(!$anon->success) {
+            return Redirect::refresh()->withErrors($anon->errors)->withInput();
         }
-                    
+
         $post = Post::make(
             Input::get('section', ''),
             Input::get('data',    ''),
@@ -98,11 +98,23 @@ class PostController extends BaseController
 
     protected function update($post_id)
     {
-        return Post::amend($post_id, Input::get('data'));
+        $post = Post::amend($post_id, Input::get('data'));
+
+        if($post->success) {
+
+        } else {
+
+        }
     }
 
     protected function delete($post_id)
     {
-        return Post::remove($post_id);
+        $post = Post::remove($post_id);
+
+        if($post->success) {
+            return Redirect::to("/s/$section_title");
+        } else {
+            return Redirect::to($post->data->prev_path)->withErrors($post->errorMessage());
+        }
     }
 }

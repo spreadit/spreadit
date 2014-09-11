@@ -132,25 +132,38 @@ class Post extends BaseModel
 
     public static function remove($post_id)
     {
-        $section_title = Post::getSectionTitleFromId($post_id);
-        $prev_path = "/s/$section_title/posts/$post_id";
+        $success = true;
+        $errors = [];
 
-        if(Auth::user()->points < 1) {
-            return "not enough points";
-            return Redirect::to($prev_path)->withErrors(['message' => 'You need at least one point to delete a post']);
+        if($success) {
+            $section_title = Post::getSectionTitleFromId($post_id);
+            $prev_path = "/s/$section_title/posts/$post_id";
+
+            if(Auth::user()->points < 1) {
+                $success = false;
+                $errors[] = 'You need at least one point to delete a post';
+            }
         }
 
-        $post = Post::findOrFail($post_id);
+        if($success) {
+            $post = Post::findOrFail($post_id);
 
-
-        if($post->user_id != Auth::user()->id) {
-            return Redirect::to($prev_path)->withErrors(['message' => 'This post does not have the same user id as you']);
+            if($post->user_id != Auth::user()->id) {
+                $errors[] = 'This post does not have the same user id as you';
+            }
         }
 
-        $post->deleted_at = time();
-        $post->save();
+        if($success) {
+            $post->deleted_at = time();
+            $post->save();
+        }
 
-        return Redirect::to("/s/$section_title");
+        $block = new SuccessBlock();
+        $block->success = $success;
+        $block->errors = $errors;
+        $block->data->prev_path = $prev_path;
+
+        return $block;
     }
 
     public static function getPostsInTimeoutRange()
