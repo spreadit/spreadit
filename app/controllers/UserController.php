@@ -22,7 +22,7 @@ class UserController extends BaseController
             if(Auth::attempt($info)) {
                 return Redirect::intended('/s/all/hot');
             } else {
-                return "please try again"; //todo make this not suck
+                return Redirect::to('/login')->withErrors(['message' => 'A general error occurred, please try again.'])->withInput();
             }
         } else {
             return Redirect::to('/login')->withErrors($user->errors())->withInput();
