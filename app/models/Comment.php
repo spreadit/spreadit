@@ -43,7 +43,7 @@ class Comment extends BaseModel
         {
             return DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
+                ->select('comments.id', 'comments.post_id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
                 ->where('post_id', '=', $post_id)
                 ->orderBy('id', 'asc')
                 ->get();

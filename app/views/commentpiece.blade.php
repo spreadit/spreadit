@@ -17,28 +17,19 @@
     <div class="comment-data">
         {{ $comment->data }}
         @if (!isset($user_page))
-            <label class="comment-action reply" for="collapse-reply{{ $comment->id }}">reply </label>
+            <form>
+                <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
+                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                <button type="submit" class="preview"
+                    formmethod="get"
+                    formaction="{{ URL::to('/comments/cur') }}"
+                    formtarget="comment-reply-box{{ $comment->id }}">
+                    <label class="comment-action reply" for="collapse-reply{{ $comment->id }}">reply </label>
+                </button>
+            </form>
             <input class="collapse" id="collapse-reply{{ $comment->id }}" type="checkbox">
             <div class="replybox">
-                <form id="comment-form" method="post" class="flat-form flatpop-left">
-                    <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                    <p class="text">
-                        <textarea name="data" id="data" placeholder="You have {{ (Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) }} of {{ Comment::MAX_COMMENTS_PER_DAY }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
-                    </p>
-                    @if ((Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) > 0)
-                    <div class="submit">
-                        @if (!Auth::check())
-                            <p class="captcha">
-                                {{  HTML::image(Captcha::img(), 'Captcha image') }}
-                                <input type="text" name="captcha" placeholder="Captcha text" size="8" required>
-                            </p>
-                        @endif
-                        <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-reply-box{{ $comment->id }}" class="preview">Preview</button>
-                        <button type="submit">Post</button>
-                    </div>
-                    @endif
-                </form>
-                <div class="preview-box"><iframe name="previewcomment-reply-box{{ $comment->id }}"></iframe></div>
+                <iframe name="comment-reply-box{{ $comment->id }}"></iframe>   
             </div>
 
             @if ($comment->deleted_at == 0)

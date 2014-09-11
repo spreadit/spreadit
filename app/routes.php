@@ -78,11 +78,19 @@ Route::group(['prefix' => '/u/{username}'], function($username)
     Route::get('/votes/posts/.json', 'UserController@postsVotesJson');
 });
 
-Route::group(['prefix' => '/comments/{comment_id}'], function($comment_id)
+Route::group(['prefix' => '/comments'], function()
 {
-    Route::get('/', 'CommentController@getRedir');
-	Route::post('/update', 'CommentController@update');
-    Route::post('/delete', 'CommentController@delete');
+    Route::get('/pre',  'CommentController@preReply');
+    Route::get('/cur',  'CommentController@curReply');
+    Route::get('/post', 'CommentController@postReply');
+
+    Route::group(['prefix' => '/{comment_id}'], function($comment_id)
+    {
+        Route::get('/',        'CommentController@getRedir');
+    	Route::post('/create', 'CommentController@make');
+    	Route::post('/update', 'CommentController@update');
+        Route::post('/delete', 'CommentController@delete');
+    });
 });
 
 Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
