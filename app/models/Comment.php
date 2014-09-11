@@ -26,12 +26,12 @@ class Comment extends BaseModel
             $comment = DB::table('comments')
                 ->join('posts', 'comments.post_id', '=', 'posts.id')
                 ->join('sections', 'posts.section_id', '=', 'sections.id')
-                ->select('posts.id', 'sections.title')
+                ->select('posts.id', 'sections.title AS section_title')
                 ->where('comments.id', '=', $comment_id)
                 ->first();
 
             $obj = new stdClass();
-            $obj->section_title = $comment->title;
+            $obj->section_title = $comment->section_title;
             $obj->post_id = $comment->id;
             return $obj;
         });

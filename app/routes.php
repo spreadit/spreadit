@@ -80,9 +80,9 @@ Route::group(['prefix' => '/u/{username}'], function($username)
 
 Route::group(['prefix' => '/comments'], function()
 {
-    Route::get('/pre',  'CommentController@preReply');
-    Route::get('/cur',  'CommentController@curReply');
-    Route::get('/post', 'CommentController@postReply');
+    Route::get('/pre/{post_id}/{parent_id}',  'CommentController@preReply');
+    Route::get('/cur/{post_id}/{parent_id}',  'CommentController@curReply');
+    Route::get('/post/{post_id}/{parent_id}', 'CommentController@postReply');
 
     Route::group(['prefix' => '/{comment_id}'], function($comment_id)
     {

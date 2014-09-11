@@ -10,22 +10,30 @@ class CommentController extends BaseController
 		return Redirect::to('/s/'.$data->section_title.'/posts/'.$data->post_id.'#comment_'.$comment_id);
     }
 
-    protected function preReply()
+    protected function preReply($post_id, $parent_id)
     {
-        return Response::make('loading...');
+        if(Auth::check()) {
+            return $this->curReply($post_id, $parent_id);
+        }
+
+        $comment = new stdClass;
+        $comment->post_id = $post_id;
+        $comment->parent_id = $parent_id;
+
+        return View::make('commentbefore', ['comment' => $comment]);
     }
 
-    protected function curReply()
+    protected function curReply($post_id, $parent_id)
     {
         $comment = new stdClass;
-        $comment->parent_id = Input::get('parent_id');
-        $comment->post_id = Input::get('post_id');
+        $comment->post_id = $post_id;
+        $comment->parent_id = $parent_id;
         $comment->form_action = URL::to('/comments/' . $comment->parent_id . '/create');
 
         return View::make('commentreplybox', ['comment' => $comment]);
     }
 
-    protected function postReply()
+    protected function postReply($post_id, $parent_id)
     {
         return View::make('commentsaved');
     }
@@ -35,9 +43,9 @@ class CommentController extends BaseController
         $comment = Comment::amend($comment_id, Input::get('data'));
 
         if($comment->success) {
-            return Redirect::to('/comments/'.$comment_id);
+            return Redirect::to("/comments/$comment_id");
         } else {
-            return Redirect::to('/comments/'.$comment_id)->withErrors($comment->errorMessage())->withInput();
+            return Redirect::to("/comments/$comment_id")->withErrors($comment->errorMessage())->withInput();
         }
     }
 
@@ -49,7 +57,7 @@ class CommentController extends BaseController
             $comment = Comment::make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
             
             if($comment->success) {
-                return Redirect::to('/comments/post');
+                return Redirect::to(sprintf('/comments/post/%d/%d', Input::get('post_id'), Input::get('parent_id')));
             } else {
                 return Redirect::back()->withErrors($comment->errorMessage())->withInput();
             }
