@@ -17,7 +17,7 @@
     <div class="comment-data">
         {{ $comment->data }}
         @if (!isset($user_page))
-            <form>
+            <form class="reply-button-form">
                 <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
                 <input type="hidden" name="parent_id" value="{{ $comment->id }}">
                 <button type="submit" class="preview"

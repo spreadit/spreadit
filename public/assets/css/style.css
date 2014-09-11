@@ -27,10 +27,14 @@ img {
 }
 
 iframe {
-    height:100%!important;
-    width:100%!important;
     display:block;
     border:0;
+}
+
+.post-piece iframe,
+.comment-piece iframe {
+    height:24em!important;
+    width:100%!important;
 }
 
 *::-webkit-input-placeholder {
@@ -291,6 +295,21 @@ a.vote {
 
 .reply:hover, .source:hover, .edit:hover {
 	cursor:pointer;
+}
+
+.reply-button-form {
+    margin:0;
+    display:inline-block;
+}
+
+.reply-button-form button {
+    background:none;
+    border:0;
+    padding:0;
+}
+
+.reply-button-form button label {
+    font-family: Monaco,Consolas,"Lucida Console",monospace;
 }
 
 .navbar-inverse .nav > li.unread-notifications > a {
