@@ -9,11 +9,17 @@
         {{ UtilityController::colorschemeHtml() }} 
     </head>
     <body>
+        @if ($errors->any())
+            <div class="alert alert-warning fade in">
+                <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
+                <h4 class="text-center">{{ $errors->first() }}</h4>
+            </div>
+        @endif
         <form action="{{ $comment->form_action }}" id="comment-form" method="post">
             <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
             <input type="hidden" name="parent_id" value="{{ $comment->parent_id }}">
             <p class="text">
-                <textarea name="data" id="data" placeholder="You have {{ (Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) }} of {{ Comment::MAX_COMMENTS_PER_DAY }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
+                <textarea name="data" id="data" value="{{ Input::old('data') }}" placeholder="You have {{ (Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) }} of {{ Comment::MAX_COMMENTS_PER_DAY }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
             </p>
             @if ((Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) > 0)
             <div class="submit">
