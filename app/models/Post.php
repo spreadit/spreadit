@@ -35,7 +35,11 @@ class Post extends BaseModel
 
         if($section_id != 0) {
             $posts = $posts->where('posts.section_id', $section_id == 0 ? '>' : '=', $section_id == 0 ? '0' : $section_id);
+        } else {
+            //todo -- ignore certain spreadits
+            //$posts = $posts->whereNotIn('posts.section_id', [37]);
         }
+
         if($seconds != 0) {
             $posts = $posts->where('posts.created_at', '>', time() - $seconds);
         }
