@@ -1,3 +1,10 @@
+# ------------------------------------------------------------------------------
+# | Remove cachebuster hash from request URLs if present                       |
+# ------------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteRule ^(.*)-[0-9a-f]{32}(\.(.*))$ $1$2 [DPI]
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
@@ -12,4 +19,12 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# | Allow Laravel to pre-process the css to add cachebusters to image urls     |
+# ------------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} !^/index.php
+    RewriteRule ^(.*\.css)$ index.php [L]
 </IfModule>

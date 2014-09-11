@@ -123,10 +123,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	position:relative;
 }
 
-.user-layout #header-nav {
-	background:url(/assets/images/header-user.jpg);
-}
-
 #header-nav h2 {
 	display:inline;
 	float:left;

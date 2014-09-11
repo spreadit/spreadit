@@ -9,6 +9,9 @@ server {
             rewrite ^/(.*)$ /index.php?_url=/$1;
         }
 
+        location ~* "^(.+)-[0-9a-f]{32}(\.(.*))$" {
+            try_files $uri $1$2 =404;
+        }
 
         location / {
                 try_files $uri $uri/ /index.php?$query_string;

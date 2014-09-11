@@ -175,6 +175,14 @@ Route::group(['prefix' => '/color'], function()
     Route::get('/light', 'ColorSchemeController@light');
 });
 
+Route::get('/assets/prod/{filename}', function($filename) {
+    return Bust::css("/assets/prod/$filename");
+});
+Route::get('/assets/css/colorschemes/{filename}', function($filename) {
+    return Bust::css("/assets/css/colorschemes/$filename");
+});
+App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
+
 App::missing(function(Exception $exception)
 {
     if(Request::is('*/.json')) {

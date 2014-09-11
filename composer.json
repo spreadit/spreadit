@@ -15,7 +15,8 @@
         "intervention/image": "2.*",
         "laravelbook/ardent": "dev-master",
         "fitztrev/laravel-html-minify": "1.*",
-        "tappleby/laravel-auth-token": "0.3.*"
+        "tappleby/laravel-auth-token": "0.3.*",
+        "themonkeys/cachebuster": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

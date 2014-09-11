@@ -126,6 +126,7 @@ return array(
         'Intervention\Image\ImageServiceProvider',
         'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
         'Tappleby\AuthToken\AuthTokenServiceProvider',
+        'Themonkeys\Cachebuster\CachebusterServiceProvider',
 	),
 
 	/*
@@ -160,6 +161,7 @@ return array(
         'AuthToken' => 'Tappleby\Support\Facades\AuthToken',
         'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
 		'Blade'           => 'Illuminate\Support\Facades\Blade',
+        'Bust' => 'Themonkeys\Cachebuster\Cachebuster',
 		'Cache'           => 'Illuminate\Support\Facades\Cache',
 		'Captcha'         => 'Mews\Captcha\Facades\Captcha',
 		'ClassLoader'     => 'Illuminate\Support\ClassLoader',
