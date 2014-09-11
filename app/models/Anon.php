@@ -15,40 +15,35 @@ class Anon extends BaseModel
 
     public static function make($captcha)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
 
         if(!Auth::check()) {
-            if($success) {
+            if($block->success) {
                 $rules = ['captcha' => 'required|captcha'];
-                $data = ['captcha' => $captcha];
+                $data  = ['captcha' => $captcha];
 
                 $validate = Validator::make($data, $rules);
                 if($validate->fails()) {
-                    $success = false;
+                    $block->success = false;
 
                     foreach($validate->messages()->all() as $v) {
-                        $errors[] = $v;
+                        $block->errors[] = $v;
                     }
                 } 
             }
 
-            if($success) {
+            if($block->success) {
                 $username = Anon::generate_name();
 
                 User::create_anon($username);
                 if(!Auth::attempt(['username' => $username, 'password' => ''])) {
-                    $success = false;
+                    $block->success = false;
 
                     Log::error("anonymous $username failed login attempt on comment post @ " . time());
-                    $errors[] = "A general error has occurred with logging in, try <a href='/login'>instead</a> sorry!";
+                    $block->errors[] = "A general error has occurred with logging in, try <a href='/login'>instead</a> sorry!";
                 }
             }
         }
-
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
 
         return $block;
     }
