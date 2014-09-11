@@ -112,7 +112,7 @@ class PostController extends BaseController
         $post = Post::remove($post_id);
 
         if($post->success) {
-            return Redirect::to("/s/$section_title");
+            return Redirect::to("/s/" . $post->data->section_title);
         } else {
             return Redirect::to($post->data->prev_path)->withErrors($post->errorMessage());
         }

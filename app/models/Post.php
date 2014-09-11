@@ -85,47 +85,48 @@ class Post extends BaseModel
 
     public static function amend($post_id, $content)
     {
-        $success = true;
-        $errors = [];
-        $prev_path = "/s/" . Post::getSectionTitleFromId($post_id) . "/posts/" . $post_id;
+        $block = new SuccessBlock();
 
-        if($success) {
+        $block->data->prev_path = sprintf("/s/%s/posts/%d", Post::getSectionTitleFromId($post_id), $post_id);
+
+        if($block->success) {
             if(Auth::user()->points < 1) {
-                $success = false;
-                $errors[] = "not enough points";
+                $block->success  = false;
+                $block->errors[] = "not enough points";
             }
         }
 
-        if($success) {
+        if($block->success) {
             $post = Post::findOrFail($post_id);
 
             if($post->user_id != Auth::user()->id) {
-                $errors[] = 'This comment does not have the same user id as you';
+                $block->success  = false;
+                $block->errors[] = 'This post does not have the same user id as you';
             }
         }
 
-        if($success) {
-            $data['user_id'] = Auth::user()->id;
-            $data['data'] = $content;
+        if($block->success) {
+            $data['user_id']  = Auth::user()->id;
+            $data['data']     = $content;
             $data['markdown'] = $data['data'];
-            $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
+            $data['data']     = MarkdownExtra::defaultTransform(e($data['markdown']));
 
             $rules = array(
-                'user_id' => 'required|numeric',
+                'user_id'  => 'required|numeric',
                 'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
             if($validate->fails()) {
-                $success = false;
+                $block->success = false;
 
                 foreach($validate->messages()->all() as $v) {
-                    $errors[] = $v;
+                    $block->errors[] = $v;
                 }
             }
         }
 
-        if($success) {
+        if($block->success) {
             $history = new History;
             $history->data     = $post->data;
             $history->markdown = $post->markdown;
@@ -136,50 +137,40 @@ class Post extends BaseModel
 
 
             $post->markdown = $data['markdown'];
-            $post->data = $data['data'];
+            $post->data     = $data['data'];
             $post->save();
         }
-
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
-        $block->data->prev_path = $prev_path;
 
         return $block;
     }
 
     public static function remove($post_id)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
 
-        if($success) {
-            $section_title = Post::getSectionTitleFromId($post_id);
-            $prev_path = "/s/$section_title/posts/$post_id";
+        if($block->success) {
+            $block->data->section_title = Post::getSectionTitleFromId($post_id);
+            $block->data->prev_path = sprintf("/s/%s/posts/%d", $block->data->section_title, $post_id);
 
             if(Auth::user()->points < 1) {
-                $success = false;
-                $errors[] = 'You need at least one point to delete a post';
+                $block->success  = false;
+                $block->errors[] = 'You need at least one point to delete a post';
             }
         }
 
-        if($success) {
+        if($block->success) {
             $post = Post::findOrFail($post_id);
 
             if($post->user_id != Auth::user()->id) {
-                $errors[] = 'This post does not have the same user id as you';
+                $block->success  = false;
+                $block->errors[] = 'This post does not have the same user id as you';
             }
         }
 
-        if($success) {
+        if($block->success) {
             $post->deleted_at = time();
             $post->save();
         }
-
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
-        $block->data->prev_path = $prev_path;
 
         return $block;
     }
@@ -204,22 +195,22 @@ class Post extends BaseModel
     {
         $rules = array(
             'user_id' => 'required|numeric',
-            'type' => 'required|numeric|between:0,2',
-            'title' => 'required|max:'.self::MAX_TITLE_LENGTH,
+            'type'    => 'required|numeric|between:0,2',
+            'title'   => 'required|max:'.self::MAX_TITLE_LENGTH,
         );
 
         $rule_data = 'max:'.self::MAX_MARKDOWN_LENGTH;
-        $rule_url = 'required|url|max:'.self::MAX_URL_LENGTH;
+        $rule_url  = 'required|url|max:'.self::MAX_URL_LENGTH;
         
         if(empty($data['data']) && empty($data['url'])) {
             $rules['data'] = $rule_data;
         } else if(!empty($data['data']) && !empty($data['url'])) {
             $rules['data'] = $rule_data;
-            $rules['url'] = $rule_url;
+            $rules['url']  = $rule_url;
         } else if(!empty($data['data'])) {
             $rules['data'] = $rule_data;
         } else if(!empty($data['url'])) {
-            $rules['url'] = $rule_url;
+            $rules['url']  = $rule_url;
         }
 
         return $rules;
@@ -237,10 +228,10 @@ class Post extends BaseModel
             $data['type'] = 0;
         }
 
-        $data['title'] = e($data['title']);
-        $data['url'] = e($data['url']);
+        $data['title']    = e($data['title']);
+        $data['url']      = e($data['url']);
         $data['markdown'] = $data['data'];
-        $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
+        $data['data']     = MarkdownExtra::defaultTransform(e($data['markdown']));
         
         return $data;
     }
@@ -266,17 +257,18 @@ class Post extends BaseModel
 
     public static function make($section_title, $content, $title, $url)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
+        $block->data->section_title = $section_title;
+        $block->data->item_title    = Utility::prettyUrl($title);
 
-        if($success) {
+        if($block->success) {
             if(!self::canPost()) {
-                $success = false;
-                $errors[] = 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day';
+                $block->success  = false;
+                $block->errors[] = 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day';
             }
         }
 
-        if($success) {
+        if($block->success) {
             $data = self::prepareData([
                 'data'    => $content,
                 'title'   => $title,
@@ -284,31 +276,30 @@ class Post extends BaseModel
                 'user_id' => Auth::user()->id
             ]);
 
-            $rules = self::generateRules($data);
+            $rules    = self::generateRules($data);
             $validate = Validator::make($data, self::generateRules($data));
 
             if($validate->fails()) {
-                $success = false;
+                $block->success = false;
 
                 foreach($validate->messages()->all() as $v) {
-                    $errors[] = $v;
+                    $block->errors[] = $v;
                 }
             }
         }
 
-        if($success) {
+        if($block->success) {
             if(isset($rules['url'])) {
                 if(!Utility::urlExists($data['url'])) {
-                    $success = false;
-
-                    $errors[] = 'website doesn\'t exist';
+                    $block->success  = false;
+                    $block->errors[] = 'website doesn\'t exist';
+                } else {
+                    $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
                 }
-
-                $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
             }
         }
 
-        if($success) {
+        if($block->success) {
             //check if .gif & gfycat it
             $data['url'] = self::gfycatUrl($data['url']);
 
@@ -316,16 +307,14 @@ class Post extends BaseModel
                 $ssect = new Section(['title' => $section_title]);
 
                 if(! $ssect->save()) {
-                    $success = false;
-                    $section_title = str_replace(' ', '_', $section_title);
-
-                    $errors[] = 'unable to create new spreadit'; 
+                    $block->success = false;
+                    $block->errors[] = 'unable to create new spreadit'; 
+                    $block->data->section_title = str_replace(' ', '_', $block->data->section_title);
                 }
             }
         }
 
-        $block = new SuccessBlock();
-        if($success) {
+        if($block->success) {
             $section = Section::getByTitle($section_title);
             $data['section_id'] = $section->id;
 
@@ -343,10 +332,6 @@ class Post extends BaseModel
             $block->data->item_id = null;
         }
 
-        $block->success = $success;
-        $block->errors = $errors;
-        $block->data->section_title = $section_title;
-        $block->data->item_title = Utility::prettyUrl($data['title']);
 
         return $block;
     }

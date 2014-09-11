@@ -79,24 +79,23 @@ class Comment extends BaseModel
 
     public static function make($post_id, $content, $parent_id)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
 
-        if($success) {
+        if($block->success) {
             if(Auth::user()->points < 1) {
-                $success = false;
-                $errors[] = ['You need at least one point to post a comment'];
+                $block->success = false;
+                $block->errors[] = ['You need at least one point to post a comment'];
             }
         }
 
-        if($success) {
+        if($block->success) {
             if(!Comment::canPost()) {
-                $success = false;
-                $errors[] = 'can only post ' . self::MAX_COMMENTS_PER_DAY . ' per day';
+                $block->success = false;
+                $block->errors[] = 'can only post ' . self::MAX_COMMENTS_PER_DAY . ' per day';
             }
         }
 
-        if($success) {
+        if($block->success) {
             $data = [
                 'data'      => MarkdownExtra::defaultTransform(e($content)),
                 'parent_id' => $parent_id,
@@ -114,15 +113,15 @@ class Comment extends BaseModel
 
             $validate = Validator::make($data, $rules);
             if($validate->fails()) {
-                $success = false;
+                $block->success = false;
 
                 foreach($validate->messages()->all() as $v) {
-                    $errors[] = $v;
+                    $block->errors[] = $v;
                 }
             }
         }
 
-        if($success) {
+        if($block->success) {
             $post = Post::findOrFail($data['post_id']);
         
             $notification = new Notification();
@@ -147,57 +146,51 @@ class Comment extends BaseModel
             Cache::forget(self::CACHE_NEWLIST_NAME.$post_id);
         }
 
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
-
         return $block;
     }
 
     public static function amend($comment_id, $content)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
 
-        if($success) {
+        if($block->success) {
             if(Auth::user()->points < 1) {
-                $success = false;
-                $errors[] = 'You need at least one point to edit a comment';
+                $block->success  = false;
+                $block->errors[] = 'You need at least one point to edit a comment';
             }
         }
 
-        if($success) {
+        if($block->success) {
             $comment = Comment::findOrFail($comment_id);
 
             if($comment->user_id != Auth::user()->id) {
-                $success = true;
-                $errors[] = 'This comment does not have the same user id as you';
+                $block->success  = true;
+                $block->errors[] = 'This comment does not have the same user id as you';
             }
         }
 
-        if($success) {
-            $data['user_id'] = Auth::user()->id;
-            $data['data'] = $content;
+        if($block->success) {
+            $data['user_id']  = Auth::user()->id;
+            $data['data']     = MarkdownExtra::defaultTransform(e($content));
             $data['markdown'] = $content;
-            $data['data'] = MarkdownExtra::defaultTransform(e($content));
 
             $rules = array(
-                'user_id' => 'required|numeric',
+                'user_id'  => 'required|numeric',
                 'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
 
             if($validate->fails()) {
-                $success = false;
+                $block->success = false;
 
                 foreach($validate->messages()->all() as $v) {            
-                    $errors[] = $v;
+                    $block->errors[] = $v;
                 }
             }
         }
 
-        if($success) {
+        if($block->success) {
             $history = new History;
             $history->data     = $comment->data;
             $history->markdown = $comment->markdown;
@@ -213,46 +206,35 @@ class Comment extends BaseModel
             $comment->save();
         }
 
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
-
         return $block;
     }
 
     public static function remove($comment_id)
     {
-        $success = true;
-        $errors = [];
+        $block = new SuccessBlock();
 
         $comment = Comment::findOrFail($comment_id);
-        $post_id = $comment->post_id;
+        $block->data->post_id = $comment->post_id;
 
-        if($success) {
+        if($block->success) {
             if(Auth::user()->points < 1) {
-                $success = false;
-    
-                $errors[] = 'You need at least one point to delete a comment';
+                $block->success = false;
+                $block->errors[]       = 'You need at least one point to delete a comment';
             }
         }
 
-        if($success) {
+        if($block->success) {
             if($comment->user_id != Auth::user()->id) {
-                $success = false;
-                $errors[] = 'This comment does not have the same user id as you';
+                $block->success  = false;
+                $block->errors[] = 'This comment does not have the same user id as you';
             }
         }
 
-        if($success) {
+        if($block->success) {
             Cache::forget(self::CACHE_NEWLIST_NAME.$comment->post_id);
             $comment->deleted_at = time();
             $comment->save();
         }
-
-        $block = new SuccessBlock();
-        $block->success = $success;
-        $block->errors = $errors;
-        $block->data->post_id = $post_id;
 
         return $block;
     }
