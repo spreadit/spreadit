@@ -84,7 +84,7 @@ class Comment extends BaseModel
         if($block->success) {
             if(Auth::user()->points < 1) {
                 $block->success = false;
-                $block->errors[] = ['You need at least one point to post a comment'];
+                $block->errors[] = 'You need at least one point to post a comment';
             }
         }
 

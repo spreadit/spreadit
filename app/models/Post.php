@@ -262,6 +262,13 @@ class Post extends BaseModel
         $block->data->item_title    = Utility::prettyUrl($title);
 
         if($block->success) {
+            if(Auth::user()->points < 1) {
+                $block->success = false;
+                $block->errors[] = 'You need at least one point to post';
+            }
+        }
+
+        if($block->success) {
             if(!self::canPost()) {
                 $block->success  = false;
                 $block->errors[] = 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day';
