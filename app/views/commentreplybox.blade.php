@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/assets/prod/build.min.css">
         {{ UtilityController::colorschemeHtml() }} 
     </head>
-    <body>
+    <body class="comment-reply-box-page">
         @if ($errors->any())
             <div class="alert alert-warning fade in">
                 <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
