@@ -96,6 +96,11 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 	color:#BBB;
 }
 
+.commentbranch li,
+.nav li {
+    list-style:none;
+}
+
 #footer-navbar {
 	margin-bottom:0px;
 }
@@ -218,14 +223,11 @@ a.vote {
     min-height:90px;
 }
 
-.post-data ul li,
-.comment-data ul li, 
-.preview-box ul li {
+ul li {
     list-style:circle;
 }
-.post-data ol li,
-.comment-data ol li,
-.preview-box ol li {
+
+ol li {
     list-style:decimal;
 }
 

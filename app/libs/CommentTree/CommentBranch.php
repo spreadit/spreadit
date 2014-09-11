@@ -61,7 +61,7 @@ class CommentBranch
                 return $r . $v;
             });
 
-            $rval .= "<ul>{$result}</ul>";
+            $rval .= "<ul class=\"commentbranch\">{$result}</ul>";
         }
 
         return $rval;
