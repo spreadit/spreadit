@@ -1,4 +1,3 @@
-<!-- needs correct form action TODO -->
 <!doctype html>
 <html>
     <head>
