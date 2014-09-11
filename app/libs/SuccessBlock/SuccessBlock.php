@@ -13,7 +13,7 @@ class SuccessBlock
         $this->data = new stdClass;
     }
 
-    protected function errorMessage()
+    public function errorMessage()
     {
         return ['message' => implode(' ', $this->errors)];
     }
