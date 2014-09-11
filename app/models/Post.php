@@ -85,49 +85,67 @@ class Post extends BaseModel
 
     public static function amend($post_id, $content)
     {
+        $success = true;
+        $errors = [];
         $prev_path = "/s/" . Post::getSectionTitleFromId($post_id) . "/posts/" . $post_id;
 
-        if(Auth::user()->points < 1) {
-            return "not enough points";
-            return Redirect::to($prev_path)->withErrors(['message' => 'You need at least one point to edit a comment']);
+        if($success) {
+            if(Auth::user()->points < 1) {
+                $success = false;
+                $errors[] = "not enough points";
+            }
         }
 
-        $post = Post::findOrFail($post_id);
+        if($success) {
+            $post = Post::findOrFail($post_id);
 
-
-        if($post->user_id != Auth::user()->id) {
-            return Redirect::to($prev_path)->withErrors(['message' => 'This comment does not have the same user id as you']);
+            if($post->user_id != Auth::user()->id) {
+                $errors[] = 'This comment does not have the same user id as you';
+            }
         }
 
-        $data['user_id'] = Auth::user()->id;
-        $data['data'] = $content;
-        $data['markdown'] = $data['data'];
-        $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
+        if($success) {
+            $data['user_id'] = Auth::user()->id;
+            $data['data'] = $content;
+            $data['markdown'] = $data['data'];
+            $data['data'] = MarkdownExtra::defaultTransform(e($data['markdown']));
 
-        $rules = array(
-            'user_id' => 'required|numeric',
-            'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
-        );
+            $rules = array(
+                'user_id' => 'required|numeric',
+                'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
+            );
 
-        $validate = Validator::make($data, $rules);
-        if($validate->fails()) {
-            return Redirect::to($prev_path)->withErrors($validate->messages())->withInput();
+            $validate = Validator::make($data, $rules);
+            if($validate->fails()) {
+                $success = false;
+
+                foreach($validate->messages()->all() as $v) {
+                    $errors[] = $v;
+                }
+            }
         }
 
-        $history = new History;
-        $history->data     = $post->data;
-        $history->markdown = $post->markdown;
-        $history->user_id  = Auth::user()->id;
-        $history->type     = HistoryController::POST_TYPE;
-        $history->type_id  = $post->id;
-        $history->save();
+        if($success) {
+            $history = new History;
+            $history->data     = $post->data;
+            $history->markdown = $post->markdown;
+            $history->user_id  = Auth::user()->id;
+            $history->type     = HistoryController::POST_TYPE;
+            $history->type_id  = $post->id;
+            $history->save();
 
 
-        $post->markdown = $data['markdown'];
-        $post->data = $data['data'];
-        $post->save();
+            $post->markdown = $data['markdown'];
+            $post->data = $data['data'];
+            $post->save();
+        }
 
-        return Redirect::to($prev_path);
+        $block = new SuccessBlock();
+        $block->success = $success;
+        $block->errors = $errors;
+        $block->data->prev_path = $prev_path;
+
+        return $block;
     }
 
     public static function remove($post_id)

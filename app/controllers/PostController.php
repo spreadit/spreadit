@@ -101,9 +101,9 @@ class PostController extends BaseController
         $post = Post::amend($post_id, Input::get('data'));
 
         if($post->success) {
-
+            return Redirect::to($post->data->prev_path);
         } else {
-
+            return Redirect::to($post->data->prev_path)->withErrors($post->errorMessage())->withInput();
         }
     }
 
