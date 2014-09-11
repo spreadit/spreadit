@@ -55,7 +55,7 @@ class PostController extends BaseController
         $anon = Anon::make(Input::get('captcha'));
 
         if(!$anon->success) {
-            return Redirect::refresh()->withErrors($anon->errors)->withInput();
+            return Redirect::refresh()->withErrors($anon->errorMessage())->withInput();
         }
 
         $post = Post::make(
@@ -70,13 +70,7 @@ class PostController extends BaseController
         
             return Redirect::to($location);
         } else {
-            $message = "";
-
-            foreach($post->errors as $v) {
-                $message .= $v . ' ';
-            }
-
-            return Redirect::back()->withErrors(['message' => $message])->withInput();
+            return Redirect::back()->withErrors($post->errorMessage())->withInput();
         }
     }
 

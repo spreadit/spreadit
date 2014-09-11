@@ -51,7 +51,7 @@ class CommentController extends BaseController
             if($comment->success) {
                 return Redirect::to('/comments/post');
             } else {
-                return Redirect::back()->withErrors($errors)->withInput();
+                return Redirect::back()->withErrors($comment->errorMessage())->withInput();
             }
         } else {
             return Redirect::back()->withErrors($anon->errorMessage())->withInput(); 
