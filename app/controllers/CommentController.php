@@ -64,9 +64,9 @@ class CommentController extends BaseController
         $comment = Comment::remove($comment_id);
 
         if($comment->success) {
-            return Redirect::to("/posts/$post_id");
+            return Redirect::to("/posts/" . $comment->data->post_id);
         } else {
-            return Redirect::to("/posts/$post_id")->withErrors($comment->errorMessage())->withInput();
+            return Redirect::to("/posts/" . $comment->data->post_id)->withErrors($comment->errorMessage())->withInput();
         }
     }
 }

@@ -252,6 +252,7 @@ class Comment extends BaseModel
         $block = new SuccessBlock();
         $block->success = $success;
         $block->errors = $errors;
+        $block->data->post_id = $post_id;
 
         return $block;
     }
