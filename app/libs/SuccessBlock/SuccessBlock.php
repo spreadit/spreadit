@@ -12,4 +12,9 @@ class SuccessBlock
         $this->errors = array();
         $this->data = new stdClass;
     }
+
+    protected function errorMessage()
+    {
+        return ['message' => implode(' ', $this->errors)];
+    }
 }
