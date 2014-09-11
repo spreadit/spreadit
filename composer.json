@@ -3,23 +3,7 @@
 	"description": "Link sharing and bullshit generator",
 	"keywords": ["yes", "spreadit"],
 	"license": "Spreadit non-free public license",
-    "repositories": [
-        {
-            "type":"package",
-            "package": {
-                "name": "spreadit/php-markdown",
-                "version": "dev-master",
-                "source": {
-                    "url": "git://github.com/spreadit/php-markdown.git",
-                    "type": "git",
-                    "reference": "lib"
-                },
-                "autoload": {
-                    "psr-0": { "Michelf": "" }
-                }
-            }
-        }
-    ],
+    "repositories": [],
 	"require": {
 		"laravel/framework": "4.2.*",
 		"loic-sharma/profiler": "1.1.*",
