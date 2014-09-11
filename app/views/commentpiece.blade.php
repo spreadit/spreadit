@@ -17,20 +17,7 @@
     <div class="comment-data">
         {{ $comment->data }}
         @if (!isset($user_page))
-            <form class="reply-button-form">
-                <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
-                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                <button type="submit" class="preview"
-                    formmethod="get"
-                    formaction="{{ URL::to('/comments/cur') }}"
-                    formtarget="comment-reply-box{{ $comment->id }}">
-                    <label class="comment-action reply" for="collapse-reply{{ $comment->id }}">reply </label>
-                </button>
-            </form>
-            <input class="collapse" id="collapse-reply{{ $comment->id }}" type="checkbox">
-            <div class="replybox">
-                <iframe name="comment-reply-box{{ $comment->id }}"></iframe>   
-            </div>
+            @include ('replyframepart', ['post_id' => $comment->post_id, 'parent_id' => $comment->id])
 
             @if ($comment->deleted_at == 0)
                 <label class="comment-action source" for="collapse-source{{ $comment->id }}">source </label>
@@ -77,6 +64,7 @@
         <input class="collapse" id="collapse-commentpermalink{{ $comment->id }}" type="checkbox">
         <div class="permalinkbox">
             <input type="text" size="20" value="{{ URL::to("/comments/" . $comment->id) }}" readonly>
+            <a href="{{ URL::to("/comments/" . $comment->id) }}">link</a>
         </div>
     </div>
 </div>

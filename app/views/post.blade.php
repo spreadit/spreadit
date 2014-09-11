@@ -52,30 +52,7 @@
                         {{ $post->data }}
                     </div>
                     <menu>
-                        <label class="post-action reply" for="collapse-postreply{{ $post->id }}">reply </label>
-                        <input class="collapse" id="collapse-postreply{{ $post->id }}" type="checkbox">
-                        <div class="replybox">
-                            <form id="comment-form" method="post" class="flat-form flatpop-left">
-                                <input type="hidden" name="parent_id" value="0">
-                                <p class="text">
-                                    <textarea name="data" id="data" placeholder="You have {{ (Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) }} of {{ Comment::MAX_COMMENTS_PER_DAY }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
-                                </p>
-                                @if ((Comment::MAX_COMMENTS_PER_DAY - Comment::getCommentsInTimeoutRange()) > 0)
-                                <div class="submit">
-                                    @if (!Auth::check())
-                                        <p class="captcha">
-                                            {{  HTML::image(Captcha::img(), 'Captcha image') }}
-                                            <input type="text" name="captcha" placeholder="Captcha text" size="8" required>
-                                        </p>
-                                    @endif
-                                    <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewpost-reply-box{{ $post->id }}" class="preview">Preview</button>
-                                    <button type="submit">Post</button>
-                                </div>
-                                 @endif
-                            </form>
-                            <div class="preview-box"><iframe name="previewpost-reply-box{{ $post->id }}"></iframe></div>
-                        </div>
-                        
+                        @include ('replyframepart', ['post_id' => $post->id, 'parent_id' => 0])
 
                         <label class="post-action source" for="collapse-postsource{{ $post->id }}">source </label>
                         <input class="collapse" id="collapse-postsource{{ $post->id }}" type="checkbox">
