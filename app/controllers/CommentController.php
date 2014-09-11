@@ -27,7 +27,7 @@ class CommentController extends BaseController
 
     protected function postReply()
     {
-        return Response::make('saved');
+        return View::make('commentsaved');
     }
 
     protected function update($comment_id)
