@@ -201,4 +201,19 @@ class Utility
     {
         return (!empty(URL::previous()) ? URL::previous() : $url);
     }
+
+    public static function remainingPosts()
+    {
+        if(!Auth::check()) {
+            return 2;
+        }
+
+        //todo take into account user posts today... and do so in remainingComments as well
+        return 1 + floor(sqrt(Auth::user()->points + (Auth::user()->votes * 1.5)));
+    }
+
+    public static function remainingComments()
+    {
+        return self::remainingPosts() * 2;
+    }
 }
