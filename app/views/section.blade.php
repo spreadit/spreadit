@@ -17,7 +17,6 @@
         {{ $posts->links() }}
     </div>
     <div class="sidebar">
-        @include ('googlesitesearch')
     </div>
 </div>
 @stop
