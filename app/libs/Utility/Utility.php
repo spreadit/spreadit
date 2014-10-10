@@ -204,16 +204,25 @@ class Utility
 
     public static function remainingPosts()
     {
+        return max(0, self::availablePosts() - Post::getPostsInTimeoutRange());
+    }
+
+    public static function availablePosts()
+    {
         if(!Auth::check()) {
             return 2;
         }
 
-        //todo take into account user posts today... and do so in remainingComments as well
-        return 1 + floor(sqrt(Auth::user()->points + (Auth::user()->votes * 1.5)));
+        return max(0, 1 + floor(sqrt(Auth::user()->points + (Auth::user()->votes * 1.5))));
     }
 
     public static function remainingComments()
     {
-        return self::remainingPosts() * 2;
+        return max(0, self::availableComments() - Comment::getCommentsInTimeoutRange());
+    }
+
+    public static function availableComments()
+    {
+        return max(0, self::remainingPosts() * 2);
     }
 }

@@ -74,7 +74,7 @@ class Comment extends BaseModel
 
     public static function canPost()
     {
-        return (self::getCommentsInTimeoutRange() <= self::MAX_COMMENTS_PER_DAY);
+        return Utility::remainingComments() > 0;
     }
 
     public static function make($post_id, $content, $parent_id)

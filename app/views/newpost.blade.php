@@ -17,8 +17,8 @@
     @endif
     <div class="row-fluid">
         <div class="span6">
-            <p>You have {{ (Post::MAX_POSTS_PER_DAY - Post::getPostsInTimeoutRange()) }} of {{ Post::MAX_POSTS_PER_DAY }} posts remaining per {{ Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
-            @if ((Post::MAX_POSTS_PER_DAY - Post::getPostsInTimeoutRange()) > 0)
+            <p>You have {{ Utility::remainingPosts() }} of {{ Utility::availablePosts() }} posts remaining per {{ Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
+            @if (Post::canPost())
             <form id="post-form" action="/s/{{{ $section->title }}}/add" method="post" class="flat-form flatpop-left">
                 <p class="text">
                     <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}" />

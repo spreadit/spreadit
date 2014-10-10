@@ -192,7 +192,7 @@ class Post extends BaseModel
 
     public static function canPost()
     {
-        return (self::getPostsInTimeoutRange() <= self::MAX_POSTS_PER_DAY);
+        return Utility::remainingPosts();
     }
 
     public static function generateRules($data)
