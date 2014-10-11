@@ -99,6 +99,15 @@ Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
     Route::get('/', 'PostController@getRedir');
     Route::post('/update', ['before' => 'auth', 'uses' => 'PostController@update']);
     Route::post('/delete', ['before' => 'auth', 'uses' => 'PostController@delete']);
+
+    Route::post('/tag/nsfw', ['before' => 'auth', 'uses' => 'TagController@nsfw']);
+    Route::post('/tag/sfw',  ['before' => 'auth', 'uses' => 'TagController@sfw']);
+    Route::post('/tag/nsfl', ['before' => 'auth', 'uses' => 'TagController@nsfl']);
+    Route::post('/tag/sfl',  ['before' => 'auth', 'uses' => 'TagController@sfl']);
+    Route::post('/tag/nsfw/.json', ['before' => 'auth', 'uses' => 'TagController@nsfwJson']);
+    Route::post('/tag/sfw/.json',  ['before' => 'auth', 'uses' => 'TagController@sfwJson']);
+    Route::post('/tag/nsfl/.json', ['before' => 'auth', 'uses' => 'TagController@nsflJson']);
+    Route::post('/tag/sfl/.json',  ['before' => 'auth', 'uses' => 'TagController@sflJson']);
 });
 
 

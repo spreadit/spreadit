@@ -62,6 +62,21 @@
                             </p>
                         </div>
 
+                        <label class="post-action tag" for="collapse-posttag{{ $post->id }}">tag </label>
+                        <input class="collapse" id="collapse-posttag{{ $post->id }}" type="checkbox">
+                        <div class="tagbox">
+                            <p class="text">
+                                <form method="post" class="tag" action="{{ URL::to("/posts/" . $post->id . "/tag/nsfw") }}"><button>nsfw</button></form> 
+                                @if ($post->nsfw > 0)
+                                    <form method="post" class="tag" action="{{ URL::to("/posts/" . $post->id . "/tag/sfw") }}"><button>sfw</button></form> 
+                                @endif
+                                <form method="post" class="tag" action="{{ URL::to("/posts/" . $post->id . "/tag/nsfl") }}"><button>nsfl</button></form> 
+                                @if ($post->nsfl > 0)
+                                    <form method="post" class="tag" action="{{ URL::to("/posts/" . $post->id . "/tag/sfl") }}"><button>sfl</button></form> 
+                                @endif
+                            </p>
+                        </div>
+
 
                         @if ($post->user_id == Auth::id())
                             <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>

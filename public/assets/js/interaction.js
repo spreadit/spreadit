@@ -38,6 +38,17 @@ $(document).ready(function() {
 		});
 	});
 
+    $(".tag button").click(function(e) {
+        e.preventDefault();
+
+		var that = $(this);
+        var url = that.parent().attr('action') + "/.json";
+
+		$.post(url, function(json) {
+            console.log(json);
+        });
+    });
+
     //move this to libs/Markdown.. smart dealing with code blocks
 	$("pre code").each(function(){
 		var decoded = $(this).text()

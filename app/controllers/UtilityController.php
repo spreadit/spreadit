@@ -106,7 +106,7 @@ class UtilityController extends BaseController
                 $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/prefs/show_nsfw.css")."\">"; 
             }
             if(Auth::user()->show_nsfl) {
-                $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"/assets/css/prefs/show_nsfl.css\">"; 
+                $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/prefs/show_nsfl.css")."\">"; 
             }
         }
 
