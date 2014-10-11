@@ -242,11 +242,36 @@ ol li {
     display:inline-block;
     width:128px;
     height:72px;
+    overflow:hidden;
 }
 
 .post-thumbnail img {
     width:128px;
     height:72px;
+}
+
+.nsfw .post-thumbnail img,
+.nsfl .post-thumbnail img {
+    -o-filter:      blur(3px);
+    -ms-filter:     blur(3px);
+    -moz-filter:    blur(3px);
+    -webkit-filter: blur(3px);
+    filter:         blur(3px);
+
+    -o-transition:      0.15s;
+    -ms-transition:     0.15s;
+    -moz-transition:    0.15s;
+    -webkit-transition: 0.15s;
+    transition:         0.15s;
+}
+
+.nsfw:hover .post-thumbnail img,
+.nsfl:hover .post-thumbnail img {
+    -o-filter:      blur(0px);
+    -ms-filter:     blur(0px);
+    -moz-filter:    blur(0px);
+    -webkit-filter: blur(0px);
+    filter:         blur(0px);
 }
 
 .post {

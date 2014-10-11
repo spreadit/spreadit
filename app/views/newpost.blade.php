@@ -17,7 +17,7 @@
     @endif
     <div class="row-fluid">
         <div class="span6">
-            <p>You have {{ Utility::remainingPosts() }} of {{ Utility::availablePosts() }} posts remaining per {{ Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS) }}</p>
+            <p>{{ UtilityController::postsRemainingHtml() }}</p>
             @if (Post::canPost())
             <form id="post-form" action="/s/{{{ $section->title }}}/add" method="post" class="flat-form flatpop-left">
                 <p class="text">
@@ -48,6 +48,11 @@
                 <p class="text">
                     <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
                     {{ $errors->first('data') }}
+                </p>
+                <p class="text">
+                    nsfw: {{ Form::checkbox('nsfw-tag') }}
+                    <br>
+                    nsfl: {{ Form::checkbox('nsfl-tag') }}
                 </p>
                 <div class="submit">
                     @if (!Auth::check())

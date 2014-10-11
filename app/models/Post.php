@@ -30,7 +30,7 @@ class Post extends BaseModel
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
             ->where('posts.deleted_at', '=', 0);
 
         if($section_id != 0) {
@@ -73,7 +73,7 @@ class Post extends BaseModel
     public static function get($post_id)
     {
         $post = DB::table('posts')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'users.username', 'users.points', 'users.votes', 'users.anonymous')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous')
             ->join('users', 'users.id', '=', 'posts.user_id')
             ->where('posts.id', '=', $post_id)
             ->where('posts.deleted_at', '=', 0)
@@ -201,6 +201,8 @@ class Post extends BaseModel
             'user_id' => 'required|numeric',
             'type'    => 'required|numeric|between:0,2',
             'title'   => 'required|max:'.self::MAX_TITLE_LENGTH,
+            'nsfw'    => 'required|numeric|between:0,1',
+            'nsfl'    => 'required|numeric|between:0,1',
         );
 
         $rule_data = 'max:'.self::MAX_MARKDOWN_LENGTH;
@@ -259,7 +261,7 @@ class Post extends BaseModel
         return $url;
     }
 
-    public static function make($section_title, $content, $title, $url)
+    public static function make($section_title, $content, $title, $url, $nsfw, $nsfl)
     {
         $block = new SuccessBlock();
         $block->data->section_title = $section_title;
@@ -284,7 +286,9 @@ class Post extends BaseModel
                 'data'    => $content,
                 'title'   => $title,
                 'url'     => $url,
-                'user_id' => Auth::user()->id
+                'user_id' => Auth::user()->id,
+                'nsfw'    => $nsfw,
+                'nsfl'    => $nsfl,
             ]);
 
             $rules    = self::generateRules($data);

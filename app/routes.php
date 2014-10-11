@@ -25,6 +25,7 @@ Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@noti
 Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
 
 Route::get('/preferences', ['before' => 'auth', 'uses' => 'UserController@preferences']);
+Route::post('/preferences', ['before' => 'auth', 'uses' => 'UserController@savePreferences']);
 Route::get('/preferences/.json', ['before' => 'auth.token', 'uses' => 'UserController@preferencesJson']);
 
 Route::group(['prefix' => '/s'], function()
@@ -180,6 +181,9 @@ Route::get('/assets/prod/{filename}', function($filename) {
 });
 Route::get('/assets/css/colorschemes/{filename}', function($filename) {
     return Bust::css("/assets/css/colorschemes/$filename");
+});
+Route::get('/assets/css/prefs/{filename}', function($filename) {
+    return Bust::css("/assets/css/prefs/$filename");
 });
 App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
 

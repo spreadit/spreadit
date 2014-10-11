@@ -60,6 +60,13 @@ class UtilityController extends BaseController
         return $item->anonymous ? 'user-anonymous' : '';
     }
 
+    public static function nsfClasses($post) {
+        $result = "";
+        if($post->nsfw > 0) $result .= "nsfw ";
+        if($post->nsfl > 0) $result .= "nsfl ";
+        return $result;
+    }
+
     public static function commentsPrettyUrl($item)
     {
         return parse_url($item->type == Post::SELF_POST_TYPE ? URL::to('/') : $item->url, PHP_URL_HOST);
@@ -82,21 +89,28 @@ class UtilityController extends BaseController
         return URL::to('/s/' . $item->section_title);
     }
 
-    public static function colorschemeHtml()
+    public static function customCss()
     {
-        $bsrc = "";
-        
+        $result = "";
+
+        $bsrc = "";        
         if(strcmp(Cookie::get('colorscheme'), "light") == 0) {
            $bsrc = "/assets/css/colorschemes/light.css";
         }
-        
         if(!empty($bsrc)) {
-            $bsrc = Bust::url($bsrc);
-
-            return "<link rel=\"stylesheet\" media=\"screen\" href=\"$bsrc\">"; 
+            $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url($bsrc)."\">"; 
         }
 
-        return "";
+        if(Auth::check()) {
+            if(Auth::user()->show_nsfw) {
+                $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/prefs/show_nsfw.css")."\">"; 
+            }
+            if(Auth::user()->show_nsfl) {
+                $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"/assets/css/prefs/show_nsfl.css\">"; 
+            }
+        }
+
+        return $result;
     }
 
     public static function oldSectionHtml($section)
@@ -104,5 +118,21 @@ class UtilityController extends BaseController
         return (!empty(Input::old('section')))
             ? Input::old('section')
             : $section->title;
+    }
+
+    public static function postsRemainingHtml() {
+        return sprintf("You have %s of %s posts remaining per %s", 
+            Utility::remainingPosts(),
+            Utility::availablePosts(),
+            Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS)
+        );
+    }
+    
+    public static function commentsRemainingHtml() {
+        return sprintf("You have %s of %s comments remaining per %s", 
+            Utility::remainingComments(),
+            Utility::availableComments(),
+            Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS)
+        );
     }
 }

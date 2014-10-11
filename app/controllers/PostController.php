@@ -59,10 +59,12 @@ class PostController extends BaseController
         }
 
         $post = Post::make(
-            Input::get('section', ''),
-            Input::get('data',    ''),
-            Input::get('title',   ''),
-            Input::get('url',     '')
+            Input::get('section',  ''),
+            Input::get('data',     ''),
+            Input::get('title',    ''),
+            Input::get('url',      ''),
+            Input::get('nsfw-tag', 0),
+            Input::get('nsfl-tag', 0)
         );
 
         if($post->success) {
@@ -80,7 +82,9 @@ class PostController extends BaseController
             Input::get('section', ''),
             Input::get('data',    ''),
             Input::get('title',   ''),
-            Input::get('url',     '')
+            Input::get('url',     ''),
+            Input::get('nsfw-tag', 0),
+            Input::get('nsfl-tag', 0)
         );
 
         return Response::json([

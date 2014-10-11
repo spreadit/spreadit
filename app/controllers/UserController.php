@@ -78,16 +78,30 @@ class UserController extends BaseController
     
     protected function preferences()
     {
-		$view = View::make('preferences', [
+		return View::make('preferences', [
 			'sections' => Section::get()
 		]);
-
-		return $view;
     }
 
     protected function preferencesJson()
     {
         return Response::json("moo");
+    }
+
+    protected function savePreferences()
+    {
+        $show_nsfw = Input::get('show_nsfw', 0);
+        $show_nsfl = Input::get('show_nsfl', 0);
+        User::savePreferences(Auth::id(), $show_nsfw, $show_nsfl);
+
+        return $this->savedPreferences();
+    }
+
+    protected function savedPreferences()
+    {
+		return View::make('savedpreferences', [
+			'sections' => Section::get()
+		]);
     }
 
     protected function comments($username)

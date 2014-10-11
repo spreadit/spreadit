@@ -1,0 +1,21 @@
+.nsfw .post-thumbnail img {
+    -o-filter:      none;
+    -ms-filter:     none;
+    -moz-filter:    none;
+    -webkit-filter: none;
+    filter:         none;
+
+    -o-transition:      none;
+    -ms-transition:     none;
+    -moz-transition:    none;
+    -webkit-transition: none;
+    transition:         none;
+}
+
+.nsfw:hover .post-thumbnail img {
+    -o-filter:      none;
+    -ms-filter:     none;
+    -moz-filter:    none;
+    -webkit-filter: none;
+    filter:         none;
+}

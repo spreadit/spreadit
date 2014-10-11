@@ -5,7 +5,7 @@
         <meta name=viewport content="width=device-width, initial-scale=1">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="{{ Bust::url("/assets/prod/build.min.css") }}">
-        {{ UtilityController::colorschemeHtml() }} 
+        {{ UtilityController::customCss() }} 
     </head>
     <body class="comment-reply-box-page">
         @if ($errors->any())
@@ -18,7 +18,7 @@
             <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
             <input type="hidden" name="parent_id" value="{{ $comment->parent_id }}">
             <p class="text">
-                <textarea name="data" id="data" value="{{ Input::old('data') }}" placeholder="You have {{ Utility::remainingComments() }} of {{ Utility::availableComments() }} comments remaining ( per {{ Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS) }})" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
+                <textarea name="data" id="data" value="{{ Input::old('data') }}" placeholder="{{ UtilityController::commentsRemainingHtml() }}" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
 
             </p>
             @if (Comment::canPost())

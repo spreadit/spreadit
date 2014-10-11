@@ -1,4 +1,4 @@
-<div class="post-piece" tabindex="1">
+<div class="post-piece {{ UtilityController::nsfClasses($post) }}" tabindex="1">
     <div class="post-points">
         <div class="breaker points-actions">
             <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses() }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow">&#x25B2;</a>

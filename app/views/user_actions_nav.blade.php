@@ -6,7 +6,10 @@
 
     <?php $notification_count = Notification::getUnreadCount(); ?>
     <li class="{{ $notification_count > 0 ? 'unread-notifications' : '' }} {{ Request::segment(1) == 'notifications' ? 'active' : '' }}">
-        <a role="button" href="/notifications">notifications({{ $notification_count }})</a>
+        <a role="button" href="/notifications">msgs({{ $notification_count }})</a>
+    </li>
+    <li class="{{ Request::segment(1) == 'prefs' ? 'active' : '' }}">
+        <a role="button" href="/preferences">prefs</a>
     </li>
     <li class="{{ Request::segment(1) == 'logout' ? 'active' : '' }}">
         <a role="button" href="/logout">logout</a>

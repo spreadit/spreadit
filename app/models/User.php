@@ -16,9 +16,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     public $autoHydrateEntityFromInput = true; 
     
     protected $attributes = array(
-        'points' => '10',
-        'upvotes' => '0',
-        'downvotes' => '0'
+        'points'    => 10,
+        'upvotes'   => 0,
+        'downvotes' => 0,
+        'show_nsfw' => 0,
+        'show_nsfl' => 0,
     );
     
     public static $passwordAttributes = ['password'];
@@ -52,6 +54,15 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             'created_at' => time(),
             'updated_at' => time()
         ]);
+    }
+
+    public static function savePreferences($user_id, $show_nsfw, $show_nsfl) {
+        DB::table('users')
+            ->where('id', $user_id)
+            ->update([
+                'show_nsfw' => $show_nsfw,
+                'show_nsfl' => $show_nsfl,
+            ]);
     }
 
     /**
