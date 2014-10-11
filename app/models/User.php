@@ -161,4 +161,39 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->orderBy('votes.id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
     }
+
+    protected function userStats($username) {
+        $user = DB::table('users')
+            ->select('users.points', 'users.votes', 'users.anonymous', 'users.created_at')
+            ->where('users.username', 'LIKE', $username)
+            ->first();
+        if($user == null) { 
+            App::abort(404);
+        }
+
+        $achievements = [
+            'misunderstood',
+            'lovelle',
+            'paladin',
+            'jagmere',
+            'middle aged cat',
+            'goatherder',
+            'cornwhisperer',
+            'velocotoaster',
+            'rhinocerpuss',
+            'beedlegoose',
+            'finlander',
+            'moosegasser',
+            'wetland pony',
+            'gorgonzola',
+            'cheesehead beaver',
+            'leviathan',
+            'miniature god',
+        ];
+
+        $level = Utility::availablePosts($user);
+        $user->level = $level;
+        $user->achievement = $achievements[($level < count($achievements) ? $level : count($achievements) - 1)];
+        return $user;
+    }
 }

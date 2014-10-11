@@ -207,13 +207,17 @@ class Utility
         return max(0, self::availablePosts() - Post::getPostsInTimeoutRange());
     }
 
-    public static function availablePosts()
+    public static function availablePosts($user=null)
     {
-        if(!Auth::check()) {
-            return 2;
+        if($user == null) {
+            if(!Auth::check()) {
+                return 2;
+            } else {
+                $user = Auth::user();
+            }
         }
 
-        return max(0, 1 + floor(sqrt(Auth::user()->points + (Auth::user()->votes * 1.5))));
+        return max(0, 1 + floor(sqrt($user->points + ($user->votes * 1.5))));
     }
 
     public static function remainingComments()

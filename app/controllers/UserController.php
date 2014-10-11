@@ -166,9 +166,11 @@ class UserController extends BaseController
 
     protected function mainVote($username)
     {
+        $stats = User::userStats($username);
         return View::make('user_votes_page', [
             'sections' => Section::get(),
             'username' => $username,
+            'stats'    => $stats,
             'highlight' => ''
         ]);
     }
