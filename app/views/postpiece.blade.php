@@ -1,4 +1,5 @@
-<div class="post-piece {{ UtilityController::nsfClasses($post) }}" tabindex="1">
+<?php $selfpost = empty($post->url); ?>
+<div class="post-piece {{ UtilityController::nsfClasses($post) }} {{ $selfpost ? 'self' : 'link' }}" tabindex="1">
     <div class="post-points">
         <div class="breaker points-actions">
             <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses() }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
@@ -14,13 +15,15 @@
     </div>
     <div class="post-thumbnail">
         @if (!empty($post->thumbnail))
-            @if (!empty($post->url))
-                <a rel="nofollow" href="{{ URL::to($post->url) }}">
-                    <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
-                </a>
+            @if ($selfpost)
+            <a rel="nofollow" href="{{ URL::to($post->url) }}">
             @else
-                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+            <a href="{{ URL::to($post->url) }}">
             @endif
+                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+            </a>
+                
+
         @endif
     </div>
     <div class="post-data">
@@ -31,7 +34,13 @@
             <span class="post-url">{{ UtilityController::commentsPrettyUrl($post) }}</span> :: <a href="{{ UtilityController::commentsUrl($post) }}">view comments({{ $post->comment_count }})</a>
         </div>
         <div class="breaker data-summary">
+            @if ($selfpost)
+                <a href="{{ UtilityController::commentsUrl($post) }}">
+            @endif
             <span class="summary">{{{ Utility::ellipsis(Utility::prettySubstr($post->markdown, 130)) }}}</span>
+            @if ($selfpost)
+                </a>
+            @endif
         </div>
     </div>
 </div>
