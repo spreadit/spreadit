@@ -127,7 +127,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
+            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
