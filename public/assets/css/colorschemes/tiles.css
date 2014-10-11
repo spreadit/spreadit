@@ -1,0 +1,267 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
+@import url(http://fonts.googleapis.com/css?family=Lato:300);
+/*undo shit*/
+a:hover {
+    background:transparent;
+}
+
+a.vote::before {
+    border:0;
+    transform:none;
+    transition:none;
+    position:static;
+    margin:0;
+    background:transparent;
+}
+
+a.vote::after {
+    content: "";
+    position:static;
+    opacity:1.0;
+    visibility:visible;
+    transition:none;
+    background:transparent;
+    color:#fff;
+    padding:0.1em;
+    transform:none;
+    transition:none;
+    position:static;
+    margin:0;
+    border:0;
+}
+
+a.vote:hover:after {
+    background:transparent;
+    transform:none;
+    transition:none;
+    border:0;
+}
+
+/*body .navbar.navbar-inverse .navbar-inner.dark-navbar*/
+
+#sections-navbar {
+    background-color:transparent;
+    box-shadow:none;
+}
+
+/*start theme*/
+body {
+    background-color:#f9f9f9;
+    font-family:'Open Sans', sans-serif;
+    font-weight:300;
+    font-size:1.2em;
+}
+
+
+.navbar-inner {
+    padding:0;
+}
+
+.navbar {
+    margin:0;
+}
+
+body .navbar.navbar-inverse .navbar-inner.dark-navbar {
+    box-shadow:none;
+}
+
+#sections-navbar .container {
+    margin:0;
+}
+
+#sections-navbar .nav>li>a {
+    background:#3A3A3A;
+}
+
+#sections-navbar .nav {
+    background:transparent;
+}
+
+#sections-navbar .nav>li {
+    margin-right:0.2em;
+}
+
+#sections-navbar .nav>li>a {
+    font-size:1.0em;
+    background:#3A3A3A;
+}
+
+#sections-navbar .nav>li.active>a {
+    background:#EB1C24;
+    color:#fff;
+}
+
+h2.section-title a {
+    color:#3A3A3A;
+}
+
+#header-nav {
+    background:transparent;
+    height:2em;
+}
+
+.navbar #header-nav .nav>li {
+    margin-right:0.2em;
+}
+
+#header-nav .nav>li>a {
+    background:#3A3A3A;
+    color:#f9f9f9;
+    padding-right:1.5em;
+}
+
+#header-nav .nav>li.active>a {
+    background:#EB1C24;
+    color:#fff;
+}
+
+
+.container {
+    background-color:#f9f9f9;
+}
+
+.posts-container {
+    width:96%;
+    margin:3%;
+    position:relative;
+}
+
+.sidebar {
+    display:none;
+}
+
+.post-piece {
+    width:31.5%;
+    height:166px;
+    margin:0.125%;
+    float:left;
+    clear:none;
+    position:relative;
+    background-color:#3A3A3A;
+}
+
+.post-piece:nth-child(odd) {
+    background-color:#3A3A3A;
+}
+
+
+.post-piece .post-thumbnail {
+    float:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    z-index:5;
+}
+
+.post-piece.self .post-thumbnail {
+    display:none;
+}
+
+.post-piece .post-thumbnail img {
+    width:100%;
+    height:100%;
+}
+
+.post-piece .post-points {
+    float:none;
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    background-color:#3A3A3A;
+    z-index:10;
+    overflow:visible;
+    width:auto;
+    padding-left:0.3em;
+    padding-right:0.3em;
+}
+
+.post-piece .post-points .points-actions .total-points {
+    float:left;
+    margin-right:1em;
+}
+
+.post-piece .post-points .points-actions .total-points::after {
+    content:" points ";
+}
+
+a.vote .voteiconup,
+a.vote .voteicondown {
+    color:#9D9D9D;
+}
+
+a.vote.selected .voteiconup,
+a.vote.selected .voteicondown {
+    color:#F32027;
+}
+
+.voteiconup::after {
+    content: "\002B";
+}
+
+.voteicondown::after {
+    content: "\2212";
+}
+
+.post-piece .post-points .points-actions .upvotes,
+.post-piece .post-points .points-actions .downvotes,
+.post-piece .post-points .points-created-at,
+.post-piece .post-points .points-creator
+{
+    display:none;
+}
+
+.post-piece .post-data .data-title-and-section {
+    position:absolute;
+    bottom:-0.4em;
+    left:0px;
+    height:2em;
+    width:100%;
+    background-color:#3A3A3A;
+    z-index:6;
+    padding-left:1em;
+}
+.post-piece.self .post-data .data-title-and-section {
+    top:0px;
+    font-size:1.5em;
+    background-color:transparent;
+    padding:0.3em;
+}
+
+.post-piece .post-data .data-title-and-section a {
+    color:#d8d8d8;
+}
+
+.post-piece .post-data .data-url-and-comments,
+.post-piece .post-data .data-summary {
+    display:none;
+}
+
+.post-piece .post-data .data-summary {
+    display:block;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    padding:0.2em;
+}
+
+.post-piece.self .post-data .data-summary {
+    text-indent:1em;
+}
+
+.post-piece.self .post-data .data-summary .summary {
+    position:absolute;
+    bottom:2.5em;
+    color:#C4c4c4;
+    font-family: 'Lato';
+    font-weight:300;
+    font-size:1.1em;
+    display:block;
+    width:100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
