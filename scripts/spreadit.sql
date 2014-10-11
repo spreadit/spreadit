@@ -75,7 +75,21 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `markdown` text NOT NULL,
   `thumbnail` varchar(32) NOT NULL,
   `deleted_at` int(11) NOT NULL DEFAULT '0',
+  `nsfw` int(11) NOT NULL,
+  `nsfl` int(11) NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `post_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `type` int(11) NOT NULL COMMENT '0=nsfw, 1=nsfl',
+  `updown` int(11) NOT NULL COMMENT '-1, 1',
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`,`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `sections` (
@@ -93,6 +107,15 @@ CREATE TABLE IF NOT EXISTS `sections` (
 INSERT INTO `sections` (`id`, `title`, `created_at`, `updated_at`, `data`, `upvotes`, `downvotes`, `markdown`) VALUES
 (0, 'all', 1404501194, 1404501194, 'everything!', 0, 0, 0);
 
+CREATE TABLE IF NOT EXISTS `ta_auth_tokens` (
+  `auth_identifier` int(11) NOT NULL,
+  `public_key` varchar(96) COLLATE utf8_unicode_ci NOT NULL,
+  `private_key` varchar(96) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`auth_identifier`,`public_key`,`private_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(24) NOT NULL,
@@ -105,6 +128,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `downvotes` int(12) unsigned NOT NULL,
   `anonymous` tinyint(1) NOT NULL DEFAULT '0',
   `votes` int(11) NOT NULL DEFAULT '0',
+  `show_nsfw` binary(1) NOT NULL DEFAULT '0',
+  `show_nsfl` binary(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
