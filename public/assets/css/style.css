@@ -159,6 +159,14 @@ a.vote,
 	font-size:1.5em;
 }
 
+.voteiconup::after {
+    content: "\25B2";
+}
+
+.voteicondown::after {
+    content: "\25BC";
+}
+
 .logged-in .vote:hover {
 	cursor:pointer;
 }
@@ -209,6 +217,16 @@ a.vote,
     float:left;
     width:16em;
     display:inline-block;
+}
+
+.upoints::before {
+    content: "(";
+}
+.upoints::after {
+    content: ",";
+}
+.uvotes::after {
+    content: ")";
 }
 
 .post-data {

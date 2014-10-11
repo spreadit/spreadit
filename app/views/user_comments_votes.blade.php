@@ -23,8 +23,8 @@
         <tr>
             <td>{{ $vote->created_at }}</td>
             <td>{{ Utility::prettyAgo($vote->created_at) }}</td>
-            <td><a class="username" href="/u/{{ $vote->username }}">{{ $vote->username }}</a>({{ $vote->points }},{{ $vote->votes }})</td>
-            <td>{{ $vote->updown == Vote::UP ? '&#x25B2;' : '&#x25BC;' }} {{ $vote->upvotes }}-{{ $vote->downvotes}} {{ ($vote->upvotes - $vote->downvotes) }}</td>
+            <td><a class="username" href="/u/{{ $vote->username }}">{{ $vote->username }}</a><span class="upoints">{{ $vote->points }}</span><span class="uvotes">{{ $vote->votes }}</span></td>
+            <td><span class="{{ $vote->updown == Vote::UP ? 'voteiconup' : 'voteicondown' }}"></span> {{ $vote->upvotes }}-{{ $vote->downvotes}} {{ ($vote->upvotes - $vote->downvotes) }}</td>
             <td><a href="/comments/{{ $vote->id }}">{{ $vote->data }}</a></td>
         </tr>
     @endforeach

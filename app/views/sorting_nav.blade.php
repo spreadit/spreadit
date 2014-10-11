@@ -2,8 +2,8 @@
     <div class="align-bottom">
         <h2 class="section-title"><a href="{{ URL::to('/s/' . $section->title) }}">{{ $section->title }}</a></h2>
         <div class="section-points">
-            <a href="/vote/section/{{ $section->id }}/up" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::upvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="up">&#x25B2;</a>
-            <a href="/vote/section/{{ $section->id }}/down" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::downvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="down">&#x25BC;</a>
+            <a href="/vote/section/{{ $section->id }}/up" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::upvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="up"><span class="voteiconup"></span></a>
+            <a href="/vote/section/{{ $section->id }}/down" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::downvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="down"><span class="voteicondown"></span></a>
         </div>
 
         <ul class="nav nav-pills">

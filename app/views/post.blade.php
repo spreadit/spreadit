@@ -20,8 +20,8 @@
             <div class="post-piece" tabindex="1">
                 <div class="post-points">
                     <div class="breaker points-actions">
-                        <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow">&#x25B2;</a>
-                        <a href="{{ URL::to("/vote/post/" . $post->id . "/down") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::downvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="down" rel="nofollow">&#x25BC;</a>
+                        <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
+                        <a href="{{ URL::to("/vote/post/" . $post->id . "/down") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::downvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
                         <a href="{{ URL::to("/vote/post/".$post->id) }}">
                             <span class="upvotes">{{ $post->upvotes }}</span>-<span class="downvotes">{{ $post->downvotes }}</span> <span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                         </a>
@@ -30,7 +30,7 @@
                         {{ Utility::prettyAgo($post->created_at) }}
                     </div>
                     <div class="breaker points-creator">
-                        <a class="username {{ UtilityController::anonymousClasses($post) }}" rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a>(<span class="upoints">{{ $post->points }}</span>,<span class="uvotes">{{ $post->votes }}</span>)
+                        <a class="username {{ UtilityController::anonymousClasses($post) }}" rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a><span class="upoints">{{ $post->points }}</span><span class="uvotes">{{ $post->votes }}</span>
                     </div>
                 </div>
                 <div class="post-thumbnail">
