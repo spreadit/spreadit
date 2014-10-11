@@ -38,7 +38,7 @@
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span6">
-                            <input name="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
+                            <input name="section" id="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">
