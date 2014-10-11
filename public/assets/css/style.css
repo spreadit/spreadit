@@ -229,6 +229,13 @@ a.vote,
     content: ")";
 }
 
+.downvotes::before {
+    content:"-";
+}
+.downvotes::after {
+    content:" ";
+}
+
 .post-data {
     float:right;
     display:inline-block;

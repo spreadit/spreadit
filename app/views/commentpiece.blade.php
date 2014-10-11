@@ -7,7 +7,7 @@
             <a href="{{ URL::to("/vote/comment/" . $comment->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::upvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
             <a href="{{ URL::to("/vote/comment/" . $comment->id . "/down") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::downvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
             <a href="{{ URL("/vote/comment/{$comment->id}") }}">
-                <span class="upvotes">{{ $comment->upvotes  }}</span>-<span class="downvotes">{{ $comment->downvotes }}</span> <span class="total-points">{{ ($comment->upvotes - $comment->downvotes) }}</span>
+                <span class="upvotes">{{ $comment->upvotes  }}</span><span class="downvotes">{{ $comment->downvotes }}</span><span class="total-points">{{ ($comment->upvotes - $comment->downvotes) }}</span>
             </a>
         </div>
         <div class="breaker comment-created-at">

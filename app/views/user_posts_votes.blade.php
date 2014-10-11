@@ -24,7 +24,7 @@
             <td>{{ $vote->created_at }}</td>
             <td>{{ Utility::prettyAgo($vote->created_at) }}</td>
             <td><a class="username" href="/u/{{ $vote->username }}">{{ $vote->username }}</a><span class="upoints">{{ $vote->points }}</span><span class="uvotes">{{ $vote->votes }}</span></td>
-            <td><span class="{{ $vote->updown == Vote::UP ? 'voteiconup' : 'voteicondown' }}"></span> {{ $vote->upvotes }}-{{ $vote->downvotes}} {{ ($vote->upvotes - $vote->downvotes) }}</td>
+            <td><span class="{{ $vote->updown == Vote::UP ? 'voteiconup' : 'voteicondown' }}"></span> <span class="upvotes">{{ $vote->upvotes }}</span><span class="downvotes">{{ $vote->downvotes}}</span><span class="total-votes">{{ ($vote->upvotes - $vote->downvotes) }}</span></td>
             <td><a href="/s/{{ $vote->section_title }}/posts/{{ $vote->id }}">{{ $vote->title }}</a></td>
         </tr>
     @endforeach
