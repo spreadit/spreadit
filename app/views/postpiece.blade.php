@@ -20,10 +20,13 @@
             @else
             <a href="{{ URL::to($post->url) }}">
             @endif
-                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                <span class="thumb-small">
+                    <div class="thumb-img" title="{{{ $post->title }}}" style="background-image:url(/assets/thumbs/small/{{ $post->thumbnail }}.jpg)"></div>
+                </span>
+                <span class="thumb-large">
+                    <div class="thumb-img" title="{{{ $post->title }}}" style="background-image:url(/assets/thumbs/large/{{ $post->thumbnail }}.jpg)"></div>
+                </span>
             </a>
-                
-
         @endif
     </div>
     <div class="post-data">

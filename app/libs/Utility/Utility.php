@@ -98,8 +98,25 @@ class Utility
         return true;
     }
 
-    public static function getThumbnailFromUrl($url)
+    public static function thumbnailScript($id, $url)
     {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, URL::to('/') . "/util/thumbnail?id=$id&url=$url");
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
+    public static function getThumbnailForPost($id, $url)
+    {
+        $post = Post::findOrFail($id);
+        if($post->created_at < time() - 60) {
+            return;
+        } else if($post->thumbnail != "") {
+            return;
+        }
+
         $uri_info = new URIInfo($url);
         $ftype = $uri_info->getContentType();
         $ftype_pieces = explode("/", $ftype);
@@ -108,11 +125,29 @@ class Utility
         $image_types = ["image/gif", "image/jpeg", "image/jpg", "image/bmp", "image/png", "image/tiff", "image/svg"];
         $is_image = in_array(strtolower($ftype), $image_types);
 
+        $generated_name = md5($url . time());
+
+        $success = true;
+        if(!self::snapThumbAndSave($url, 1024, 572, 128, 72, $is_text, $is_image, public_path() . "/assets/thumbs/small/$generated_name.jpg")) {
+            $success = false;
+        }
+        if(!self::snapThumbAndSave($url, 1060, 466, 480, 211, $is_text, $is_image, public_path() . "/assets/thumbs/large/$generated_name.jpg")) {
+            $success = false;
+        }
+
+        $post->thumbnail = $generated_name;
+        $post->save();
+
+        return $generated_name . " :: " . $success;
+    }
+
+    public static function snapThumbAndSave($url, $snap_width, $snap_height, $save_width, $save_height, $is_text, $is_image, $dest)
+    {
         try {
             $snappy = new ThumbDL('/usr/local/bin/wkhtmltoimage');
             $snappy->setOption('stop-slow-scripts', true);
-            $snappy->setOption('width', "1024");
-            $snappy->setOption('height', "576");
+            $snappy->setOption('width', $snap_width);
+            $snappy->setOption('height', $snap_height);
 
             $host = parse_url($url, PHP_URL_HOST);
             if(strcmp($host, "www.youtube.com") == 0) {
@@ -130,11 +165,13 @@ class Utility
                 } else if($is_image) { 
                     $image = $snappy->getOutput(URL::to("/util/imagewrapper?url=".urlencode($url)));
                 } else {
-                    return "";
+                    Log::error("image neither text nor image");
+                    return false;
                 }
             }
         } catch (Exception $e) {
-            return "";
+            Log::error($e->getMessage());
+            return false;
         }
 
         try {
@@ -143,20 +180,21 @@ class Utility
             fwrite($handle, $image);
             fclose($handle);
         } catch(Exception $e) {
-            return "";
+            Log::error($e->getMessage());
+            return false;
         }
 
         try {
-            $generated_name = md5($url . time());
             $resizer = Image::make($tmpfname);
-            $resizer->resize(128, 72);
+            $resizer->resize($save_width, $save_height);
 
-            $resizer->save(public_path() . "/assets/thumbs/".$generated_name.".jpg");
+            $resizer->save($dest);
         } catch(Exception $e) {
-            return "";
+            Log::error($e->getMessage());
+            return false;
         }
 
-        return $generated_name;
+        return true;
     }
 
     public static function getSortTimeframe()

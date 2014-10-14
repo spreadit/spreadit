@@ -270,9 +270,18 @@ ol li {
     overflow:hidden;
 }
 
-.post-thumbnail img {
+.post-thumbnail .thumb-small .thumb-img {
     width:128px;
     height:72px;
+}
+
+.post-thumbnail .thumb-large .thumb-img {
+    width:480px;
+    height:211px;
+}
+
+.post-piece .thumb-large {
+    display:none;
 }
 
 .nsfw .post-thumbnail img,

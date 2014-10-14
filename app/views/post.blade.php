@@ -1,3 +1,4 @@
+<?php $selfpost = empty($post->url); ?>
 @extends('layout.default')
 
 @section('title')
@@ -35,13 +36,14 @@
                 </div>
                 <div class="post-thumbnail">
                     @if (!empty($post->thumbnail))
-                        @if (!empty($post->url))
-                            <a rel="nofollow" href="{{ UtilityController::postUrl($post) }}">
-                                <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
-                            </a>
+                        @if ($selfpost)
+                        <a rel="nofollow" href="{{ URL::to($post->url) }}">
                         @else
-                            <img alt="{{{ $post->title }}}" src="/assets/thumbs/{{ $post->thumbnail }}.jpg">
+                        <a href="{{ URL::to($post->url) }}">
                         @endif
+                            <span class="thumb-small"><img alt="{{{ $post->title }}}" src="/assets/thumbs/small/{{ $post->thumbnail }}.jpg"></span>
+                            <span class="thumb-large"><img alt="{{{ $post->title }}}" src="/assets/thumbs/large/{{ $post->thumbnail }}.jpg"></span>
+                        </a>
                     @endif
                 </div>
                 <div class="post-data">

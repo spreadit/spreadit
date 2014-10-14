@@ -16,6 +16,12 @@ class Post extends BaseModel
     protected $table = 'posts';
     protected $guarded = array('id');
 
+
+    public function getDates() {
+        $defaults = array(static::UPDATED_AT);
+        return array_merge($this->dates, $defaults);
+    }
+
     public static function getSectionTitleFromId($id)
     {
         return DB::table('sections')
@@ -308,8 +314,6 @@ class Post extends BaseModel
                 if(!Utility::urlExists($data['url'])) {
                     $block->success  = false;
                     $block->errors[] = 'website doesn\'t exist';
-                } else {
-                    $data['thumbnail'] = Utility::getThumbnailFromUrl($data['url']);
                 }
             }
         }
@@ -336,6 +340,11 @@ class Post extends BaseModel
             $item = new Post($data);
             $item->save();
 
+            if(isset($rules['url'])) {
+                if(Utility::urlExists($data['url'])) {
+                    Utility::thumbnailScript($item->id, $data['url']);
+                }
+            }
 
             //add a point for adding posts
             if(Auth::user()->anonymous == 0) {

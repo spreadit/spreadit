@@ -16,8 +16,16 @@ class UtilityController extends BaseController
 
     protected function preview()
     {
-
         return View::make('preview', ['data' => MarkdownExtra::defaultTransform(e(Input::get('data')))]);
+    }
+
+    public static function thumbnail() {
+        if(!Input::has("id") || !Input::has("url")) {
+            return "missing id or url";
+        }
+
+        Utility::getThumbnailForPost(Input::get("id"), Input::get("url"));
+        return "";
     }
 
     public static function showBubble()
@@ -110,7 +118,7 @@ class UtilityController extends BaseController
             }
         }
 
-        //$result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/prefs/tiles.css")."\">"; 
+        $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/colorschemes/tiles.css")."\">"; 
 
         return $result;
     }

@@ -63,6 +63,7 @@ Route::group(['prefix' => '/util'], function()
     Route::get('/imagewrapper', 'UtilityController@imagewrapper');
     Route::get('/titlefromurl', 'UtilityController@titlefromurl');
     Route::post('/preview', 'UtilityController@preview');
+    Route::get('/thumbnail', 'UtilityController@thumbnail');
 });
 
 
