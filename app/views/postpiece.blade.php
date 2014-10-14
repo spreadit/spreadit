@@ -28,10 +28,14 @@
     </div>
     <div class="post-data">
         <div class="breaker data-title-and-section">
-            <a rel="nofollow" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a> | <a class="post-section" href="{{ UtilityController::sectionUrl($post) }}">{{ $post->section_title }}</a>
+            <a class="post-title" rel="nofollow" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a>
+            <span class="post-title-section-separator"></span> 
+            <a class="post-section" href="{{ UtilityController::sectionUrl($post) }}">{{ $post->section_title }}</a>
         </div>
         <div class="breaker data-url-and-comments">
-            <span class="post-url">{{ UtilityController::commentsPrettyUrl($post) }}</span> :: <a href="{{ UtilityController::commentsUrl($post) }}">view comments({{ $post->comment_count }})</a>
+            <span class="post-url">{{ UtilityController::commentsPrettyUrl($post) }}</span>
+            <span class="post-url-comments-link-separator"></span>
+            <a class="post-comments-link" href="{{ UtilityController::commentsUrl($post) }}"><span class="post-comments-count">{{ $post->comment_count }}</span></a>
         </div>
         <div class="breaker data-summary">
             @if ($selfpost)

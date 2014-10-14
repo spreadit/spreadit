@@ -447,6 +447,22 @@ a.post-section {
     color:#CCC;
 }
 
+.post-title-section-separator::before {
+    content: " | ";
+}
+
+.post-url-comments-link-separator::before {
+    content: "::";
+}
+
+.post-comments-link::before {
+    content: "view comments(";
+}
+
+.post-comments-link::after {
+    content: ")";
+}
+
 .lazy-loaded:hover {
     cursor:pointer;
 }
