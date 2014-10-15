@@ -3,21 +3,45 @@ class PageController extends BaseController
 {
     protected function about()
     {
-        return View::make('about', ['sections' => Section::get()]);
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
+        return View::make('about', [
+            'sections' => $sections,
+            'section' => $section,
+        ]);
     }
 
     protected function contact()
     {
-        return View::make('contact', ['sections' => Section::get()]);
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        
+        return View::make('contact', [
+            'sections' => $sections,
+            'section' => $section,
+        ]);
     }
     
     protected function threats()
     {
-        return View::make('threats', ['sections' => Section::get()]);
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
+        return View::make('threats', [
+            'sections' => $sections,
+            'section' => $section,
+        ]);
     }
     
     protected function login()
     {
-        return View::make('login', ['sections' => Section::get()]);
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
+        return View::make('login', [
+            'sections' => $sections,
+            'section' => $section,
+        ]);
     }
 }

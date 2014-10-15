@@ -4,7 +4,7 @@ use LaravelBook\Ardent\Ardent;
 
 class BaseModel extends Ardent
 {
-    protected function getDateFormat()
+    public function getDateFormat()
     {
         return 'U';
     }

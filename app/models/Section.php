@@ -27,7 +27,12 @@ class Section extends BaseModel
 
     public static function sectionFromSections(array $sections)
     {
-        if(count($sections) == 1) {
+        if(count($sections) == 0) {
+            $section = new stdClass;
+            $section->id = -1;
+            $section->multi_spreadit = false;
+            $section->title = "";
+        } else if(count($sections) == 1) {
             $section = $sections[0];
         } else if(count($sections) > 1) {
             $section = new stdClass;

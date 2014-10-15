@@ -18,11 +18,6 @@ class Post extends BaseModel
     protected $guarded = array('id');
 
 
-    public function getDates() {
-        $defaults = array(static::UPDATED_AT);
-        return array_merge($this->dates, $defaults);
-    }
-
     public static function getSectionTitleFromId($id)
     {
         return DB::table('sections')

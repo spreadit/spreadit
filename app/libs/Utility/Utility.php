@@ -111,9 +111,11 @@ class Utility
     public static function getThumbnailForPost($id, $url)
     {
         $post = Post::findOrFail($id);
-        if($post->created_at < time() - 60) {
+        if($post->created_at->timestamp < (time() - 60)) {
+            Log::error("post created too early: " . $id . "::" . $url);
             return;
         } else if($post->thumbnail != "") {
+            Log::error("thumb already set: " . $id . "::" . $url);
             return;
         }
 
