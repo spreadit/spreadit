@@ -59,8 +59,12 @@ class UserController extends BaseController
 
     protected function notifications()
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
 		$view = View::make('notifications', [
-			'sections' => Section::get(),
+			'sections'      => $sections,
+			'section'       => $section,
 			'notifications' => Notification::get()
 		]);
 
@@ -78,8 +82,12 @@ class UserController extends BaseController
     
     protected function preferences()
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
 		return View::make('preferences', [
-			'sections' => Section::get()
+            'sections' => $sections,
+            'section'  => $section
 		]);
     }
 
@@ -99,17 +107,25 @@ class UserController extends BaseController
 
     protected function savedPreferences()
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
 		return View::make('savedpreferences', [
-			'sections' => Section::get()
+			'sections' => $sections,
+			'section'  => $section,
 		]);
     }
 
     protected function comments($username)
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
         return View::make('user_comments', [
-            'sections' => Section::get(),
-            'comments' => User::comments($username),
-            'username' => $username,
+            'sections'  => $sections,
+            'section'   => $section,
+            'comments'  => User::comments($username),
+            'username'  => $username,
             'highlight' => 'comments'
         ]);
     }
@@ -121,10 +137,14 @@ class UserController extends BaseController
 
     protected function posts($username)
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
         return View::make('user_posts', [
-            'sections' => Section::get(),
-            'posts' => User::posts($username),
-            'username' => $username,
+            'sections'  => $sections,
+            'section'   => $section,
+            'posts'     => User::posts($username),
+            'username'  => $username,
             'highlight' => 'posts'
         ]);
     }
@@ -136,11 +156,15 @@ class UserController extends BaseController
 
     protected function postsVotes($username)
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
         return View::make('user_posts_votes', [
-            'sections' => Section::get(),
-            'votes' => User::postsVotes($username),
-            'username' => $username,
-            'highlight' => 'pvotes'
+            'sections'   => $sections,
+            'section'    => $section,
+            'votes'      => User::postsVotes($username),
+            'username'   => $username,
+            'highlight'  => 'pvotes'
         ]);
     }
 
@@ -151,10 +175,14 @@ class UserController extends BaseController
 
     protected function commentsVotes($username)
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
         return View::make('user_comments_votes', [
-            'sections' => Section::get(),
-            'votes' => User::commentsVotes($username),
-            'username' => $username,
+            'sections'  => $sections,
+            'section'   => $section,
+            'votes'     => User::commentsVotes($username),
+            'username'  => $username,
             'highlight' => 'cvotes'
         ]);
     }
@@ -166,11 +194,15 @@ class UserController extends BaseController
 
     protected function mainVote($username)
     {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
         $stats = User::userStats($username);
+
         return View::make('user_votes_page', [
-            'sections' => Section::get(),
-            'username' => $username,
-            'stats'    => $stats,
+            'sections'  => $sections,
+            'section'   => $section,
+            'username'  => $username,
+            'stats'     => $stats,
             'highlight' => ''
         ]);
     }
