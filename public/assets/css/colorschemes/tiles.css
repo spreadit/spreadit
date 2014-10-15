@@ -203,6 +203,10 @@ h2.section-title a {
     display:inline;
 }
 
+.post-thumbnail .thumb-img {
+    background-image:url(/assets/img/whitebgtile.png);
+}
+
 .post-piece .post-points {
     float:none;
     position:absolute;

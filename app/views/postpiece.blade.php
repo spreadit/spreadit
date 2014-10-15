@@ -13,22 +13,21 @@
             <a class="username {{ UtilityController::anonymousClasses($post) }}" rel="nofollow" href="{{ URL::to("/u/{$post->username}") }}">{{ $post->username }}</a><span class="upoints">{{ $post->points }}</span><span class="uvotes">{{ $post->votes }}</span>
         </div>
     </div>
-    <div class="post-thumbnail">
-        @if (!empty($post->thumbnail))
-            @if ($selfpost)
-            <a rel="nofollow" href="{{ URL::to($post->url) }}">
-            @else
-            <a href="{{ URL::to($post->url) }}">
-            @endif
-                <span class="thumb-small">
-                    <div class="thumb-img" title="{{{ $post->title }}}" style="background-image:url(/assets/thumbs/small/{{ $post->thumbnail }}.jpg)"></div>
-                </span>
-                <span class="thumb-large">
-                    <div class="thumb-img" title="{{{ $post->title }}}" style="background-image:url(/assets/thumbs/large/{{ $post->thumbnail }}.jpg)"></div>
-                </span>
-            </a>
-        @endif
-    </div>
+
+    @if ($selfpost)
+    <a rel="nofollow" href="{{ URL::to($post->url) }}">
+    @else
+    <a href="{{ URL::to($post->url) }}">
+    @endif
+        <div class="post-thumbnail">
+            <span class="thumb-small">
+                <div class="thumb-img" title="{{{ $post->title }}}" {{ (empty($post->thumbnail)) ?: 'style="background-image:url(/assets/thumbs/small/'.$post->thumbnail.'.jpg)"' }}></div>
+            </span>
+            <span class="thumb-large">
+                <div class="thumb-img" title="{{{ $post->title }}}" {{ (empty($post->thumbnail)) ?: 'style="background-image:url(/assets/thumbs/large/'.$post->thumbnail.'.jpg)"' }}></div>
+            </span>
+        </div>
+    </a>
     <div class="post-data">
         <div class="breaker data-title-and-section">
             <a class="post-title" rel="nofollow" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a>
