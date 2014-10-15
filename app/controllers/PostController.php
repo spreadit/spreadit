@@ -7,7 +7,7 @@ class PostController extends BaseController
 {
     protected function get($section_title, $post_id)
     {
-        $section = Section::getByTitle($section_title);
+        $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
         $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, [$section]);
         $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
         

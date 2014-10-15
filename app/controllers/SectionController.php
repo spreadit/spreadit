@@ -7,9 +7,21 @@ class SectionController extends BaseController
 
     protected function add($section_title)
     {
+        $sections = Section::get();
+        $titles = Section::splitByTitle($section_title);
+        $section = Section::sectionFromSections(Section::getByTitle($titles));
+
+        if(count($titles) > 1) {
+            return View::make('newpost_multisection', [
+                'sections'   => $sections,
+                'section'    => $section,
+                'selections' => $titles
+            ]);
+        }
+
 		return View::make('newpost', [
-			'sections' => Section::get(),
-			'section' => Section::getByTitle($section_title)
+			'sections' => $sections,
+			'section'  => $section
         ]);
     }
 
@@ -54,11 +66,16 @@ class SectionController extends BaseController
         return $this->getJson($section_title, 'controversial', $timeframe);
     }
 
+
     protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null, $no_view=false)
     {
-        $section = Section::getByTitle($section_title);
-        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, [$section]);
-        $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
+        $sections = Section::getByTitle(Section::splitByTitle($section_title));
+        $section = Section::sectionFromSections($sections);
+        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, $sections);
+
+        F\map($sections, function($m) {
+            $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;
+        });
 
         if(is_null($sort_mode)) {
             $sort_mode = Utility::getSortMode();
@@ -68,14 +85,15 @@ class SectionController extends BaseController
             $timeframe_mode = Utility::getSortTimeframe();
         }
 
-        $posts = $this->getPosts($sort_mode, $section->id, $this->getSecondsFromTimeframe($timeframe_mode));
+        $section_ids = F\map($sections, function($m) { return $m->id; });
+        $posts = $this->getPosts($sort_mode, $section_ids, $this->getSecondsFromTimeframe($timeframe_mode));
 
         if($no_view) return $posts;
 
         return Response::make(View::make('section', [
-            'sections'      => Section::get(),
-            'posts'         => $posts,
-            'section'       => $section,
+            'sections'                 => Section::get(),
+            'posts'                    => $posts,
+            'section'                  => $section,
             'sort_highlight'           => $sort_mode,
             'sort_timeframe_highlight' => $timeframe_mode
         ]))
@@ -113,13 +131,13 @@ class SectionController extends BaseController
         }
     }
 
-    protected function getPosts($sort_mode, $section_id, $seconds)
+    protected function getPosts($sort_mode, array $section_ids, $seconds)
     {
         switch($sort_mode) {
-            case 'hot':           return Post::getHotList($section_id, $seconds); break;
-            case 'new':           return Post::getNewList($section_id, $seconds); break;
-            case 'top':           return Post::getTopList($section_id, $seconds); break;
-            case 'controversial': return Post::getControversialList($section_id, $seconds); break;
+            case 'hot':           return Post::getHotList($section_ids, $seconds); break;
+            case 'new':           return Post::getNewList($section_ids, $seconds); break;
+            case 'top':           return Post::getTopList($section_ids, $seconds); break;
+            case 'controversial': return Post::getControversialList($section_ids, $seconds); break;
             default:              return App::abort(404); break;
         }
     }

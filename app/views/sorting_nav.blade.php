@@ -1,10 +1,12 @@
 <div id="header-nav">
     <div class="align-bottom">
+        @if (!isset($section->multi_spreadit))
         <h2 class="section-title"><a href="{{ URL::to('/s/' . $section->title) }}">{{ $section->title }}</a></h2>
         <div class="section-points">
             <a href="/vote/section/{{ $section->id }}/up" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::upvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="up"><span class="voteiconup"></span></a>
             <a href="/vote/section/{{ $section->id }}/down" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($section) }} {{ UtilityController::downvoteClasses($section) }}" data-id="{{ $section->id }}" data-type="section" data-updown="down"><span class="voteicondown"></span></a>
         </div>
+        @endif
 
         <ul class="nav nav-pills">
             <li {{ $sort_highlight == 'new' ? 'class="active"' : ''}}><a role="button" href="/s/{{ $section->title }}/new">New</a></li>

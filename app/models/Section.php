@@ -1,4 +1,5 @@
 <?php
+use \Functional as F;
 
 class Section extends BaseModel
 {
@@ -24,27 +25,50 @@ class Section extends BaseModel
         'title' => "required|andu|min:2|max:24"
     ];
 
+    public static function sectionFromSections(array $sections)
+    {
+        if(count($sections) == 1) {
+            $section = $sections[0];
+        } else if(count($sections) > 1) {
+            $section = new stdClass;
+            $section->id = -1;
+            $section->multi_spreadit = true;
+            $section->title = implode('+', F\map($sections, function($m) { return $m->title; }));
+        }
+
+        return $section;
+    }
+
+    public static function splitByTitle($title)
+    {
+        return explode('+', $title);
+    }
+
     /*
-     * get a single section by its title name
+     * get a sections by their name
      *
-     * @param string $section_title title in db
+     * @param array string $section_titles title in db
      *
      * @throws 404
      *
      * @return db obj
      */
-    public static function getByTitle($section_title)
+    public static function getByTitle(array $section_titles)
     {
-        $section = DB::table('sections')
+        $sections = DB::table('sections')
             ->select('id', 'title', 'data')
-            ->where('title', 'LIKE', $section_title)
-            ->first();
+            ->whereIn('title', $section_titles)
+            ->get();
 
-        if(is_null($section)) {
-            App::abort(404, "spreadit section not found");
+        if(is_null($sections)) {
+            $sections = [];
+            array_push($sections, new stdClass);
+            $sections[0]->id = -1;
+            $sections[0]->title = "not found";
+            $sections[0]->data = "none";
         }
 
-        return $section;
+        return $sections;
     }
 
     public static function exists($section_title)

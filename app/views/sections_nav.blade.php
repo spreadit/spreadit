@@ -1,3 +1,4 @@
+<?php $section_titles = Section::splitByTitle($section->title); ?>
 <div class="navbar-inner dark-navbar" id="sections-navbar">
 
     <div class="container">
@@ -6,7 +7,7 @@
                 <a href="/">spreadit.io</a>
             </li>
             @foreach ($sections as $section)
-            <li class="{{ Request::segment(2) == $section->title ? 'active' : '' }}">
+            <li class="{{ in_array($section->title, $section_titles) ? 'active' : '' }}">
                 <a href="/s/{{ $section->title }}">{{ $section->title }}</a>
             </li>
             @endforeach

@@ -10,7 +10,7 @@ class FeedController extends BaseController
      */
     protected function generate($section_title)
     {
-        $section = Section::getByTitle($section_title);
+        $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
         $posts = Post::getHotList($section->id);
         $feed = Feed::make();
         $feed->title = $section_title;

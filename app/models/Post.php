@@ -1,5 +1,6 @@
 <?php
 use \Michelf\MarkdownExtra;
+use \Functional as F;
 
 class Post extends BaseModel
 {
@@ -31,7 +32,7 @@ class Post extends BaseModel
             ->pluck('title');
     }
 
-    public static function getList($section_id=0, $seconds=0, $orderby)
+    public static function getList(array $section_ids=[0], $seconds=0, $orderby)
     {
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
@@ -39,12 +40,22 @@ class Post extends BaseModel
             ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
             ->where('posts.deleted_at', '=', 0);
 
-        if($section_id != 0) {
-            $posts = $posts->where('posts.section_id', $section_id == 0 ? '>' : '=', $section_id == 0 ? '0' : $section_id);
+        if(count($section_ids) == 1) {
+            if($section_ids[0] != 0) {
+                $posts = $posts->where(
+                    'posts.section_id', 
+                    $section_ids[0] == 0 ? '>' : '=', 
+                    $section_ids[0] == 0 ? '0' : $section_ids[0]
+                );
+            }
         } else {
-            //todo -- ignore certain spreadits
-            //$posts = $posts->whereNotIn('posts.section_id', [37]);
+            $posts = $posts->whereIn(
+                'posts.section_id', 
+                F\filter($section_ids, function($v) { return $v != 0; })
+            );
         }
+
+        //todo -- ignore certain spreadits
 
         if($seconds != 0) {
             $posts = $posts->where('posts.created_at', '>', time() - $seconds);
@@ -56,24 +67,24 @@ class Post extends BaseModel
         return Vote::applySelection($posts, Vote::POST_TYPE);
     }
 
-    public static function getNewList($section_id=0)
+    public static function getNewList(array $section_ids=[0])
     {
-        return Vote::applySelection(self::getList($section_id, 0, SortController::ORDERBY_SQL_NEW), Vote::POST_TYPE);
+        return Vote::applySelection(self::getList($section_ids, 0, SortController::ORDERBY_SQL_NEW), Vote::POST_TYPE);
     }
 
-    public static function getTopList($section_id=0, $seconds)
+    public static function getTopList(array $section_ids=[0], $seconds)
     {
-        return Vote::applySelection(self::getList($section_id, $seconds, SortController::ORDERBY_SQL_TOP), Vote::POST_TYPE);
+        return Vote::applySelection(self::getList($section_ids, $seconds, SortController::ORDERBY_SQL_TOP), Vote::POST_TYPE);
     }
 
-    public static function getHotList($section_id=0)
+    public static function getHotList(array $section_ids=[0])
     {
-        return Vote::applySelection(self::getList($section_id, 0, SortController::ORDERBY_SQL_HOT), Vote::POST_TYPE);
+        return Vote::applySelection(self::getList($section_ids, 0, SortController::ORDERBY_SQL_HOT), Vote::POST_TYPE);
     }
 
-    public static function getControversialList($section_id=0, $seconds)
+    public static function getControversialList(array $section_ids=[0], $seconds)
     {
-        return Vote::applySelection(self::getList($section_id, $seconds, SortController::ORDERBY_SQL_CONTROVERSIAL), Vote::POST_TYPE);
+        return Vote::applySelection(self::getList($section_ids, $seconds, SortController::ORDERBY_SQL_CONTROVERSIAL), Vote::POST_TYPE);
     }
 
     public static function get($post_id)
@@ -334,7 +345,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            $section = Section::getByTitle($section_title);
+            $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
             $data['section_id'] = $section->id;
 
             $item = new Post($data);

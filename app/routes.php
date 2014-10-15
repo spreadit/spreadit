@@ -3,7 +3,7 @@ require_once(dirname(__FILE__) . '/validators.php');
 
 Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');
-Route::pattern('section_title', '[a-zA-Z0-9_-]+');
+Route::pattern('section_titles', '[a-zA-Z0-9_-\n]+');
 
 Route::get('/', 'SectionController@get');
 Route::get('/spreadits', 'SectionController@getSpreadits');
