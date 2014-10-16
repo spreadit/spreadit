@@ -13,7 +13,7 @@ If you happen to find an exploit or have any other sensitive matter please email
 Requirements:
  * git
  * curl
- * php5
+ * php5 inc. mcrypt ext
  * npm
  * mysql
  * redis
