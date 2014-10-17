@@ -70,6 +70,9 @@ class SectionController extends BaseController
     protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null, $no_view=false)
     {
         $sections = Section::getByTitle(Section::splitByTitle($section_title));
+        if(empty($sections)) {
+            App::abort(404);
+        }
         $section = Section::sectionFromSections($sections);
         $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, $sections);
 
