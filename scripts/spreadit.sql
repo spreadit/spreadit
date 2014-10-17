@@ -6,7 +6,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(12) unsigned NOT NULL,
@@ -130,6 +129,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `votes` int(11) NOT NULL DEFAULT '0',
   `show_nsfw` binary(1) NOT NULL DEFAULT '0',
   `show_nsfl` binary(1) NOT NULL DEFAULT '0',
+  `frontpage_ignore_sections` text NOT NULL,
+  `frontpage_show_sections` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
