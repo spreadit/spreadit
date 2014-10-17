@@ -6,14 +6,24 @@ class ColorSchemeController extends BaseController
         return View::make('colorscheme_index', ['sections' => Section::get()]);
     }
 
+    private function cookie_switch($colorscheme)
+    {
+        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', $colorscheme));
+
+    }
+
     protected function dark()
     {
-        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', 'dark'));
+        return $this->cookie_switch('dark');
     }
 
     protected function light()
     {
-        
-        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', 'light'));
+        return $this->cookie_switch('light');
+    }
+
+    protected function tiles()
+    {
+        return $this->cookie_switch('tiles');
     }
 }

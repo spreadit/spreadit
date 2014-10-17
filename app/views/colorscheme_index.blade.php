@@ -15,6 +15,7 @@
         <ul>
             <li><a href="/color/light">Light color scheme</a></li>
             <li><a href="/color/dark">Dark color scheme</a></li>
+            <li><a href="/color/tiles">Tiles theme (unfinished)</a></li>
         </ul>
     </div>
 </div>

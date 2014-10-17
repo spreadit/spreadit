@@ -103,8 +103,11 @@ class UtilityController extends BaseController
 
         $bsrc = "";        
         if(strcmp(Cookie::get('colorscheme'), "light") == 0) {
-           $bsrc = "/assets/css/colorschemes/light.css";
+            $bsrc = "/assets/css/colorschemes/light.css";
+        } else if(strcmp(Cookie::get('colorscheme'), "tiles") == 0) {
+            $bsrc .= "/assets/css/colorschemes/tiles.css"; 
         }
+
         if(!empty($bsrc)) {
             $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url($bsrc)."\">"; 
         }
@@ -118,7 +121,6 @@ class UtilityController extends BaseController
             }
         }
 
-        $result .= "<link rel=\"stylesheet\" media=\"screen\" href=\"".Bust::url("/assets/css/colorschemes/tiles.css")."\">"; 
 
         return $result;
     }

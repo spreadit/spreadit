@@ -184,6 +184,7 @@ Route::group(['prefix' => '/color'], function()
     Route::get('/', 'ColorSchemeController@index');
     Route::get('/dark', 'ColorSchemeController@dark');
     Route::get('/light', 'ColorSchemeController@light');
+    Route::get('/tiles', 'ColorSchemeController@tiles');
 });
 
 Route::get('/assets/prod/{filename}', function($filename) {
