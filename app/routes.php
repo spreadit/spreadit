@@ -190,6 +190,9 @@ Route::group(['prefix' => '/color'], function()
 Route::get('/assets/prod/{filename}', function($filename) {
     return Bust::css("/assets/prod/$filename");
 });
+Route::get('/assets/css/{filename}', function($filename) {
+    return Bust::css("/assets/css/$filename");
+});
 Route::get('/assets/css/colorschemes/{filename}', function($filename) {
     return Bust::css("/assets/css/colorschemes/$filename");
 });
