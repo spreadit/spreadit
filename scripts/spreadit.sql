@@ -105,6 +105,8 @@ CREATE TABLE IF NOT EXISTS `sections` (
 
 INSERT INTO `sections` (`id`, `title`, `created_at`, `updated_at`, `data`, `upvotes`, `downvotes`, `markdown`) VALUES
 (0, 'all', 1404501194, 1404501194, 'everything!', 0, 0, 0);
+INSERT INTO `sections` (`id`, `title`, `created_at`, `updated_at`, `data`, `upvotes`, `downvotes`, `markdown`) VALUES
+(0, 'news', 1404501194, 1404501194, 'everything!', 0, 0, 0);
 
 CREATE TABLE IF NOT EXISTS `ta_auth_tokens` (
   `auth_identifier` int(11) NOT NULL,
