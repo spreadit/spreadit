@@ -1,4 +1,6 @@
 <?php
+use \Functional as F;
+
 class FeedController extends BaseController
 {
     /**
@@ -10,8 +12,12 @@ class FeedController extends BaseController
      */
     protected function generate($section_title)
     {
-        $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
-        $posts = Post::getHotList($section->id);
+        $sections = Section::getByTitle(Section::splitByTitle($section_title)); 
+        if(empty($sections)) {
+            App::abort(404);
+        }
+        $section = Section::sectionFromSections($sections);
+        $posts = Post::getHotList(F\map($sections, function($m) { return $m->id; }));
         $feed = Feed::make();
         $feed->title = $section_title;
         $feed->description = "read hot posts from $section_title"; 
