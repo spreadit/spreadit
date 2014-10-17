@@ -27,7 +27,7 @@
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span9">
-                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ Post::MAX_URL_LENGTH }}"/>
+                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ Post::MAX_URL_LENGTH }}">
                             {{ $errors->first('url') }}
                         </div>
                         <div class="span3">
