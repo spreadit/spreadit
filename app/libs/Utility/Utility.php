@@ -100,6 +100,7 @@ class Utility
 
     public static function thumbnailScript($id, $url)
     {
+        set_time_limit(120);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, URL::to('/') . "/util/thumbnail?id=$id&url=$url");
         curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
@@ -110,6 +111,8 @@ class Utility
 
     public static function getThumbnailForPost($id, $url)
     {
+        set_time_limit(120);
+
         $post = Post::findOrFail($id);
         if($post->created_at->timestamp < (time() - 60)) {
             Log::error("post created too early: " . $id . "::" . $url);
@@ -145,6 +148,7 @@ class Utility
 
     public static function snapThumbAndSave($url, $snap_width, $snap_height, $save_width, $save_height, $is_text, $is_image, $dest)
     {
+        set_time_limit(120);
         try {
             $snappy = new ThumbDL('/usr/local/bin/wkhtmltoimage');
             $snappy->setOption('stop-slow-scripts', true);
