@@ -11,7 +11,13 @@ class SectionController extends BaseController
         $titles = Section::splitByTitle($section_title);
         $section = Section::sectionFromSections(Section::getByTitle($titles));
 
-        if(count($titles) > 1) {
+        if(strcmp($section->title, "all") == 0) {
+            return View::make('newpost_multisection', [
+                'sections'   => $sections,
+                'section'    => $section,
+                'selections' => F\map($sections, function($m) { return $m->title; })
+            ]);
+        } else if(count($titles) > 1) {
             return View::make('newpost_multisection', [
                 'sections'   => $sections,
                 'section'    => $section,

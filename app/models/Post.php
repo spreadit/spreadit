@@ -346,6 +346,13 @@ class Post extends BaseModel
 
         if($block->success) {
             $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
+            if($section->id < 1) {
+                $block->success  = false;
+                $block->errors[] = 'can only post to a real section(you probably tried to post to /s/all)';
+            }
+        }
+
+        if($block->success) {
             $data['section_id'] = $section->id;
 
             $item = new Post($data);
