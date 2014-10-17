@@ -330,15 +330,6 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            if(isset($rules['url'])) {
-                if(!Utility::urlExists($data['url'])) {
-                    $block->success  = false;
-                    $block->errors[] = 'website doesn\'t exist';
-                }
-            }
-        }
-
-        if($block->success) {
             //check if .gif & gfycat it
             $data['url'] = self::gfycatUrl($data['url']);
 
