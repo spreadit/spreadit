@@ -50,11 +50,9 @@ class Section extends BaseModel
     }
 
     /*
-     * get a sections by their name
+     * get sections by their titles
      *
      * @param array string $section_titles title in db
-     *
-     * @throws 404
      *
      * @return db obj
      */
@@ -63,6 +61,31 @@ class Section extends BaseModel
         $sections = DB::table('sections')
             ->select('id', 'title', 'data')
             ->whereIn('title', $section_titles)
+            ->get();
+
+        if(is_null($sections)) {
+            $sections = [];
+            array_push($sections, new stdClass);
+            $sections[0]->id = -1;
+            $sections[0]->title = "not found";
+            $sections[0]->data = "none";
+        }
+
+        return $sections;
+    }
+
+    /*
+     * get sections by their ids
+     *
+     * @param array int $ids id in db
+     *
+     * @return db obj
+     */
+    public static function getById(array $ids)
+    {
+        $sections = DB::table('sections')
+            ->select('id', 'title', 'data')
+            ->whereIn('id', $ids)
             ->get();
 
         if(is_null($sections)) {

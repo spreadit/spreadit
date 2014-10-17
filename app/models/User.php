@@ -56,12 +56,15 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         ]);
     }
 
-    public static function savePreferences($user_id, $show_nsfw, $show_nsfl) {
+    public static function savePreferences($user_id, array $data)
+    {
         DB::table('users')
             ->where('id', $user_id)
             ->update([
-                'show_nsfw' => $show_nsfw,
-                'show_nsfl' => $show_nsfl,
+                'show_nsfw'                 => $data['show_nsfw'],
+                'show_nsfl'                 => $data['show_nsfl'],
+                'frontpage_show_sections'   => $data['frontpage_show_sections'],
+                'frontpage_ignore_sections' => $data['frontpage_ignore_sections'],
             ]);
     }
 

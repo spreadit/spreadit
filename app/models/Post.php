@@ -36,12 +36,27 @@ class Post extends BaseModel
             ->where('posts.deleted_at', '=', 0);
 
         if(count($section_ids) == 1) {
-            if($section_ids[0] != 0) {
+            $section_id = $section_ids[0];
+
+            if($section_id != 0) {
                 $posts = $posts->where(
                     'posts.section_id', 
-                    $section_ids[0] == 0 ? '>' : '=', 
-                    $section_ids[0] == 0 ? '0' : $section_ids[0]
+                    $section_id == 0 ? '>' : '=', 
+                    $section_id == 0 ? '0' : $section_id
                 );
+            } else if(Auth::check()) {
+                $ignore_sections = Auth::user()->frontpage_ignore_sections; 
+                $show_sections = Auth::user()->frontpage_show_sections;
+
+                if($ignore_sections != "") {
+                    $ids = explode(',', $ignore_sections);
+                    $posts = $posts->whereNotIn('posts.section_id', $ids);
+                }
+
+                if($show_sections != "") {
+                    $ids = explode(',', $show_sections);
+                    $posts = $posts->whereIn('posts.section_id', $ids);
+                }
             }
         } else {
             $posts = $posts->whereIn(
@@ -50,7 +65,6 @@ class Post extends BaseModel
             );
         }
 
-        //todo -- ignore certain spreadits
 
         if($seconds != 0) {
             $posts = $posts->where('posts.created_at', '>', time() - $seconds);
