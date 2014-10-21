@@ -11,7 +11,6 @@ class Post extends BaseModel
     const MAX_URL_LENGTH = 256;
 
     const MAX_MARKDOWN_LENGTH = 6000;
-    const MAX_POSTS_PER_DAY = 15;
     const MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
 
     protected $table = 'posts';
@@ -303,7 +302,7 @@ class Post extends BaseModel
         if($block->success) {
             if(!self::canPost()) {
                 $block->success  = false;
-                $block->errors[] = 'can only post ' . self::MAX_POSTS_PER_DAY . ' per day';
+                $block->errors[] = 'can only post ' . Utility::availablePosts() . ' per day';
             }
         }
 

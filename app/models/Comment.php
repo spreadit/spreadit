@@ -16,7 +16,6 @@ class Comment extends BaseModel
     const CACHE_NEWLIST_NAME = 'comment_newlist_id_';
 
     const MAX_MARKDOWN_LENGTH = 4000;
-    const MAX_COMMENTS_PER_DAY = 30;
     const MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
 
     public static function getPathDataFromId($comment_id)
@@ -91,7 +90,7 @@ class Comment extends BaseModel
         if($block->success) {
             if(!Comment::canPost()) {
                 $block->success = false;
-                $block->errors[] = 'can only post ' . self::MAX_COMMENTS_PER_DAY . ' per day';
+                $block->errors[] = 'can only post ' . Utility::availableComments() . ' per day';
             }
         }
 
