@@ -21,7 +21,7 @@ class Section extends BaseModel
     );
 
     public static $rules = [
-        'title' => "required|andu|min:2|max:24"
+        'title' => "required|lowercase|andu|min:2|max:24"
     ];
 
     public static function sectionFromSections(array $sections)

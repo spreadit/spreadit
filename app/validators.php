@@ -1,4 +1,9 @@
 <?php
+    // validate alphabetical chars & spaces only
+    Validator::extend('lowercase', function($attr, $value) {
+        return preg_match('/^([a-z])+$/', $value);
+    });
+
     /**
      * Thanks twoSeats
      * https://gist.github.com/twoSeats/69bb4219a1dae611eff8

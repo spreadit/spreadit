@@ -286,6 +286,7 @@ class Post extends BaseModel
 
     public static function make($section_title, $content, $title, $url, $nsfw, $nsfl)
     {
+        $section_title = strtolower($section_title);
         $block = new SuccessBlock();
         $block->data->section_title = $section_title;
         $block->data->item_title    = Utility::prettyUrl($title);
