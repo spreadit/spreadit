@@ -1,5 +1,23 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);
 @import url(https://fonts.googleapis.com/css?family=Lato:300);
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("/assets/fonts/segoe-ui.woff") format('woff');
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("/assets/fonts/segoe-ui-bold.woff") format('woff');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    src: url("/assets/fonts/segoe-ui-light.woff") format('woff');
+    font-weight: lighter;
+}
+
 /*undo shit*/
 a:hover {
     background:transparent;
@@ -47,8 +65,8 @@ a.vote:hover:after {
 /*start theme*/
 html, body {
     background-color:#f9f9f9;
-    font-family:'Open Sans', sans-serif;
-    font-weight:300;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight:lighter;
 }
 
 body {
@@ -79,34 +97,40 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar {
     margin:0;
 }
 
-#sections-navbar .nav>li>a {
-    background:#3A3A3A;
-}
-
-#sections-navbar .nav {
+#sections-navbar ul.nav {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
     background:transparent;
-    height:auto;
+    height: auto;
+    overflow:auto;
 }
 
 #sections-navbar .nav>li {
     margin-right:3px;
     margin-bottom:3px;
     margin-top:0px;
+    display: inline-block;
+    white-space: normal;
+    float:none;
 }
 
 #sections-navbar .nav>li>a {
     font-size:1.2em;
-    background:#3A3A3A;
+    background:#FFF;
+    color:#111;
     padding:0.2em 0.6em 0.2em 0.6em;
 }
 
 #sections-navbar .nav>li.active>a {
-    background:#EB1C24;
-    color:#fff;
+    color:#EC161E;
+    font-weight: bold;
 }
 
 h2.section-title a {
-    color:#3A3A3A;
+    font-weight: bold;
+    color:#EC161E;
+    font-size: 2em;
 }
 
 #header-nav {
@@ -120,17 +144,32 @@ h2.section-title a {
 }
 
 #header-nav .nav>li>a {
-    background:#3A3A3A;
-    color:#DADADA;
+    background:transparent;
+    color:#222;
     padding:0.2em 0.6em 0.2em 0.6em;
     padding-right:1em;
     font-size:1.2em;
 }
 
 #header-nav .nav>li.active>a {
-    background:#EB1C24;
-    color:#fff;
+    color:#EC161E;
 }
+
+#footer-navbar {
+    clear:both;
+}
+
+#footer-navbar .nav {
+    background:transparent;
+}
+
+#footer-navbar .nav>li a {
+    background:transparent;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: lighter;
+    color:#444;
+}
+
 
 .container {
     background-color:#f9f9f9;
@@ -166,12 +205,12 @@ h2.section-title a {
 }}
 
 .sidebar {
-    display:none;
+    /*display:none;*/
 }
 
 .post-piece {
-    width:480px;
-    height:166px;
+    width:268px;
+    height:134px;
     margin:5px;
     float:left;
     clear:none;
@@ -366,8 +405,4 @@ a.vote.selected .voteicondown {
 
 .pagination a {
     color:#111;
-}
-
-#footer-navbar {
-    clear:both;
 }
