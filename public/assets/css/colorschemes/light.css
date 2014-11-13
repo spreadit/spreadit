@@ -179,3 +179,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar li a {
     /* when you are on this spreadit the related spreadit bar piece has this applied to it */
     background-color:#CCC;
 }
+
+.sidebar {
+    background-color:#ddd;
+}

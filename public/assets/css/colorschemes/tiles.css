@@ -406,3 +406,7 @@ a.vote.selected .voteicondown {
 .pagination a {
     color:#111;
 }
+
+.sidebar {
+    background-color:transparent;
+}
