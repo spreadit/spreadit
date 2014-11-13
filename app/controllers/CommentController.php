@@ -17,7 +17,7 @@ class CommentController extends BaseController
         $comment->post_id = $post_id;
         $comment->parent_id = $parent_id;
 
-        return View::make('commentbefore', ['comment' => $comment]);
+        return View::make('comment.before', ['comment' => $comment]);
     }
 
     protected function curReply($post_id, $parent_id)
@@ -27,12 +27,12 @@ class CommentController extends BaseController
         $comment->parent_id = $parent_id;
         $comment->form_action = URL::to('/comments/' . $comment->parent_id . '/create');
 
-        return View::make('commentreplybox', ['comment' => $comment]);
+        return View::make('comment.replybox', ['comment' => $comment]);
     }
 
     protected function postReply($post_id, $parent_id)
     {
-        return View::make('commentsaved');
+        return View::make('comment.saved');
     }
 
     protected function update($comment_id)

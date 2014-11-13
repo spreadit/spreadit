@@ -6,7 +6,7 @@ class PageController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('about', [
+        return View::make('page.about', [
             'sections' => $sections,
             'section' => $section,
         ]);
@@ -17,7 +17,7 @@ class PageController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
         
-        return View::make('contact', [
+        return View::make('page.contact', [
             'sections' => $sections,
             'section' => $section,
         ]);
@@ -28,7 +28,7 @@ class PageController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('threats', [
+        return View::make('page.threats', [
             'sections' => $sections,
             'section' => $section,
         ]);
@@ -39,7 +39,7 @@ class PageController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('login', [
+        return View::make('page.login', [
             'sections' => $sections,
             'section' => $section,
         ]);

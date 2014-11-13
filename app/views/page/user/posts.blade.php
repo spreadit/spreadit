@@ -9,7 +9,7 @@
 
 @section('content')
 @foreach ($posts as $post)
-@include('postpiece', ['post' => $post])
+@include('post.piece', ['post' => $post])
 @endforeach
 
 {{ $posts->links() }}

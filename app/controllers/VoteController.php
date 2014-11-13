@@ -3,7 +3,7 @@ class VoteController extends BaseController
 {
     protected function postView($type_id)
     {
-        return View::make('vote_table', [
+        return View::make('page.vote.table', [
             'votes' => Vote::getPostVotes($type_id),
             'sections' => Section::get()
         ]);
@@ -38,7 +38,7 @@ class VoteController extends BaseController
 
     protected function commentView($type_id)
     {
-        return View::make('vote_table', [
+        return View::make('page.vote.table', [
             'votes' => Vote::getCommentVotes($type_id),
             'sections' => Section::get()
         ]);

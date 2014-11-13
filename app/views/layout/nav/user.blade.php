@@ -7,6 +7,6 @@
             <li class="{{ $highlight == 'pvotes' ? 'active' : '' }}"><a role="button" href="/u/{{ $username }}/votes/posts">post votes</a></li>
             <li class="{{ $highlight == 'cvotes' ? 'active' : '' }}"><a role="button" href="/u/{{ $username }}/votes/comments">comment votes</a></li>
         </ul>
-        @include('user_actions_nav')
+        @include('layout.nav.user_actions')
     </div>
 </div>

@@ -16,7 +16,7 @@ class PostController extends BaseController
         $sort_highlight = Utility::getSortMode();
         $sort_timeframe_highlight = Utility::getSortTimeframe();
 
-        return View::make('post', [
+        return View::make('page.post', [
             'section' => $section,
             'sections' => Section::get(),
             'comments' => $commentTree->grab()->sort('new')->render(),

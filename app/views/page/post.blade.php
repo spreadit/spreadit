@@ -54,7 +54,7 @@
                         {{ $post->data }}
                     </div>
                     <menu>
-                        @include ('replyframepart', ['post_id' => $post->id, 'parent_id' => 0])
+                        @include ('shared.replyframe', ['post_id' => $post->id, 'parent_id' => 0])
 
                         <label class="post-action source" for="collapse-postsource{{ $post->id }}">source </label>
                         <input class="collapse" id="collapse-postsource{{ $post->id }}" type="checkbox">

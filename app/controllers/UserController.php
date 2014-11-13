@@ -62,7 +62,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-		$view = View::make('notifications', [
+		$view = View::make('page.user.notifications', [
 			'sections'      => $sections,
 			'section'       => $section,
 			'notifications' => Notification::get()
@@ -101,7 +101,7 @@ class UserController extends BaseController
         $frontpage_show_sections   = $section_titles('frontpage_show_sections');
         $frontpage_ignore_sections = $section_titles('frontpage_ignore_sections');
 
-		return View::make('preferences', [
+		return View::make('page.user.prefs.preferences', [
             'sections'                  => $sections,
             'section'                   => $section,
             'frontpage_show_sections'   => $frontpage_show_sections,
@@ -155,7 +155,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-		return View::make('savedpreferences', [
+		return View::make('page.user.prefs.savedpreferences', [
 			'sections' => $sections,
 			'section'  => $section,
 		]);
@@ -166,7 +166,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('user_comments', [
+        return View::make('page.user.comments', [
             'sections'  => $sections,
             'section'   => $section,
             'comments'  => User::comments($username),
@@ -185,7 +185,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('user_posts', [
+        return View::make('page.user.posts', [
             'sections'  => $sections,
             'section'   => $section,
             'posts'     => User::posts($username),
@@ -204,7 +204,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('user_posts_votes', [
+        return View::make('page.vote.user_posts', [
             'sections'   => $sections,
             'section'    => $section,
             'votes'      => User::postsVotes($username),
@@ -223,7 +223,7 @@ class UserController extends BaseController
         $sections = Section::get();
         $section = Section::sectionFromSections(Section::getByTitle([""]));
 
-        return View::make('user_comments_votes', [
+        return View::make('page.vote.user_comments', [
             'sections'  => $sections,
             'section'   => $section,
             'votes'     => User::commentsVotes($username),
@@ -243,7 +243,7 @@ class UserController extends BaseController
         $section = Section::sectionFromSections(Section::getByTitle([""]));
         $stats = User::userStats($username);
 
-        return View::make('user_votes_page', [
+        return View::make('page.user.profile', [
             'sections'  => $sections,
             'section'   => $section,
             'username'  => $username,

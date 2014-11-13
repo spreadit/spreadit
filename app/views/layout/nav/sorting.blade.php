@@ -35,6 +35,6 @@
             <li {{ $sort_highlight == 'add' ? 'class="active"' : '' }}><a role="button" href="/s/{{ $section->title }}/add">add post</a></li>
             @endif
         </ul>
-        @include ('user_actions_nav')
+        @include ('layout.nav.user_actions')
     </div>
 </div>

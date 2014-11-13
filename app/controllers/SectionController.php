@@ -10,20 +10,20 @@ class SectionController extends BaseController
         $section = Section::sectionFromSections(Section::getByTitle($titles));
 
         if(strcmp($section->title, "all") == 0) {
-            return View::make('newpost_multisection', [
+            return View::make('page.newpost.multisection', [
                 'sections'   => $sections,
                 'section'    => $section,
                 'selections' => F::map($sections, function($m) { return $m->title; })
             ]);
         } else if(count($titles) > 1) {
-            return View::make('newpost_multisection', [
+            return View::make('page.newpost.multisection', [
                 'sections'   => $sections,
                 'section'    => $section,
                 'selections' => $titles
             ]);
         }
 
-		return View::make('newpost', [
+		return View::make('page.newpost.post', [
 			'sections' => $sections,
 			'section'  => $section
         ]);
@@ -97,7 +97,7 @@ class SectionController extends BaseController
 
         if($no_view) return $posts;
 
-        return Response::make(View::make('section', [
+        return Response::make(View::make('page.section', [
             'sections'                 => Section::get(),
             'posts'                    => $posts,
             'section'                  => $section,
@@ -115,7 +115,7 @@ class SectionController extends BaseController
 
     protected function getSpreadits()
     {
-        return View::make('spreadits', [
+        return View::make('page.spreadits', [
             'sections' => Section::get(),
             'spreadits' => Section::getAll()
         ]);

@@ -208,10 +208,15 @@ App::missing(function(Exception $exception)
 		return Response::json(['error' => 'not found'], 404);
 	}
 
-	return View::make('404', [
+	return View::make('page.system.404', [
 		'message' => $exception->getMessage(),
 		'sections' => Section::get()
 	]);
+});
+
+App::down(function()
+{
+    return Response::view('page.system.maintenance', array(), 503);
 });
 
 Event::listen('auth.token.valid', function($user)

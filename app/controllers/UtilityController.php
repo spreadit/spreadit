@@ -3,7 +3,7 @@ class UtilityController extends BaseController
 {
     protected function imagewrapper()
     {
-        return View::make('imagewrapper');
+        return View::make('util.imagewrapper');
     }
 
     protected function titlefromurl()
@@ -14,7 +14,7 @@ class UtilityController extends BaseController
 
     protected function preview()
     {
-        return View::make('preview', ['data' => Markdown::defaultTransform(e(Input::get('data')))]);
+        return View::make('util.preview', ['data' => Markdown::defaultTransform(e(Input::get('data')))]);
     }
 
     public static function thumbnail() {

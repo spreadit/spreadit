@@ -3,7 +3,7 @@ class ColorSchemeController extends BaseController
 {
     protected function index()
     {
-        return View::make('colorscheme_index', ['sections' => Section::get()]);
+        return View::make('page.user.prefs.colorscheme_index', ['sections' => Section::get()]);
     }
 
     private function cookie_switch($colorscheme)

@@ -10,7 +10,7 @@
 
 @section('content')
 @foreach ($comments as $comment)
-@include('commentpiece', ['comment' => $comment, 'user_page' => true])
+@include('comment.piece', ['comment' => $comment, 'user_page' => true])
 @endforeach
 
 {{ $comments->links() }}

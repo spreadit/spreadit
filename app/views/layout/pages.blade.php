@@ -1,24 +1,24 @@
 <!doctype html>
 <html>
     <head>
-        @include('metahead')
+        @include('layout.etc.metahead')
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar" class="{{ (Auth::check() ? 'logged-in' : 'logged-out') }}">
         <div id="fullpage-container">
             <div class="navbar navbar-inverse">
-                @include ('sections_nav', ['sections' => $sections])
+                @include ('layout.nav.sections', ['sections' => $sections])
                 <div id="header-nav">
                     <div class="align-bottom">
-                        @include('user_actions_nav')
+                        @include('layout.nav.user_actions')
                     </div>
                 </div>
             </div>
 
             @yield('content')
 
-            @include('footer_nav')
+            @include('layout.nav.footer')
         </div>
-        @include('commonscripts')
+        @include('layout.etc.commonscripts')
         @yield('script')        
     </body>
 </html>

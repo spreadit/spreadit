@@ -17,7 +17,7 @@
     <div class="comment-data">
         {{ $comment->data }}
         @if (!isset($user_page))
-            @include ('replyframepart', ['post_id' => $comment->post_id, 'parent_id' => $comment->id])
+            @include ('shared.replyframe', ['post_id' => $comment->post_id, 'parent_id' => $comment->id])
 
             @if ($comment->deleted_at == 0)
                 <label class="comment-action source" for="collapse-source{{ $comment->id }}">source </label>

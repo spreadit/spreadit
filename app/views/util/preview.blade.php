@@ -9,6 +9,6 @@
     </head>
     <body>
         {{ $data }}
-        @include('commonscripts')
+        @include('layout.etc.commonscripts')
     </body>
 </html>

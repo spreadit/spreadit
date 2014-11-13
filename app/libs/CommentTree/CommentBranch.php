@@ -50,7 +50,7 @@ class CommentBranch
             $branch = $this;
         }
 
-        $rval = $first ? View::make('commentpiece', ['comment' => $branch]) : '';
+        $rval = $first ? View::make('comment.piece', ['comment' => $branch]) : '';
      
         if(count($branch->children) > 0) {
             $result = F::reduce_left(F::map($branch->children, function($v) {
