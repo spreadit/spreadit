@@ -182,7 +182,7 @@ h2.section-title a {
     margin:0px auto;
 }
 
-@media (max-width:3430) { .posts-container {
+@media (max-width:3430px) { .posts-container {
     width:2940;
 }}
 @media (max-width:2940px) { .posts-container {
