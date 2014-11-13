@@ -18,7 +18,7 @@
         <div class="span3">
             <h2>Login to spreadit</h2>
             <br>
-            <form id="login-form" action="{{ url('login') }}" method="post" class="flat-form">
+            <form id="login-form" action="{{ url('login') }}" method="post">
                 <p class="username">
                     <input name="username" type="username" value="{{ Input::old('username') }}" data-validation="nonempty username" id="username" placeholder="username" />
                     {{ $errors->first('username') }}
@@ -29,14 +29,13 @@
                 </p>
                 <div class="submit">
                     <button type="submit">Login</button>
-                    <div class="ease"></div>
                 </div>
             </form>
         </div>
         <div class="span3">
             <h2>Enable site interaction</h2>
             <br>
-            <form id="register-form" action="{{ url('register') }}" method="post" class="flat-form">
+            <form id="register-form" action="{{ url('register') }}" method="post">
                 <p class="username">
                     <input name="username" type="username" value="{{ Input::old('username') }}" data-validation="nonempty username" id="username" placeholder="username" />
                     {{ $errors->first('username') }}
@@ -55,7 +54,6 @@
                 </p>
                 <div class="submit">
                     <button type="submit">Submit</button>
-                    <div class="ease"></div>
                 </div>
             </form>
         </div>
@@ -66,9 +64,9 @@
                 <br>
                 This is very much still in development, but we need <b>you</b> in order to create &amp; grow this community. 
                 <br>
-                Leave a few comments and start a discussion, if each person who visited this site left a single comment it wouldn't be a lonely place at all. I know we can create something really great: a tiny spec out in the internet's universe that is purely free.
+                Hope you enjoy your stay; I know we can create something really great: a tiny spec out in the internet's universe that is purely free.
                 <br>
-                Read the <a href="/about">about</a> page for a quick rundown on features, in the near future I will have a few help pages written up.
+                Read the <a href="/about">about</a> page for a quick rundown on features, there are also <a href="/help">help pages</a> written up.
                 <br>
                 And you can always contact me by posting over in <a href="/s/spreadit">/s/spreadit</a>.
                 <br>
