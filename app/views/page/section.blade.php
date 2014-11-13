@@ -17,6 +17,7 @@
         {{ $posts->links() }}
     </div>
     <div class="sidebar">
+    @include ('shared.sidebar')
     </div>
 </div>
 @stop
