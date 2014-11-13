@@ -129,6 +129,7 @@ return array(
         'Themonkeys\Cachebuster\CachebusterServiceProvider',
         'Markdown\MarkdownServiceProvider',
         'Functional\FunctionalServiceProvider',
+        'Barryvdh\Debugbar\ServiceProvider',
 	),
 
 	/*
