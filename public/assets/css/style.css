@@ -500,3 +500,8 @@ em {
 .comment-reply-box-page {
     padding-left:1em;
 }
+
+.sidebar .gsc-control-cse {
+    background-color:transparent;
+    border:0px;
+}
