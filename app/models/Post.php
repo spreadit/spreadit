@@ -1,5 +1,4 @@
 <?php
-use \Michelf\MarkdownExtra;
 use \Functional as F;
 
 class Post extends BaseModel
@@ -138,7 +137,7 @@ class Post extends BaseModel
             $data['user_id']  = Auth::user()->id;
             $data['data']     = $content;
             $data['markdown'] = $data['data'];
-            $data['data']     = MarkdownExtra::defaultTransform(e($data['markdown']));
+            $data['data']     = Markdown::defaultTransform(e($data['markdown']));
 
             $rules = array(
                 'user_id'  => 'required|numeric',
@@ -262,7 +261,7 @@ class Post extends BaseModel
         $data['title']    = e($data['title']);
         $data['url']      = e($data['url']);
         $data['markdown'] = $data['data'];
-        $data['data']     = MarkdownExtra::defaultTransform(e($data['markdown']));
+        $data['data']     = Markdown::defaultTransform(e($data['markdown']));
         
         return $data;
     }

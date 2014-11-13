@@ -1,6 +1,5 @@
 <?php
 
-use \Michelf\MarkdownExtra;
 use \Functional as F;
 
 class PostController extends BaseController

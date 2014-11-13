@@ -1,6 +1,5 @@
 <?php
 use \Functional as F;
-use \Michelf\MarkdownExtra;
 
 class Comment extends BaseModel
 {
@@ -96,7 +95,7 @@ class Comment extends BaseModel
 
         if($block->success) {
             $data = [
-                'data'      => MarkdownExtra::defaultTransform(e($content)),
+                'data'      => Markdown::defaultTransform(e($content)),
                 'parent_id' => $parent_id,
                 'user_id'   => Auth::user()->id,
                 'post_id'   => $post_id,
@@ -170,7 +169,7 @@ class Comment extends BaseModel
 
         if($block->success) {
             $data['user_id']  = Auth::user()->id;
-            $data['data']     = MarkdownExtra::defaultTransform(e($content));
+            $data['data']     = Markdown::defaultTransform(e($content));
             $data['markdown'] = $content;
 
             $rules = array(

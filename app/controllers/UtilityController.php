@@ -1,6 +1,4 @@
 <?php
-use \Michelf\MarkdownExtra;
-
 class UtilityController extends BaseController
 {
     protected function imagewrapper()
@@ -16,7 +14,7 @@ class UtilityController extends BaseController
 
     protected function preview()
     {
-        return View::make('preview', ['data' => MarkdownExtra::defaultTransform(e(Input::get('data')))]);
+        return View::make('preview', ['data' => Markdown::defaultTransform(e(Input::get('data')))]);
     }
 
     public static function thumbnail() {

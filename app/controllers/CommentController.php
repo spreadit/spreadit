@@ -1,5 +1,4 @@
 <?php
-use \Michelf\MarkdownExtra;
 use \Functional as F;
 
 class CommentController extends BaseController
