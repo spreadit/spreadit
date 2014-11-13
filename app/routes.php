@@ -179,12 +179,12 @@ Route::group(['prefix' => '/help'], function()
 	Route::get('/help', 'HelpController@help');
 });
 
-Route::group(['prefix' => '/color'], function()
+Route::group(['prefix' => '/theme'], function()
 {
-    Route::get('/', 'ColorSchemeController@index');
-    Route::get('/dark', 'ColorSchemeController@dark');
-    Route::get('/light', 'ColorSchemeController@light');
-    Route::get('/tiles', 'ColorSchemeController@tiles');
+    Route::get('/',      'ThemeController@index');
+    Route::get('/dark',  'ThemeController@dark');
+    Route::get('/light', 'ThemeController@light');
+    Route::get('/tiles', 'ThemeController@tiles');
 });
 
 Route::get('/assets/prod/{filename}', function($filename) {
@@ -193,8 +193,8 @@ Route::get('/assets/prod/{filename}', function($filename) {
 Route::get('/assets/css/{filename}', function($filename) {
     return Bust::css("/assets/css/$filename");
 });
-Route::get('/assets/css/colorschemes/{filename}', function($filename) {
-    return Bust::css("/assets/css/colorschemes/$filename");
+Route::get('/assets/css/themes/{filename}', function($filename) {
+    return Bust::css("/assets/css/themes/$filename");
 });
 Route::get('/assets/css/prefs/{filename}', function($filename) {
     return Bust::css("/assets/css/prefs/$filename");

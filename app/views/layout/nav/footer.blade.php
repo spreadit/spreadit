@@ -5,7 +5,7 @@
                 <ul class="nav">
                     <li><a href="/about">about</a></li>
                     <li><a href="/help">help</a></li>
-                    <li><a href="/color">color</a></li>
+                    <li><a href="/theme">theme</a></li>
                     <li><a href="/api">api</a></li>
                     <li><a href="/threats">threats</a></li>
                     <li><a href="https://github.com/spreadit/spreadit">code</a></li>

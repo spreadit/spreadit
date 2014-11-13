@@ -1,14 +1,14 @@
 <?php
-class ColorSchemeController extends BaseController
+class ThemeController extends BaseController
 {
     protected function index()
     {
-        return View::make('page.user.prefs.colorscheme_index', ['sections' => Section::get()]);
+        return View::make('page.user.prefs.theme_index', ['sections' => Section::get()]);
     }
 
     private function cookie_switch($colorscheme)
     {
-        return Redirect::to(Utility::backOrUrl("/color"))->withCookie(Cookie::forever('colorscheme', $colorscheme));
+        return Redirect::to(Utility::backOrUrl("/theme"))->withCookie(Cookie::forever('theme', $colorscheme));
 
     }
 

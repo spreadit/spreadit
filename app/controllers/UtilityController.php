@@ -100,10 +100,10 @@ class UtilityController extends BaseController
         $result = "";
 
         $bsrc = "";        
-        if(strcmp(Cookie::get('colorscheme'), "light") == 0) {
-            $bsrc = "/assets/css/colorschemes/light.css";
-        } else if(strcmp(Cookie::get('colorscheme'), "tiles") == 0) {
-            $bsrc .= "/assets/css/colorschemes/tiles.css"; 
+        if(strcmp(Cookie::get('theme'), "light") == 0) {
+            $bsrc = "/assets/css/themes/light.css";
+        } else if(strcmp(Cookie::get('theme'), "tiles") == 0) {
+            $bsrc .= "/assets/css/themes/tiles.css"; 
         }
 
         if(!empty($bsrc)) {
