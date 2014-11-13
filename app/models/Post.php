@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class Post extends BaseModel
 {
@@ -59,7 +58,7 @@ class Post extends BaseModel
         } else {
             $posts = $posts->whereIn(
                 'posts.section_id', 
-                F\filter($section_ids, function($v) { return $v != 0; })
+                F::filter($section_ids, function($v) { return $v != 0; })
             );
         }
 

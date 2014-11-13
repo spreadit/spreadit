@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class SectionController extends BaseController
 {
@@ -14,7 +13,7 @@ class SectionController extends BaseController
             return View::make('newpost_multisection', [
                 'sections'   => $sections,
                 'section'    => $section,
-                'selections' => F\map($sections, function($m) { return $m->title; })
+                'selections' => F::map($sections, function($m) { return $m->title; })
             ]);
         } else if(count($titles) > 1) {
             return View::make('newpost_multisection', [
@@ -81,7 +80,7 @@ class SectionController extends BaseController
         $section = Section::sectionFromSections($sections);
         $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, $sections);
 
-        F\map($sections, function($m) {
+        F::map($sections, function($m) {
             $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;
         });
 
@@ -93,7 +92,7 @@ class SectionController extends BaseController
             $timeframe_mode = Utility::getSortTimeframe();
         }
 
-        $section_ids = F\map($sections, function($m) { return $m->id; });
+        $section_ids = F::map($sections, function($m) { return $m->id; });
         $posts = $this->getPosts($sort_mode, $section_ids, $this->getSecondsFromTimeframe($timeframe_mode));
 
         if($no_view) return $posts;

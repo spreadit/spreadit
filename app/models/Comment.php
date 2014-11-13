@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class Comment extends BaseModel
 {
@@ -47,7 +46,7 @@ class Comment extends BaseModel
                 ->get();
         });
 
-        F\each($comments, function($v) {
+        F::each($comments, function($v) {
             if($v->deleted_at != 0) {
                 $v->username = "deleted";
                 $v->data = "<p>user deleted this comment</p>";

@@ -199,6 +199,7 @@ Route::get('/assets/css/colorschemes/{filename}', function($filename) {
 Route::get('/assets/css/prefs/{filename}', function($filename) {
     return Bust::css("/assets/css/prefs/$filename");
 });
+
 App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
 
 App::missing(function(Exception $exception)

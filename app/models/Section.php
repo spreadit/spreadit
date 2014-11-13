@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class Section extends BaseModel
 {
@@ -38,7 +37,7 @@ class Section extends BaseModel
             $section = new stdClass;
             $section->id = -1;
             $section->multi_spreadit = true;
-            $section->title = implode('+', F\map($sections, function($m) { return $m->title; }));
+            $section->title = implode('+', F::map($sections, function($m) { return $m->title; }));
         }
 
         return $section;

@@ -1,5 +1,4 @@
 <?php
-use Functional as F;
 
 class CommentBranch
 {
@@ -30,7 +29,7 @@ class CommentBranch
             case 'new': usort($branch->children, function($a, $b) { return $a->id < $b->id; }); break;
         }
 
-        F\each($branch->children, function($piece) use ($method) {
+        F::each($branch->children, function($piece) use ($method) {
             $piece = $this->sort($method, $piece);
         });
 
@@ -54,7 +53,7 @@ class CommentBranch
         $rval = $first ? View::make('commentpiece', ['comment' => $branch]) : '';
      
         if(count($branch->children) > 0) {
-            $result = F\reduce_left(F\map($branch->children, function($v) {
+            $result = F::reduce_left(F::map($branch->children, function($v) {
                 $tresult = $this->render($v, true);
                 return "<li>{$tresult}</li>";
             }), function($v, $i, $c, $r) {

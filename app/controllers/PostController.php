@@ -1,7 +1,5 @@
 <?php
 
-use \Functional as F;
-
 class PostController extends BaseController
 {
     protected function get($section_title, $post_id)

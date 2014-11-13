@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class Tag extends BaseModel
 {

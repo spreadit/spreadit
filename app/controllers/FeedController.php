@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class FeedController extends BaseController
 {
@@ -17,7 +16,7 @@ class FeedController extends BaseController
             App::abort(404);
         }
         $section = Section::sectionFromSections($sections);
-        $posts = Post::getHotList(F\map($sections, function($m) { return $m->id; }));
+        $posts = Post::getHotList(F::map($sections, function($m) { return $m->id; }));
         $feed = Feed::make();
         $feed->title = $section_title;
         $feed->description = "read hot posts from $section_title"; 

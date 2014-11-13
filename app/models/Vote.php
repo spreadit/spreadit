@@ -1,5 +1,4 @@
 <?php
-use \Functional as F;
 
 class Vote extends BaseModel
 {
@@ -26,7 +25,7 @@ class Vote extends BaseModel
     {
         $votes = self::getMatchingVotes($type, $items);
 
-        F\each($items, function($v) use($votes) {
+        F::each($items, function($v) use($votes) {
             $v->selected = isset($votes[$v->id]) ? $votes[$v->id] : 0;
             return $v;
         });
@@ -39,7 +38,7 @@ class Vote extends BaseModel
         //requires to be logged in
         if(!Auth::check()) return array();
 
-        $items_to_check = F\map($items, function($m) { return $m->id; });
+        $items_to_check = F::map($items, function($m) { return $m->id; });
 
         if(count($items_to_check) == 0) {
             $items_to_check = array(0);

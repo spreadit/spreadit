@@ -1,5 +1,4 @@
 <?php
-use Functional as F;
 
 class UserController extends BaseController
 {
@@ -91,7 +90,7 @@ class UserController extends BaseController
             $input_data = Auth::user()->$input;
             $arr = explode(',', $input_data);
 
-            return implode(',', array_unique(F\map(Section::getById($arr), function($m) {
+            return implode(',', array_unique(F::map(Section::getById($arr), function($m) {
                 return $m->title;
             })));
         };
@@ -126,7 +125,7 @@ class UserController extends BaseController
             
             $arr = explode(',', $input_data);
 
-            return implode(',', array_unique(F\map(Section::getByTitle($arr), function($m) {
+            return implode(',', array_unique(F::map(Section::getByTitle($arr), function($m) {
                 return $m->id;
             })));
         };

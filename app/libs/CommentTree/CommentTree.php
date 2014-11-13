@@ -26,7 +26,7 @@ class CommentTree
                 if(isset($lookup_table[$i->parent_id])) {
                     $path = explode('_', $lookup_table[$i->parent_id]);
                     
-                    $tmp = F\reduce_left($path, function($v, $i, $c, $r) {
+                    $tmp = F::reduce_left($path, function($v, $i, $c, $r) {
                         return $r->children[$v];
                     }, $this->nodes);
 

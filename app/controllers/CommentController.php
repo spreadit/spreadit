@@ -1,6 +1,4 @@
 <?php
-use \Functional as F;
-
 class CommentController extends BaseController
 {
     protected function getRedir($comment_id)
