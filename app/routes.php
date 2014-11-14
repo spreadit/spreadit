@@ -1,5 +1,4 @@
 <?php
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 require_once(dirname(__FILE__) . '/validators.php');
 
 
@@ -205,40 +204,7 @@ Route::get('/assets/css/prefs/{filename}', function($filename) {
 
 App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
 
-App::missing(function(Exception $exception)
-{
-    if(Request::is('*/.json')) {
-		return Response::json(['error' => 'not found'], 404);
-	}
-
-	return View::make('page.system.404', [
-		'message' => $exception->getMessage(),
-		'sections' => Section::get()
-	]);
-});
-
-App::down(function()
-{
-    return Response::view('page.system.maintenance', array(), 503);
-});
-
 Event::listen('auth.token.valid', function($user)
 {
   Auth::setUser($user);
-});
-
-App::error(function(AuthTokenNotAuthorizedException $exception) {
-    return Response::json(array('error' => $exception->getMessage()), $exception->getCode());
-});
-
-App::error(function(TooManyRequestsHttpException $exception)
-{
-     if(Request::is('*/.json')) {
-        return Response::json(['error' => 'rate limit hit'], 404);
-    }
-
-    return View::make("page.system.429", [
-        'message' => 'Calm down.',
-        'sections' => Section::get()
-    ]);
 });

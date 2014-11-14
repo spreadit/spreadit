@@ -51,6 +51,23 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+App::error(function(AuthTokenNotAuthorizedException $exception) {
+    return Response::json(array('error' => $exception->getMessage()), $exception->getCode());
+});
+
+App::error(function(TooManyRequestsHttpException $exception)
+{
+     if(Request::is('*/.json')) {
+        return Response::json(['error' => 'rate limit hit'], 404);
+    }
+
+    return View::make("page.system.429", [
+        'message' => 'Calm down.',
+        'sections' => Section::get()
+    ]);
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
@@ -64,8 +81,21 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-        return Response::view('maintenance', ['sections' => []], 503);
+	return Response::view('page.system.maintenance', ['sections' => []], 503);
 });
+
+App::missing(function(Exception $exception)
+{
+    if(Request::is('*/.json')) {
+		return Response::json(['error' => 'not found'], 404);
+	}
+
+	return View::make('page.system.404', [
+		'message' => $exception->getMessage(),
+		'sections' => Section::get()
+	]);
+});
+
 
 /*
 |--------------------------------------------------------------------------
