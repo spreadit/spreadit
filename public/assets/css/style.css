@@ -388,6 +388,15 @@ ol li {
     white-space: normal
 }
 
+.sidebar .gsc-control-cse {
+    background-color:transparent;
+    border:0px;
+}
+
+.sidebar .cse .gsc-control-cse, .sidebar .gsc-control-cse {
+    padding:0;
+}
+
 .notification-read {
 	padding:1em;
 	margin:1em;
@@ -499,9 +508,4 @@ em {
 
 .comment-reply-box-page {
     padding-left:1em;
-}
-
-.sidebar .gsc-control-cse {
-    background-color:transparent;
-    border:0px;
 }
