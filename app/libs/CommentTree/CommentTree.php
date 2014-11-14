@@ -1,6 +1,4 @@
 <?php
-use \Functional as F;
-
 class CommentTree
 {
     /* CommentBranch */
