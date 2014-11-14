@@ -1,5 +1,7 @@
 <?php
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 require_once(dirname(__FILE__) . '/validators.php');
+
 
 Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');
@@ -11,15 +13,15 @@ Route::get('/spreadits/.json', 'SectionController@getSpreaditsJson');
 Route::get('/.rss', 'FeedController@rss');
 Route::get('/.atom', 'FeedController@atom');
 
-Route::get('/about', 'PageController@about');
+Route::get('/about',   'PageController@about');
 Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
-Route::get('/login', 'PageController@login');
-Route::post('/login', 'UserController@login');
+Route::get('/login',   'PageController@login');
+Route::post('/login',  ['before' => 'throttle:1,1', 'uses' => 'UserController@login']);
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 
-Route::post('/register', 'UserController@register');
+Route::post('/register', ['before' => 'throttle:1,10', 'uses' => 'UserController@register']);
 
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
@@ -50,20 +52,20 @@ Route::group(['prefix' => '/s'], function()
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
     	Route::get('/posts/{post_id}/.json', 'PostController@getJson');
-        Route::post('/posts/{post_id}/{post_title?}', 'CommentController@post');
+        Route::post('/posts/{post_id}/{post_title?}', ['before' => 'throttle:3,1', 'uses' => 'CommentController@post']);
 
 	    Route::get('/add', 'SectionController@add');
-	    Route::post('/add', 'PostController@post');
-        Route::post('/add/.json', ['before' => 'auth.token', 'uses' => 'PostController@postJson']);
+	    Route::post('/add', ['before' => 'throttle:3,1', 'uses' => 'PostController@post']);
+        Route::post('/add/.json', ['before' => 'auth.token|throttle:3,1', 'uses' => 'PostController@postJson']);
     });
 });
 
 Route::group(['prefix' => '/util'], function()
 {
-    Route::get('/imagewrapper', 'UtilityController@imagewrapper');
-    Route::get('/titlefromurl', 'UtilityController@titlefromurl');
-    Route::post('/preview', 'UtilityController@preview');
-    Route::get('/thumbnail', 'UtilityController@thumbnail');
+    Route::get('/imagewrapper', ['before' => 'throttle:2,1',  'uses' => 'UtilityController@imagewrapper']);
+    Route::get('/titlefromurl', ['before' => 'throttle:6,1',  'uses' => 'UtilityController@titlefromurl']);
+    Route::post('/preview',     ['before' => 'throttle:10,1', 'uses' => 'UtilityController@preview']);
+    Route::get('/thumbnail',    ['before' => 'throttle:2,1',  'uses' => 'UtilityController@thumbnail']);
 });
 
 
@@ -89,26 +91,26 @@ Route::group(['prefix' => '/comments'], function()
     Route::group(['prefix' => '/{comment_id}'], function($comment_id)
     {
         Route::get('/',        'CommentController@getRedir');
-    	Route::post('/create', 'CommentController@make');
-    	Route::post('/update', 'CommentController@update');
-        Route::post('/delete', 'CommentController@delete');
+    	Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
+    	Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
+        Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
     });
 });
 
 Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
 {
     Route::get('/', 'PostController@getRedir');
-    Route::post('/update', ['before' => 'auth', 'uses' => 'PostController@update']);
-    Route::post('/delete', ['before' => 'auth', 'uses' => 'PostController@delete']);
+    Route::post('/update', ['before' => 'auth|throttle:5,1', 'uses' => 'PostController@update']);
+    Route::post('/delete', ['before' => 'auth|throttle:5,1', 'uses' => 'PostController@delete']);
 
-    Route::post('/tag/nsfw', ['before' => 'auth', 'uses' => 'TagController@nsfw']);
-    Route::post('/tag/sfw',  ['before' => 'auth', 'uses' => 'TagController@sfw']);
-    Route::post('/tag/nsfl', ['before' => 'auth', 'uses' => 'TagController@nsfl']);
-    Route::post('/tag/sfl',  ['before' => 'auth', 'uses' => 'TagController@sfl']);
-    Route::post('/tag/nsfw/.json', ['before' => 'auth', 'uses' => 'TagController@nsfwJson']);
-    Route::post('/tag/sfw/.json',  ['before' => 'auth', 'uses' => 'TagController@sfwJson']);
-    Route::post('/tag/nsfl/.json', ['before' => 'auth', 'uses' => 'TagController@nsflJson']);
-    Route::post('/tag/sfl/.json',  ['before' => 'auth', 'uses' => 'TagController@sflJson']);
+    Route::post('/tag/nsfw',       ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@nsfw']);
+    Route::post('/tag/sfw',        ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@sfw']);
+    Route::post('/tag/nsfl',       ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@nsfl']);
+    Route::post('/tag/sfl',        ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@sfl']);
+    Route::post('/tag/nsfw/.json', ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@nsfwJson']);
+    Route::post('/tag/sfw/.json',  ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@sfwJson']);
+    Route::post('/tag/nsfl/.json', ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@nsflJson']);
+    Route::post('/tag/sfl/.json',  ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@sflJson']);
 });
 
 
@@ -116,25 +118,25 @@ Route::group(['prefix' => 'vote'], function()
 {
     Route::group(['before' => 'auth'], function()
     {
-        //Route::get('/section/{id}',     'VoteController@sectionView'); //TODO
-        Route::get('/section/{id}/up',    'VoteController@sectionUp');
-        Route::get('/section/{id}/down',  'VoteController@sectionDown');
-        Route::post('/section/{id}/up/.json',   'VoteController@sectionUpJson');
-        Route::post('/section/{id}/down/.json', 'VoteController@sectionDownJson');
+        //Route::get('/section/{id}',           ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionView']); //TODO
+        Route::get('/section/{id}/up',          ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionUp']);
+        Route::get('/section/{id}/down',        ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionDown']);
+        Route::post('/section/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionUpJson']);
+        Route::post('/section/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionDownJson']);
 
-        Route::get('/post/{id}',          'VoteController@postView');
-        Route::get('/post/{id}/.json',    'VoteController@postJson');
-        Route::get('/post/{id}/up',       'VoteController@postUp');
-        Route::get('/post/{id}/down',     'VoteController@postDown');
-        Route::post('/post/{id}/up/.json',      'VoteController@postUpJson');
-        Route::post('/post/{id}/down/.json',    'VoteController@postDownJson');
+        Route::get('/post/{id}',             ['before' => 'throttle:10,1', 'uses' => 'VoteController@postView']);
+        Route::get('/post/{id}/.json',       ['before' => 'throttle:10,1', 'uses' => 'VoteController@postJson']);
+        Route::get('/post/{id}/up',          ['before' => 'throttle:10,1', 'uses' => 'VoteController@postUp']);
+        Route::get('/post/{id}/down',        ['before' => 'throttle:10,1', 'uses' => 'VoteController@postDown']);
+        Route::post('/post/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@postUpJson']);
+        Route::post('/post/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@postDownJson']);
 
-        Route::get('/comment/{id}',       'VoteController@commentView');
-        Route::get('/comment/{id}/.json', 'VoteController@commentJson');
-        Route::get('/comment/{id}/up',    'VoteController@commentUp');
-        Route::get('/comment/{id}/down',  'VoteController@commentDown');
-        Route::post('/comment/{id}/up/.json',   'VoteController@commentUpJson');
-        Route::post('/comment/{id}/down/.json', 'VoteController@commentDownJson');
+        Route::get('/comment/{id}',             ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentView']);
+        Route::get('/comment/{id}/.json',       ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentJson']);
+        Route::get('/comment/{id}/up',          ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentUp']);
+        Route::get('/comment/{id}/down',        ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDown']);
+        Route::post('/comment/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentUpJson']);
+        Route::post('/comment/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDownJson']);
 	});
 
 });
@@ -149,21 +151,21 @@ Route::group(['prefix' => '/api'], function()
 
     Route::group(['prefix' => '/auth'], function()
     {
-        Route::get('/.json',   'Tappleby\AuthToken\AuthTokenController@index');
-        Route::post('/.json',  'Tappleby\AuthToken\AuthTokenController@store');
-        Route::delete('.json', 'Tappleby\AuthToken\AuthTokenController@destroy');
+        Route::get('/.json',   ['before' => 'throttle:5,1', 'uses' => 'Tappleby\AuthToken\AuthTokenController@index']);
+        Route::post('/.json',  ['before' => 'throttle:5,1', 'uses' => 'Tappleby\AuthToken\AuthTokenController@store']);
+        Route::delete('.json', ['before' => 'throttle:5,1', 'uses' => 'Tappleby\AuthToken\AuthTokenController@destroy']);
     });
 
     Route::group(['before' => 'auth.token', 'prefix' => 'vote'], function()
     {
-        Route::post('/section/{id}/up/.json',   'VoteController@sectionUpJson');
-        Route::post('/section/{id}/down/.json', 'VoteController@sectionDownJson');
+        Route::post('/section/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionUpJson']);
+        Route::post('/section/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@sectionDownJson']);
 
-        Route::post('/post/{id}/up/.json',      'VoteController@postUpJson');
-        Route::post('/post/{id}/down/.json',    'VoteController@postDownJson');
-        
-        Route::post('/comment/{id}/up/.json',   'VoteController@commentUpJson');
-        Route::post('/comment/{id}/down/.json', 'VoteController@commentDownJson');
+        Route::post('/post/{id}/up/.json',      ['before' => 'throttle:10,1', 'uses' => 'VoteController@postUpJson']);
+        Route::post('/post/{id}/down/.json',    ['before' => 'throttle:10,1', 'uses' => 'VoteController@postDownJson']);
+
+        Route::post('/comment/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentUpJson']);
+        Route::post('/comment/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDownJson']);
 	});
 });
 
@@ -226,4 +228,16 @@ Event::listen('auth.token.valid', function($user)
 
 App::error(function(AuthTokenNotAuthorizedException $exception) {
     return Response::json(array('error' => $exception->getMessage()), $exception->getCode());
+});
+
+App::error(function(TooManyRequestsHttpException $exception)
+{
+     if(Request::is('*/.json')) {
+        return Response::json(['error' => 'rate limit hit'], 404);
+    }
+
+    return View::make("page.system.429", [
+        'message' => 'Calm down.',
+        'sections' => Section::get()
+    ]);
 });

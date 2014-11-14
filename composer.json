@@ -16,7 +16,8 @@
         "fitztrev/laravel-html-minify": "1.*",
         "tappleby/laravel-auth-token": "0.3.*",
         "themonkeys/cachebuster": "dev-master",
-		"barryvdh/laravel-debugbar": "~1.8"
+		"barryvdh/laravel-debugbar": "~1.8",
+		"graham-campbell/throttle": "~2.0"
 	},
 	"autoload": {
 		"classmap": [

@@ -130,6 +130,7 @@ return array(
         'Markdown\MarkdownServiceProvider',
         'Functional\FunctionalServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
+        'GrahamCampbell\Throttle\ThrottleServiceProvider',
 	),
 
 	/*
@@ -201,6 +202,7 @@ return array(
 		'SoftDeletingTrait' => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'SSH'             => 'Illuminate\Support\Facades\SSH',
 		'Str'             => 'Illuminate\Support\Str',
+		'Throttle' => 'GrahamCampbell\Throttle\Facades\Throttle',
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
