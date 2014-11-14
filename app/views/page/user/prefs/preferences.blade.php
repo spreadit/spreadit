@@ -20,7 +20,7 @@
             <button type="submit">Save</button>
 
             <hr>
-            change colorscheme <a href="/color">here</a>
+            change theme <a href="/theme">here</a>
         </form>
     </div>
 </div>
