@@ -75,7 +75,3 @@
         </div>
     </div>
 @stop
-
-@section('script')
-<!-- todo validation -->
-@stop

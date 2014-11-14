@@ -38,7 +38,15 @@
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span6">
-                            <input name="section" id="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />
+                            <div class="spreadit-selector">
+                                <select name="section" id="section">
+                                    <option value="{{ UtilityController::oldSectionHtml($section) }}" selected>{{ UtilityController::oldSectionHtml($section) }}</option>
+                                    @foreach ($all_sections as $sel)
+                                        <option value="{{ $sel }}">{{ $sel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!--<input name="section" id="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />-->
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">
@@ -93,7 +101,4 @@
             </p>
         </div>
     </div>
-@stop
-
-@section('script')
 @stop
