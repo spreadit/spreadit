@@ -130,7 +130,8 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar {
 h2.section-title a {
     font-weight: bold;
     color:#EC161E;
-    font-size: 2em;
+    position: relative;
+    top:2em;
 }
 
 #header-nav {
@@ -178,14 +179,14 @@ h2.section-title a {
 
 .posts-container {
     position:relative;
-    float:none;
-    left:calc(100% / 13 * 2);
-    width:calc(100% / 13 * 3 * 3);
+    float:left;
+    left:calc(100% / ((3 * 3) + (2 * 2)) * 2);
+    width:calc(100% / ((3 * 3) + (2 * 2)) * 3 * 3);
 }
 
 .sidebar {
     float:right;
-    width:calc(100% / 13 * 2);
+    width:calc(100% / ((3 * 3) + (2 * 2)) * 2);
     max-width: initial;
     min-width: initial;
     background-color: transparent;
@@ -197,7 +198,7 @@ h2.section-title a {
     /* wtf?
     100%(viewport width) / ((( 13(3*3 + 2*2 sidebars and center tiles) / tile_h(height of large tile image: 221) / tile_w(width of large tile image: 480) ))) * 3(3 is tile width from 13 cols) 
     */
-    height:calc(100vw / 28.236 * 3);
+    height:calc(100vw / (((3 * 3) + (2 * 2)) / (221 / 480)) * 3);
     margin:0.6%;
     float:left;
     clear:none;
@@ -206,10 +207,10 @@ h2.section-title a {
     padding:0;
 }
 
-/*@media (max-width:490px) { .post-piece {
+@media (max-width:490px) { .post-piece {
     margin-left:0px;
     margin-right:0px;
-}}*/
+}}
 
 .post-piece:nth-child(odd) {
     background-color:#3A3A3A;
@@ -237,9 +238,32 @@ h2.section-title a {
     display:inline;
 }
 .post-piece .post-thumbnail .thumb-large .thumb-img {
-    width:calc(100vw / 13 * 3);
-    height:calc(100vw / 28.236 * 3);
+    width:calc(100vw / ((3 * 3) + (2 * 2)) * 3);
+    height:calc(100vw / (((3 * 3) + (2 * 2)) / (221 / 480)) * 3);
     background-size: cover;
+}
+
+@media (max-width: 1275px) {
+    .posts-container {
+        float:right;
+        left:0;
+        width:calc(98% / ((2 * 3) + (1 * 2)) * 3 * 2);
+    }
+
+    .sidebar {
+        float:left;
+        width:calc(100% / ((2 * 3) + (1 * 2)) * 2);
+    }
+
+    .post-piece {
+        width:48.5%;
+        height:calc(100vw / (((2 * 3) + (1 * 2)) / (221 / 480)) * 3);
+    }
+
+    .post-piece .post-thumbnail .thumb-large .thumb-img {
+        width:calc(100vw / ((2 * 3) + (1 * 2)) * 3);
+        height:calc(100vw / (((2 * 3) + (1 * 2)) / (221 / 480)) * 3);
+    }
 }
 
 .post-thumbnail .thumb-img {
