@@ -51,6 +51,8 @@ function sort_by_strdistance(table, val) {
 
 $(document).ready(function() {
     var sections_table_cache = null;
+    $(".spreadit-selector select").selectize({create: true});
+
 
     $("#section").on('input propertychange paste', function() {
         if(sections_table_cache == null) {

@@ -8,6 +8,14 @@ class SectionController extends BaseController
         $sections = Section::get();
         $titles = Section::splitByTitle($section_title);
         $section = Section::sectionFromSections(Section::getByTitle($titles));
+        $all_sections = F::reject(
+            F::map(Section::getAll(), function($m) { 
+                return $m->title;
+            }),
+            function($m) use ($section_title) {
+                return strcmp($section_title, $m) == 0 || strcmp($m, "all") == 0;
+            }
+        );
 
         if(strcmp($section->title, "all") == 0) {
             return View::make('page.newpost.multisection', [
@@ -23,9 +31,14 @@ class SectionController extends BaseController
             ]);
         }
 
+        if(strcmp($section->title, "") == 0) {
+            $section->title = $section_title;
+        }
+
 		return View::make('page.newpost.post', [
-			'sections' => $sections,
-			'section'  => $section
+			'sections'     => $sections,
+			'section'      => $section,
+            'all_sections' => $all_sections
         ]);
     }
 

@@ -6,6 +6,11 @@ class UtilityController extends BaseController
         return View::make('util.imagewrapper');
     }
 
+    protected function redirect_to_add_post()
+    {
+        return Redirect::to(URL::to("/s/" . Input::get('url', '/') . "/add"));
+    }
+
     protected function titlefromurl()
     {
         $result = Input::has('url') ? Utility::titleFromUrl(Input::get('url')) : "url not given";

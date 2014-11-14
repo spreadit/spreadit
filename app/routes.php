@@ -62,10 +62,11 @@ Route::group(['prefix' => '/s'], function()
 
 Route::group(['prefix' => '/util'], function()
 {
-    Route::get('/imagewrapper', ['before' => 'throttle:2,1',  'uses' => 'UtilityController@imagewrapper']);
-    Route::get('/titlefromurl', ['before' => 'throttle:6,1',  'uses' => 'UtilityController@titlefromurl']);
-    Route::post('/preview',     ['before' => 'throttle:10,1', 'uses' => 'UtilityController@preview']);
-    Route::get('/thumbnail',    ['before' => 'throttle:2,1',  'uses' => 'UtilityController@thumbnail']);
+    Route::get('/imagewrapper', ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
+    Route::get('/titlefromurl', ['before' => 'throttle:6,1',   'uses' => 'UtilityController@titlefromurl']);
+    Route::post('/preview',     ['before' => 'throttle:10,1',  'uses' => 'UtilityController@preview']);
+    Route::get('/thumbnail',    ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);
+    Route::get('/redirect_to_add_post', 'UtilityController@redirect_to_add_post');
 });
 
 

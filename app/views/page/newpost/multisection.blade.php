@@ -11,11 +11,11 @@
 <p>Please select a spreadit below:</p>
 <div class="row-fluid">
 	<div class="span6">
-		<form method="get" action="/util/redirect">
+		<form method="get" action="/util/redirect_to_add_post">
 			<div class="spreadit-selector">
 				<select name="url" id="url">
 					@foreach ($selections as $sel)
-					    <option value="/s/{{ $sel }}/add">{{ $sel }}</option>
+					    <option value="{{ $sel }}">{{ $sel }}</option>
 					@endforeach
 				</select>
 			</div>

@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 					'public/assets/js/bootstrap-maxlength.min.js',
 					'public/assets/js/highlight.min.js',
                     'public/assets/js/jquery.lazyload.js',
+                    'public/assets/js/jquery.selectize.js',
 					'public/assets/js/interaction.js'
 				],
 				dest: 'public/assets/prod/build.js'
@@ -32,6 +33,7 @@ module.exports = function(grunt) {
 					'public/assets/css/bootstrap-responsive.css',
 					'public/assets/css/monokai.css',
                     'public/assets/css/hint.css',
+                    'public/assets/css/selectize.default.css',
 					'public/assets/css/style.css',
                     'public/assets/css/mobile.css'
 				],
