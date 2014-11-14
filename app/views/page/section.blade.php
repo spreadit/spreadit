@@ -8,7 +8,6 @@
 @stop
 
 @section('content')
-<div>
     <div class="posts-container">
         @foreach ($posts as $post)
         @include('post.piece', ['post' => $post])
@@ -19,5 +18,4 @@
     <div class="sidebar">
     @include ('shared.sidebar')
     </div>
-</div>
 @stop

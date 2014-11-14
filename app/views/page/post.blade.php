@@ -9,13 +9,12 @@
 @stop
 
 @section('content')
-@if ($errors->any())
-<div class="alert alert-warning fade in">
-    <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
-    <h4 class="text-center">{{ $errors->first() }}</h4>
-</div>
-@endif
-<div>
+    @if ($errors->any())
+        <div class="alert alert-warning fade in">
+            <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
+            <h4 class="text-center">{{ $errors->first() }}</h4>
+        </div>
+    @endif
     <div class="posts-container">
         <div class="post">
             <div class="post-piece" tabindex="1">
@@ -116,5 +115,4 @@
     <div class="sidebar">
     @include ('shared.sidebar')
     </div>
-</div>
 @stop
