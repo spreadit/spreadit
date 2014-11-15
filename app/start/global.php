@@ -49,22 +49,23 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
-});
 
-App::error(function(AuthTokenNotAuthorizedException $exception) {
-    return Response::json(array('error' => $exception->getMessage()), $exception->getCode());
-});
+	switch(get_class($exception)) {
+		case 'Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException':
+			if(Request::is('*/.json')) {
+		        return Response::json(['error' => 'rate limit hit'], 429);
+		    }
 
-App::error(function(TooManyRequestsHttpException $exception)
-{
-     if(Request::is('*/.json')) {
-        return Response::json(['error' => 'rate limit hit'], 404);
-    }
+		    return View::make("page.system.429", [
+		        'message' => 'Calm down.',
+		        'sections' => Section::get()
+		    ]);
+			break;
 
-    return View::make("page.system.429", [
-        'message' => 'Calm down.',
-        'sections' => Section::get()
-    ]);
+		case 'Tappleby\AuthToken\Exceptions\NotAuthorizedException':
+			return Response::json(['error' => $exception->getMessage()], $exception->getCode());
+			break;
+	}
 });
 
 
