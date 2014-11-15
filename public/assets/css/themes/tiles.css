@@ -127,11 +127,24 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar {
     font-weight: bold;
 }
 
-h2.section-title a {
+#header-nav h2.section-title {
+    position: relative;
+    top:4.5em;
+    width:calc(100vw / ((3 * 3) + (2 * 2)) * 2);
+    white-space: normal;
+    margin:0;
+    height:auto;
+}
+
+#header-nav h2.section-title a {
     font-weight: bold;
     color:#EC161E;
-    position: relative;
-    top:2em;
+    font-size: 2vw;
+    width:100%;
+    position: absolute;
+    top:0;
+    left: 0;
+    word-wrap:break-word;
 }
 
 #header-nav {
