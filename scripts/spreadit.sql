@@ -133,6 +133,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `show_nsfl` binary(1) NOT NULL DEFAULT '0',
   `frontpage_ignore_sections` text NOT NULL,
   `frontpage_show_sections` text NOT NULL,
+  `profile_data` TEXT NOT NULL,
+  `profile_css` TEXT NOT NULL,
+  `profile_markdown` TEXT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 

@@ -1,6 +1,12 @@
 <?php
 require_once(dirname(__FILE__) . '/validators.php');
 
+Route::group(['domain' => '{username}.spreadit.dev'], function($username)
+{
+    Route::get('/style', 'UserPageController@css');
+    Route::get('/', 'UserPageController@index');
+});
+
 
 Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');

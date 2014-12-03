@@ -1,5 +1,5 @@
 server {
-        server_name spreadit.dev;
+        server_name .spreadit.dev;
         root /var/www/spreadit/public;
         listen 80;
         index index.php;
