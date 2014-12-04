@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . '/validators.php');
 
-Route::group(['domain' => '{username}.spreadit.dev'], function($username)
+Route::group(['domain' => '{username}.spreadit.{tld}'], function($username)
 {
     Route::get('/style', 'UserPageController@css');
     Route::get('/',      'UserPageController@index');
