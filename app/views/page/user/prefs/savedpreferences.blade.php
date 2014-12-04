@@ -9,7 +9,7 @@
 
 @section('content')
     <div class="span10">
-        Your preferences have been saved. Click <a href="/preferences">here</a> to go back to editting your preferences.
+        Your preferences have been saved. Click <a href="/preferences">here</a> to go back to editing your preferences.
     </div>
 </div>
 @stop
