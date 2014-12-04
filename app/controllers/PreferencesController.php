@@ -129,6 +129,17 @@ class PreferencesController extends BaseController
             'profile_css'        => $profile_css,
         ]);
 
-        return $this->savedPreferences();
+        return $this->savedHomepage();
+    }
+
+    protected function savedHomepage()
+    {
+        $sections = Section::get();
+        $section = Section::sectionFromSections(Section::getByTitle([""]));
+
+        return View::make('page.user.prefs.savedhomepage', [
+            'sections' => $sections,
+            'section'  => $section,
+        ]);
     }
 }
