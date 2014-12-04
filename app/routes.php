@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/validators.php');
 Route::group(['domain' => '{username}.spreadit.dev'], function($username)
 {
     Route::get('/style', 'UserPageController@css');
-    Route::get('/', 'UserPageController@index');
+    Route::get('/',      'UserPageController@index');
 });
 
 
@@ -31,9 +31,27 @@ Route::post('/register', ['before' => 'throttle:1,10', 'uses' => 'UserController
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
 
-Route::get('/preferences', ['before' => 'auth', 'uses' => 'UserController@preferences']);
-Route::post('/preferences', ['before' => 'auth', 'uses' => 'UserController@savePreferences']);
-Route::get('/preferences/.json', ['before' => 'auth.token', 'uses' => 'UserController@preferencesJson']);
+Route::group(['prefix' => '/preferences'], function()
+{
+    Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@preferences']);
+    Route::post('/', ['before' => 'auth|throttle:10,1', 'uses' => 'PreferencesController@savePreferences']);
+    Route::get('/.json', ['before' => 'auth.token', 'uses' => 'PreferencesController@preferencesJson']);
+
+    Route::group(['prefix' => '/homepage'], function()
+    {
+        Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@homepage']);
+        Route::post('/', ['before' => 'auth|throttle:10,1', 'uses' => 'PreferencesController@saveHomepage']);
+    });
+
+    Route::group(['prefix' => '/theme'], function()
+    {
+        Route::get('/',      'PreferencesController@index');
+        Route::get('/dark',  'PreferencesController@dark');
+        Route::get('/light', 'PreferencesController@light');
+        Route::get('/tiles', 'PreferencesController@tiles');
+    });
+});
+
 
 Route::group(['prefix' => '/s'], function()
 {
@@ -185,14 +203,6 @@ Route::group(['prefix' => '/help'], function()
 	Route::get('/moderation', 'HelpController@moderation');
 	Route::get('/anonymity', 'HelpController@anonymity');
 	Route::get('/help', 'HelpController@help');
-});
-
-Route::group(['prefix' => '/theme'], function()
-{
-    Route::get('/',      'ThemeController@index');
-    Route::get('/dark',  'ThemeController@dark');
-    Route::get('/light', 'ThemeController@light');
-    Route::get('/tiles', 'ThemeController@tiles');
 });
 
 Route::get('/assets/prod/{filename}', function($filename) {

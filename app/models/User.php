@@ -68,6 +68,17 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ]);
     }
 
+    public static function saveHomepage($user_id, array $data)
+    {
+        DB::table('users')
+            ->where('id', $user_id)
+            ->update([
+                'profile_data'     => $data['profile_data'],
+                'profile_markdown' => $data['profile_markdown'],
+                'profile_css'      => $data['profile_css'],
+            ]);
+    }
+
     /**
      * Get the unique identifier for the user.
      *

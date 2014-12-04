@@ -20,7 +20,9 @@
             <button type="submit">Save</button>
 
             <hr>
-            change theme <a href="/theme">here</a>
+            change theme <a href="/preferences/theme">here</a>
+            <hr>
+            setup homepage <a href="/preferences/homepage">here</a>
         </form>
     </div>
 </div>
