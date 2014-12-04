@@ -1,4 +1,7 @@
-@include ('shared.googlesitesearch')
+<form id="search-box" action="/search">
+    <input type="text" name="query" size="31" />
+    <input type="submit" value="search" />
+</form>
 
 @if (Auth::check())
     <div class="add-post-shard">

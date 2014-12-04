@@ -31,6 +31,8 @@ Route::post('/register', ['before' => 'throttle:1,10', 'uses' => 'UserController
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
 
+Route::get('/search', 'SearchController@search');
+
 Route::group(['prefix' => '/preferences'], function()
 {
     Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@preferences']);
