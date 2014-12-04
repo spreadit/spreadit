@@ -21,12 +21,17 @@
         ga('require', 'linkid', 'linkid.js');
         ga('require', 'displayfeatures');
         ga('send', 'pageview');
-         
         </script>
     </head>
     <body>
         <div id="fullpage-container">
             {{ $html }}
         </div>
+        <script>
+            var elements = document.getElementsByClassName('lazy-loaded');
+            for(var i=0; i<elements.length; i++) {
+                elements[i].setAttribute('src', elements[i].getAttribute('data-original'));
+            }
+        </script>
     </body>
 </html>
