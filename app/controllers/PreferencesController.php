@@ -89,23 +89,23 @@ class PreferencesController extends BaseController
 
     private function theme_cookie_switch($colorscheme)
     {
-        return Redirect::to(Utility::backOrUrl("/theme"))->withCookie(Cookie::forever('theme', $colorscheme));
+        return Redirect::to(Utility::backOrUrl("/preferences/theme"))->withCookie(Cookie::forever('theme', $colorscheme));
 
     }
 
     protected function theme_dark()
     {
-        return $this->cookie_switch('dark');
+        return $this->theme_cookie_switch('dark');
     }
 
     protected function theme_light()
     {
-        return $this->cookie_switch('light');
+        return $this->theme_cookie_switch('light');
     }
 
     protected function theme_tiles()
     {
-        return $this->cookie_switch('tiles');
+        return $this->theme_cookie_switch('tiles');
     }
 
     protected function homepage()

@@ -45,10 +45,10 @@ Route::group(['prefix' => '/preferences'], function()
 
     Route::group(['prefix' => '/theme'], function()
     {
-        Route::get('/',      'PreferencesController@index');
-        Route::get('/dark',  'PreferencesController@dark');
-        Route::get('/light', 'PreferencesController@light');
-        Route::get('/tiles', 'PreferencesController@tiles');
+        Route::get('/',      'PreferencesController@theme_index');
+        Route::get('/dark',  'PreferencesController@theme_dark');
+        Route::get('/light', 'PreferencesController@theme_light');
+        Route::get('/tiles', 'PreferencesController@theme_tiles');
     });
 });
 
