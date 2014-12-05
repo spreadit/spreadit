@@ -102,6 +102,23 @@ class PostController extends BaseController
         }
     }
 
+    protected function updateJson($post_id)
+    {
+        $post = Post::amend($post_id, Input::get('data'));
+
+        if($post->success) {
+            return Response::json([
+                'success' => true,
+                'errors'  => [],
+            ]);
+        } else {
+            return Response::json([
+                'success' => false,
+                'errors'  => [$post->errorMessage()],
+            ]);
+        }
+    }
+
     protected function delete($post_id)
     {
         $post = Post::remove($post_id);

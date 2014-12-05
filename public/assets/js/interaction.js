@@ -73,12 +73,9 @@ $(document).ready(function() {
     });
 
     function preview_clicker(e, preview_box, formdata) {
-        console.log("previewbox");
-        console.log(preview_box);
-        console.log(formdata);
         e.preventDefault();
         
-        $.post('/util/previewjs', formdata, function(data) {
+        $.post('/util/preview/.json', formdata, function(data) {
             preview_box.html(data);
 
             replace_special_code_chars(preview_box);
@@ -88,12 +85,12 @@ $(document).ready(function() {
         });
     }
 
-    function comment_reply_clicker(e) {
+    function reply_clicker(e) {
         var that = $(this);
         
         var piece = that.closest('.comment-piece, .post-piece');
-        if(typeof piece.data('shown') === 'undefined') {
-            piece.data('shown', true);
+        if(typeof piece.data('reply-shown') === 'undefined') {
+            piece.data('reply-shown', true);
             var post_id    = that.closest('.post').find('.post-piece').first().data('post-id');
             var comment_id = piece.data('comment-id');
 
@@ -103,11 +100,11 @@ $(document).ready(function() {
                 piece.append(replybox);
                 piece.find('.comment-reply-box').append(data);
 
-                piece.find('.preview').first().click(function(e) { 
-                    preview_clicker(e, piece.find(".preview-box").first(), piece.find('.comment-reply-box form').first().serializeArray()); 
+                piece.find('.comment-reply-box .preview').first().click(function(e) { 
+                    preview_clicker(e, piece.find(".comment-reply-box .preview-box").first(), piece.find('.comment-reply-box form').first().serializeArray()); 
                 });
 
-                piece.find('.comment-reply-box form').submit(function(e){
+                piece.find('.comment-reply-box form').first().submit(function(e){
                     e.preventDefault();
 
                     $.post($(this).attr('action') + '/.json', $(this).serializeArray(), function(data) {
@@ -133,8 +130,8 @@ $(document).ready(function() {
                                 }
                             }
                         } else {
-                            piece.data('shown', false);
-                            piece.find('.comment-reply-box').hide();
+                            piece.data('reply-shown', false);
+                            piece.find('.comment-reply-box').first().hide();
 
                             $.get('/comments/' + data.comment_id + '/render', function(data) {
                                 var first_branch = piece.parent().find('.commentbranch').first();
@@ -144,24 +141,64 @@ $(document).ready(function() {
                                 hljs.initHighlighting.called = false;
                                 hljs.initHighlighting();
                                 
-                                first_branch.find(".comment-action.reply").click(comment_reply_clicker);
+                                first_branch.find(".comment-action.reply").click(reply_clicker);
+                                first_branch.find(".comment-action.edit, post-action.edit").click(edit_clicker);
                             });
                         }
                     });
                 });
             });
 
-        } else if(piece.data('shown')) {
-            piece.data('shown', false);
-            piece.find('.comment-reply-box').hide();
-        } else if(!piece.data('shown')) {
-            piece.data('shown', true);
-            piece.find('.comment-reply-box').show();
+        } else if(piece.data('reply-shown')) {
+            piece.data('reply-shown', false);
+            piece.find('.comment-reply-box').first().hide();
+        } else if(!piece.data('reply-shown')) {
+            piece.data('reply-shown', true);
+            piece.find('.comment-reply-box').first().show();
         }
     }
 
-    $(".comment-action.reply").click(comment_reply_clicker);
+    function edit_clicker(e) {
+        var that = $(this);
+        
+        var piece = that.closest('.comment-piece, .post-piece');
+        var editbox = piece.find('.editbox');
 
+        if(typeof piece.data('edit-shown') === 'undefined') {
+            piece.data('edit-shown', true);
+            editbox.show();
+
+            piece.find('.editbox .preview').first().click(function(e) { 
+                preview_clicker(e, piece.find('.comment-content, .post-content').first(), editbox.find('form').first().serializeArray()); 
+            });
+
+            piece.find('.editbox form').first().submit(function(e){
+                e.preventDefault();
+
+                $.post($(this).attr('action') + '/.json', $(this).serializeArray(), function(data) {
+                    if(!data.success) {
+                        for(var i=0; i<data.errors.length; ++i) {
+                            console.log(data.errors[i]);
+                            show_modal('Oops.. an error occurred', data.errors[i]);
+                        }
+                    } else {
+                        piece.data('edit-shown', false);
+                        piece.find('.editbox').first().hide();
+                        preview_clicker(e, piece.find('.comment-content, .post-content').first(), editbox.find('form').first().serializeArray());
+                    }
+                });
+            });
+        } else if(piece.data('edit-shown')) {
+            piece.data('edit-shown', false);
+            editbox.hide();
+        } else if(!piece.data('edit-shown')) {
+            piece.data('edit-shown', true);
+            editbox.show();
+        }
+    }
+
+    $(".comment-action.reply").click(reply_clicker);
+    $(".comment-action.edit, .post-action.edit").click(edit_clicker);
     replace_special_code_chars($(".comment-piece, .post-piece"));
 
     $(".comment-piece a, .post-piece a").each(function() {

@@ -87,11 +87,11 @@ Route::group(['prefix' => '/s'], function()
 
 Route::group(['prefix' => '/util'], function()
 {
-    Route::get('/imagewrapper', ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
-    Route::get('/titlefromurl', ['before' => 'throttle:6,1',   'uses' => 'UtilityController@titlefromurl']);
-    Route::post('/preview',     ['before' => 'throttle:20,1',  'uses' => 'UtilityController@preview']);
-    Route::post('/previewjs',   ['before' => 'throttle:20,1',  'uses' => 'UtilityController@previewNoEnclosingPage']);
-    Route::get('/thumbnail',    ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);
+    Route::get('/imagewrapper',   ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
+    Route::get('/titlefromurl',   ['before' => 'throttle:6,1',   'uses' => 'UtilityController@titlefromurl']);
+    Route::post('/preview',       ['before' => 'throttle:30,1',  'uses' => 'UtilityController@preview']);
+    Route::post('/preview/.json', ['before' => 'throttle:30,1',  'uses' => 'UtilityController@previewNoEnclosingPage']);
+    Route::get('/thumbnail',      ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);
     Route::get('/redirect_to_add_post', 'UtilityController@redirect_to_add_post');
 });
 
@@ -124,6 +124,7 @@ Route::group(['prefix' => '/comments'], function()
     	Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
         Route::post('/create/.json', ['before' => 'throttle:2,1',  'uses' => 'CommentController@makeJson']);
     	Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
+        Route::post('/update/.json', ['before' => 'throttle:10,1', 'uses' => 'CommentController@updateJson']);
         Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
     });
 });
@@ -132,6 +133,7 @@ Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
 {
     Route::get('/', 'PostController@getRedir');
     Route::post('/update', ['before' => 'auth|throttle:5,1', 'uses' => 'PostController@update']);
+    Route::post('/update/.json', ['before' => 'auth|throttle:5,1', 'uses' => 'PostController@updateJson']);
     Route::post('/delete', ['before' => 'auth|throttle:5,1', 'uses' => 'PostController@delete']);
 
     Route::post('/tag/nsfw',       ['before' => 'auth|throttle:2,1', 'uses' => 'TagController@nsfw']);

@@ -519,3 +519,7 @@ em {
     background-color:#242424;
     border:0px;
 }
+
+.editbox {
+    display:none;
+}

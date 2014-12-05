@@ -57,6 +57,23 @@ class CommentController extends BaseController
         }
     }
 
+    protected function updateJson($comment_id)
+    {
+        $comment = Comment::amend($comment_id, Input::get('data'));
+
+        if($comment->success) {
+            return Response::json([
+                'success' => true,
+                'errors'  => [],
+            ]);
+        } else {
+            return Response::json([
+                'success' => false,
+                'errors'  => [$comment->errorMessage()],
+            ]);
+        }
+    }
+
     protected function make()
     {
         $anon = Anon::make(Input::get('captcha'));

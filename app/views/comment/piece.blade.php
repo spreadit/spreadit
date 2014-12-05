@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="comment-data">
-        {{ $comment->data }}
+        <div class="comment-content">{{ $comment->data }}</div>
         @if (!isset($user_page))
             @include ('shared.replyframe', ['post_id' => $comment->post_id, 'parent_id' => $comment->id])
 
@@ -42,7 +42,11 @@
                                 <button type="submit">Update</button>
                             </div>
                         </form>
-                        <div class="preview-box"><iframe name="previewcomment-edit-box{{ $comment->id }}"></iframe></div>
+                        <div class="preview-box">
+                            <noscript>
+                                <iframe name="previewcomment-edit-box{{ $comment->id }}"></iframe>
+                            </noscript>
+                        </div>
                     </div>
 
                     <label class="comment-action delete" for="collapse-commentdelete{{ $comment->id }}">delete </label>

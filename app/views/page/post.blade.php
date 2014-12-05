@@ -50,7 +50,7 @@
                         <h1><a rel="nofollow" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a></h1>
                     </div>
                     <div class="breaker data-data">
-                        {{ $post->data }}
+                        <div class="post-content">{{ $post->data }}</div>
                     </div>
                     <menu>
                         @include ('shared.replyframe', ['post_id' => $post->id, 'parent_id' => 0])
@@ -81,7 +81,9 @@
 
                         @if ($post->user_id == Auth::id())
                             <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>
-                            <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
+                            <noscript>
+                                <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
+                            </noscript>
                             <div class="editbox">
                                 <form id="edit-form" action="{{ URL::to("/posts/" . $post->id . "/update") }}" method="post">
                                     <p class="text">
@@ -92,7 +94,11 @@
                                         <button type="submit">Update</button>
                                     </div>
                                 </form>
-                                <div class="preview-box"><iframe name="previewpost-edit-box{{ $post->id }}"></iframe></div>
+                                <div class="preview-box">
+                                    <noscript>
+                                        <iframe name="previewpost-edit-box{{ $post->id }}"></iframe>
+                                    </noscript>
+                                </div>
                             </div>
 
                             <label class="post-action delete" for="collapse-postdelete{{ $post->id }}">delete </label>
