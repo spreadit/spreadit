@@ -331,7 +331,8 @@ ol li {
     overflow:auto;
 }
 
-.comment-piece .no-comments-remaining {
+.comment-piece .no-comments-remaining,
+.post-piece .no-comments-remaining {
     clear:both;
 }
 

@@ -17,7 +17,7 @@
     @endif
     <div class="posts-container">
         <div class="post">
-            <div class="post-piece" tabindex="1" data-post-id="{{ $post->id }}">
+            <div class="post-piece" tabindex="1" data-comment-id="0" data-post-id="{{ $post->id }}">
                 <div class="post-points">
                     <div class="breaker points-actions">
                         <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>

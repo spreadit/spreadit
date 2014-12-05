@@ -73,6 +73,9 @@ $(document).ready(function() {
     });
 
     function preview_clicker(e, preview_box, formdata) {
+        console.log("previewbox");
+        console.log(preview_box);
+        console.log(formdata);
         e.preventDefault();
         
         $.post('/util/previewjs', formdata, function(data) {
@@ -88,53 +91,53 @@ $(document).ready(function() {
     function comment_reply_clicker(e) {
         var that = $(this);
         
-        var comment_piece = that.closest('.comment-piece');
-        if(typeof comment_piece.data('shown') === 'undefined') {
-            comment_piece.data('shown', true);
+        var piece = that.closest('.comment-piece, .post-piece');
+        if(typeof piece.data('shown') === 'undefined') {
+            piece.data('shown', true);
             var post_id    = that.closest('.post').find('.post-piece').first().data('post-id');
-            var comment_id = comment_piece.data('comment-id');
+            var comment_id = piece.data('comment-id');
 
 
             $.get('/comments/form/' + post_id + '/' + comment_id, function(data) {
                 var replybox = $('<div class="comment-reply-box">');
-                comment_piece.append(replybox);
-                comment_piece.find('.comment-reply-box').append(data);
+                piece.append(replybox);
+                piece.find('.comment-reply-box').append(data);
 
-                comment_piece.find('.preview').first().click(function(e) { 
-                    preview_clicker(e, comment_piece.find(".preview-box").first(), comment_piece.find('form').first().serializeArray()); 
+                piece.find('.preview').first().click(function(e) { 
+                    preview_clicker(e, piece.find(".preview-box").first(), piece.find('.comment-reply-box form').first().serializeArray()); 
                 });
 
-                comment_piece.find('.comment-reply-box form').submit(function(e){
+                piece.find('.comment-reply-box form').submit(function(e){
                     e.preventDefault();
 
                     $.post($(this).attr('action') + '/.json', $(this).serializeArray(), function(data) {
-                        if(comment_piece.parent().find('.commentbranch').first().length == 0) {
+                        if(piece.parent().find('.commentbranch').first().length == 0) {
                             var comment_branch = $('<ul class="commentbranch">');
                             comment_branch.append($('<li>'));
-                            comment_piece.parent().append(comment_branch);
+                            piece.parent().append(comment_branch);
                         }
 
                         if(!data.success) {
                             for(var i=0; i<data.errors.length; ++i) {
                                 console.log(data.errors[i]);
                                 if(data.errors[i].message === "validation.captcha") {
-                                    comment_piece.find('.captcha img').first().remove();
+                                    piece.find('.captcha img').first().remove();
 
                                     $.get('/comments/captcha', function(data) {
-                                        comment_piece.find('.captcha').first().prepend(data);
+                                        piece.find('.captcha').first().prepend(data);
                                     });
 
                                     show_modal('Oops.. an error occurred', 'Captcha was incorrect');
                                 } else {
-                                    show_modal('Oops.. an error occurred', data.errors[i].message);
+                                    show_modal('Oops.. an error occurred', data.errors[i]);
                                 }
                             }
                         } else {
-                            comment_piece.data('shown', false);
-                            comment_piece.find('.comment-reply-box').hide();
+                            piece.data('shown', false);
+                            piece.find('.comment-reply-box').hide();
 
                             $.get('/comments/' + data.comment_id + '/render', function(data) {
-                                var first_branch = comment_piece.parent().find('.commentbranch').first();
+                                var first_branch = piece.parent().find('.commentbranch').first();
                                 first_branch.prepend(data);
 
                                 replace_special_code_chars(first_branch);
@@ -148,12 +151,12 @@ $(document).ready(function() {
                 });
             });
 
-        } else if(comment_piece.data('shown')) {
-            comment_piece.data('shown', false);
-            comment_piece.find('.comment-reply-box').hide();
-        } else if(!comment_piece.data('shown')) {
-            comment_piece.data('shown', true);
-            comment_piece.find('.comment-reply-box').show();
+        } else if(piece.data('shown')) {
+            piece.data('shown', false);
+            piece.find('.comment-reply-box').hide();
+        } else if(!piece.data('shown')) {
+            piece.data('shown', true);
+            piece.find('.comment-reply-box').show();
         }
     }
 
