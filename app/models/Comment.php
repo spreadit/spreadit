@@ -34,7 +34,25 @@ class Comment extends BaseModel
         });
     }
 
-    public static function get($post_id)
+    public static function get($comment_id)
+    {
+        $comment = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->select('comments.id', 'comments.post_id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
+            ->where('comments.id', '=', $comment_id)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        if( $comment->deleted_at != 0) {
+            $comment->username = "deleted";
+            $comment->data = "<p>user deleted this comment</p>";
+            $comment->markdown = "user deleted this comment";
+        }
+
+        return Vote::applySelection([$comment], Vote::COMMENT_TYPE)[0];
+    }
+
+    public static function getByPostId($post_id)
     {
         $comments = Cache::remember(self::CACHE_NEWLIST_NAME.$post_id, self::CACHE_NEWLIST_MINS, function() use($post_id)
         {
@@ -77,6 +95,7 @@ class Comment extends BaseModel
     public static function make($post_id, $content, $parent_id)
     {
         $block = new SuccessBlock();
+        $block->data->comment_id = -1;
 
         if($block->success) {
             if(Auth::user()->points < 1) {
@@ -136,6 +155,7 @@ class Comment extends BaseModel
             $post->increment('comment_count');
 
             $notification->item_id = $comment->id;
+            $block->data->comment_id = $comment->id;
             if($notification->user_id != Auth::user()->id) {
                 $notification->save();
             }

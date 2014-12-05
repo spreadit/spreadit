@@ -22,6 +22,15 @@ class UtilityController extends BaseController
         return View::make('util.preview', ['data' => Markdown::defaultTransform(e(Input::get('data')))]);
     }
 
+    protected function previewNoEnclosingPage()
+    {
+        $markdown = Markdown::defaultTransform(e(Input::get('data')));
+        $response = Response::make($markdown);
+        $response->header('Content-Type', 'text/html');
+
+        return $response;
+    }
+
     public static function thumbnail() {
         if(!Input::has("id") || !Input::has("url")) {
             return "missing id or url";

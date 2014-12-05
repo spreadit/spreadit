@@ -8,6 +8,25 @@ if (typeof String.prototype.startsWith != 'function') {
     };
 }
 
+//move this to libs/Markdown.. smart dealing with code blocks
+function replace_special_code_chars(el)
+{
+    el.find("pre code").each(function(){
+        var decoded = $(this).text()
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&quot;', '"')
+            .replaceAll('&#039;', '\'')
+        $(this).text(decoded);
+    });
+}
+
+function show_modal(header, content) {
+    $('#modal-info .modal-header h3').html(header);
+    $('#modal-info .modal-body p').html(content);
+    $('#modal-info').modal();
+}
+
 $(document).ready(function() {
     $(".spreadit-selector select").selectize({create: true});
     
@@ -53,15 +72,94 @@ $(document).ready(function() {
         });
     });
 
-        //move this to libs/Markdown.. smart dealing with code blocks
-    $("pre code").each(function(){
-        var decoded = $(this).text()
-            .replaceAll('&lt;', '<')
-            .replaceAll('&gt;', '>')
-            .replaceAll('&quot;', '"')
-            .replaceAll('&#039;', '\'')
-        $(this).text(decoded);
-    });
+    function preview_clicker(e, preview_box, formdata) {
+        e.preventDefault();
+        
+        $.post('/util/previewjs', formdata, function(data) {
+            preview_box.html(data);
+
+            replace_special_code_chars(preview_box);
+
+            hljs.initHighlighting.called = false;
+            hljs.initHighlighting();
+        });
+    }
+
+    function comment_reply_clicker(e) {
+        var that = $(this);
+        
+        var comment_piece = that.closest('.comment-piece');
+        if(typeof comment_piece.data('shown') === 'undefined') {
+            comment_piece.data('shown', true);
+            var post_id    = that.closest('.post').find('.post-piece').first().data('post-id');
+            var comment_id = comment_piece.data('comment-id');
+
+
+            $.get('/comments/form/' + post_id + '/' + comment_id, function(data) {
+                var replybox = $('<div class="comment-reply-box">');
+                comment_piece.append(replybox);
+                comment_piece.find('.comment-reply-box').append(data);
+
+                comment_piece.find('.preview').first().click(function(e) { 
+                    preview_clicker(e, comment_piece.find(".preview-box").first(), comment_piece.find('form').first().serializeArray()); 
+                });
+
+                comment_piece.find('.comment-reply-box form').submit(function(e){
+                    e.preventDefault();
+
+                    $.post($(this).attr('action') + '/.json', $(this).serializeArray(), function(data) {
+                        if(comment_piece.parent().find('.commentbranch').first().length == 0) {
+                            var comment_branch = $('<ul class="commentbranch">');
+                            comment_branch.append($('<li>'));
+                            comment_piece.parent().append(comment_branch);
+                        }
+
+                        if(!data.success) {
+                            for(var i=0; i<data.errors.length; ++i) {
+                                console.log(data.errors[i]);
+                                if(data.errors[i].message === "validation.captcha") {
+                                    comment_piece.find('.captcha img').first().remove();
+
+                                    $.get('/comments/captcha', function(data) {
+                                        comment_piece.find('.captcha').first().prepend(data);
+                                    });
+
+                                    show_modal('Oops.. an error occurred', 'Captcha was incorrect');
+                                } else {
+                                    show_modal('Oops.. an error occurred', data.errors[i].message);
+                                }
+                            }
+                        } else {
+                            comment_piece.data('shown', false);
+                            comment_piece.find('.comment-reply-box').hide();
+
+                            $.get('/comments/' + data.comment_id + '/render', function(data) {
+                                var first_branch = comment_piece.parent().find('.commentbranch').first();
+                                first_branch.prepend(data);
+
+                                replace_special_code_chars(first_branch);
+                                hljs.initHighlighting.called = false;
+                                hljs.initHighlighting();
+                                
+                                first_branch.find(".comment-action.reply").click(comment_reply_clicker);
+                            });
+                        }
+                    });
+                });
+            });
+
+        } else if(comment_piece.data('shown')) {
+            comment_piece.data('shown', false);
+            comment_piece.find('.comment-reply-box').hide();
+        } else if(!comment_piece.data('shown')) {
+            comment_piece.data('shown', true);
+            comment_piece.find('.comment-reply-box').show();
+        }
+    }
+
+    $(".comment-action.reply").click(comment_reply_clicker);
+
+    replace_special_code_chars($(".comment-piece, .post-piece"));
 
     $(".comment-piece a, .post-piece a").each(function() {
         if(typeof $(this).attr("href") === 'undefined') return;

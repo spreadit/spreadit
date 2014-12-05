@@ -12,7 +12,7 @@ class PostController extends BaseController
         $post->section_title = $section_title;
         $my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
         $post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-        $commentTree = new CommentTree(Comment::get($post_id));
+        $commentTree = new CommentTree(Comment::getByPostId($post_id));
         $sort_highlight = Utility::getSortMode();
         $sort_timeframe_highlight = Utility::getSortTimeframe();
 
@@ -31,7 +31,7 @@ class PostController extends BaseController
 		$post = Post::get($post_id);
 		$my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
 		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-        $commentTree = new CommentTree(Comment::get($post_id));
+        $commentTree = new CommentTree(Comment::getByPostId($post_id));
 
 		return Response::json([
 			'post' => $post,

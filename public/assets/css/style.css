@@ -331,6 +331,10 @@ ol li {
     overflow:auto;
 }
 
+.comment-piece .no-comments-remaining {
+    clear:both;
+}
+
 .comment-alt {
     background-color:#383838;
 }
@@ -508,4 +512,9 @@ em {
 
 .comment-reply-box-page {
     padding-left:1em;
+}
+
+.modal, .modal-header, .modal-body, .modal-footer {
+    background-color:#242424;
+    border:0px;
 }

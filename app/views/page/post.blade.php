@@ -17,7 +17,7 @@
     @endif
     <div class="posts-container">
         <div class="post">
-            <div class="post-piece" tabindex="1">
+            <div class="post-piece" tabindex="1" data-post-id="{{ $post->id }}">
                 <div class="post-points">
                     <div class="breaker points-actions">
                         <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
@@ -114,5 +114,17 @@
     </div>
     <div class="sidebar">
     @include ('shared.sidebar')
+    </div>
+    <div id="modal-info" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="info modal" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3></h3>
+        </div>
+        <div class="modal-body">
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
     </div>
 @stop

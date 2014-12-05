@@ -89,7 +89,8 @@ Route::group(['prefix' => '/util'], function()
 {
     Route::get('/imagewrapper', ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
     Route::get('/titlefromurl', ['before' => 'throttle:6,1',   'uses' => 'UtilityController@titlefromurl']);
-    Route::post('/preview',     ['before' => 'throttle:10,1',  'uses' => 'UtilityController@preview']);
+    Route::post('/preview',     ['before' => 'throttle:20,1',  'uses' => 'UtilityController@preview']);
+    Route::post('/previewjs',   ['before' => 'throttle:20,1',  'uses' => 'UtilityController@previewNoEnclosingPage']);
     Route::get('/thumbnail',    ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);
     Route::get('/redirect_to_add_post', 'UtilityController@redirect_to_add_post');
 });
@@ -112,12 +113,16 @@ Route::group(['prefix' => '/comments'], function()
 {
     Route::get('/pre/{post_id}/{parent_id}',  'CommentController@preReply');
     Route::get('/cur/{post_id}/{parent_id}',  'CommentController@curReply');
+    Route::get('/form/{post_id}/{parent_id}', 'CommentController@formReply');
     Route::get('/post/{post_id}/{parent_id}', 'CommentController@postReply');
-
+    Route::get('/captcha',                    'CommentController@newCaptcha');
+    
     Route::group(['prefix' => '/{comment_id}'], function($comment_id)
     {
         Route::get('/',        'CommentController@getRedir');
+        Route::get('/render',  'CommentController@render');
     	Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
+        Route::post('/create/.json', ['before' => 'throttle:2,1',  'uses' => 'CommentController@makeJson']);
     	Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
         Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
     });
