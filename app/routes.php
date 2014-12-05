@@ -59,28 +59,28 @@ Route::group(['prefix' => '/s'], function()
 {
     Route::get('/all', 'SectionController@get');
 
-	Route::group(['prefix' => '/{section_title}'], function($section_title)
-	{
-		Route::get('/', 'SectionController@get');
+    Route::group(['prefix' => '/{section_title}'], function($section_title)
+    {
+        Route::get('/', 'SectionController@get');
         Route::get('/.json', 'SectionController@getJson');
         Route::get('/.rss', 'FeedController@rss'); 
         Route::get('/.atom', 'FeedController@atom'); 
 
-		Route::get('/hot', 'SectionController@hot');
-		Route::get('/hot/.json', 'SectionController@hotJson');
-		Route::get('/new', 'SectionController@new_');
-		Route::get('/new/.json', 'SectionController@new_Json');
-		Route::get('/top/{timeframe}', 'SectionController@top');
-		Route::get('/top/{timeframe}/.json', 'SectionController@topJson');
-		Route::get('/controversial/{timeframe}', 'SectionController@controversial');
-		Route::get('/controversial/{timeframe}/.json', 'SectionController@controversialJson');
+        Route::get('/hot', 'SectionController@hot');
+        Route::get('/hot/.json', 'SectionController@hotJson');
+        Route::get('/new', 'SectionController@new_');
+        Route::get('/new/.json', 'SectionController@new_Json');
+        Route::get('/top/{timeframe}', 'SectionController@top');
+        Route::get('/top/{timeframe}/.json', 'SectionController@topJson');
+        Route::get('/controversial/{timeframe}', 'SectionController@controversial');
+        Route::get('/controversial/{timeframe}/.json', 'SectionController@controversialJson');
         
         Route::get('/posts/{post_id}/{post_title?}', 'PostController@get');
-    	Route::get('/posts/{post_id}/.json', 'PostController@getJson');
+        Route::get('/posts/{post_id}/.json', 'PostController@getJson');
         Route::post('/posts/{post_id}/{post_title?}', ['before' => 'throttle:3,1', 'uses' => 'CommentController@post']);
 
-	    Route::get('/add', 'SectionController@add');
-	    Route::post('/add', ['before' => 'throttle:3,1', 'uses' => 'PostController@post']);
+        Route::get('/add', 'SectionController@add');
+        Route::post('/add', ['before' => 'throttle:3,1', 'uses' => 'PostController@post']);
         Route::post('/add/.json', ['before' => 'auth.token|throttle:3,1', 'uses' => 'PostController@postJson']);
     });
 });
@@ -121,9 +121,9 @@ Route::group(['prefix' => '/comments'], function()
     {
         Route::get('/',        'CommentController@getRedir');
         Route::get('/render',  'CommentController@render');
-    	Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
+        Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
         Route::post('/create/.json', ['before' => 'throttle:2,1',  'uses' => 'CommentController@makeJson']);
-    	Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
+        Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
         Route::post('/update/.json', ['before' => 'throttle:10,1', 'uses' => 'CommentController@updateJson']);
         Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
     });
@@ -170,17 +170,17 @@ Route::group(['prefix' => 'vote'], function()
         Route::get('/comment/{id}/down',        ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDown']);
         Route::post('/comment/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentUpJson']);
         Route::post('/comment/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDownJson']);
-	});
+    });
 
 });
 
 Route::group(['prefix' => '/api'], function()
 {
-	Route::get('/', 'SwaggerController@index');
-	Route::get('/terms', 'SwaggerController@terms');
-	Route::get('/license', 'SwaggerController@license');
-	Route::get('/routes', 'SwaggerController@routes');
-	Route::get('/routes/{type}', 'SwaggerController@getRoute');
+    Route::get('/', 'SwaggerController@index');
+    Route::get('/terms', 'SwaggerController@terms');
+    Route::get('/license', 'SwaggerController@license');
+    Route::get('/routes', 'SwaggerController@routes');
+    Route::get('/routes/{type}', 'SwaggerController@getRoute');
 
     Route::group(['prefix' => '/auth'], function()
     {
@@ -199,19 +199,19 @@ Route::group(['prefix' => '/api'], function()
 
         Route::post('/comment/{id}/up/.json',   ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentUpJson']);
         Route::post('/comment/{id}/down/.json', ['before' => 'throttle:10,1', 'uses' => 'VoteController@commentDownJson']);
-	});
+    });
 });
 
 Route::group(['prefix' => '/help'], function()
 {
-	Route::get('/', 'HelpController@index');
-	Route::get('/feeds', 'HelpController@feeds');
-	Route::get('/posting', 'HelpController@posting');
-	Route::get('/formatting', 'HelpController@formatting');
-	Route::get('/points', 'HelpController@points');
-	Route::get('/moderation', 'HelpController@moderation');
-	Route::get('/anonymity', 'HelpController@anonymity');
-	Route::get('/help', 'HelpController@help');
+    Route::get('/',           'HelpController@index');
+    Route::get('/feeds',      'HelpController@feeds');
+    Route::get('/posting',    'HelpController@posting');
+    Route::get('/formatting', 'HelpController@formatting');
+    Route::get('/points',     'HelpController@points');
+    Route::get('/moderation', 'HelpController@moderation');
+    Route::get('/anonymity',  'HelpController@anonymity');
+    Route::get('/help',       'HelpController@help');
 });
 
 Route::get('/assets/prod/{filename}', function($filename) {
