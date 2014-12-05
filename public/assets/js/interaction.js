@@ -199,6 +199,7 @@ $(document).ready(function() {
 
     $(".comment-action.reply").click(reply_clicker);
     $(".comment-action.edit, .post-action.edit").click(edit_clicker);
+    $(".collapse-edit").remove();
     replace_special_code_chars($(".comment-piece, .post-piece"));
 
     $(".comment-piece a, .post-piece a").each(function() {

@@ -14,6 +14,6 @@
                 <h4 class="text-center">{{ $errors->first() }}</h4>
             </div>
         @endif
-        @include ('replyboxform', ['comment' => $comment])
+        @include ('comment.replyboxform', ['comment' => $comment])
     </body>
 </html>

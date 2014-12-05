@@ -81,9 +81,7 @@
 
                         @if ($post->user_id == Auth::id())
                             <label class="post-action edit" for="collapse-postedit{{ $post->id }}">edit </label>
-                            <noscript>
-                                <input class="collapse" id="collapse-postedit{{ $post->id }}" type="checkbox">
-                            </noscript>
+                            <input class="collapse collapse-edit" id="collapse-postedit{{ $post->id }}" type="checkbox">
                             <div class="editbox">
                                 <form id="edit-form" action="{{ URL::to("/posts/" . $post->id . "/update") }}" method="post">
                                     <p class="text">
