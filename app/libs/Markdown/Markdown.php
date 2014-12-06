@@ -1146,40 +1146,20 @@ class Markdown implements MarkdownInterface {
 
 
 	protected function doBlockQuotes($text) {
-		$text = preg_replace_callback('/
-			  (								# Wrap whole match in $1
-				(?>
-				  ^[ ]*>[ ]?			# ">" at the start of a line
-					.+\n					# rest of the first line
-				  (.+\n)*					# subsequent consecutive lines
-				  \n*						# blanks
-				)+
-			  )
-			/xm',
-			array($this, '_doBlockQuotes_callback'), $text);
+		$text = "\n$text";
+		return preg_replace_callback('/\n(&gt;|\>)(.*)/', function($regs) {
+			$item = $regs[2];
+			$item = $this->runBlockGamut("$item\n");
+			$item = preg_replace('/^/m', "  ", $item);
+			$item = preg_replace_callback('{(\s*<pre>.+?</pre>)}sx', function($mates) {
+				$pre = $matches[1];
+				$pre = preg_replace('/^  /m', '', $pre);
+				return $pre;
+			}, $item);
 
-		return $text;
+			return "\n". $this->hashBlock(sprintf ("<blockquote>\n%s\n</blockquote>", trim ($item))) . "\n\n";
+		}, $text);
 	}
-	protected function _doBlockQuotes_callback($matches) {
-		$bq = $matches[1];
-		# trim one level of quoting - trim whitespace-only lines
-		$bq = preg_replace('/^[ ]*>[ ]?|^[ ]+$/m', '', $bq);
-		$bq = $this->runBlockGamut($bq);		# recurse
-
-		$bq = preg_replace('/^/m', "  ", $bq);
-		# These leading spaces cause problem with <pre> content, 
-		# so we need to fix that:
-		$bq = preg_replace_callback('{(\s*<pre>.+?</pre>)}sx', 
-			array($this, '_doBlockQuotes_callback2'), $bq);
-
-		return "\n". $this->hashBlock("<blockquote>\n$bq\n</blockquote>")."\n\n";
-	}
-	protected function _doBlockQuotes_callback2($matches) {
-		$pre = $matches[1];
-		$pre = preg_replace('/^  /m', '', $pre);
-		return $pre;
-	}
-
 
 	protected function formParagraphs($text) {
 	#

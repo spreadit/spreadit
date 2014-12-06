@@ -14,6 +14,29 @@ h1 {
     text-transform: none;
 }
 
+blockquote {
+    padding:0;
+    margin: 0;
+    border-left:3em solid rgba(160, 170, 220, 0.2);
+}
+
+
+blockquote p {
+    font-size:12px;
+    padding-left: 2em;
+}
+
+blockquote ul,
+blockquote ol {
+    padding:0;
+    margin:0;
+}
+
+blockquote ul li,
+blockquote ol li {
+    padding-left:1em;
+}
+
 table {
     width:100%;
 }
@@ -252,7 +275,15 @@ ul li {
     list-style:circle;
 }
 
+.commentbranch .comment-piece ul li {
+    list-style:circle;
+}
+
 ol li {
+    list-style:decimal;
+}
+
+.commentbranch .comment-piece ol li {
     list-style:decimal;
 }
 
