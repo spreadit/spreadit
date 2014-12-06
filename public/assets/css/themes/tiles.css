@@ -448,3 +448,27 @@ a.vote.selected .voteicondown {
     width: 100%!important;
     height: 100%!important;
 }
+
+.nsfw,
+.nsfl  {
+    -o-filter:      blur(10px);
+    -ms-filter:     blur(10px);
+    -moz-filter:    blur(10px);
+    -webkit-filter: blur(10px);
+    filter:         blur(10px);
+
+    -o-transition:      0.15s;
+    -ms-transition:     0.15s;
+    -moz-transition:    0.15s;
+    -webkit-transition: 0.15s;
+    transition:         0.15s;
+}
+
+.nsfw:hover,
+.nsfl:hover {
+    -o-filter:      blur(0px);
+    -ms-filter:     blur(0px);
+    -moz-filter:    blur(0px);
+    -webkit-filter: blur(0px);
+    filter:         blur(0px);
+}
