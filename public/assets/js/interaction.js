@@ -8,6 +8,20 @@ if (typeof String.prototype.startsWith != 'function') {
     };
 }
 
+// Read a page's GET URL variables and return them as an associative array.
+function getUrlVars(href)
+{
+    var vars = [], hash;
+    var hashes = href.slice(href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 //move this to libs/Markdown.. smart dealing with code blocks
 function replace_special_code_chars(el)
 {
@@ -228,6 +242,78 @@ $(document).ready(function() {
             $(this).lazyload({ effect: "fadeIn" });
         } else {
             $(this).attr("src", "");
+        }
+    });
+
+    function add_play_button(piece, div) {
+        var media_box = $('<div class="media-box">');
+
+        piece.find('.post-thumbnail').hover(
+            function() {
+                $(this).find('img').addClass('animated');
+                $(this).find('.thumb-img').addClass('animated');
+            }, 
+            function() {
+                $(this).find('img').removeClass('animated');
+                $(this).find('.thumb-img').removeClass('animated');
+            }
+        );
+        piece.find('.post-thumbnail').click(function(e) {
+            e.preventDefault();
+
+            if(typeof piece.data('media-shown') === 'undefined') {
+                piece.data('media-shown', true);
+                media_box.append(div);
+                piece.append(media_box);
+            } else if(piece.data('media-shown')) {
+                piece.data('media-shown', false);
+                piece.find('.media-box').hide();
+            } else if(!piece.data('media-shown')) {
+                piece.data('media-shown', true);
+                piece.find('.media-box').show();
+            }
+        });
+    }
+
+    $(".post-piece.link").each(function() {
+        var piece =  $(this);
+        var post_title_el = piece.find('.post-title');
+        var href = post_title_el.attr('href');
+
+        if(href !== '') {
+            var youtube_pattern = /(http\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)/;
+            var vimeo_pattern   = /(http\:\/\/)?(www\.)?(vimeo.com)/;
+            var imgur_pattern   = /(http\:\/\/)?(www\.)?(i.)?(imgur.com)/;
+            var gfycat_pattern  = /(http\:\/\/)?(www\.)?(gfycat.com)/;
+
+            if(href.match(youtube_pattern)) {
+                var uvars = getUrlVars(href);
+                if(typeof uvars['v'] !== undefined) {
+                    add_play_button(piece, $('<iframe width="560" height="315" src="//www.youtube.com/embed/' + uvars['v'] + '" frameborder="0" allowfullscreen>'));
+                }
+            } else if(href.match(vimeo_pattern)) {
+                var id = href.split('/');
+                id = id[id.length-1];
+
+                if(!isNaN(id)) {
+                    add_play_button(piece, $('<iframe src="//player.vimeo.com/video/' + id + '" width="500" height="281" frameborder="0" allowfullscreen>'));
+                }
+            } else if(href.match(imgur_pattern)) {
+                var id = href.split('/');
+                id = id[id.length-1];
+                if(id.indexOf(".") > -1) {
+                    id = id.substr(0, id.lastIndexOf('.'));
+                }
+
+                add_play_button(piece, $('<img src="//i.imgur.com/' + id + '.png">'));
+            } else if(href.match(gfycat_pattern)) {
+                var id = href.split('/');
+                id = id[id.length-1];
+
+                if(isNaN(id)) {
+                    add_play_button(piece, $('<iframe src="http://gfycat.com/ifr/' + id + '" frameborder="0" scrolling="no" width="500" height="296" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" >'));
+                }
+            }
         }
     });
 });

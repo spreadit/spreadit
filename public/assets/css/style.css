@@ -339,6 +339,34 @@ ol li {
     filter:         blur(0px);
 }
 
+
+@-webkit-keyframes thumbnail-filter-animation {
+  0% {
+    filter:         contrast(1.0) saturate(1.0);
+    -webkit-filter: contrast(1.0) saturate(1.0);
+  }
+  
+  50% {
+    filter:         contrast(1.2) saturate(1.6);
+    -webkit-filter: contrast(1.2) saturate(1.6);
+  }
+  
+  100% {
+    filter:         contrast(1.0) saturate(1.0);
+    -webkit-filter: contrast(1.0) saturate(1.0);
+  }
+}
+
+.post-piece .post-thumbnail img.animated {
+    animation:         thumbnail-filter-animation 2s infinite;
+    -webkit-animation: thumbnail-filter-animation 2s infinite;
+}
+
+.post-piece .post-thumbnail .thumb-img.animated {
+    animation:         thumbnail-filter-animation 2s infinite;
+    -webkit-animation: thumbnail-filter-animation 2s infinite;
+}
+
 .post {
 	margin-bottom:0.25em;
 }
