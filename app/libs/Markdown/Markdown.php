@@ -410,6 +410,8 @@ class Markdown implements MarkdownInterface {
 		"doLists"           => 40,
 		"doCodeBlocks"      => 50,
 		"doBlockQuotes"     => 60,
+		"doUsernameReplace" => 70,
+		"doSpreaditReplace" => 80,
 		);
 
 	protected function runBlockGamut($text) {
@@ -1158,6 +1160,20 @@ class Markdown implements MarkdownInterface {
 			}, $item);
 
 			return "\n". $this->hashBlock(sprintf ("<blockquote>\n%s\n</blockquote>", trim ($item))) . "\n\n";
+		}, $text);
+	}
+
+	protected function doUsernameReplace($text) {
+		return preg_replace_callback('/\/u\/[a-zA-Z0-9_-]*(\b)/', function($regs) {
+			$item = $regs[0];
+			return sprintf('<a href="%s">%s</a>', $item, $item);
+		}, $text);
+	}
+
+	protected function doSpreaditReplace($text) {
+		return preg_replace_callback('/\/s\/[a-zA-Z0-9_-]*(\b)/', function($regs) {
+			$item = $regs[0];
+			return sprintf('<a href="%s">%s</a>', $item, $item);
 		}, $text);
 	}
 
