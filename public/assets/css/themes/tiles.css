@@ -440,6 +440,8 @@ a.vote.selected .voteicondown {
 .media-box {
     z-index: 10;
     position: absolute;
+    width:100%;
+    height: 100%;
 }
 
 .media-box iframe {
