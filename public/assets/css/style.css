@@ -315,8 +315,8 @@ ol li {
     display:none;
 }
 
-.nsfw .post-thumbnail img,
-.nsfl .post-thumbnail img {
+.nsfw,
+.nsfl  {
     -o-filter:      blur(3px);
     -ms-filter:     blur(3px);
     -moz-filter:    blur(3px);
@@ -330,8 +330,8 @@ ol li {
     transition:         0.15s;
 }
 
-.nsfw:hover .post-thumbnail img,
-.nsfl:hover .post-thumbnail img {
+.nsfw:hover,
+.nsfl:hover {
     -o-filter:      blur(0px);
     -ms-filter:     blur(0px);
     -moz-filter:    blur(0px);
