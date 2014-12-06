@@ -582,3 +582,7 @@ em {
 .editbox {
     display:none;
 }
+
+.media-box {
+    clear:both;
+}
