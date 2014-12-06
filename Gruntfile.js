@@ -4,6 +4,14 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        watch: {
+            files: [
+                '**/*.js', 
+                '**/*.css',
+                '!public/assets/prod/*'
+            ],
+            tasks: ['default']
+        },
         concat: {
         	dist: {
 				src: [
@@ -57,6 +65,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-concat-css');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
     grunt.registerTask('default', ['concat', 'uglify', 'concat_css', 'cssmin']);
 
