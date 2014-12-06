@@ -203,6 +203,15 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             'cheesehead beaver',
             'leviathan',
             'miniature god',
+            'brit',
+            'orangutan',
+            'mousecycle',
+            'jaden',
+            'penis witch',
+            'skateboard cop',
+            'redacted speech impediment',
+            'mild cornographer',
+            'testicular based lifeform',
         ];
 
         $level = Utility::availablePosts($user);
