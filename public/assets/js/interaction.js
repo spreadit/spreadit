@@ -310,6 +310,7 @@ $(document).ready(function() {
             var vimeo_pattern   = /(http\:\/\/)?(www\.)?(vimeo.com)/;
             var imgur_pattern   = /(http\:\/\/)?(www\.)?(i.)?(imgur.com)/;
             var gfycat_pattern  = /(http\:\/\/)?(www\.)?(gfycat.com)/;
+            var twitter_pattern = /(http\:\/\/)?(www\.)?(twitter.com)\/[a-zA-Z0-9_-]+\/status\/[0-9]+/;
 
             if(href.match(youtube_pattern)) {
                 var uvars = getUrlVars(href);
@@ -341,6 +342,13 @@ $(document).ready(function() {
 
                 if(isNaN(id)) {
                     add_play_button(piece, $('<iframe src="http://gfycat.com/ifr/' + id + '" frameborder="0" scrolling="no" width="500" height="296" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);" >'));
+                }
+            } else if(href.match(twitter_pattern)) {
+                var id = href.split('/');
+                id = id[id.length-1];
+
+                if(!isNaN(id)) {
+                    add_play_button(piece, $('<iframe border=0 frameborder=0 height=250 width=550 src="https://twitframe.com/show?url=' + href + '">'));
                 }
             }
         }
