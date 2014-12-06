@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . '/validators.php');
 
 Route::group(['domain' => '{username}.spreadit.{tld}'], function($username)
 {

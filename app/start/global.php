@@ -110,3 +110,6 @@ App::missing(function(Exception $exception)
 */
 
 require app_path().'/filters.php';
+
+
+require app_path().'/validators.php';
