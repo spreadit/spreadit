@@ -1164,16 +1164,23 @@ class Markdown implements MarkdownInterface {
 	}
 
 	protected function doUsernameReplace($text) {
-		return preg_replace_callback('/\/u\/[a-zA-Z0-9_-]*(\b)/', function($regs) {
+		$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+		$burl = $protocol . $_SERVER['SERVER_NAME'];
+
+		return preg_replace_callback('/\/u\/[a-zA-Z0-9_-]*(\b)/', function($regs) use ($burl) {
 			$item = $regs[0];
-			return sprintf('<a href="%s">%s</a>', $item, $item);
+
+			return sprintf('<a href="%s">%s</a>', $burl.$item, $item);
 		}, $text);
 	}
 
 	protected function doSpreaditReplace($text) {
-		return preg_replace_callback('/\/s\/[a-zA-Z0-9_-]*(\b)/', function($regs) {
+		$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+		$burl = $protocol . $_SERVER['SERVER_NAME'];
+
+		return preg_replace_callback('/\/s\/[a-zA-Z0-9_-]*(\b)/', function($regs) use ($burl) {
 			$item = $regs[0];
-			return sprintf('<a href="%s">%s</a>', $item, $item);
+			return sprintf('<a href="%s">%s</a>', $burl.$item, $item);
 		}, $text);
 	}
 
