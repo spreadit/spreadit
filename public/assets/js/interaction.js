@@ -46,33 +46,58 @@ $(document).ready(function() {
     
     $(".vote").click(function(e) {
         e.preventDefault();
-
         var that = $(this);
-        var url = '/vote/' + $(this).data('type') + '/' + $(this).data('id') + '/' + $(this).data('updown') + '/.json';
 
-        $.post(url, function(json)
-        {
-            console.log(json);
-            
-            if(json.success) {
-                that.addClass('selected');
-                that.parent().find('.vote').addClass('disable-click');
+        that.animate({ opacity: 0.0 }, 1500, function() { $(this).css('opacity', 1.0); });
 
-                $(".my-votes").html(function(i, val) { return +val+1; });
-
-                if(that.data('updown') == 'down') {
-                    that.parent().find('.downvotes').html(function(i, val) { return +val+1; });
-                    that.parent().find('.total-points').html(function(i, val) { return +val-1; });
-                    that.parent().parent().find(".upoints").html(function(i, val) { return +val-1; });
-                    $(".my-points").html(function(i, val) { return +val-1; });
-                } else if(that.data('updown') == 'up') {
-                    that.parent().find('.upvotes').html(function(i, val) { return +val+1; });
-                    that.parent().find('.total-points').html(function(i, val) { return +val+1; });
-                    that.parent().parent().find(".upoints").html(function(i, val) { return +val+1; });
-                    $(".my-points").html(function(i, val) { return +val-1; });
+        var refuse_timeout = false;
+        that.parent().find(".vote").each(function() {
+            console.log(typeof $(this).data('vote-timer'));
+            if(typeof $(this).data('vote-timer') !== "undefined") {
+                clearTimeout($(this).data('vote-timer'));
+                
+                if($(this).data('vote-timer') == that.data('vote-timer')) {
+                    refuse_timeout = true;
                 }
+
+                console.log($(this).data('vote-timer'));
+                $(this).removeData('vote-timer');
+                $(this).removeAttr('data-vote-timer');
+                $(this).stop(true, true);
             }
         });
+
+        if(!refuse_timeout) {
+            that.data('vote-timer', setTimeout(function() {
+                var url = '/vote/' + that.data('type') + '/' + that.data('id') + '/' + that.data('updown') + '/.json';
+
+                $.post(url, function(json)
+                {
+                    console.log(json);
+                    
+                    if(json.success) {
+                        that.addClass('selected');
+                        that.parent().find('.vote').addClass('disable-click');
+
+                        $(".my-votes").html(function(i, val) { return +val+1; });
+
+                        if(that.data('updown') == 'down') {
+                            that.parent().find('.downvotes').html(function(i, val) { return +val+1; });
+                            that.parent().find('.total-points').html(function(i, val) { return +val-1; });
+                            that.parent().parent().find(".upoints").html(function(i, val) { return +val-1; });
+                            $(".my-points").html(function(i, val) { return +val-1; });
+                        } else if(that.data('updown') == 'up') {
+                            that.parent().find('.upvotes').html(function(i, val) { return +val+1; });
+                            that.parent().find('.total-points').html(function(i, val) { return +val+1; });
+                            that.parent().parent().find(".upoints").html(function(i, val) { return +val+1; });
+                            $(".my-points").html(function(i, val) { return +val-1; });
+                        }
+                    }
+
+                    that.removeData('vote-timer');
+                });
+            }, 1500));
+        }
     });
 
     $(".tag button").click(function(e) {
