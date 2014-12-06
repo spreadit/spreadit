@@ -436,3 +436,13 @@ a.vote.selected .voteicondown {
 .pagination a {
     color:#111;
 }
+
+.media-box {
+    z-index: 10;
+    position: absolute;
+}
+
+.media-box iframe {
+    width: 100%!important;
+    height: 100%!important;
+}
