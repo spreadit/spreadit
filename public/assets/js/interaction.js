@@ -315,11 +315,11 @@ $(document).ready(function() {
             if(href.match(youtube_pattern)) {
                 var uvars = getUrlVars(href);
                 if(typeof uvars['v'] !== "undefined") {
-                    add_play_button(piece, $('<iframe width="560" height="315" src="//www.youtube.com/embed/' + uvars['v'] + '?autoplay=1&controls=0&showinfo=0&rel=0" frameborder="0" allowfullscreen>'));
+                    add_play_button(piece, $('<iframe width="560" height="315" src="//www.youtube.com/embed/' + uvars['v'] + '?autoplay=1&controls=1&showinfo=0&rel=0" frameborder="0" allowfullscreen>'));
                 } else {
                     var id = href.split('/');
                     id = id[id.length-1];
-                    add_play_button(piece, $('<iframe width="560" height="315" src="//www.youtube.com/embed/' + id + '?autoplay=1&controls=0&showinfo=0&rel=0" frameborder="0" allowfullscreen>'));
+                    add_play_button(piece, $('<iframe width="560" height="315" src="//www.youtube.com/embed/' + id + '?autoplay=1&controls=1&showinfo=0&rel=0" frameborder="0" allowfullscreen>'));
                 }
             } else if(href.match(vimeo_pattern)) {
                 var id = href.split('/');
