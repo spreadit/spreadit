@@ -213,15 +213,7 @@ Route::group(['prefix' => '/help'], function()
     Route::get('/help',       'HelpController@help');
 });
 
-Route::get('/assets/prod/{filename}', function($filename) {
-    return Bust::css("/assets/prod/$filename");
-});
-Route::get('/assets/css/{filename}', function($filename) {
-    return Bust::css("/assets/css/$filename");
-});
-Route::get('/assets/css/themes/{filename}', function($filename) {
-    return Bust::css("/assets/css/themes/$filename");
-});
-Route::get('/assets/css/prefs/{filename}', function($filename) {
-    return Bust::css("/assets/css/prefs/$filename");
-});
+Route::get('/assets/prod/{filename}',       'AssetsController@prod');
+Route::get('/assets/css/{filename}',        'AssetsController@css');
+Route::get('/assets/css/themes/{filename}', 'AssetsController@css_themes');
+Route::get('/assets/css/prefs/{filename}',  'AssetsController@prefs');
