@@ -225,10 +225,3 @@ Route::get('/assets/css/themes/{filename}', function($filename) {
 Route::get('/assets/css/prefs/{filename}', function($filename) {
     return Bust::css("/assets/css/prefs/$filename");
 });
-
-App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
-
-Event::listen('auth.token.valid', function($user)
-{
-  Auth::setUser($user);
-});
