@@ -131,6 +131,7 @@ return array(
         'Functional\FunctionalServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
+        'Whackashoe\Routecache\RoutecacheServiceProvider',
 	),
 
 	/*
