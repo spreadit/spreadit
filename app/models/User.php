@@ -131,7 +131,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->leftJoin('users', 'users.id', '=', 'comments.user_id')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
-            ->simplePaginate(self::PAGE_RESULTS);
+            ->simplePaginate($this->PAGE_RESULTS);
 
         return $vote->applySelection($comments, $vote->COMMENT_TYPE);
     }
@@ -144,7 +144,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('id', 'desc')
-            ->simplePaginate(self::PAGE_RESULTS);
+            ->simplePaginate($this->PAGE_RESULTS);
 
         return $vote->applySelection($posts, $vote->POST_TYPE);
     }
@@ -173,7 +173,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->select('votes.updown', 'votes.created_at', 'comments.id', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'comments.user_id', 'users_r.username AS username', 'users_r.points', 'users_r.votes', 'users_r.anonymous', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('votes.id', 'desc')
-            ->simplePaginate(self::PAGE_RESULTS);
+            ->simplePaginate($this->PAGE_RESULTS);
     }
 
     public function userStats($username) {

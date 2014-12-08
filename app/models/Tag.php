@@ -10,7 +10,7 @@ class Tag extends BaseModel
     public $NSFW = 0;
     public $NSFL = 1;
 
-    protected static $errors = [
+    protected $errors = [
         'same_stored' => 'vote is same as stored value',
         'reverse' => 'vote cannot be reversed',
         'lackingpoints' => 'tag cannot be completed as you do not have enough points',
@@ -31,17 +31,17 @@ class Tag extends BaseModel
     protected function alreadyExists($check)
     {
         $check = $check[0];
-        if($check->updown == self::UP) {
-            return ['success'=>false, 'errors'=>array(self::$errors['same_stored'])];
+        if($check->updown == $this->UP) {
+            return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
-            return ['success'=>false, 'errors'=>array(self::$errors['reverse'])];
+            return ['success'=>false, 'errors'=>array($this->$errors['reverse'])];
         }
     }
 
     private function getColumn($type) {
         switch($type) {
-            case self::NSFW: return 'nsfw'; break;
-            case self::NSFL: return 'nsfl'; break;
+            case $this->NSFW: return 'nsfw'; break;
+            case $this->NSFL: return 'nsfl'; break;
             default: App::abort(500); return;
         }
     }
@@ -51,9 +51,9 @@ class Tag extends BaseModel
         $post = Post::findOrFail($post_id);
 
         //upvote/downvote the post itself
-        if($updown == self::UP) {
+        if($updown == $this->UP) {
             $post->increment($this->getColumn($type));
-        } else if($updown == self::DOWN) {
+        } else if($updown == $this->DOWN) {
             $post->decrement($this->getColumn($type));
         }
 
@@ -73,24 +73,24 @@ class Tag extends BaseModel
         $check = $this->checkTag($post_id);
 
         if(count($check) > 0) {
-            return self::alreadyExists($check);
+            return $this->alreadyExists($check);
         }
 
         $user = User::findOrFail(Auth::user()->id);
         
         if($user->points < 1) {
-            return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];
+            return ['success' => false, 'errors' => array($this->$errors['lackingpoints'])];
         }
 
         if($user->anonymous == 1) {
-            return ['success' => false, 'errors' => array(self::$errors['anonymous'])];
+            return ['success' => false, 'errors' => array($this->$errors['anonymous'])];
         }
 
         try {
             $this->applyTag($post_id, $type, $updown);
         } catch (Exception $e) {
             Log::error($e);
-            return ['success' => false, 'errors' => array(self::$errors['systemerror'])];
+            return ['success' => false, 'errors' => array($this->$errors['systemerror'])];
         }
 
         return ['success' => true, 'errors' => []];

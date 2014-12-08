@@ -152,7 +152,7 @@ class Post extends BaseModel
 
             $rules = array(
                 'user_id'  => 'required|numeric',
-                'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
+                'markdown' => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
@@ -221,7 +221,7 @@ class Post extends BaseModel
         return DB::table('posts')
             ->select('id')
             ->where('posts.user_id', '=', $user_id)
-            ->where('posts.created_at', '>', time() - self::MAX_POSTS_TIMEOUT_SECONDS)
+            ->where('posts.created_at', '>', time() - $this->MAX_POSTS_TIMEOUT_SECONDS)
             ->count();
     }
 
@@ -235,13 +235,13 @@ class Post extends BaseModel
         $rules = array(
             'user_id' => 'required|numeric',
             'type'    => 'required|numeric|between:0,2',
-            'title'   => 'required|max:'.self::MAX_TITLE_LENGTH,
+            'title'   => 'required|max:'.$this->MAX_TITLE_LENGTH,
             'nsfw'    => 'required|numeric|between:0,1',
             'nsfl'    => 'required|numeric|between:0,1',
         );
 
-        $rule_data = 'max:'.self::MAX_MARKDOWN_LENGTH;
-        $rule_url  = 'required|url|max:'.self::MAX_URL_LENGTH;
+        $rule_data = 'max:'.$this->MAX_MARKDOWN_LENGTH;
+        $rule_url  = 'required|url|max:'.$this->MAX_URL_LENGTH;
         
         if(empty($data['data']) && empty($data['url'])) {
             $rules['data'] = $rule_data;
@@ -318,7 +318,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            $data = self::prepareData([
+            $data = $this->prepareData([
                 'data'    => $content,
                 'title'   => $title,
                 'url'     => $url,
@@ -327,8 +327,8 @@ class Post extends BaseModel
                 'nsfl'    => $nsfl,
             ]);
 
-            $rules    = self::generateRules($data);
-            $validate = Validator::make($data, self::generateRules($data));
+            $rules    = $this->generateRules($data);
+            $validate = Validator::make($data, $this->generateRules($data));
 
             if($validate->fails()) {
                 $block->success = false;
@@ -341,7 +341,7 @@ class Post extends BaseModel
 
         if($block->success) {
             //check if .gif & gfycat it
-            $data['url'] = self::gfycatUrl($data['url']);
+            $data['url'] = $this->gfycatUrl($data['url']);
 
             if(!$section->exists($section_title)) {
                 $ssect = new Section(['title' => $section_title]);

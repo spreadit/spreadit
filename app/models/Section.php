@@ -115,7 +115,7 @@ class Section extends BaseModel
             ->select('sections.id', 'sections.title')
             ->orderBy(DB::raw('(sections.upvotes - sections.downvotes)'), 'desc')
             ->where('sections.id', '!=', '0')
-            ->take(self::PAGINATION_AMOUNT)
+            ->take($this->PAGINATION_AMOUNT)
             ->get();
     }
 

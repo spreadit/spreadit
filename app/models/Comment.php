@@ -18,7 +18,7 @@ class Comment extends BaseModel
 
     public function getPathDataFromId($comment_id)
     {
-        return Cache::remember(self::CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, self::CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)
+        return Cache::remember($this->CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, $this->CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)
         {
             $comment = DB::table('comments')
                 ->join('posts', 'comments.post_id', '=', 'posts.id')
@@ -54,7 +54,7 @@ class Comment extends BaseModel
 
     public function getByPostId($post_id, Vote $vote)
     {
-        $comments = Cache::remember(self::CACHE_NEWLIST_NAME.$post_id, self::CACHE_NEWLIST_MINS, function() use($post_id)
+        $comments = Cache::remember($this->CACHE_NEWLIST_NAME.$post_id, $this->CACHE_NEWLIST_MINS, function() use($post_id)
         {
             return DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
@@ -83,7 +83,7 @@ class Comment extends BaseModel
         return DB::table('comments')
             ->select('id')
             ->where('comments.user_id', '=', $user_id)
-            ->where('comments.created_at', '>', time() - self::MAX_COMMENTS_TIMEOUT_SECONDS)
+            ->where('comments.created_at', '>', time() - $this->MAX_COMMENTS_TIMEOUT_SECONDS)
             ->count();
     }
 
@@ -124,7 +124,7 @@ class Comment extends BaseModel
                 'user_id'   => 'required|numeric',
                 'parent_id' => 'required|numeric',
                 'post_id'   => 'required|numeric',
-                'markdown'  => 'required|max:'.self::MAX_MARKDOWN_LENGTH
+                'markdown'  => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
@@ -141,7 +141,7 @@ class Comment extends BaseModel
             $post = Post::findOrFail($data['post_id']);
         
             $notification = new Notification();
-            if($data['parent_id'] != self::NO_PARENT) { 
+            if($data['parent_id'] != $this->NO_PARENT) { 
                 $parent = $this->findOrFail($data['parent_id']);
                 $notification->type = Notification::COMMENT_TYPE;
                 $notification->user_id = $parent->user_id;
@@ -160,7 +160,7 @@ class Comment extends BaseModel
                 $notification->save();
             }
 
-            Cache::forget(self::CACHE_NEWLIST_NAME.$post_id);
+            Cache::forget($this->CACHE_NEWLIST_NAME.$post_id);
         }
 
         return $block;
@@ -193,7 +193,7 @@ class Comment extends BaseModel
 
             $rules = array(
                 'user_id'  => 'required|numeric',
-                'markdown' => 'required|max:'.self::MAX_MARKDOWN_LENGTH
+                'markdown' => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
@@ -216,7 +216,7 @@ class Comment extends BaseModel
             $history->type_id  = $comment->id;
             $history->save();
 
-            Cache::forget(self::CACHE_NEWLIST_NAME.$comment->post_id);
+            Cache::forget($this->CACHE_NEWLIST_NAME.$comment->post_id);
 
             $comment->markdown = $data['markdown'];
             $comment->data = $data['data'];
@@ -248,7 +248,7 @@ class Comment extends BaseModel
         }
 
         if($block->success) {
-            Cache::forget(self::CACHE_NEWLIST_NAME.$comment->post_id);
+            Cache::forget($this->CACHE_NEWLIST_NAME.$comment->post_id);
             $comment->deleted_at = time();
             $comment->save();
         }
