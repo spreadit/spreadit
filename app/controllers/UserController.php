@@ -102,7 +102,7 @@ class UserController extends BaseController
         return View::make('page.user.comments', [
             'sections'  => $sections,
             'section'   => $section,
-            'comments'  => $this->user->comments($username, $this->vote),
+            'comments'  => $this->user->comments($username),
             'username'  => $username,
             'highlight' => 'comments'
         ]);
@@ -110,7 +110,7 @@ class UserController extends BaseController
 
     public function commentsJson($username)
     {
-        return Response::json(iterator_to_array($this->user->comments($username, $this->vote)));
+        return Response::json(iterator_to_array($this->user->comments($username)));
     }
 
     public function posts($username)
@@ -121,7 +121,7 @@ class UserController extends BaseController
         return View::make('page.user.posts', [
             'sections'  => $sections,
             'section'   => $section,
-            'posts'     => $this->user->posts($username, $this->vote),
+            'posts'     => $this->user->posts($username),
             'username'  => $username,
             'highlight' => 'posts'
         ]);
@@ -129,7 +129,7 @@ class UserController extends BaseController
 
     public function postsJson($username)
     {
-        return Response::json(iterator_to_array($this->user->posts($username, $this->vote)));
+        return Response::json(iterator_to_array($this->user->posts($username)));
     }
 
     public function postsVotes($username)

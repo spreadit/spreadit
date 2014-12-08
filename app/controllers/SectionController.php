@@ -102,7 +102,7 @@ class SectionController extends BaseController
             App::abort(404);
         }
         $section = $this->section->sectionFromSections($sections);
-        $my_votes = $this->vote->getMatchingVotes($this->vote->SECTION_TYPE, $sections);
+        $my_votes = $this->vote->getMatchingVotes(Constant::SECTION_TYPE, $sections);
 
         F::map($sections, function($m) {
             $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;

@@ -49,10 +49,8 @@ class Constant
 
     const POST_LINK_POST_TYPE = 0;
     const POST_SELF_POST_TYPE = 1;
-
     const POST_MAX_TITLE_LENGTH = 128;
     const POST_MAX_URL_LENGTH = 256;
-
     const POST_MAX_MARKDOWN_LENGTH = 6000;
     const POST_MAX_POSTS_TIMEOUT_SECONDS = 86400;
 
@@ -64,4 +62,9 @@ class Constant
     const SECTION_MAX_TITLE_LENGTH = 24;
     const SECTION_MIN_TITLE_LENGTH = 1;
     const SECTION_PAGINATION_AMOUNT = 30;
+
+    const TAG_UP = 1;
+    const TAG_DOWN = -1;
+    const TAG_NSFW = 0;
+    const TAG_NSFL = 1;
 }

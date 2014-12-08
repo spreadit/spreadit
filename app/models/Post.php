@@ -161,7 +161,7 @@ class Post extends BaseModel
             $history->data     = $post->data;
             $history->markdown = $post->markdown;
             $history->user_id  = Auth::user()->id;
-            $history->type     = History::POST_TYPE;
+            $history->type     = Constant::POST_TYPE;
             $history->type_id  = $post->id;
             $history->save();
 
@@ -212,7 +212,7 @@ class Post extends BaseModel
         return DB::table('posts')
             ->select('id')
             ->where('posts.user_id', '=', $user_id)
-            ->where('posts.created_at', '>', time() - $this->MAX_POSTS_TIMEOUT_SECONDS)
+            ->where('posts.created_at', '>', time() - Constant::POST_MAX_POSTS_TIMEOUT_SECONDS)
             ->count();
     }
 
@@ -226,13 +226,13 @@ class Post extends BaseModel
         $rules = array(
             'user_id' => 'required|numeric',
             'type'    => 'required|numeric|between:0,2',
-            'title'   => 'required|max:'.$this->MAX_TITLE_LENGTH,
+            'title'   => 'required|max:'.Constant::POST_MAX_TITLE_LENGTH,
             'nsfw'    => 'required|numeric|between:0,1',
             'nsfl'    => 'required|numeric|between:0,1',
         );
 
-        $rule_data = 'max:'.$this->MAX_MARKDOWN_LENGTH;
-        $rule_url  = 'required|url|max:'.$this->MAX_URL_LENGTH;
+        $rule_data = 'max:'.Constant::POST_MAX_MARKDOWN_LENGTH;
+        $rule_url  = 'required|url|max:'.Constant::POST_MAX_URL_LENGTH;
         
         if(empty($data['data']) && empty($data['url'])) {
             $rules['data'] = $rule_data;

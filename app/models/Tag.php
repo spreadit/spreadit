@@ -5,10 +5,6 @@ class Tag extends BaseModel
     protected $table = 'post_tags';
     protected $guarded = array('id');
 
-    public $UP = 1;
-    public $DOWN = -1;
-    public $NSFW = 0;
-    public $NSFL = 1;
 
     protected $errors = [
         'same_stored' => 'vote is same as stored value',
@@ -31,7 +27,7 @@ class Tag extends BaseModel
     protected function alreadyExists($check)
     {
         $check = $check[0];
-        if($check->updown == $this->UP) {
+        if($check->updown == Constant::TAG_UP) {
             return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
             return ['success'=>false, 'errors'=>array($this->$errors['reverse'])];
@@ -40,8 +36,8 @@ class Tag extends BaseModel
 
     private function getColumn($type) {
         switch($type) {
-            case $this->NSFW: return 'nsfw'; break;
-            case $this->NSFL: return 'nsfl'; break;
+            case Constant::TAG_NSFW: return 'nsfw'; break;
+            case Constant::TAG_NSFL: return 'nsfl'; break;
             default: App::abort(500); return;
         }
     }
@@ -51,9 +47,9 @@ class Tag extends BaseModel
         $post = Post::findOrFail($post_id);
 
         //upvote/downvote the post itself
-        if($updown == $this->UP) {
+        if($updown == Constant::TAG_UP) {
             $post->increment($this->getColumn($type));
-        } else if($updown == $this->DOWN) {
+        } else if($updown == Constant::TAG_DOWN) {
             $post->decrement($this->getColumn($type));
         }
 

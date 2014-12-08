@@ -20,12 +20,12 @@ class PostController extends BaseController
     public function get($section_title, $post_id)
     {
         $section = $this->section->sectionFromSections($this->section->getByTitle(Utility::splitByTitle($section_title)));
-        $my_votes = $this->vote->getMatchingVotes($this->vote->SECTION_TYPE, [$section]);
+        $my_votes = $this->vote->getMatchingVotes(Constant::SECTION_TYPE, [$section]);
         $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
         
         $post = $this->post->get($post_id);
         $post->section_title = $section_title;
-        $my_votes = $this->vote->getMatchingVotes($this->vote->POST_TYPE, [$post]);
+        $my_votes = $this->vote->getMatchingVotes(Constant::POST_TYPE, [$post]);
         $post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
         $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
         $sort_highlight = Utility::getSortMode();
@@ -44,7 +44,7 @@ class PostController extends BaseController
     public function getJson($section_title, $post_id)
     {
 		$post = $this->post->get($post_id);
-		$my_votes = $this->vote->getMatchingVotes($this->vote->POST_TYPE, [$post]);
+		$my_votes = $this->vote->getMatchingVotes(Constant::POST_TYPE, [$post]);
 		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
         $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
 

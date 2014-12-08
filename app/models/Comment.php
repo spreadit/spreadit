@@ -8,7 +8,7 @@ class Comment extends BaseModel
 
     public function getPathDataFromId($comment_id)
     {
-        return Cache::remember($this->CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, $this->CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)
+        return Cache::remember(Constant::COMMENT_CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, Constant::COMMENT_CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)
         {
             $comment = DB::table('comments')
                 ->join('posts', 'comments.post_id', '=', 'posts.id')
@@ -44,7 +44,7 @@ class Comment extends BaseModel
 
     public function getByPostId($post_id, Vote $vote)
     {
-        $comments = Cache::remember($this->CACHE_NEWLIST_NAME.$post_id, $this->CACHE_NEWLIST_MINS, function() use($post_id)
+        $comments = Cache::remember(Constant::COMMENT_CACHE_NEWLIST_NAME.$post_id, Constant::COMMENT_CACHE_NEWLIST_MINS, function() use($post_id)
         {
             return DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
@@ -73,7 +73,7 @@ class Comment extends BaseModel
         return DB::table('comments')
             ->select('id')
             ->where('comments.user_id', '=', $user_id)
-            ->where('comments.created_at', '>', time() - $this->MAX_COMMENTS_TIMEOUT_SECONDS)
+            ->where('comments.created_at', '>', time() - Constant::COMMENT_MAX_COMMENTS_TIMEOUT_SECONDS)
             ->count();
     }
 
@@ -114,7 +114,7 @@ class Comment extends BaseModel
                 'user_id'   => 'required|numeric',
                 'parent_id' => 'required|numeric',
                 'post_id'   => 'required|numeric',
-                'markdown'  => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
+                'markdown'  => 'required|max:'.Constant::COMMENT_MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
@@ -133,10 +133,10 @@ class Comment extends BaseModel
             $notification = new Notification();
             if($data['parent_id'] != $this->NO_PARENT) { 
                 $parent = $this->findOrFail($data['parent_id']);
-                $notification->type = Notification::COMMENT_TYPE;
+                $notification->type = Constant::NOTIFICATION_COMMENT_TYPE;
                 $notification->user_id = $parent->user_id;
             } else {
-                $notification->type = Notification::POST_TYPE;
+                $notification->type = Constant::NOTIFICATION_POST_TYPE;
                 $notification->user_id = $post->user_id;
             }
 
@@ -150,7 +150,7 @@ class Comment extends BaseModel
                 $notification->save();
             }
 
-            Cache::forget($this->CACHE_NEWLIST_NAME.$post_id);
+            Cache::forget(Constant::COMMENT_CACHE_NEWLIST_NAME.$post_id);
         }
 
         return $block;
@@ -183,7 +183,7 @@ class Comment extends BaseModel
 
             $rules = array(
                 'user_id'  => 'required|numeric',
-                'markdown' => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
+                'markdown' => 'required|max:'.Constant::COMMENT_MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);
@@ -202,11 +202,11 @@ class Comment extends BaseModel
             $history->data     = $comment->data;
             $history->markdown = $comment->markdown;
             $history->user_id  = Auth::user()->id;
-            $history->type     = History::COMMENT_TYPE;
+            $history->type     = Constant::COMMENT_TYPE;
             $history->type_id  = $comment->id;
             $history->save();
 
-            Cache::forget($this->CACHE_NEWLIST_NAME.$comment->post_id);
+            Cache::forget(Constant::COMMENT_CACHE_NEWLIST_NAME.$comment->post_id);
 
             $comment->markdown = $data['markdown'];
             $comment->data = $data['data'];
@@ -238,7 +238,7 @@ class Comment extends BaseModel
         }
 
         if($block->success) {
-            Cache::forget($this->CACHE_NEWLIST_NAME.$comment->post_id);
+            Cache::forget(Constant::COMMENT_CACHE_NEWLIST_NAME.$comment->post_id);
             $comment->deleted_at = time();
             $comment->save();
         }
