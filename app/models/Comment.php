@@ -15,7 +15,7 @@ class Comment extends BaseModel
                 ->join('sections', 'posts.section_id', '=', 'sections.id')
                 ->select('posts.id', 'sections.title AS section_title')
                 ->where('comments.id', '=', $comment_id)
-                ->first();
+                ->firstOrFail();
 
             $obj = new stdClass();
             $obj->section_title = $comment->section_title;
@@ -31,7 +31,7 @@ class Comment extends BaseModel
             ->select('comments.id', 'comments.post_id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
             ->where('comments.id', '=', $comment_id)
             ->orderBy('id', 'asc')
-            ->first();
+            ->firstOrFail();
 
         if( $comment->deleted_at != 0) {
             $comment->username = "deleted";

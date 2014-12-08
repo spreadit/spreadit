@@ -7,6 +7,10 @@ class UserPageController extends BaseController
             ->select('profile_data')
             ->where('username', 'LIKE', $username)
             ->first();
+
+        if(is_null($user)) {
+             App::abort(404);
+        }
  
         return View::make('page.userhomepage', [
             'username' => $username,
@@ -19,6 +23,10 @@ class UserPageController extends BaseController
             ->select('profile_css')
             ->where('username', 'LIKE', $username)
             ->first();
+
+        if(is_null($user)) {
+             App::abort(404);
+        }
  
         $response = Response::make($user->profile_css);
         $response->header('Content-Type', 'text/css');
