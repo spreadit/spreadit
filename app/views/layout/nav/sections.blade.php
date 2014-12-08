@@ -1,4 +1,4 @@
-<?php $section_titles = (isset($section)) ? Section::splitByTitle($section->title) : []; ?>
+<?php $section_titles = (isset($section)) ? Utility::splitByTitle($section->title) : []; ?>
 <div class="navbar-inner dark-navbar" id="sections-navbar">
 
     <div class="container">

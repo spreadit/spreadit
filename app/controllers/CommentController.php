@@ -1,13 +1,25 @@
 <?php
 class CommentController extends BaseController
 {
-    protected function getRedir($comment_id)
+
+    protected $comment;
+    protected $anon;
+    protected $vote;
+
+    public function __construct(Comment $comment, Anon $anon, Vote $vote)
     {
-		$data = Comment::getPathDataFromId($comment_id);
+        $this->comment = $comment;
+        $this->anon = $anon;
+        $this->vote = $vote;
+    }
+
+    public function getRedir($comment_id)
+    {
+		$data = $this->comment->getPathDataFromId($comment_id);
 		return Redirect::to('/s/'.$data->section_title.'/posts/'.$data->post_id.'#comment_'.$comment_id);
     }
 
-    protected function preReply($post_id, $parent_id)
+    public function preReply($post_id, $parent_id)
     {
         if(Auth::check()) {
             return $this->curReply($post_id, $parent_id);
@@ -20,7 +32,7 @@ class CommentController extends BaseController
         return View::make('comment.before', ['comment' => $comment]);
     }
 
-    protected function curReply($post_id, $parent_id)
+    public function curReply($post_id, $parent_id)
     {
         $comment = new stdClass;
         $comment->post_id = $post_id;
@@ -31,7 +43,7 @@ class CommentController extends BaseController
     }
 
     //for javascript
-    protected function formReply($post_id, $parent_id)
+    public function formReply($post_id, $parent_id)
     {
         $comment = new stdClass;
         $comment->post_id = $post_id;
@@ -41,14 +53,14 @@ class CommentController extends BaseController
         return View::make('comment.replyboxform', ['comment' => $comment]);
     }
 
-    protected function postReply($post_id, $parent_id)
+    public function postReply($post_id, $parent_id)
     {
         return View::make('comment.saved');
     }
 
-    protected function update($comment_id)
+    public function update($comment_id)
     {
-        $comment = Comment::amend($comment_id, Input::get('data'));
+        $comment = $this->comment->amend($comment_id, Input::get('data'));
 
         if($comment->success) {
             return Redirect::to("/comments/$comment_id");
@@ -57,9 +69,9 @@ class CommentController extends BaseController
         }
     }
 
-    protected function updateJson($comment_id)
+    public function updateJson($comment_id)
     {
-        $comment = Comment::amend($comment_id, Input::get('data'));
+        $comment = $this->comment->amend($comment_id, Input::get('data'));
 
         if($comment->success) {
             return Response::json([
@@ -74,12 +86,12 @@ class CommentController extends BaseController
         }
     }
 
-    protected function make()
+    public function make()
     {
-        $anon = Anon::make(Input::get('captcha'));
+        $anon = $this->anon->make(Input::get('captcha'));
 
         if($anon->success) {
-            $comment = Comment::make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
+            $comment = $this->comment->make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
             
             if($comment->success) {
                 return Redirect::to(sprintf('/comments/post/%d/%d', Input::get('post_id'), Input::get('parent_id')));
@@ -91,12 +103,12 @@ class CommentController extends BaseController
         }
     }
 
-    protected function makeJson()
+    public function makeJson()
     {
-        $anon = Anon::make(Input::get('captcha'));
+        $anon = $this->anon->make(Input::get('captcha'));
 
         if($anon->success) {
-            $comment = Comment::make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
+            $comment = $this->comment->make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
 
             return Response::json([
                 'success'    => $comment->success,
@@ -113,9 +125,9 @@ class CommentController extends BaseController
     }
 
 
-    protected function delete($comment_id)
+    public function delete($comment_id)
     {
-        $comment = Comment::remove($comment_id);
+        $comment = $this->comment->remove($comment_id);
 
         if($comment->success) {
             return Redirect::to("/posts/" . $comment->data->post_id);
@@ -124,13 +136,13 @@ class CommentController extends BaseController
         }
     }
 
-    protected function render($comment_id)
+    public function render($comment_id)
     {
-        $comment = Comment::get($comment_id);
+        $comment = $this->comment->get($comment_id, $this->vote);
         return View::make('comment.piece', ['comment' => $comment]);
     }
 
-    protected function newCaptcha()
+    public function newCaptcha()
     {
         $response = Response::make(HTML::image(Captcha::img(), 'Captcha image'));
         $response->header('Content-Type', 'text/html');

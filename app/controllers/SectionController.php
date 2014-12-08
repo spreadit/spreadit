@@ -3,13 +3,26 @@
 class SectionController extends BaseController
 {
 
-    protected function add($section_title)
+    protected $section;
+    protected $post;
+    protected $sort;
+    protected $vote;
+
+    public function __construct(Section $section, Post $post, Sort $sort, Vote $vote)
     {
-        $sections = Section::get();
-        $titles = Section::splitByTitle($section_title);
-        $section = Section::sectionFromSections(Section::getByTitle($titles));
+        $this->section = $section;
+        $this->post = $post;
+        $this->sort = $sort;
+        $this->vote = $vote;
+    }
+
+    public function add($section_title)
+    {
+        $sections = $this->section->get();
+        $titles = Utility::splitByTitle($section_title);
+        $section = $this->section->sectionFromSections($this->section->getByTitle($titles));
         $all_sections = F::reject(
-            F::map(Section::getAll(), function($m) { 
+            F::map($this->section->getAll(), function($m) { 
                 return $m->title;
             }),
             function($m) use ($section_title) {
@@ -42,56 +55,56 @@ class SectionController extends BaseController
         ]);
     }
 
-    protected function hot($section_title)
+    public function hot($section_title)
     {
-        return $this->get($section_title, 'hot');
+        return $this->getHtml($section_title, 'hot', null);
     }
 
-    protected function hotJson($section_title)
+    public function hotJson($section_title)
     {
-        return $this->getJson($section_title, 'hot');
+        return $this->getJson($section_title, 'hot', null);
     }
 
-    protected function new_($section_title)
+    public function new_($section_title)
     {
-        return $this->get($section_title, 'new');
+        return $this->getHtml($section_title, 'new', null);
     }
 
-    protected function new_Json($section_title)
+    public function new_Json($section_title)
     {
-        return $this->getJson($section_title, 'new');
+        return $this->getJson($section_title, 'new', false);
     }
 
-    protected function top($section_title, $timeframe)
+    public function top($section_title, $timeframe)
     {
-        return $this->get($section_title, 'top', $timeframe);
+        return $this->getHtml($section_title, 'top', $timeframe);
     }
 
-    protected function topJson($section_title, $timeframe)
+    public function topJson($section_title, $timeframe)
     {
         return $this->getJson($section_title, 'top', $timeframe);
     }
 
 
-    protected function controversial($section_title, $timeframe)
+    public function controversial($section_title, $timeframe)
     {
-        return $this->get($section_title, 'controversial', $timeframe);
+        return $this->getHtml($section_title, 'controversial', $timeframe);
     }
 
-    protected function controversialJson($section_title, $timeframe)
+    public function controversialJson($section_title, $timeframe)
     {
         return $this->getJson($section_title, 'controversial', $timeframe);
     }
 
 
-    protected function get($section_title="all", $sort_mode=null, $timeframe_mode=null, $no_view=false)
+    protected function get($section_title, $sort_mode, $timeframe_mode, $no_view)
     {
-        $sections = Section::getByTitle(Section::splitByTitle($section_title));
+        $sections = $this->section->getByTitle(Utility::splitByTitle($section_title));
         if(empty($sections)) {
             App::abort(404);
         }
-        $section = Section::sectionFromSections($sections);
-        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, $sections);
+        $section = $this->section->sectionFromSections($sections);
+        $my_votes = $this->vote->getMatchingVotes($this->vote->SECTION_TYPE, $sections);
 
         F::map($sections, function($m) {
             $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;
@@ -111,7 +124,7 @@ class SectionController extends BaseController
         if($no_view) return $posts;
 
         return Response::make(View::make('page.section', [
-            'sections'                 => Section::get(),
+            'sections'                 => $this->section->get(),
             'posts'                    => $posts,
             'section'                  => $section,
             'sort_highlight'           => $sort_mode,
@@ -121,43 +134,48 @@ class SectionController extends BaseController
         ->withCookie(Cookie::make('posts_sort_timeframe', $timeframe_mode));
     }
 
-    protected function getJson($section_title="all", $sort_mode=null, $timeframe_mode=null)
+    public function getHtml($section_title="all", $sort_mode="hot", $timeframe_mode=null)
+    {
+        return $this->get($section_title, $sort_mode, $timeframe_mode, false);
+    }
+
+    public function getJson($section_title="all", $sort_mode="hot", $timeframe_mode=null)
     {
         return Response::json(iterator_to_array($this->get($section_title, $sort_mode, $timeframe_mode, true)));
     }
 
-    protected function getSpreadits()
+    public function getSpreadits()
     {
         return View::make('page.spreadits', [
-            'sections' => Section::get(),
-            'spreadits' => Section::getAll()
+            'sections' => $this->section->get(),
+            'spreadits' => $this->section->getAll()
         ]);
     }
 
-    protected function getSpreaditsJson()
+    public function getSpreaditsJson()
     {
-        return Response::json(Section::getAll());
+        return Response::json($this->section->getAll());
     }
 
-    protected function getSecondsFromTimeframe($timeframe)
+    public function getSecondsFromTimeframe($timeframe)
     {
         switch($timeframe) {
-            case 'day':     return SortController::DAY_SECONDS;   break;
-            case 'week':    return SortController::WEEK_SECONDS;  break;
-            case 'month':   return SortController::MONTH_SECONDS; break;
-            case 'year':    return SortController::YEAR_SECONDS;  break;
+            case 'day':     return $this->sort->DAY_SECONDS;   break;
+            case 'week':    return $this->sort->WEEK_SECONDS;  break;
+            case 'month':   return $this->sort->MONTH_SECONDS; break;
+            case 'year':    return $this->sort->YEAR_SECONDS;  break;
             case 'forever': return time();                        break;
             default:        return App::abort(404);               break;
         }
     }
 
-    protected function getPosts($sort_mode, array $section_ids, $seconds)
+    public function getPosts($sort_mode, array $section_ids, $seconds)
     {
         switch($sort_mode) {
-            case 'hot':           return Post::getHotList($section_ids, $seconds); break;
-            case 'new':           return Post::getNewList($section_ids, $seconds); break;
-            case 'top':           return Post::getTopList($section_ids, $seconds); break;
-            case 'controversial': return Post::getControversialList($section_ids, $seconds); break;
+            case 'hot':           return $this->post->getHotList($section_ids, $this->vote); break;
+            case 'new':           return $this->post->getNewList($section_ids, $this->vote); break;
+            case 'top':           return $this->post->getTopList($section_ids, $seconds, $this->vote); break;
+            case 'controversial': return $this->post->getControversialList($section_ids, $seconds, $this->vote); break;
             default:              return App::abort(404); break;
         }
     }

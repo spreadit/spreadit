@@ -1,43 +1,50 @@
 <?php
 class HelpController extends BaseController
 {
-    protected function index()
+    protected $section;
+
+    public function __construct(Section $section)
     {
-        return View::make('page.help.index', ['sections' => Section::get()]);
+        $this->section = $section;
     }
 
-    protected function feeds()
+    public function index()
     {
-        return View::make('page.help.feeds', ['sections' => Section::get()]);
+        return View::make('page.help.index', ['sections' => $this->section->get()]);
     }
 
-    protected function posting()
+    public function feeds()
     {
-        return View::make('page.help.posting', ['sections' => Section::get()]);
+        return View::make('page.help.feeds', ['sections' => $this->section->get()]);
     }
 
-    protected function formatting()
+    public function posting()
     {
-        return View::make('page.help.formatting', ['sections' => Section::get()]);
+        return View::make('page.help.posting', ['sections' => $this->section->get()]);
     }
 
-    protected function points()
+    public function formatting()
     {
-        return View::make('page.help.points', ['sections' => Section::get()]);
+        return View::make('page.help.formatting', ['sections' => $this->section->get()]);
     }
 
-    protected function moderation()
+    public function points()
     {
-        return View::make('page.help.moderation', ['sections' => Section::get()]);
+        return View::make('page.help.points', ['sections' => $this->section->get()]);
     }
 
-    protected function anonymity()
+    public function moderation()
     {
-        return View::make('page.help.anonymity', ['sections' => Section::get()]);
+        return View::make('page.help.moderation', ['sections' => $this->section->get()]);
     }
 
-    protected function help()
+    public function anonymity()
     {
-        return View::make('page.help.help', ['sections' => Section::get()]);
+        return View::make('page.help.anonymity', ['sections' => $this->section->get()]);
+    }
+
+    public function help()
+    {
+        return View::make('page.help.help', ['sections' => $this->section->get()]);
     }
 }

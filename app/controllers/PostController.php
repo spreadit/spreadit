@@ -2,23 +2,38 @@
 
 class PostController extends BaseController
 {
-    protected function get($section_title, $post_id)
+    protected $post;
+    protected $section;
+    protected $vote;
+    protected $comment;
+    protected $anon;
+
+    public function __construct(Post $post, Section $section, Vote $vote, Comment $comment, Anon $anon)
     {
-        $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
-        $my_votes = Vote::getMatchingVotes(Vote::SECTION_TYPE, [$section]);
+        $this->post = $post;
+        $this->section = $section;
+        $this->vote = $vote;
+        $this->comment = $comment;
+        $this->anon = $anon;
+    }
+
+    public function get($section_title, $post_id)
+    {
+        $section = $this->section->sectionFromSections($this->section->getByTitle(Utility::splitByTitle($section_title)));
+        $my_votes = $this->vote->getMatchingVotes($this->vote->SECTION_TYPE, [$section]);
         $section->selected = isset($my_votes[$section->id]) ? $my_votes[$section->id] : 0;
         
-        $post = Post::get($post_id);
+        $post = $this->post->get($post_id);
         $post->section_title = $section_title;
-        $my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
+        $my_votes = $this->vote->getMatchingVotes($this->vote->POST_TYPE, [$post]);
         $post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-        $commentTree = new CommentTree(Comment::getByPostId($post_id));
+        $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
         $sort_highlight = Utility::getSortMode();
         $sort_timeframe_highlight = Utility::getSortTimeframe();
 
         return View::make('page.post', [
             'section' => $section,
-            'sections' => Section::get(),
+            'sections' => $this->section->get(),
             'comments' => $commentTree->grab()->sort('new')->render(),
             'post' => $post,
             'sort_highlight' => $sort_highlight,
@@ -26,12 +41,12 @@ class PostController extends BaseController
         ]);
     }
 
-    protected function getJson($section_title, $post_id)
+    public function getJson($section_title, $post_id)
     {
-		$post = Post::get($post_id);
-		$my_votes = Vote::getMatchingVotes(Vote::POST_TYPE, [$post]);
+		$post = $this->post->get($post_id);
+		$my_votes = $this->vote->getMatchingVotes($this->vote->POST_TYPE, [$post]);
 		$post->selected = isset($my_votes[$post_id]) ? $my_votes[$post_id] : 0;
-        $commentTree = new CommentTree(Comment::getByPostId($post_id));
+        $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
 
 		return Response::json([
 			'post' => $post,
@@ -39,29 +54,30 @@ class PostController extends BaseController
         ]);
     }
 
-    protected function getRedir($post_id)
+    public function getRedir($post_id)
     {
-        $post = Post::findOrFail($post_id);
-        $section_title = Section::findOrFail($post->section_id)->title;
+        $post = $this->post->findOrFail($post_id);
+        $section_title = $this->section->findOrFail($post->section_id)->title;
         
         return Redirect::to("/s/$section_title/posts/$post_id");
     }
 
-    protected function post($section_title)
+    public function post($section_title)
     {
-        $anon = Anon::make(Input::get('captcha'));
+        $anon = $this->anon->make(Input::get('captcha'));
 
         if(!$anon->success) {
             return Redirect::refresh()->withErrors($anon->errorMessage())->withInput();
         }
 
-        $post = Post::make(
+        $post = $this->post->make(
             Input::get('section',  ''),
             Input::get('data',     ''),
             Input::get('title',    ''),
             Input::get('url',      ''),
             Input::get('nsfw-tag', 0),
-            Input::get('nsfl-tag', 0)
+            Input::get('nsfl-tag', 0),
+            $this->section
         );
 
         if($post->success) {
@@ -73,9 +89,9 @@ class PostController extends BaseController
         }
     }
 
-    protected function postJson($section_title)
+    public function postJson($section_title)
     {
-        $post = Post::make(
+        $post = $this->post->make(
             Input::get('section', ''),
             Input::get('data',    ''),
             Input::get('title',   ''),
@@ -91,9 +107,9 @@ class PostController extends BaseController
         ]);
     }
 
-    protected function update($post_id)
+    public function update($post_id)
     {
-        $post = Post::amend($post_id, Input::get('data'));
+        $post = $this->post->amend($post_id, Input::get('data'));
 
         if($post->success) {
             return Redirect::to($post->data->prev_path);
@@ -102,9 +118,9 @@ class PostController extends BaseController
         }
     }
 
-    protected function updateJson($post_id)
+    public function updateJson($post_id)
     {
-        $post = Post::amend($post_id, Input::get('data'));
+        $post = $this->post->amend($post_id, Input::get('data'));
 
         if($post->success) {
             return Response::json([
@@ -119,9 +135,9 @@ class PostController extends BaseController
         }
     }
 
-    protected function delete($post_id)
+    public function delete($post_id)
     {
-        $post = Post::remove($post_id);
+        $post = $this->post->remove($post_id);
 
         if($post->success) {
             return Redirect::to("/s/" . $post->data->section_title);

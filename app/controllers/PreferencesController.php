@@ -1,7 +1,17 @@
 <?php
 class PreferencesController extends BaseController
 {
-    protected function preferences()
+    protected $user;
+    protected $section;
+
+    public function __construct(User $user, Section $section)
+    {
+        $this->user = $user;
+        $this->section = $section;
+    }
+
+    
+    public function preferences()
     {
         $section_titles = function($input) {
             if(strlen(Auth::user()->$input) == 0) {
@@ -11,13 +21,13 @@ class PreferencesController extends BaseController
             $input_data = Auth::user()->$input;
             $arr = explode(',', $input_data);
 
-            return implode(',', array_unique(F::map(Section::getById($arr), function($m) {
+            return implode(',', array_unique(F::map($this->section->getById($arr), function($m) {
                 return $m->title;
             })));
         };
 
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
         
         $frontpage_show_sections   = $section_titles('frontpage_show_sections');
         $frontpage_ignore_sections = $section_titles('frontpage_ignore_sections');
@@ -30,12 +40,12 @@ class PreferencesController extends BaseController
         ]);
     }
 
-    protected function preferencesJson()
+    public function preferencesJson()
     {
         return Response::json("moo");
     }
 
-    protected function savePreferences()
+    public function savePreferences()
     {
         $section_ids = function($input) {
             $input_data = Input::get($input, '');
@@ -46,7 +56,7 @@ class PreferencesController extends BaseController
             
             $arr = explode(',', $input_data);
 
-            return implode(',', array_unique(F::map(Section::getByTitle($arr), function($m) {
+            return implode(',', array_unique(F::map($this->section->getByTitle($arr), function($m) {
                 return $m->id;
             })));
         };
@@ -61,7 +71,7 @@ class PreferencesController extends BaseController
         if($frontpage_show_sections   == "0") $frontpage_show_sections   = "";
         if($frontpage_ignore_sections == "0") $frontpage_ignore_sections = "";
 
-        User::savePreferences(Auth::id(), [
+        $this->user->savePreferences(Auth::id(), [
             'show_nsfw'                 => $show_nsfw,
             'show_nsfl'                 => $show_nsfl,
             'frontpage_show_sections'   => $frontpage_show_sections,
@@ -71,10 +81,10 @@ class PreferencesController extends BaseController
         return $this->savedPreferences();
     }
 
-    protected function savedPreferences()
+    public function savedPreferences()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.user.prefs.savedpreferences', [
             'sections' => $sections,
@@ -82,9 +92,9 @@ class PreferencesController extends BaseController
         ]);
     }
 
-    protected function theme_index()
+    public function theme_index()
     {
-        return View::make('page.user.prefs.theme_index', ['sections' => Section::get()]);
+        return View::make('page.user.prefs.theme_index', ['sections' => $this->section->get()]);
     }
 
     private function theme_cookie_switch($colorscheme)
@@ -93,37 +103,37 @@ class PreferencesController extends BaseController
 
     }
 
-    protected function theme_dark()
+    public function theme_dark()
     {
         return $this->theme_cookie_switch('dark');
     }
 
-    protected function theme_light()
+    public function theme_light()
     {
         return $this->theme_cookie_switch('light');
     }
 
-    protected function theme_tiles()
+    public function theme_tiles()
     {
         return $this->theme_cookie_switch('tiles');
     }
 
-    protected function homepage()
+    public function homepage()
     {
         return View::make('page.user.prefs.homepage', [
-            'sections' => Section::get(),
+            'sections' => $this->section->get(),
             'markdown' => Auth::user()->profile_markdown,
             'css'      => Auth::user()->profile_css,
         ]);
     }
 
-    protected function saveHomepage()
+    public function saveHomepage()
     {   
         $profile_markdown = Input::get('data', '');
         $profile_data     = Markdown::defaultTransform(e($profile_markdown));
         $profile_css      = Input::get('css', '');
 
-        User::saveHomepage(Auth::id(), [
+        $this->user->saveHomepage(Auth::id(), [
             'profile_data'       => $profile_data,
             'profile_markdown'   => $profile_markdown,
             'profile_css'        => $profile_css,
@@ -132,10 +142,10 @@ class PreferencesController extends BaseController
         return $this->savedHomepage();
     }
 
-    protected function savedHomepage()
+    public function savedHomepage()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.user.prefs.savedhomepage', [
             'sections' => $sections,

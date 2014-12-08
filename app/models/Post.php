@@ -15,7 +15,7 @@ class Post extends BaseModel
     protected $guarded = array('id');
 
 
-    public static function getSectionTitleFromId($id)
+    public function getSectionTitleFromId($id)
     {
         return DB::table('sections')
             ->select('sections.title')
@@ -24,7 +24,7 @@ class Post extends BaseModel
             ->pluck('title');
     }
 
-    public static function getList(array $section_ids=[0], $seconds=0, $orderby)
+    public function getList(array $section_ids=[0], $seconds=0, $orderby, Vote $vote)
     {
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
@@ -70,30 +70,42 @@ class Post extends BaseModel
         $posts = $posts->orderBy(DB::raw($orderby), 'desc')
             ->simplePaginate(Section::PAGE_POST_COUNT);
 
-        return Vote::applySelection($posts, Vote::POST_TYPE);
+        return $vote->applySelection($posts, $vote->POST_TYPE);
     }
 
-    public static function getNewList(array $section_ids=[0])
+    public function getNewList(array $section_ids=[0], Vote $vote)
     {
-        return Vote::applySelection(self::getList($section_ids, 0, SortController::ORDERBY_SQL_NEW), Vote::POST_TYPE);
+        return $vote->applySelection(
+            $this->getList($section_ids, 0, Sort::ORDERBY_SQL_NEW, $vote), 
+            $vote->POST_TYPE
+        );
     }
 
-    public static function getTopList(array $section_ids=[0], $seconds)
+    public function getTopList(array $section_ids=[0], $seconds, Vote $vote)
     {
-        return Vote::applySelection(self::getList($section_ids, $seconds, SortController::ORDERBY_SQL_TOP), Vote::POST_TYPE);
+        return $vote->applySelection(
+            $this->getList($section_ids, $seconds, Sort::ORDERBY_SQL_TOP, $vote), 
+            $vote->POST_TYPE
+        );
     }
 
-    public static function getHotList(array $section_ids=[0])
+    public function getHotList(array $section_ids=[0], Vote $vote)
     {
-        return Vote::applySelection(self::getList($section_ids, 0, SortController::ORDERBY_SQL_HOT), Vote::POST_TYPE);
+        return $vote->applySelection(
+            $this->getList($section_ids, 0, Sort::ORDERBY_SQL_HOT, $vote), 
+            $vote->POST_TYPE
+        );
     }
 
-    public static function getControversialList(array $section_ids=[0], $seconds)
+    public function getControversialList(array $section_ids=[0], $seconds, Vote $vote)
     {
-        return Vote::applySelection(self::getList($section_ids, $seconds, SortController::ORDERBY_SQL_CONTROVERSIAL), Vote::POST_TYPE);
+        return $vote->applySelection(
+            $this->getList($section_ids, $seconds, Sort::ORDERBY_SQL_CONTROVERSIAL, $vote), 
+            $vote->POST_TYPE
+        );
     }
 
-    public static function get($post_id)
+    public function get($post_id)
     {
         $post = DB::table('posts')
             ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.user_id', 'posts.data', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous')
@@ -110,11 +122,11 @@ class Post extends BaseModel
         return $post;
     }
 
-    public static function amend($post_id, $content)
+    public function amend($post_id, $content)
     {
         $block = new SuccessBlock();
 
-        $block->data->prev_path = sprintf("/s/%s/posts/%d", Post::getSectionTitleFromId($post_id), $post_id);
+        $block->data->prev_path = sprintf("/s/%s/posts/%d", $this->getSectionTitleFromId($post_id), $post_id);
 
         if($block->success) {
             if(Auth::user()->points < 1) {
@@ -124,7 +136,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            $post = Post::findOrFail($post_id);
+            $post = $this->findOrFail($post_id);
 
             if($post->user_id != Auth::user()->id) {
                 $block->success  = false;
@@ -158,7 +170,7 @@ class Post extends BaseModel
             $history->data     = $post->data;
             $history->markdown = $post->markdown;
             $history->user_id  = Auth::user()->id;
-            $history->type     = HistoryController::POST_TYPE;
+            $history->type     = History::POST_TYPE;
             $history->type_id  = $post->id;
             $history->save();
 
@@ -171,12 +183,12 @@ class Post extends BaseModel
         return $block;
     }
 
-    public static function remove($post_id)
+    public function remove($post_id)
     {
         $block = new SuccessBlock();
 
         if($block->success) {
-            $block->data->section_title = Post::getSectionTitleFromId($post_id);
+            $block->data->section_title = $this->getSectionTitleFromId($post_id);
             $block->data->prev_path = sprintf("/s/%s/posts/%d", $block->data->section_title, $post_id);
 
             if(Auth::user()->points < 1) {
@@ -186,7 +198,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            $post = Post::findOrFail($post_id);
+            $post = $this->findOrFail($post_id);
 
             if($post->user_id != Auth::user()->id) {
                 $block->success  = false;
@@ -202,7 +214,7 @@ class Post extends BaseModel
         return $block;
     }
 
-    public static function getPostsInTimeoutRange()
+    public function getPostsInTimeoutRange()
     {
         $user_id = (isset(Auth::user()->id)) ? Auth::user()->id : -1;
 
@@ -213,12 +225,12 @@ class Post extends BaseModel
             ->count();
     }
 
-    public static function canPost()
+    public function canPost()
     {
         return Utility::remainingPosts();
     }
 
-    public static function generateRules($data)
+    public function generateRules($data)
     {
         $rules = array(
             'user_id' => 'required|numeric',
@@ -245,7 +257,7 @@ class Post extends BaseModel
         return $rules;
     }
 
-    public static function prepareData($data)
+    public function prepareData($data)
     {
         if(empty($data['data']) && empty($data['url'])) {
             $data['type'] = 1;
@@ -265,7 +277,7 @@ class Post extends BaseModel
         return $data;
     }
 
-    public static function gfycatUrl($url)
+    public function gfycatUrl($url)
     {
         if(Utility::endsWith($url, ".gif")) {
             $successful_conv = true;
@@ -284,7 +296,7 @@ class Post extends BaseModel
         return $url;
     }
 
-    public static function make($section_title, $content, $title, $url, $nsfw, $nsfl)
+    public function make($section_title, $content, $title, $url, $nsfw, $nsfl, Section $section)
     {
         $section_title = strtolower($section_title);
         $block = new SuccessBlock();
@@ -299,7 +311,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            if(!self::canPost()) {
+            if(!$this->canPost()) {
                 $block->success  = false;
                 $block->errors[] = 'can only post ' . Utility::availablePosts() . ' per day';
             }
@@ -331,7 +343,7 @@ class Post extends BaseModel
             //check if .gif & gfycat it
             $data['url'] = self::gfycatUrl($data['url']);
 
-            if(!Section::exists($section_title)) {
+            if(!$section->exists($section_title)) {
                 $ssect = new Section(['title' => $section_title]);
 
                 if(! $ssect->save()) {
@@ -343,7 +355,7 @@ class Post extends BaseModel
         }
 
         if($block->success) {
-            $section = Section::sectionFromSections(Section::getByTitle(Section::splitByTitle($section_title)));
+            $section = $section->sectionFromSections($section->getByTitle(Utility::splitByTitle($section_title)));
             if($section->id < 1) {
                 $block->success  = false;
                 $block->errors[] = 'can only post to a real section(you probably tried to post to /s/all)';

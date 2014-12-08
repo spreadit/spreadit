@@ -1,10 +1,17 @@
 <?php
 class PageController extends BaseController
 {
-    protected function about()
+    protected $section;
+
+    public function __construct(Section $section)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $this->section = $section;
+    }
+
+    public function about()
+    {
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.about', [
             'sections' => $sections,
@@ -12,10 +19,10 @@ class PageController extends BaseController
         ]);
     }
 
-    protected function contact()
+    public function contact()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
         
         return View::make('page.contact', [
             'sections' => $sections,
@@ -23,10 +30,10 @@ class PageController extends BaseController
         ]);
     }
     
-    protected function threats()
+    public function threats()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.threats', [
             'sections' => $sections,
@@ -34,10 +41,10 @@ class PageController extends BaseController
         ]);
     }
     
-    protected function login()
+    public function login()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.login', [
             'sections' => $sections,

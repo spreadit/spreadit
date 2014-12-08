@@ -2,6 +2,17 @@
 
 class FeedController extends BaseController
 {
+    protected $feed;
+    protected $section;
+    protected $post;
+
+    public function __construct(Feed $feed, Section $section, Post $post)
+    {
+        $this->feed = $feed;
+        $this->section = $section;
+        $this->post = $post;
+    }
+
     /**
      * generate xss/atom from spreadit
      *
@@ -11,13 +22,13 @@ class FeedController extends BaseController
      */
     protected function generate($section_title)
     {
-        $sections = Section::getByTitle(Section::splitByTitle($section_title)); 
+        $sections = $this->section->getByTitle($this->section->splitByTitle($section_title)); 
         if(empty($sections)) {
             App::abort(404);
         }
-        $section = Section::sectionFromSections($sections);
-        $posts = Post::getHotList(F::map($sections, function($m) { return $m->id; }));
-        $feed = Feed::make();
+        $section = $this->section->sectionFromSections($sections);
+        $posts = $this->post->getHotList(F::map($sections, function($m) { return $m->id; }));
+        $feed = $this->feed->make();
         $feed->title = $section_title;
         $feed->description = "read hot posts from $section_title"; 
         $feed->link = URL::to("/s/$section_title");
@@ -36,12 +47,12 @@ class FeedController extends BaseController
         return $feed;
     }
 
-    protected function rss($section_title="all")
+    public function rss($section_title="all")
     {
         return $this->generate($section_title)->render('rss');
     }
 
-    protected function atom($section_title="all")
+    public function atom($section_title="all")
     {
         return $this->generate($section_title)->render('atom');
     }

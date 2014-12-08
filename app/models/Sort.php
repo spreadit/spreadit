@@ -1,5 +1,5 @@
 <?php
-class SortController extends BaseController
+class Sort extends BaseModel
 {
     const DAY_SECONDS   = 86400;
     const WEEK_SECONDS  = 604800;

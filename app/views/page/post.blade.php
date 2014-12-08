@@ -1,4 +1,3 @@
-<?php $selfpost = empty($post->url); ?>
 @extends('layout.default')
 
 @section('title')
@@ -17,11 +16,11 @@
     @endif
     <div class="posts-container">
         <div class="post">
-            <div class="post-piece {{ $selfpost ? 'self' : 'link' }}" tabindex="1" data-comment-id="0" data-post-id="{{ $post->id }}">
+            <div class="post-piece {{ $selfpost }}" tabindex="1" data-comment-id="0" data-post-id="{{ $post->id }}">
                 <div class="post-points">
                     <div class="breaker points-actions">
-                        <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::upvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
-                        <a href="{{ URL::to("/vote/post/" . $post->id . "/down") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($post) }} {{ UtilityController::downvoteClasses($post) }}" data-id="{{ $post->id }}" data-type="post" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
+                        <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ $bubbleText }} class="vote {{ $bubbleClasses }} {{ $upvoteClasses }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
+                        <a href="{{ URL::to("/vote/post/" . $post->id . "/down") }}" {{ $bubbleText }} class="vote {{ $bubbleClasses }} {{ $downvoteClasses }}" data-id="{{ $post->id }}" data-type="post" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
                         <a href="{{ URL::to("/vote/post/".$post->id) }}">
                             <span class="upvotes">{{ $post->upvotes }}</span><span class="downvotes">{{ $post->downvotes }}</span><span class="total-points">{{ $post->upvotes - $post->downvotes }}</span>
                         </a>
@@ -30,7 +29,7 @@
                         {{ Utility::prettyAgo($post->created_at) }}
                     </div>
                     <div class="breaker points-creator">
-                        <a class="username {{ UtilityController::anonymousClasses($post) }}" rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a><span class="upoints">{{ $post->points }}</span><span class="uvotes">{{ $post->votes }}</span>
+                        <a class="username {{ $anonymousClasses }}" rel="nofollow" href="{{ URL::to("/u/".$post->username) }}">{{ $post->username }}</a><span class="upoints">{{ $post->points }}</span><span class="uvotes">{{ $post->votes }}</span>
                     </div>
                 </div>
                 <div class="post-thumbnail">
@@ -47,7 +46,7 @@
                 </div>
                 <div class="post-data">
                     <div class="breaker data-title">
-                        <h1><a rel="nofollow" class="post-title" href="{{ UtilityController::postUrl($post) }}">{{ $post->title }}</a></h1>
+                        <h1><a rel="nofollow" class="post-title" href="{{ $postUrl }}">{{ $post->title }}</a></h1>
                     </div>
                     <div class="breaker data-data">
                         <div class="post-content">{{ $post->data }}</div>

@@ -18,7 +18,7 @@ class Notification extends BaseModel
     const PAGE_NOTIFICATION_COUNT = 25;
 
 
-    public static function get()
+    public function get()
     {
         return DB::table('notifications')
             ->select('notifications.type', 'notifications.item_id', 'notifications.read', 'notifications.created_at', 'comments.data', 'users.username', 'users.points', 'users.votes')
@@ -29,16 +29,16 @@ class Notification extends BaseModel
             ->simplePaginate(self::PAGE_NOTIFICATION_COUNT);
     }
 
-    public static function getUnreadCount()
+    public function getUnreadCount()
     {
-        return Notification::where('user_id', '=', Auth::user()->id)
+        return $this->where('user_id', '=', Auth::user()->id)
             ->where('read', '=', self::UNREAD)
             ->count();
     }
 
-    public static function markAllAsRead()
+    public function markAllAsRead()
     {
-        Notification::where('user_id', '=', Auth::user()->id)
+        $this->where('user_id', '=', Auth::user()->id)
             ->where('read', '=', self::UNREAD)
             ->update(['read' => self::READ]);
     }

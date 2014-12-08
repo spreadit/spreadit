@@ -117,3 +117,5 @@ require app_path().'/validators.php';
 require app_path().'/events.php';
 
 require app_path().'/ioc.php';
+
+require app_path().'/viewcomposers.php';

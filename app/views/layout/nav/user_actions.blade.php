@@ -4,9 +4,8 @@
         <a role="button" href="/u/{{ Auth::user()->username }}">{{ Auth::user()->username }}(<span class="my-points">{{ Auth::user()->points }}</span>,<span class="my-votes">{{ Auth::user()->votes }}</span></span>)</a>
     </li>
 
-    <?php $notification_count = Notification::getUnreadCount(); ?>
-    <li class="{{ $notification_count > 0 ? 'unread-notifications' : '' }} {{ Request::segment(1) == 'notifications' ? 'active' : '' }}">
-        <a role="button" href="/notifications">msgs({{ $notification_count }})</a>
+    <li class="{{ $notificationClasses }}">
+        <a role="button" href="/notifications">msgs({{ $notificationCount }})</a>
     </li>
     <li class="{{ Request::segment(1) == 'prefs' ? 'active' : '' }}">
         <a role="button" href="/preferences">prefs</a>

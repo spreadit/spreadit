@@ -8,7 +8,7 @@ class Comment extends BaseModel
 
 
     const NO_PARENT = 0;
-    const CACHE_PATH_DATA_FROM_ID_MINS = SortController::YEAR_SECONDS;
+    const CACHE_PATH_DATA_FROM_ID_MINS = Sort::YEAR_SECONDS;
     const CACHE_PATH_DATA_FROM_ID_NAME = 'comment_path_from_id_';
     const CACHE_NEWLIST_MINS = 1;
     const CACHE_NEWLIST_NAME = 'comment_newlist_id_';
@@ -16,7 +16,7 @@ class Comment extends BaseModel
     const MAX_MARKDOWN_LENGTH = 4000;
     const MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
 
-    public static function getPathDataFromId($comment_id)
+    public function getPathDataFromId($comment_id)
     {
         return Cache::remember(self::CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, self::CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)
         {
@@ -34,7 +34,7 @@ class Comment extends BaseModel
         });
     }
 
-    public static function get($comment_id)
+    public function get($comment_id, Vote $vote)
     {
         $comment = DB::table('comments')
             ->join('users', 'comments.user_id', '=', 'users.id')
@@ -49,10 +49,10 @@ class Comment extends BaseModel
             $comment->markdown = "user deleted this comment";
         }
 
-        return Vote::applySelection([$comment], Vote::COMMENT_TYPE)[0];
+        return $vote->applySelection([$comment], $vote->COMMENT_TYPE)[0];
     }
 
-    public static function getByPostId($post_id)
+    public function getByPostId($post_id, Vote $vote)
     {
         $comments = Cache::remember(self::CACHE_NEWLIST_NAME.$post_id, self::CACHE_NEWLIST_MINS, function() use($post_id)
         {
@@ -73,10 +73,10 @@ class Comment extends BaseModel
             return $v;
         });
 
-        return Vote::applySelection($comments, Vote::COMMENT_TYPE);
+        return $vote->applySelection($comments, $vote->COMMENT_TYPE);
     }
 
-    public static function getCommentsInTimeoutRange()
+    public function getCommentsInTimeoutRange()
     {
         $user_id = (isset(Auth::user()->id)) ? Auth::user()->id : -1;
 
@@ -87,12 +87,12 @@ class Comment extends BaseModel
             ->count();
     }
 
-    public static function canPost()
+    public function canPost()
     {
         return Utility::remainingComments() > 0;
     }
 
-    public static function make($post_id, $content, $parent_id)
+    public function make($post_id, $content, $parent_id)
     {
         $block = new SuccessBlock();
         $block->data->comment_id = -1;
@@ -105,7 +105,7 @@ class Comment extends BaseModel
         }
 
         if($block->success) {
-            if(!Comment::canPost()) {
+            if(!$this->canPost()) {
                 $block->success = false;
                 $block->errors[] = 'can only post ' . Utility::availableComments() . ' per day';
             }
@@ -142,7 +142,7 @@ class Comment extends BaseModel
         
             $notification = new Notification();
             if($data['parent_id'] != self::NO_PARENT) { 
-                $parent = Comment::findOrFail($data['parent_id']);
+                $parent = $this->findOrFail($data['parent_id']);
                 $notification->type = Notification::COMMENT_TYPE;
                 $notification->user_id = $parent->user_id;
             } else {
@@ -166,7 +166,7 @@ class Comment extends BaseModel
         return $block;
     }
 
-    public static function amend($comment_id, $content)
+    public function amend($comment_id, $content)
     {
         $block = new SuccessBlock();
 
@@ -178,7 +178,7 @@ class Comment extends BaseModel
         }
 
         if($block->success) {
-            $comment = Comment::findOrFail($comment_id);
+            $comment = $this->findOrFail($comment_id);
 
             if($comment->user_id != Auth::user()->id) {
                 $block->success  = true;
@@ -212,7 +212,7 @@ class Comment extends BaseModel
             $history->data     = $comment->data;
             $history->markdown = $comment->markdown;
             $history->user_id  = Auth::user()->id;
-            $history->type     = HistoryController::COMMENT_TYPE;
+            $history->type     = History::COMMENT_TYPE;
             $history->type_id  = $comment->id;
             $history->save();
 
@@ -226,11 +226,11 @@ class Comment extends BaseModel
         return $block;
     }
 
-    public static function remove($comment_id)
+    public function remove($comment_id)
     {
         $block = new SuccessBlock();
 
-        $comment = Comment::findOrFail($comment_id);
+        $comment = $this->findOrFail($comment_id);
         $block->data->post_id = $comment->post_id;
 
         if($block->success) {

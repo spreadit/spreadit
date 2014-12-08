@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" href="/favicon.ico?v=1
 ">
 <link rel="stylesheet" href="{{ Bust::url('/assets/prod/build.min.css') }}">
-{{ UtilityController::customCss() }}
+{{ $customCss }}
 <noscript>
 <style>img.lazy-loaded { display:none; }</style>
 </noscript>

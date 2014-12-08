@@ -2,13 +2,27 @@
 
 class UserController extends BaseController
 {
-    protected function logout()
+
+    protected $user;
+    protected $section;
+    protected $notification;
+    protected $vote;
+
+    public function __construct(User $user, Section $section, Notification $notification, Vote $vote)
+    {
+        $this->user = $user;
+        $this->section = $section;
+        $this->notification = $notification;
+        $this->vote = $vote;
+    }
+
+    public function logout()
     {
         Auth::logout();
 	    return Redirect::to('/');
     }
 
-    protected function register()
+    public function register()
     {
         $user = new User();
         $user->username = e(Input::get('username'));
@@ -29,7 +43,7 @@ class UserController extends BaseController
         }
     }
 
-    protected function validateLogin(array $data)
+    public function validateLogin(array $data)
     {
         $data['username'] = e($data['username']);
         
@@ -41,7 +55,7 @@ class UserController extends BaseController
         return Validator::make($data, $rules);
     }
 
-    protected function login()
+    public function login()
     {
         $data = Input::only('username', 'password');
         $validate = $this->validateLogin($data);
@@ -57,110 +71,110 @@ class UserController extends BaseController
         return Redirect::to('/');
     }
 
-    protected function notifications()
+    public function notifications()
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
 		$view = View::make('page.user.notifications', [
 			'sections'      => $sections,
 			'section'       => $section,
-			'notifications' => Notification::get()
+			'notifications' => $this->notification->get()
 		]);
 
-		Notification::markAllAsRead();
+		$this->notification->markAllAsRead();
 
 		return $view;
     }
 
-    protected function notificationsJson()
+    public function notificationsJson()
     {
-		$results = iterator_to_array(Notification::get());
-		Notification::markAllAsRead();
+		$results = iterator_to_array($this->notification->get());
+		$this->notification->markAllAsRead();
 		return Response::json($results);
 	}
 
-    protected function comments($username)
+    public function comments($username)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.user.comments', [
             'sections'  => $sections,
             'section'   => $section,
-            'comments'  => User::comments($username),
+            'comments'  => $this->user->comments($username, $this->vote),
             'username'  => $username,
             'highlight' => 'comments'
         ]);
     }
 
-    protected function commentsJson($username)
+    public function commentsJson($username)
     {
-        return Response::json(iterator_to_array(User::comments($username)));
+        return Response::json(iterator_to_array($this->user->comments($username, $this->vote)));
     }
 
-    protected function posts($username)
+    public function posts($username)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.user.posts', [
             'sections'  => $sections,
             'section'   => $section,
-            'posts'     => User::posts($username),
+            'posts'     => $this->user->posts($username, $this->vote),
             'username'  => $username,
             'highlight' => 'posts'
         ]);
     }
 
-    protected function postsJson($username)
+    public function postsJson($username)
     {
-        return Response::json(iterator_to_array(User::posts($username)));
+        return Response::json(iterator_to_array($this->user->posts($username, $this->vote)));
     }
 
-    protected function postsVotes($username)
+    public function postsVotes($username)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.vote.user_posts', [
             'sections'   => $sections,
             'section'    => $section,
-            'votes'      => User::postsVotes($username),
+            'votes'      => $this->user->postsVotes($username),
             'username'   => $username,
             'highlight'  => 'pvotes'
         ]);
     }
 
-    protected function postsVotesJson($username)
+    public function postsVotesJson($username)
     {
-        return Response::json(iterator_to_array(User::postsVotes($username)));
+        return Response::json(iterator_to_array($this->user->postsVotes($username)));
     }
 
-    protected function commentsVotes($username)
+    public function commentsVotes($username)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
 
         return View::make('page.vote.user_comments', [
             'sections'  => $sections,
             'section'   => $section,
-            'votes'     => User::commentsVotes($username),
+            'votes'     => $this->user->commentsVotes($username),
             'username'  => $username,
             'highlight' => 'cvotes'
         ]);
     }
 
-    protected function commentsVotesJson($username)
+    public function commentsVotesJson($username)
     {
-        return Response::json(iterator_to_array(User::commentsVotes($username)));
+        return Response::json(iterator_to_array($this->user->commentsVotes($username)));
     }
 
-    protected function mainVote($username)
+    public function mainVote($username)
     {
-        $sections = Section::get();
-        $section = Section::sectionFromSections(Section::getByTitle([""]));
-        $stats = User::userStats($username);
+        $sections = $this->section->get();
+        $section = $this->section->sectionFromEmptySection();
+        $stats = $this->user->userStats($username);
 
         return View::make('page.user.profile', [
             'sections'  => $sections,

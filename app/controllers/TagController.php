@@ -1,39 +1,47 @@
 <?php
 class TagController extends BaseController
 {
-    protected function nsfw($post_id) {
-        Tag::action($post_id, Tag::NSFW, Tag::UP);
+    
+    protected $tag;
+    
+    public function __construct(Tag $tag)
+    {
+        $this->tag = $tag;
+    }
+    
+    public function nsfw($post_id) {
+        $this->tag->action($post_id, $this->tag->NSFW, $this->tag->UP);
         return Redirect::back(); 
     } 
 
-    protected function sfw($post_id) {
-        Tag::action($post_id, Tag::NSFW, Tag::DOWN);
+    public function sfw($post_id) {
+        $this->tag->action($post_id, $this->tag->NSFW, $this->tag->DOWN);
         return Redirect::back(); 
     } 
     
-    protected function nsfl($post_id) {
-        Tag::action($post_id, Tag::NSFL, Tag::UP);
+    public function nsfl($post_id) {
+        $this->tag->action($post_id, $this->tag->NSFL, $this->tag->UP);
         return Redirect::back(); 
     } 
     
-    protected function sfl($post_id) {
-        Tag::action($post_id, Tag::NSFL, Tag::DOWN);
+    public function sfl($post_id) {
+        $this->tag->action($post_id, $this->tag->NSFL, $this->tag->DOWN);
         return Redirect::back(); 
     } 
 
-    protected function nsfwJson($post_id) {
-        return Response::json(Tag::action($post_id, Tag::NSFW, Tag::UP));
+    public function nsfwJson($post_id) {
+        return Response::json($this->tag->action($post_id, $this->tag->NSFW, $this->tag->UP));
     } 
 
-    protected function sfwJson($post_id) {
-        return Response::json(Tag::action($post_id, Tag::NSFW, Tag::DOWN));
+    public function sfwJson($post_id) {
+        return Response::json($this->tag->action($post_id, $this->tag->NSFW, $this->tag->DOWN));
     } 
     
-    protected function nsflJson($post_id) {
-        return Response::json(Tag::action($post_id, Tag::NSFL, Tag::UP));
+    public function nsflJson($post_id) {
+        return Response::json($this->tag->action($post_id, $this->tag->NSFL, $this->tag->UP));
     } 
     
-    protected function sflJson($post_id) {
-        return Response::json(Tag::action($post_id, Tag::NSFL, Tag::DOWN));
+    public function sflJson($post_id) {
+        return Response::json($this->tag->action($post_id, $this->tag->NSFL, $this->tag->DOWN));
     } 
 }

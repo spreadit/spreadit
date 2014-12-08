@@ -1,27 +1,27 @@
 <?php
 class SwaggerController extends BaseController
 {
-    protected function index()
+    public function index()
     {
         return View::make('swagger.index');
     }
 
-    protected function license()
+    public function license()
     {
         return View::make('swagger.license');
     }
 
-    protected function terms()
+    public function terms()
     {
         return View::make('swagger.terms');
     }
 
-    protected function routes()
+    public function routes()
     {
         return Response::make(View::make('swagger.json.routes'))->header('Content-Type', 'application/json');
     }
     
-    protected function getRoute($type)
+    public function getRoute($type)
     {
         return Response::make(View::make("swagger.json.$type"))->header('Content-Type', 'application/json');
     }

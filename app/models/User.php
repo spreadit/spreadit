@@ -42,7 +42,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         };
     }
 
-    public static function create_anon($username)
+    public function create_anon($username)
     {
         DB::table('users')->insert([
             'username' => $username,
@@ -56,7 +56,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         ]);
     }
 
-    public static function savePreferences($user_id, array $data)
+    public function savePreferences($user_id, array $data)
     {
         DB::table('users')
             ->where('id', $user_id)
@@ -68,7 +68,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ]);
     }
 
-    public static function saveHomepage($user_id, array $data)
+    public function saveHomepage($user_id, array $data)
     {
         DB::table('users')
             ->where('id', $user_id)
@@ -124,7 +124,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             return $this->email;
     }
 
-    protected function comments($username)
+    public function comments($username, Vote $vote)
     {
         $comments = DB::table('comments')
             ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
@@ -133,10 +133,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->orderBy('id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
 
-        return Vote::applySelection($comments, Vote::COMMENT_TYPE);
+        return $vote->applySelection($comments, $vote->COMMENT_TYPE);
     }
 
-    protected function posts($username)
+    public function posts($username, Vote $vote)
     {
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
@@ -146,10 +146,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->orderBy('id', 'desc')
             ->simplePaginate(self::PAGE_RESULTS);
 
-        return Vote::applySelection($posts, Vote::POST_TYPE);
+        return $vote->applySelection($posts, $vote->POST_TYPE);
     }
 
-    protected function postsVotes($username)
+    public function postsVotes($username)
     {
         return DB::table('votes')
             ->join('users', 'votes.user_id', '=', 'users.id')
@@ -162,7 +162,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->simplePaginate(User::PAGE_RESULTS);
     }
 
-    protected function commentsVotes($username)
+    public function commentsVotes($username)
     {
         return DB::table('votes')
             ->join('users', 'votes.user_id', '=', 'users.id')
@@ -176,7 +176,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->simplePaginate(self::PAGE_RESULTS);
     }
 
-    protected function userStats($username) {
+    public function userStats($username) {
         $user = DB::table('users')
             ->select('users.points', 'users.votes', 'users.anonymous', 'users.created_at')
             ->where('users.username', 'LIKE', $username)

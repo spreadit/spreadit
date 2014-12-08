@@ -21,7 +21,7 @@ class Vote extends BaseModel
         'systemerror' => 'general system error occurred'
     ];
 
-    public static function applySelection($items, $type)
+    public function applySelection($items, $type)
     {
         $votes = self::getMatchingVotes($type, $items);
 
@@ -33,7 +33,7 @@ class Vote extends BaseModel
         return $items;
     }
 
-    public static function getMatchingVotes($type, $items)
+    public function getMatchingVotes($type, $items)
     {
         //requires to be logged in
         if(!Auth::check()) return array();
@@ -142,7 +142,7 @@ class Vote extends BaseModel
 
     }
 
-    public static function getPostVotes($type_id)
+    public function getPostVotes($type_id)
     {
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
@@ -153,7 +153,7 @@ class Vote extends BaseModel
     }
 
 
-    public static function getCommentVotes($type_id)
+    public function getCommentVotes($type_id)
     {
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
@@ -163,7 +163,7 @@ class Vote extends BaseModel
             ->simplePaginate(self::COMMENT_PAGE_RESULTS);
     }
 
-    protected function action($type, $type_id, $updown)
+    public function action($type, $type_id, $updown)
     {
         $check = $this->checkVote($type, $type_id);
 

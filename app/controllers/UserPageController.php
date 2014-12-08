@@ -1,7 +1,7 @@
 <?php                                                                                                                                       
 class UserPageController extends BaseController
 {
-    protected function index($username)
+    public function index($username)
     {   
         $user = DB::table('users')
             ->select('profile_data')
@@ -14,7 +14,7 @@ class UserPageController extends BaseController
         ]);
     }   
  
-    protected function css($username) {
+    public function css($username) {
         $user = DB::table('users')
             ->select('profile_css')
             ->where('username', 'LIKE', $username)

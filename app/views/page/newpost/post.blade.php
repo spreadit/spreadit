@@ -1,14 +1,14 @@
 @extends('layout.pages')
 
 @section('title')
-    <title>spreadit.io :: add a post to {{ UtilityController::oldSectionHtml($section) }}</title>
+    <title>spreadit.io :: add a post to {{ $oldSection }}</title>
 @stop
 @section('description')
     <meta name="description" content="add a new post to spreadit with our intuitive keyboard/mouse interface">
 @stop
 
 @section('content')
-    <h1>Posting to /s/{{ UtilityController::oldSectionHtml($section) }}</h1>
+    <h1>Posting to /s/{{ $oldSection }}</h1>
     @if ($errors->any())
         <div class="alert alert-warning fade in">
             <div class="close" data-dismiss="alert" aria-hidden="true">&times;</div>
@@ -17,8 +17,8 @@
     @endif
     <div class="row-fluid">
         <div class="span6">
-            <p>{{ UtilityController::postsRemainingHtml() }}</p>
-            @if (Post::canPost())
+            <p>{{ $postsRemaining }}</p>
+            @if (Utility::remainingPosts() > 0)
             <form id="post-form" action="/s/{{{ $section->title }}}/add" method="post" class="flat-form flatpop-left">
                 <p class="text">
                     <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}" />
@@ -40,13 +40,13 @@
                         <div class="span6">
                             <div class="spreadit-selector">
                                 <select name="section" id="section">
-                                    <option value="{{ UtilityController::oldSectionHtml($section) }}" selected>{{ UtilityController::oldSectionHtml($section) }}</option>
+                                    <option value="{{ $oldSection }}" selected>{{ $oldSection }}</option>
                                     @foreach ($all_sections as $sel)
                                         <option value="{{ $sel }}">{{ $sel }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <!--<input name="section" id="section" type="text" value="{{ UtilityController::oldSectionHtml($section) }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />-->
+                            <!--<input name="section" id="section" type="text" value="{{ $oldSection }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />-->
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">

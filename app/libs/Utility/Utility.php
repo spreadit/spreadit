@@ -87,6 +87,11 @@ class Utility
         }
     }
 
+    public static function splitByTitle($title)
+    {
+        return explode('+', $title);
+    }
+
     public static function urlExists($url)
     {
         try {
@@ -205,12 +210,12 @@ class Utility
 
     public static function getSortTimeframe()
     {
-        return Cookie::get(SortController::TIMEFRAME_COOKIE_NAME, SortController::TIMEFRAME_COOKIE_DEFAULT);
+        return Cookie::get(Sort::TIMEFRAME_COOKIE_NAME, Sort::TIMEFRAME_COOKIE_DEFAULT);
     }
 
     public static function getSortMode()
     {
-        return Cookie::get(SortController::SORTBY_COOKIE_NAME, SortController::SORTBY_COOKIE_DEFAULT);
+        return Cookie::get(Sort::SORTBY_COOKIE_NAME, Sort::SORTBY_COOKIE_DEFAULT);
     }
 
     public static function gfycat($url)
@@ -248,7 +253,8 @@ class Utility
 
     public static function remainingPosts()
     {
-        return max(0, self::availablePosts() - Post::getPostsInTimeoutRange());
+        $post = new Post;
+        return max(0, self::availablePosts() - $post->getPostsInTimeoutRange());
     }
 
     public static function availablePosts($user=null)
@@ -266,7 +272,8 @@ class Utility
 
     public static function remainingComments()
     {
-        return max(0, self::availableComments() - Comment::getCommentsInTimeoutRange());
+        $comment = new Comment;
+        return max(0, self::availableComments() - $comment->getCommentsInTimeoutRange());
     }
 
     public static function availableComments()

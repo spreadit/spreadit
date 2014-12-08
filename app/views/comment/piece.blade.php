@@ -1,11 +1,11 @@
 <div class="comment-piece" tabindex="1" data-comment-id="{{ $comment->id }}">
     <div class="comment-points">
         <div class="breaker comment-user-points">
-            <a class="username {{ UtilityController::anonymousClasses($comment) }}" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a><span class="upoints">{{ $comment->points }}</span><span class="uvotes">{{ $comment->votes }}</span>
+            <a class="username {{ $anonymousClasses }}" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a><span class="upoints">{{ $comment->points }}</span><span class="uvotes">{{ $comment->votes }}</span>
         </div>
         <div class="breaker comment-votes">
-            <a href="{{ URL::to("/vote/comment/" . $comment->id . "/up") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::upvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
-            <a href="{{ URL::to("/vote/comment/" . $comment->id . "/down") }}" {{ UtilityController::bubbleText() }} class="vote {{ UtilityController::bubbleClasses($comment) }} {{ UtilityController::downvoteClasses($comment) }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
+            <a href="{{ URL::to("/vote/comment/" . $comment->id . "/up") }}" {{ $bubbleText }} class="vote {{ $bubbleClasses }} {{ $upvoteClasses }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
+            <a href="{{ URL::to("/vote/comment/" . $comment->id . "/down") }}" {{ $bubbleText }} class="vote {{ $bubbleClasses }} {{ $downvoteClasses }}" data-id="{{ $comment->id }}" data-type="comment" data-updown="down" rel="nofollow"><span class="voteicondown"></span></a>
             <a href="{{ URL("/vote/comment/{$comment->id}") }}">
                 <span class="upvotes">{{ $comment->upvotes  }}</span><span class="downvotes">{{ $comment->downvotes }}</span><span class="total-points">{{ ($comment->upvotes - $comment->downvotes) }}</span>
             </a>

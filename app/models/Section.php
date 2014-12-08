@@ -10,6 +10,7 @@ class Section extends BaseModel
     const MIN_TITLE_LENGTH = 1;
     const PAGINATION_AMOUNT = 30;
 
+
     protected $table = 'sections';
 
     protected $guarded = array();
@@ -24,7 +25,12 @@ class Section extends BaseModel
         'title' => "required|lowercase|andu|min:2|max:24"
     ];
 
-    public static function sectionFromSections(array $sections)
+    public function sectionFromEmptySection()
+    {
+        return $this->sectionFromSections($this->getByTitle([""]));
+    }
+
+    public function sectionFromSections(array $sections)
     {
         if(count($sections) == 0) {
             $section = new stdClass;
@@ -43,11 +49,6 @@ class Section extends BaseModel
         return $section;
     }
 
-    public static function splitByTitle($title)
-    {
-        return explode('+', $title);
-    }
-
     /*
      * get sections by their titles
      *
@@ -55,7 +56,7 @@ class Section extends BaseModel
      *
      * @return db obj
      */
-    public static function getByTitle(array $section_titles)
+    public function getByTitle(array $section_titles)
     {
         $sections = DB::table('sections')
             ->select('id', 'title', 'data')
@@ -80,7 +81,7 @@ class Section extends BaseModel
      *
      * @return db obj
      */
-    public static function getById(array $ids)
+    public function getById(array $ids)
     {
         $sections = DB::table('sections')
             ->select('id', 'title', 'data')
@@ -98,7 +99,7 @@ class Section extends BaseModel
         return $sections;
     }
 
-    public static function exists($section_title)
+    public function exists($section_title)
     {
         return !is_null(DB::table('sections')->where('title', 'LIKE', $section_title)->first());
     }
@@ -108,7 +109,7 @@ class Section extends BaseModel
      *
      * @return list of sections
      */
-	public static function get()
+	public function get()
 	{
         return DB::table('sections')
             ->select('sections.id', 'sections.title')
@@ -123,7 +124,7 @@ class Section extends BaseModel
      *
      * @return list of sections
      */
-	public static function getAll()
+	public function getAll()
 	{
         return DB::table('sections')
             ->select('sections.id', 'sections.title')
