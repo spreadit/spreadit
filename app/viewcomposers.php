@@ -70,9 +70,9 @@ class ViewComposers {
                 $classes = "hint--right hint--bounce hint--warning";
 
                 if(!Auth::check() || Auth::user()->anonymous) {
-                    $text = 'data-hint="need to register to vote';
+                    $text = 'data-hint="need to register to vote" ';
                 } else {
-                    $text = 'data-hint="costs one point to vote"';
+                    $text = 'data-hint="costs one point to vote" ';
                 }
             }
 
@@ -190,19 +190,21 @@ class ViewComposers {
         });
 
         View::composer(['layout.nav.user_actions'], function($view) {
-            $notification = new Notification();
-            $notification_count = $notification->getUnreadCount();
-            $classes = "";
-            if($notification_count > 0) {
-                $classes .= "unread-notifications ";
-            }
+            if(Auth::check()) {
+                $notification = new Notification();
+                $notification_count = $notification->getUnreadCount();
+                $classes = "";
+                if($notification_count > 0) {
+                    $classes .= "unread-notifications ";
+                }
 
-            if(Request::segment(1) == 'notifications') {
-                $classes .= 'active ';
-            }
+                if(Request::segment(1) == 'notifications') {
+                    $classes .= 'active ';
+                }
 
-            $view->with('notificationClasses', $classes);
-            $view->with('notificationCount', $notification_count);
+                $view->with('notificationClasses', $classes);
+                $view->with('notificationCount', $notification_count);
+            }
         });
     }
 }
