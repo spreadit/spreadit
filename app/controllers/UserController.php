@@ -121,7 +121,7 @@ class UserController extends BaseController
         return View::make('page.user.posts', [
             'sections'  => $sections,
             'section'   => $section,
-            'posts'     => $this->user->posts($username, $this->votes),
+            'posts'     => $this->user->posts($username, $this->vote),
             'username'  => $username,
             'highlight' => 'posts'
         ]);

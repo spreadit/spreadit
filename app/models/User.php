@@ -144,7 +144,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->orderBy('id', 'desc')
             ->simplePaginate(Constant::USER_PAGE_RESULTS);
 
-        return $vote->applySelection($posts, Constant::VOTE_POST_TYPE);
+        return $vote->applySelection($posts, Constant::POST_TYPE);
     }
 
     public function postsVotes($username)
