@@ -1,11 +1,19 @@
 <form id="search-box" action="/search">
-    <input type="text" name="query" size="31" />
-    <input type="submit" value="search" />
+    <input type="text" name="query" placeholder="search" size="31" />
+    <button type="submit">search</button>
 </form>
 
 @if (Auth::check())
     <div class="add-post-shard">
+        <label class="shard-action" for="collapse-add-post-shard">
+            Create New
+            <span class="shard-action-button"></span>
+        </label>
+        <input class="collapse" id="collapse-add-post-shard" type="checkbox">
         <a href="/s/{{ $section->title }}/add"><button>add post</button></a>
+
+        <div class="shard-fold">
+        </div>
     </div>
 @else
     <div class="login-shard">

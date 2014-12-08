@@ -122,7 +122,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             return $this->email;
     }
 
-    public function comments($username)
+    public function comments($username, $vote)
     {
         $comments = DB::table('comments')
             ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
@@ -134,7 +134,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         return $vote->applySelection($comments, $vote->COMMENT_TYPE);
     }
 
-    public function posts($username)
+    public function posts($username, $vote)
     {
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
