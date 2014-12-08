@@ -35,7 +35,7 @@
                     <div class="editbox">
                         <form id="edit-form" action="/comments/{{ $comment->id }}/update" method="post">
                             <p class="text">
-                                <textarea name="data" id="data" required maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}">{{ $comment->markdown }}</textarea>
+                                <textarea name="data" id="data" required maxlength="{{ Constant::COMMENT_MAX_MARKDOWN_LENGTH }}">{{ $comment->markdown }}</textarea>
                             </p>
                             <div class="submit">
                                 <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewcomment-edit-box{{ $comment->id }}" class="preview">Preview</button>

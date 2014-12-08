@@ -3,7 +3,7 @@
     <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
     <input type="hidden" name="parent_id" value="{{ $comment->parent_id }}">
     <p class="text">
-        <textarea name="data" id="data" value="{{ Input::old('data') }}" placeholder="{{ $commentsRemaining }}" maxlength="{{ Comment::MAX_MARKDOWN_LENGTH }}" required></textarea>
+        <textarea name="data" id="data" value="{{ Input::old('data') }}" placeholder="{{ $commentsRemaining }}" maxlength="{{ Constant::COMMENT_MAX_MARKDOWN_LENGTH }}" required></textarea>
     </p>
     <div class="submit">
         @if (!Auth::check())

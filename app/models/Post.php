@@ -2,15 +2,6 @@
 
 class Post extends BaseModel
 {
-    public $LINK_POST_TYPE = 0;
-    public $SELF_POST_TYPE = 1;
-
-    public $MAX_TITLE_LENGTH = 128;
-    public $MAX_URL_LENGTH = 256;
-
-    public $MAX_MARKDOWN_LENGTH = 6000;
-    public $MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
-
     protected $table = 'posts';
     protected $guarded = array('id');
 
@@ -68,40 +59,40 @@ class Post extends BaseModel
         }
 
         $posts = $posts->orderBy(DB::raw($orderby), 'desc')
-            ->simplePaginate(Section::PAGE_POST_COUNT);
+            ->simplePaginate(Constant::SECTION_PAGE_POST_COUNT);
 
-        return $vote->applySelection($posts, $vote->POST_TYPE);
+        return $vote->applySelection($posts, Constant::POST_TYPE);
     }
 
     public function getNewList(array $section_ids=[0], Vote $vote)
     {
         return $vote->applySelection(
-            $this->getList($section_ids, 0, Sort::ORDERBY_SQL_NEW, $vote), 
-            $vote->POST_TYPE
+            $this->getList($section_ids, 0, Constant::SORT_ORDERBY_SQL_NEW, $vote), 
+            Constant::POST_TYPE
         );
     }
 
     public function getTopList(array $section_ids=[0], $seconds, Vote $vote)
     {
         return $vote->applySelection(
-            $this->getList($section_ids, $seconds, Sort::ORDERBY_SQL_TOP, $vote), 
-            $vote->POST_TYPE
+            $this->getList($section_ids, $seconds, Constant::SORT_ORDERBY_SQL_TOP, $vote), 
+            Constant::POST_TYPE
         );
     }
 
     public function getHotList(array $section_ids=[0], Vote $vote)
     {
         return $vote->applySelection(
-            $this->getList($section_ids, 0, Sort::ORDERBY_SQL_HOT, $vote), 
-            $vote->POST_TYPE
+            $this->getList($section_ids, 0, Constant::SORT_ORDERBY_SQL_HOT, $vote), 
+            Constant::POST_TYPE
         );
     }
 
     public function getControversialList(array $section_ids=[0], $seconds, Vote $vote)
     {
         return $vote->applySelection(
-            $this->getList($section_ids, $seconds, Sort::ORDERBY_SQL_CONTROVERSIAL, $vote), 
-            $vote->POST_TYPE
+            $this->getList($section_ids, $seconds, Constant::SORT_ORDERBY_SQL_CONTROVERSIAL, $vote), 
+            Constant::POST_TYPE
         );
     }
 
@@ -152,7 +143,7 @@ class Post extends BaseModel
 
             $rules = array(
                 'user_id'  => 'required|numeric',
-                'markdown' => 'required|max:'.$this->MAX_MARKDOWN_LENGTH
+                'markdown' => 'required|max:'.Constant::POST_MAX_MARKDOWN_LENGTH
             );
 
             $validate = Validator::make($data, $rules);

@@ -5,14 +5,12 @@ class SectionController extends BaseController
 
     protected $section;
     protected $post;
-    protected $sort;
     protected $vote;
 
-    public function __construct(Section $section, Post $post, Sort $sort, Vote $vote)
+    public function __construct(Section $section, Post $post, Vote $vote)
     {
         $this->section = $section;
         $this->post = $post;
-        $this->sort = $sort;
         $this->vote = $vote;
     }
 
@@ -160,10 +158,10 @@ class SectionController extends BaseController
     public function getSecondsFromTimeframe($timeframe)
     {
         switch($timeframe) {
-            case 'day':     return $this->sort->DAY_SECONDS;   break;
-            case 'week':    return $this->sort->WEEK_SECONDS;  break;
-            case 'month':   return $this->sort->MONTH_SECONDS; break;
-            case 'year':    return $this->sort->YEAR_SECONDS;  break;
+            case 'day':     return Constant::SORT_DAY_SECONDS;   break;
+            case 'week':    return Constant::SORT_WEEK_SECONDS;  break;
+            case 'month':   return Constant::SORT_MONTH_SECONDS; break;
+            case 'year':    return Constant::SORT_YEAR_SECONDS;  break;
             case 'forever': return time();                        break;
             default:        return App::abort(404);               break;
         }

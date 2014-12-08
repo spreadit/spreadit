@@ -5,11 +5,11 @@ class ViewComposers {
     {
         $classes = "";
 
-        if($view->$item_var->selected == Vote::UP) {
+        if($view->$item_var->selected == Constant::VOTE_UP) {
             $classes .= 'selected';
         }
        
-        if($view->$item_var->selected == Vote::DOWN) {
+        if($view->$item_var->selected == Constant::VOTE_DOWN) {
             $classes .= ' disable-click';
         }
 
@@ -20,11 +20,11 @@ class ViewComposers {
     {
         $classes = "";
 
-        if($view->$item_var->selected == Vote::DOWN) {
+        if($view->$item_var->selected == Constant::VOTE_DOWN) {
             $classes .= 'selected';
         }
        
-        if($view->$item_var->selected == Vote::UP) {
+        if($view->$item_var->selected == Constant::VOTE_UP) {
             $classes .= ' disable-click';
         }
 
@@ -38,7 +38,8 @@ class ViewComposers {
     protected function postUrl($view)
     {
         $postUrl = "";
-        if($view->post->type == Post::SELF_POST_TYPE) {
+
+        if($view->post->type == Constant::POST_SELF_POST_TYPE) {
             $postUrl = URL::to(sprintf("/s/%s/posts/%s/%s", 
                 $view->post->section_title, 
                 $view->post->id, 
@@ -107,9 +108,10 @@ class ViewComposers {
 
 
         View::composer(['post.piece'], function($view) {
+            $post = new Post;
             $view->with('postUrl', $this->postUrl($view));
 
-            $commentsPrettyUrl = parse_url($view->post->type == Post::SELF_POST_TYPE ? URL::to('/') : $view->post->url, PHP_URL_HOST);
+            $commentsPrettyUrl = parse_url($view->post->type == $post->SELF_POST_TYPE ? URL::to('/') : $view->post->url, PHP_URL_HOST);
             $view->with('commentsPrettyUrl', $commentsPrettyUrl);
 
             $commentsUrl = URL::to(sprintf("/s/%s/posts/%s/%s", 
@@ -139,7 +141,7 @@ class ViewComposers {
             $postsRemaining = sprintf("You have %s of %s posts remaining per %s", 
                 Utility::remainingPosts(),
                 Utility::availablePosts(),
-                Utility::prettyAgo(time() - Post::MAX_POSTS_TIMEOUT_SECONDS)
+                Utility::prettyAgo(time() - Constant::POST_MAX_POSTS_TIMEOUT_SECONDS)
             );
 
             $view->with('postsRemaining', $postsRemaining);
@@ -150,7 +152,7 @@ class ViewComposers {
             $commentsRemaining = sprintf("You have %s of %s comments remaining per %s", 
                 Utility::remainingComments(),
                 Utility::availableComments(),
-                Utility::prettyAgo(time() - Comment::MAX_COMMENTS_TIMEOUT_SECONDS)
+                Utility::prettyAgo(time() - Constant::COMMENT_MAX_COMMENTS_TIMEOUT_SECONDS)
             );
 
             $view->with('commentsRemaining', $commentsRemaining);

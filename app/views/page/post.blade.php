@@ -84,7 +84,7 @@
                             <div class="editbox">
                                 <form id="edit-form" action="{{ URL::to("/posts/" . $post->id . "/update") }}" method="post">
                                     <p class="text">
-                                        <textarea name="data" id="data" required maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ $post->markdown }}</textarea>
+                                        <textarea name="data" id="data" required maxlength="{{ Constant::POST_MAX_MARKDOWN_LENGTH }}">{{ $post->markdown }}</textarea>
                                     </p>
                                     <div class="submit">
                                         <button type="submit" formmethod="post" formaction="{{ URL::to('/util/preview') }}" formtarget="previewpost-edit-box{{ $post->id }}" class="preview">Preview</button>

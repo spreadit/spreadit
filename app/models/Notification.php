@@ -10,13 +10,6 @@ class Notification extends BaseModel
 
     protected $guarded = array('id');
 
-    public $COMMENT_TYPE = 0;
-    public $POST_TYPE = 1;
-    public $ANNOUNCEMENT_TYPE = 2;
-    public $UNREAD = 0;
-    public $READ = 1;
-    public $PAGE_NOTIFICATION_COUNT = 25;
-
 
     public function get()
     {
@@ -26,20 +19,20 @@ class Notification extends BaseModel
             ->leftJoin('users', 'comments.user_id', '=', 'users.id')
             ->where('notifications.user_id', '=', Auth::user()->id)
             ->orderBy('notifications.id', 'desc')
-            ->simplePaginate($this->PAGE_NOTIFICATION_COUNT);
+            ->simplePaginate(Constant::NOTIFICATION_PAGE_NOTIFICATION_COUNT);
     }
 
     public function getUnreadCount()
     {
         return $this->where('user_id', '=', Auth::user()->id)
-            ->where('read', '=', $this->UNREAD)
+            ->where('read', '=', Constant::NOTIFICATION_UNREAD)
             ->count();
     }
 
     public function markAllAsRead()
     {
         $this->where('user_id', '=', Auth::user()->id)
-            ->where('read', '=', $this->UNREAD)
-            ->update(['read' => $this->READ]);
+            ->where('read', '=', Constant::NOTIFICATION_UNREAD)
+            ->update(['read' => Constant::NOTIFICATION_READ]);
     }
 }

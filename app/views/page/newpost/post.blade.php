@@ -21,13 +21,13 @@
             @if (Utility::remainingPosts() > 0)
             <form id="post-form" action="/s/{{{ $section->title }}}/add" method="post" class="flat-form flatpop-left">
                 <p class="text">
-                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Post::MAX_TITLE_LENGTH }}" />
+                    <input name="title" type="text" value="{{ Input::old('title') }}" id="title" placeholder="title" maxlength="{{ Constant::POST_MAX_TITLE_LENGTH }}" />
                     {{ $errors->first('title') }}
                 </p>
                 <p class="text">
                     <div class="row-fluid">
                         <div class="span9">
-                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ Post::MAX_URL_LENGTH }}">
+                            <input name="url" type="url" value="{{ Input::old('url') }}" id="url" placeholder="http://yoururl.com" maxlength="{{ Constant::POST_MAX_URL_LENGTH }}">
                             {{ $errors->first('url') }}
                         </div>
                         <div class="span3">
@@ -46,7 +46,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <!--<input name="section" id="section" type="text" value="{{ $oldSection }}" id="section" placeholder="spreadit section title" minlength="{{ Section::MIN_TITLE_LENGTH }}" maxlength="{{ Section::MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />-->
+                            <!--<input name="section" id="section" type="text" value="{{ $oldSection }}" id="section" placeholder="spreadit section title" minlength="{{ Constant::SECTION_MIN_TITLE_LENGTH }}" maxlength="{{ Constant::SECTION_MAX_TITLE_LENGTH }}" pattern="[a-zA-Z0-0_-]+$" />-->
                             {{ $errors->first('section') }}
                         </div>
                         <div class="span6">
@@ -54,7 +54,7 @@
                     </div>
                 </p>
                 <p class="text">
-                    <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ Post::MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
+                    <textarea name="data" id="data" placeholder="Body of post" maxlength="{{ Constant::POST_MAX_MARKDOWN_LENGTH }}">{{ Input::old('data') }}</textarea>
                     {{ $errors->first('data') }}
                 </p>
                 <p class="text">

@@ -5,14 +5,6 @@ class Vote extends BaseModel
     protected $table = 'votes';
     protected $guarded = array('id');
 
-    public $COMMENT_TYPE = 0;
-    public $POST_TYPE = 1;
-    public $SECTION_TYPE = 2;
-    public $UP = 1;
-    public $DOWN = -1;
-    public $VOTES_PAGE_RESULTS = 25;
-    public $COMMENT_PAGE_RESULTS = 25;
-
     protected $errors = [
         'same_stored' => 'vote is same as stored value',
         'reverse' => 'vote cannot be reversed',
@@ -73,7 +65,7 @@ class Vote extends BaseModel
     protected function alreadyExists($check)
     {
         $check = $check[0];
-        if($check->updown == $this->UP) {
+        if($check->updown == Constant::VOTE_UP) {
             return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
             return ['success'=>false, 'errors'=>array($this->$errors['reverse'])];
@@ -85,14 +77,14 @@ class Vote extends BaseModel
         //deal with item table
         $item = "";
         switch($type) {
-            case $this->POST_TYPE:
+            case Constant::POST_TYPE:
                 $item = Post::findOrFail($type_id);
                 break;
-            case $this->COMMENT_TYPE:
+            case Constant::COMMENT_TYPE:
                 $item = Comment::findOrFail($type_id);
                 Cache::forget(Comment::CACHE_NEWLIST_NAME.$item->post_id);
                 break;
-            case $this->SECTION_TYPE:
+            case Constant::SECTION_TYPE:
                 $item = Section::findOrFail($type_id);
                 break;
             default:
@@ -106,26 +98,26 @@ class Vote extends BaseModel
         $user->decrement('points');
 
         //double decrement for self upvote
-        if($type == $this->POST_TYPE || $type == $this->COMMENT_TYPE) {
-            if($item->user_id == Auth::user()->id && $updown == $this->UP) {
+        if($type == Constant::POST_TYPE || $type == Constant::COMMENT_TYPE) {
+            if($item->user_id == Auth::user()->id && $updown == Constant::VOTE_UP) {
                 $user->decrement('points');
             }
         }
 
         //upvote/downvote the item itself
-        if($updown == $this->UP) {
+        if($updown == Constant::VOTE_UP) {
             $item->increment('upvotes');
-        } else if($updown == $this->DOWN) {
+        } else if($updown == Constant::VOTE_DOWN) {
             $item->increment('downvotes');
         }
 
         //upvote/downvote user who posted (ignore for sections)
-        if($type == $this->POST_TYPE || $type == $this->COMMENT_TYPE) {
+        if($type == Constant::POST_TYPE || $type == Constant::COMMENT_TYPE) {
             $rec_user = User::findOrFail($item->user_id);
 
-            if($updown == $this->UP) {
+            if($updown == Constant::VOTE_UP) {
                 $rec_user->increment('points');
-            } else if($updown == $this->DOWN) {
+            } else if($updown == Constant::VOTE_DOWN) {
                 $rec_user->decrement('points');
             }
         }
@@ -147,9 +139,9 @@ class Vote extends BaseModel
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
-            ->where('votes.type', '=', $this->POST_TYPE)
+            ->where('votes.type', '=', Constant::POST_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate($this->VOTES_PAGE_RESULTS);
+            ->simplePaginate(Constant::VOTES_PAGE_RESULTS);
     }
 
 
@@ -158,9 +150,9 @@ class Vote extends BaseModel
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
-            ->where('votes.type', '=', $this->COMMENT_TYPE)
+            ->where('votes.type', '=', Constant::COMMENT_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate($this->COMMENT_PAGE_RESULTS);
+            ->simplePaginate(Constant::COMMENT_PAGE_RESULTS);
     }
 
     public function action($type, $type_id, $updown)

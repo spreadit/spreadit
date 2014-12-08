@@ -11,7 +11,7 @@
 @foreach ($notifications as $notification)
 <div class="row-fluid notification">
     <div class="span12">
-    @if ($notification->type == Notification::COMMENT_TYPE)
+    @if ($notification->type == Constant::NOTIFICATION_COMMENT_TYPE)
         <div class="comment {{ $notification->read ? 'notification-read' : 'notification-unread' }}">
             <header>
                 From <a class="username" href="/u/{{ $notification->username }}">{{ $notification->username }}</a><span class="upoints">{{ $notification->points }}</span><span class="uvotes">{{ $notification->votes }}</span><span class="timeago">{{ Utility::prettyAgo($notification->created_at) }} ago</span>
@@ -23,7 +23,7 @@
                 <a href="/comments/{{ $notification->item_id }}">reply/view</a>
             </footer>
         </div>
-    @elseif ($notification->type == Notification::POST_TYPE)
+    @elseif ($notification->type == Constant::NOTIFICATION_POST_TYPE)
         <div class="comment {{ $notification->read ? 'notification-read' : 'notification-unread' }}">
             <header>
                 From <a class="username" href="/u/{{ $notification->username }}">{{ $notification->username }}</a><span class="upoints">{{ $notification->points }}</span><span class="uvotes">{{ $notification->votes }}</span> <span class="timeago">{{ Utility::prettyAgo($notification->created_at) }} ago</span>
@@ -35,7 +35,7 @@
                 <a href="/comments/{{ $notification->item_id }}">reply/view</a>
             </footer>
         </div>
-    @elseif ($notification->type == Notification::ANNOUNCEMENT_TYPE)
+    @elseif ($notification->type == Constant::NOTIFICATION_ANNOUNCEMENT_TYPE)
         <div class="announcement {{ $notification->read ? 'notification-read' : 'notification-unread' }}">
             <header>
                 An announcement from spreadit

@@ -11,8 +11,4 @@ class History extends BaseModel
         'type' => 'required|numeric',
         'type_id' => 'required|numeric'
     ];
-    
-    public $COMMENT_TYPE = 0;
-    public $POST_TYPE = 1;
-    public $SECTION_TYPE = 2;
 }

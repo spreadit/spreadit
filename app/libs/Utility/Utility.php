@@ -210,12 +210,12 @@ class Utility
 
     public static function getSortTimeframe()
     {
-        return Cookie::get(Sort::TIMEFRAME_COOKIE_NAME, Sort::TIMEFRAME_COOKIE_DEFAULT);
+        return Cookie::get(Constant::SORT_TIMEFRAME_COOKIE_NAME, Constant::SORT_TIMEFRAME_COOKIE_DEFAULT);
     }
 
     public static function getSortMode()
     {
-        return Cookie::get(Sort::SORTBY_COOKIE_NAME, Sort::SORTBY_COOKIE_DEFAULT);
+        return Cookie::get(Constant::SORT_SORTBY_COOKIE_NAME, Constant::SORT_SORTBY_COOKIE_DEFAULT);
     }
 
     public static function gfycat($url)

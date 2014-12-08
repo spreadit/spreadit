@@ -6,16 +6,6 @@ class Comment extends BaseModel
 
     protected $guarded = array('id');
 
-
-    public $NO_PARENT = 0;
-    public $CACHE_PATH_DATA_FROM_ID_MINS = Sort::YEAR_SECONDS;
-    public $CACHE_PATH_DATA_FROM_ID_NAME = 'comment_path_from_id_';
-    public $CACHE_NEWLIST_MINS = 1;
-    public $CACHE_NEWLIST_NAME = 'comment_newlist_id_';
-
-    public $MAX_MARKDOWN_LENGTH = 4000;
-    public $MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
-
     public function getPathDataFromId($comment_id)
     {
         return Cache::remember($this->CACHE_PATH_DATA_FROM_ID_NAME.$comment_id, $this->CACHE_PATH_DATA_FROM_ID_MINS, function() use($comment_id)

@@ -159,7 +159,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->select('votes.updown', 'votes.created_at', 'posts.id', 'posts.title', 'posts.upvotes', 'posts.downvotes', 'posts.user_id', 'users_r.username', 'users_r.points', 'users_r.votes', 'users_r.anonymous', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
             ->orderBy('votes.id', 'desc')
-            ->simplePaginate(User::PAGE_RESULTS);
+            ->simplePaginate($this->PAGE_RESULTS);
     }
 
     public function commentsVotes($username)

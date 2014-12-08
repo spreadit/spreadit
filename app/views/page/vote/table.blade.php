@@ -23,7 +23,7 @@
             <td>{{ $vote->created_at }}</td>
             <td>{{ Utility::prettyAgo($vote->created_at) }}</td>
             <td><a class="username" href="/u/{{ $vote->username }}">{{ $vote->username }}</a><span class="upoints">{{ $vote->points }}</span><span class="uvotes">{{ $vote->votes }}</span></td>
-            <td><span class="{{ $vote->updown == Vote::UP ? 'voteiconup' : 'voteicondown' }}"></span></td>
+            <td><span class="{{ $vote->updown == Constant::VOTE_UP ? 'voteiconup' : 'voteicondown' }}"></span></td>
         </tr>
     @endforeach
     </tbody>
