@@ -61,6 +61,11 @@ iframe {
     width:100%!important;
 }
 
+.preview-box {
+    word-break:normal;
+    word-wrap:normal;
+}
+
 *::-webkit-input-placeholder {
     color: #222;
 }

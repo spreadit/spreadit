@@ -71,6 +71,7 @@ $(document).ready(function() {
             that.data('vote-timer', setTimeout(function() {
                 var url = '/vote/' + that.data('type') + '/' + that.data('id') + '/' + that.data('updown') + '/.json';
 
+                console.log(url);
                 $.post(url, function(json)
                 {
                     console.log(json);
