@@ -5,15 +5,15 @@ class Vote extends BaseModel
     protected $table = 'votes';
     protected $guarded = array('id');
 
-    const COMMENT_TYPE = 0;
-    const POST_TYPE = 1;
-    const SECTION_TYPE = 2;
-    const UP = 1;
-    const DOWN = -1;
-    const VOTES_PAGE_RESULTS = 25;
-    const COMMENT_PAGE_RESULTS = 25;
+    public $COMMENT_TYPE = 0;
+    public $POST_TYPE = 1;
+    public $SECTION_TYPE = 2;
+    public $UP = 1;
+    public $DOWN = -1;
+    public $VOTES_PAGE_RESULTS = 25;
+    public $COMMENT_PAGE_RESULTS = 25;
 
-    protected static $errors = [
+    protected $errors = [
         'same_stored' => 'vote is same as stored value',
         'reverse' => 'vote cannot be reversed',
         'lackingpoints' => 'vote cannot be completed as you do not have enough points',
@@ -23,7 +23,7 @@ class Vote extends BaseModel
 
     public function applySelection($items, $type)
     {
-        $votes = self::getMatchingVotes($type, $items);
+        $votes = $this->getMatchingVotes($type, $items);
 
         F::each($items, function($v) use($votes) {
             $v->selected = isset($votes[$v->id]) ? $votes[$v->id] : 0;
@@ -73,10 +73,10 @@ class Vote extends BaseModel
     protected function alreadyExists($check)
     {
         $check = $check[0];
-        if($check->updown == self::UP) {
-            return ['success'=>false, 'errors'=>array(self::$errors['same_stored'])];
+        if($check->updown == $this->UP) {
+            return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
-            return ['success'=>false, 'errors'=>array(self::$errors['reverse'])];
+            return ['success'=>false, 'errors'=>array($this->$errors['reverse'])];
         }
     }
 
@@ -85,14 +85,14 @@ class Vote extends BaseModel
         //deal with item table
         $item = "";
         switch($type) {
-            case self::POST_TYPE:
+            case $this->POST_TYPE:
                 $item = Post::findOrFail($type_id);
                 break;
-            case self::COMMENT_TYPE:
+            case $this->COMMENT_TYPE:
                 $item = Comment::findOrFail($type_id);
                 Cache::forget(Comment::CACHE_NEWLIST_NAME.$item->post_id);
                 break;
-            case self::SECTION_TYPE:
+            case $this->SECTION_TYPE:
                 $item = Section::findOrFail($type_id);
                 break;
             default:
@@ -106,26 +106,26 @@ class Vote extends BaseModel
         $user->decrement('points');
 
         //double decrement for self upvote
-        if($type == self::POST_TYPE || $type == self::COMMENT_TYPE) {
-            if($item->user_id == Auth::user()->id && $updown == self::UP) {
+        if($type == $this->POST_TYPE || $type == $this->COMMENT_TYPE) {
+            if($item->user_id == Auth::user()->id && $updown == $this->UP) {
                 $user->decrement('points');
             }
         }
 
         //upvote/downvote the item itself
-        if($updown == self::UP) {
+        if($updown == $this->UP) {
             $item->increment('upvotes');
-        } else if($updown == self::DOWN) {
+        } else if($updown == $this->DOWN) {
             $item->increment('downvotes');
         }
 
         //upvote/downvote user who posted (ignore for sections)
-        if($type == self::POST_TYPE || $type == self::COMMENT_TYPE) {
+        if($type == $this->POST_TYPE || $type == $this->COMMENT_TYPE) {
             $rec_user = User::findOrFail($item->user_id);
 
-            if($updown == self::UP) {
+            if($updown == $this->UP) {
                 $rec_user->increment('points');
-            } else if($updown == self::DOWN) {
+            } else if($updown == $this->DOWN) {
                 $rec_user->decrement('points');
             }
         }
@@ -147,9 +147,9 @@ class Vote extends BaseModel
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
-            ->where('votes.type', '=', self::POST_TYPE)
+            ->where('votes.type', '=', $this->POST_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate(self::VOTES_PAGE_RESULTS);
+            ->simplePaginate($this->VOTES_PAGE_RESULTS);
     }
 
 
@@ -158,9 +158,9 @@ class Vote extends BaseModel
         return DB::table('votes')
             ->select('votes.updown', 'votes.created_at', 'votes.user_id', 'users.username', 'users.points', 'users.votes')
             ->join('users', 'users.id', '=', 'votes.user_id')
-            ->where('votes.type', '=', self::COMMENT_TYPE)
+            ->where('votes.type', '=', $this->COMMENT_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate(self::COMMENT_PAGE_RESULTS);
+            ->simplePaginate($this->COMMENT_PAGE_RESULTS);
     }
 
     public function action($type, $type_id, $updown)
@@ -168,24 +168,24 @@ class Vote extends BaseModel
         $check = $this->checkVote($type, $type_id);
 
         if(count($check) > 0) {
-            return self::alreadyExists($check);
+            return $this->alreadyExists($check);
         }
 
         $user = User::findOrFail(Auth::user()->id);
         
         if($user->points < 1) {
-            return ['success' => false, 'errors' => array(self::$errors['lackingpoints'])];
+            return ['success' => false, 'errors' => array($this->$errors['lackingpoints'])];
         }
 
         if($user->anonymous == 1) {
-            return ['success' => false, 'errors' => array(self::$errors['anonymous'])];
+            return ['success' => false, 'errors' => array($this->$errors['anonymous'])];
         }
 
         try {
             $this->applyVote($user, $type, $type_id, $updown);
         } catch (Exception $e) {
             Log::error($e);
-            return ['success' => false, 'errors' => array(self::$errors['systemerror'])];
+            return ['success' => false, 'errors' => array($this->$errors['systemerror'])];
         }
 
         return ['success' => true, 'errors' => []];

@@ -2,14 +2,14 @@
 
 class Post extends BaseModel
 {
-    const LINK_POST_TYPE = 0;
-    const SELF_POST_TYPE = 1;
+    public $LINK_POST_TYPE = 0;
+    public $SELF_POST_TYPE = 1;
 
-    const MAX_TITLE_LENGTH = 128;
-    const MAX_URL_LENGTH = 256;
+    public $MAX_TITLE_LENGTH = 128;
+    public $MAX_URL_LENGTH = 256;
 
-    const MAX_MARKDOWN_LENGTH = 6000;
-    const MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
+    public $MAX_MARKDOWN_LENGTH = 6000;
+    public $MAX_POSTS_TIMEOUT_SECONDS = 86400; //one day
 
     protected $table = 'posts';
     protected $guarded = array('id');

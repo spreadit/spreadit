@@ -5,7 +5,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 class User extends BaseModel implements UserInterface, RemindableInterface
 {
     //how many pages to show with pagination
-    const PAGE_RESULTS = 25;
+    public $PAGE_RESULTS = 25;
 
     protected $table = 'users';
 

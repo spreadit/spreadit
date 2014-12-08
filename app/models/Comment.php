@@ -7,14 +7,14 @@ class Comment extends BaseModel
     protected $guarded = array('id');
 
 
-    const NO_PARENT = 0;
-    const CACHE_PATH_DATA_FROM_ID_MINS = Sort::YEAR_SECONDS;
-    const CACHE_PATH_DATA_FROM_ID_NAME = 'comment_path_from_id_';
-    const CACHE_NEWLIST_MINS = 1;
-    const CACHE_NEWLIST_NAME = 'comment_newlist_id_';
+    public $NO_PARENT = 0;
+    public $CACHE_PATH_DATA_FROM_ID_MINS = Sort::YEAR_SECONDS;
+    public $CACHE_PATH_DATA_FROM_ID_NAME = 'comment_path_from_id_';
+    public $CACHE_NEWLIST_MINS = 1;
+    public $CACHE_NEWLIST_NAME = 'comment_newlist_id_';
 
-    const MAX_MARKDOWN_LENGTH = 4000;
-    const MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
+    public $MAX_MARKDOWN_LENGTH = 4000;
+    public $MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
 
     public function getPathDataFromId($comment_id)
     {

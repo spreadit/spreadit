@@ -2,13 +2,13 @@
 
 class Section extends BaseModel
 {
-    const PAGE_POST_COUNT = 25;
-    const SECTION_HRENDER_CACHE_MINS = 15;
-    const ALL_SECTIONS_TITLE = "all";
-    const TOPBAR_SECTIONS = 15;
-    const MAX_TITLE_LENGTH = 24;
-    const MIN_TITLE_LENGTH = 1;
-    const PAGINATION_AMOUNT = 30;
+    public $PAGE_POST_COUNT = 25;
+    public $SECTION_HRENDER_CACHE_MINS = 15;
+    public $ALL_SECTIONS_TITLE = "all";
+    public $TOPBAR_SECTIONS = 15;
+    public $MAX_TITLE_LENGTH = 24;
+    public $MIN_TITLE_LENGTH = 1;
+    public $PAGINATION_AMOUNT = 30;
 
 
     protected $table = 'sections';

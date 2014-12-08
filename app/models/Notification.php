@@ -10,12 +10,12 @@ class Notification extends BaseModel
 
     protected $guarded = array('id');
 
-    const COMMENT_TYPE = 0;
-    const POST_TYPE = 1;
-    const ANNOUNCEMENT_TYPE = 2;
-    const UNREAD = 0;
-    const READ = 1;
-    const PAGE_NOTIFICATION_COUNT = 25;
+    public $COMMENT_TYPE = 0;
+    public $POST_TYPE = 1;
+    public $ANNOUNCEMENT_TYPE = 2;
+    public $UNREAD = 0;
+    public $READ = 1;
+    public $PAGE_NOTIFICATION_COUNT = 25;
 
 
     public function get()

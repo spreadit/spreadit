@@ -5,10 +5,10 @@ class Tag extends BaseModel
     protected $table = 'post_tags';
     protected $guarded = array('id');
 
-    const UP = 1;
-    const DOWN = -1;
-    const NSFW = 0;
-    const NSFL = 1;
+    public $UP = 1;
+    public $DOWN = -1;
+    public $NSFW = 0;
+    public $NSFL = 1;
 
     protected static $errors = [
         'same_stored' => 'vote is same as stored value',

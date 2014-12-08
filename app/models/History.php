@@ -12,7 +12,7 @@ class History extends BaseModel
         'type_id' => 'required|numeric'
     ];
     
-    const COMMENT_TYPE = 0;
-    const POST_TYPE = 1;
-    const SECTION_TYPE = 2;
+    public $COMMENT_TYPE = 0;
+    public $POST_TYPE = 1;
+    public $SECTION_TYPE = 2;
 }
