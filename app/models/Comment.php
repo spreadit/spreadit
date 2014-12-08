@@ -15,7 +15,11 @@ class Comment extends BaseModel
                 ->join('sections', 'posts.section_id', '=', 'sections.id')
                 ->select('posts.id', 'sections.title AS section_title')
                 ->where('comments.id', '=', $comment_id)
-                ->firstOrFail();
+                ->first();
+
+            if(is_null($comment)) {
+                App::abort(404);
+            }
 
             $obj = new stdClass();
             $obj->section_title = $comment->section_title;
@@ -31,7 +35,11 @@ class Comment extends BaseModel
             ->select('comments.id', 'comments.post_id', 'comments.user_id', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at', 'comments.upvotes', 'comments.downvotes', 'comments.parent_id', 'comments.data', 'comments.markdown', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
             ->where('comments.id', '=', $comment_id)
             ->orderBy('id', 'asc')
-            ->firstOrFail();
+            ->first();
+
+        if(is_null($comment)) {
+            App::abort(404);
+        }
 
         if( $comment->deleted_at != 0) {
             $comment->username = "deleted";
@@ -131,7 +139,7 @@ class Comment extends BaseModel
             $post = Post::findOrFail($data['post_id']);
         
             $notification = new Notification();
-            if($data['parent_id'] != $this->NO_PARENT) { 
+            if($data['parent_id'] != Constant::COMMENT_NO_PARENT) { 
                 $parent = $this->findOrFail($data['parent_id']);
                 $notification->type = Constant::NOTIFICATION_COMMENT_TYPE;
                 $notification->user_id = $parent->user_id;

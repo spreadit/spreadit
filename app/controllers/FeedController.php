@@ -2,15 +2,15 @@
 
 class FeedController extends BaseController
 {
-    protected $feed;
     protected $section;
     protected $post;
+    protected $vote;
 
-    public function __construct(Feed $feed, Section $section, Post $post)
+    public function __construct(Section $section, Post $post, Vote $vote)
     {
-        $this->feed = $feed;
         $this->section = $section;
         $this->post = $post;
+        $this->vote = $vote;
     }
 
     /**
@@ -22,13 +22,13 @@ class FeedController extends BaseController
      */
     protected function generate($section_title)
     {
-        $sections = $this->section->getByTitle($this->section->splitByTitle($section_title)); 
+        $sections = $this->section->getByTitle(Utility::splitByTitle($section_title)); 
         if(empty($sections)) {
             App::abort(404);
         }
         $section = $this->section->sectionFromSections($sections);
-        $posts = $this->post->getHotList(F::map($sections, function($m) { return $m->id; }));
-        $feed = $this->feed->make();
+        $posts = $this->post->getHotList(F::map($sections, function($m) { return $m->id; }), $this->vote);
+        $feed = Feed::make();
         $feed->title = $section_title;
         $feed->description = "read hot posts from $section_title"; 
         $feed->link = URL::to("/s/$section_title");

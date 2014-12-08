@@ -35,7 +35,8 @@ class Anon extends BaseModel
             if($block->success) {
                 $username = $this->generate_name();
 
-                User::create_anon($username);
+                $user = new User;
+                $user->create_anon($username);
                 if(!Auth::attempt(['username' => $username, 'password' => ''])) {
                     $block->success = false;
 
