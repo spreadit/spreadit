@@ -56,9 +56,10 @@ App::error(function(Exception $exception, $code)
 		        return Response::json(['error' => 'rate limit hit'], 429);
 		    }
 
+		    $section = new Section;
 		    return View::make("page.system.429", [
 		        'message' => 'Calm down.',
-		        'sections' => Section::get()
+		        'sections' => $section->get()
 		    ]);
 			break;
 
@@ -91,9 +92,11 @@ App::missing(function(Exception $exception)
 		return Response::json(['error' => 'not found'], 404);
 	}
 
+	$section = new Section;
+
 	return View::make('page.system.404', [
 		'message' => $exception->getMessage(),
-		'sections' => Section::get()
+		'sections' => $section->get()
 	]);
 });
 

@@ -88,13 +88,28 @@ class PostController extends BaseController
 
     public function postJson($section_title)
     {
+        try {
+            Route::callRouteFilter('auth.token', array(), Route::current(), Request::instance());
+        } catch(Tappleby\AuthToken\Exceptions\NotAuthorizedException $e) {
+            $anon = $this->anon->make(Input::get('captcha'));
+            
+            if(!$anon->success) {
+                return Response::json([
+                    'success' => false,
+                    'errors'  => [$anon->errorMessage()],
+                    'item_id' => NULL
+                ]);
+            }
+        }
+
         $post = $this->post->make(
             Input::get('section', ''),
             Input::get('data',    ''),
             Input::get('title',   ''),
             Input::get('url',     ''),
             Input::get('nsfw-tag', 0),
-            Input::get('nsfl-tag', 0)
+            Input::get('nsfl-tag', 0),
+            $this->section
         );
 
         return Response::json([

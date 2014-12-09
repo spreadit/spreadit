@@ -50,4 +50,13 @@ class UtilityController extends BaseController
         Utility::getThumbnailForPost(Input::get("id"), Input::get("url"));
         return "";
     }
+
+    
+    public function newCaptcha()
+    {
+        $response = Response::make(HTML::image(Captcha::img(), 'Captcha image'));
+        $response->header('Content-Type', 'text/html');
+
+        return $response;
+    }
 }

@@ -82,7 +82,7 @@ if(Request::is('preferences*')) {
 
             Route::get('/add', 'SectionController@add');
             Route::post('/add', ['before' => 'throttle:3,1', 'uses' => 'PostController@post']);
-            Route::post('/add/.json', ['before' => 'auth.token|throttle:3,1', 'uses' => 'PostController@postJson']);
+            Route::post('/add/.json', ['before' => 'throttle:3,1', 'uses' => 'PostController@postJson']);
         });
     });
 } else if(Request::is('util*')) {
@@ -93,6 +93,7 @@ if(Request::is('preferences*')) {
         Route::post('/preview',       ['before' => 'throttle:30,1',  'uses' => 'UtilityController@preview']);
         Route::post('/preview/.json', ['before' => 'throttle:30,1',  'uses' => 'UtilityController@previewNoEnclosingPage']);
         Route::get('/thumbnail',      ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);
+        Route::get('/captcha',        ['before' => 'throttle:20,1',  'uses' => 'UtilityController@newCaptcha']);
         Route::get('/redirect_to_add_post', 'UtilityController@redirect_to_add_post');
     });
 } else if(Request::is('u*')) {
@@ -115,7 +116,6 @@ if(Request::is('preferences*')) {
         Route::get('/cur/{post_id}/{parent_id}',  'CommentController@curReply');
         Route::get('/form/{post_id}/{parent_id}', 'CommentController@formReply');
         Route::get('/post/{post_id}/{parent_id}', 'CommentController@postReply');
-        Route::get('/captcha',                    'CommentController@newCaptcha');
         
         Route::group(['prefix' => '/{comment_id}'], function($comment_id)
         {

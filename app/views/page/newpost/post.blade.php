@@ -101,4 +101,5 @@
             </p>
         </div>
     </div>
+    @include ('shared.modal.info')
 @stop

@@ -164,7 +164,7 @@ $(document).ready(function() {
                                 if(data.errors[i].message === "validation.captcha") {
                                     piece.find('.captcha img').first().remove();
 
-                                    $.get('/comments/captcha', function(data) {
+                                    $.get('/util/captcha', function(data) {
                                         piece.find('.captcha').first().prepend(data);
                                     });
 
@@ -240,6 +240,45 @@ $(document).ready(function() {
             editbox.show();
         }
     }
+
+    $("#post-form").submit(function(e) {
+        e.preventDefault();
+        var verrors = [];
+        var that = $(this);
+
+        if(that.find("#title").val() === "") {
+            verrors.push("you need a title");
+        }
+
+        if(that.find("#title").val().length > 128) {
+            verrors.push("your title is too long");
+        }
+
+        if(verrors.length > 0) {
+            show_modal('Oops.. an error occurred', verrors[0]);
+        } else {
+            $.post(that.attr('action') + '/.json', that.serializeArray(), function(data) {
+                console.log(data);
+                if(!data.success) {
+                    for(var i=0; i<data.errors.length; i++) {
+                        if(data.errors[i].message === "validation.captcha") {
+                            that.find('.captcha img').first().remove();
+
+                            $.get('/util/captcha', function(data) {
+                                that.find('.captcha').first().prepend(data);
+                            });
+
+                            show_modal('Oops.. an error occurred', 'Captcha was incorrect');
+                        } else {
+                            show_modal('Oops.. an error occurred', data.errors[i]);
+                        }
+                    }
+                } else {
+                    window.location.href = "/s/" + that.find("#section").val() + "/posts/" + data.item_id;
+                }
+            })
+        }
+    });
 
     $(".comment-action.reply").click(reply_clicker);
     $(".comment-action.edit, .post-action.edit").click(edit_clicker);

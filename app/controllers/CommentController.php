@@ -141,12 +141,4 @@ class CommentController extends BaseController
         $comment = $this->comment->get($comment_id, $this->vote);
         return View::make('comment.piece', ['comment' => $comment]);
     }
-
-    public function newCaptcha()
-    {
-        $response = Response::make(HTML::image(Captcha::img(), 'Captcha image'));
-        $response->header('Content-Type', 'text/html');
-
-        return $response;
-    }
 }
