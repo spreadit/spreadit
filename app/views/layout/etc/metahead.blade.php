@@ -12,6 +12,7 @@
 <meta name="twitter:creator" content="@spreadit" />
 <meta property="og:site_name" content="spreadit.io" />
 <meta property="og:image" content="http://spreadit.dev/assets/images/spreadit-butter.jpg">
+<meta property="og:type" content="website" />
 <link rel="icon" type="image/png" href="/favicon.ico?v=1
 ">
 <link rel="stylesheet" href="{{ Bust::url('/assets/prod/build.min.css') }}">
