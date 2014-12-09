@@ -24,11 +24,11 @@ Route::get('/about',   'PageController@about');
 Route::get('/contact', 'PageController@contact');
 Route::get('/threats', 'PageController@threats');
 Route::get('/login',   'PageController@login');
-Route::post('/login',  ['before' => 'throttle:1,1', 'uses' => 'UserController@login']);
+Route::post('/login',  ['before' => 'throttle:5,1', 'uses' => 'UserController@login']);
 
 Route::any('/logout', ['before' => 'auth', 'uses' => 'UserController@logout']);
 
-Route::post('/register', ['before' => 'throttle:1,10', 'uses' => 'UserController@register']);
+Route::post('/register', ['before' => 'throttle:5,10', 'uses' => 'UserController@register']);
 
 Route::get('/notifications', ['before' => 'auth', 'uses' => 'UserController@notifications']);
 Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserController@notificationsJson']);
