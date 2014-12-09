@@ -183,3 +183,7 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar li a {
 .sidebar {
     background-color:#ddd;
 }
+
+.help-nav {
+    background-color:#d0d0d0;
+}
