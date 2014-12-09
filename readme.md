@@ -28,8 +28,8 @@ Instructions:
 * `grunt` #generate js/css
 * `chmod -R 777 app/storage` #make cache & log dir writable
 * `mysql -uroot -e "create database spreadit;"`
+* `php artisan migrate --seed` #import database
 * `cd scripts`
-* `mysql -uroot spreadit < spreadit.sql` #import db schema
 * add appropriate `scripts/vhosts/` to your webserver
  
 Configuration:
