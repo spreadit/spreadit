@@ -13,6 +13,22 @@ class Vote extends BaseModel
         'systemerror' => 'general system error occurred'
     ];
 
+    public function getSelected($type, $item)
+    {
+        $my_votes = $this->getMatchingVotes($type, [$item]);
+        return isset($my_votes[$item->id]) ? $my_votes[$item->id] : 0;
+    }
+
+    public function getSelectedList($type, array $items)
+    {
+        $my_votes = $this->getMatchingVotes($type, $items);
+        F::map($items, function($m) {
+            $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;
+        });
+
+        return $items;
+    }
+
     public function applySelection($items, $type)
     {
         $votes = $this->getMatchingVotes($type, $items);

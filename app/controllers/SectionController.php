@@ -101,12 +101,10 @@ class SectionController extends BaseController
         if(empty($sections)) {
             App::abort(404);
         }
-        $section = $this->section->sectionFromSections($sections);
-        $my_votes = $this->vote->getMatchingVotes(Constant::SECTION_TYPE, $sections);
+        $sections = $this->vote->getSelectedList(Constant::SECTION_TYPE, $sections);
 
-        F::map($sections, function($m) {
-            $m->selected = isset($my_votes[$m->id]) ? $my_votes[$m->id] : 0;
-        });
+        $section = $this->section->sectionFromSections($sections);
+        $section->selected = $this->vote->getSelected(Constant::SECTION_TYPE, $section);        
 
         if(is_null($sort_mode)) {
             $sort_mode = Utility::getSortMode();
