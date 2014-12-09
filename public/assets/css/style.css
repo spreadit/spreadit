@@ -184,16 +184,12 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar a.brand {
 a.vote,
 .post-piece a.vote,
 .comment-piece a.vote {
-	color:#0087AF;
+    color:#FFF;
 	font-size:1.5em;
 }
 
-.voteiconup::after {
-    content: "\25B2";
-}
-
-.voteicondown::after {
-    content: "\25BC";
+a.vote:hover {
+    background: transparent;
 }
 
 .logged-in .vote:hover {
@@ -204,11 +200,22 @@ a.vote,
 	cursor:not-allowed;
 }
 
-.vote.selected,
-.post-piece a.vote.selected,
-.comment-piece a.vote.selected {
-	color:#EF7C61;
+.voteiconup::after {
+    content: "\25B2";
 }
+
+.voteicondown::after {
+    content: "\25BC";
+}
+
+.vote.selected .voteiconup {
+    color:#2283DD;
+}
+
+.vote.selected .voteicondown {
+    color:#EF7C61;
+}
+
 .vote.selected:hover {
 	cursor:not-allowed;
 }
