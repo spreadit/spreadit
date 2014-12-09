@@ -81,6 +81,55 @@ a:hover {
     color:#EB1C24;
 }
 
+input, input[type], textarea {
+    width:100%;
+}
+
+input[type=text] {
+    border:1px solid #BBB;
+    outline:0;
+    border-radius: 0.2em;
+    font-size:1.0em;
+    height:1.0em;
+    padding:0.3em;
+    color:#888;
+}
+
+button {
+    border:2px solid #BBB;
+    outline:0;
+    border-radius:0.2em;
+    background-color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    color:#AAA;
+}
+
+.shard-action {
+    border:1px solid #bbb;
+    border-radius: 0.2em;
+    color: #888;
+    padding:0.2em;
+}
+
+.shard-action-button {
+    width: 1em;
+    height: 1em;
+    border:1px solid #888;
+    border-radius: 100%;
+    color:#888;
+    padding: 0;
+    font-size: 1em;
+    float:right;
+}
+
+.shard-action-button::after {
+}
+
+button:hover {
+    border:2px solid #AAA;
+    color:#555;
+}
+
 .navbar-inner {
     padding:0;
 }
@@ -203,7 +252,6 @@ body .navbar.navbar-inverse .navbar-inner.dark-navbar {
     max-width: initial;
     min-width: initial;
     background-color: transparent;
-    background-color: #000;
 }
 
 .post-piece {
