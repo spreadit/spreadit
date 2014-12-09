@@ -15,6 +15,7 @@ Route::group(['domain' => '{username}.spreadit.{tld}'], function($username)
 
 
 Route::get('/', 'SectionController@getHtml');
+Route::get('/.json', 'SectionController@getJson');
 Route::get('/spreadits', 'SectionController@getSpreadits');
 Route::get('/spreadits/.json', 'SectionController@getSpreaditsJson');
 Route::get('/.rss', 'FeedController@rss');
