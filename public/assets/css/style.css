@@ -599,3 +599,11 @@ em {
 .media-box {
     clear:both;
 }
+
+#collapse-add-post-shard {
+    display:none;
+}
+
+.shard-action {
+    font-size:12px;
+}

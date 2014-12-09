@@ -9,7 +9,7 @@
             Create New
             <span class="shard-action-button"></span>
         </label>
-        <input class="collapse" id="collapse-add-post-shard" type="checkbox">
+        <input class="tiles-collapse" id="collapse-add-post-shard" type="checkbox">
         <a href="/s/{{ $section->title }}/add"><button>add post</button></a>
 
         <div class="shard-fold">
