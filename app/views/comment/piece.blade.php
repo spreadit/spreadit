@@ -1,4 +1,5 @@
 <div class="comment-piece" tabindex="1" data-comment-id="{{ $comment->id }}">
+    <a name="comment_{{ $comment->id }}"></a>
     <div class="comment-points">
         <div class="breaker comment-user-points">
             <a class="username {{ $anonymousClasses }}" rel="nofollow" href="{{ URL("/u/{$comment->username}") }}">{{ $comment->username }}</a><span class="upoints">{{ $comment->points }}</span><span class="uvotes">{{ $comment->votes }}</span>
