@@ -280,4 +280,9 @@ class Utility
     {
         return max(0, self::remainingPosts() * 2);
     }
+
+    public static function enableRoute($match)
+    {
+        return Request::is($match) || App::runningUnitTests();
+    }
 }

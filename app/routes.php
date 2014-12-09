@@ -35,20 +35,21 @@ Route::get('/notifications/.json', ['before' => 'auth.token', 'uses' => 'UserCon
 
 Route::get('/search', 'SearchController@search');
 
-if(Request::is('preferences*')) {
+if(Utility::enableRoute('preferences*')) {
     Route::group(['prefix' => '/preferences'], function()
     {
         Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@preferences']);
         Route::post('/', ['before' => 'auth|throttle:10,1', 'uses' => 'PreferencesController@savePreferences']);
         Route::get('/.json', ['before' => 'auth.token', 'uses' => 'PreferencesController@preferencesJson']);
 
-        if(Request::is('preferences/prefix*')) {
+        if(Utility::enableRoute('preferences/prefix*')) {
             Route::group(['prefix' => '/homepage'], function()
             {
                 Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@homepage']);
                 Route::post('/', ['before' => 'auth|throttle:10,1', 'uses' => 'PreferencesController@saveHomepage']);
             });
-        } else if(Request::is('preferences/theme*')) {
+        }
+        if(Utility::enableRoute('preferences/theme*')) {
             Route::group(['prefix' => '/theme'], function()
             {
                 Route::get('/',      'PreferencesController@theme_index');
@@ -58,7 +59,8 @@ if(Request::is('preferences*')) {
             });
         }
     });
-} else if(Request::is('s*')) {
+}
+if(Utility::enableRoute('s*')) {
     Route::group(['prefix' => '/s'], function()
     {
         Route::get('/all', 'SectionController@getHtml');
@@ -88,7 +90,8 @@ if(Request::is('preferences*')) {
             Route::post('/add/.json', ['before' => 'throttle:3,1', 'uses' => 'PostController@postJson']);
         });
     });
-} else if(Request::is('util*')) {
+}
+if(Utility::enableRoute('util*')) {
     Route::group(['prefix' => '/util'], function()
     {
         Route::get('/imagewrapper',   ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
@@ -99,7 +102,8 @@ if(Request::is('preferences*')) {
         Route::get('/captcha',        ['before' => 'throttle:20,1',  'uses' => 'UtilityController@newCaptcha']);
         Route::get('/redirect_to_add_post', 'UtilityController@redirect_to_add_post');
     });
-} else if(Request::is('u*')) {
+}
+if(Utility::enableRoute('u*')) {
     Route::group(['prefix' => '/u/{username}'], function($username)
     {
         Route::get('/', 'UserController@mainVote');
@@ -112,7 +116,8 @@ if(Request::is('preferences*')) {
         Route::get('/votes/posts', 'UserController@postsVotes');
         Route::get('/votes/posts/.json', 'UserController@postsVotesJson');
     });
-} else if(Request::is('comments*')) {
+}
+if(Utility::enableRoute('comments*')) {
     Route::group(['prefix' => '/comments'], function()
     {
         Route::get('/pre/{post_id}/{parent_id}',  'CommentController@preReply');
@@ -131,7 +136,8 @@ if(Request::is('preferences*')) {
             Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
         });
     });
-} else if(Request::is('posts*')) {
+}
+if(Utility::enableRoute('posts*')) {
     Route::group(['prefix' => '/posts/{post_id}'], function($post_id)
     {
         Route::get('/', 'PostController@getRedir');
@@ -142,7 +148,7 @@ if(Request::is('preferences*')) {
             Route::post('/delete',       'PostController@delete');
         });
 
-        if(Request::is('posts/tag*')) {
+        if(Utility::enableRoute('posts/tag*')) {
             Route::group(['prefix' => '/tag', 'before' => 'auth|throttle:2,1'], function() {
                 Route::post('/nsfw',       'TagController@nsfw');
                 Route::post('/nsfw/.json', 'TagController@nsfwJson');
@@ -155,25 +161,28 @@ if(Request::is('preferences*')) {
             });
         }
     });
-} else if(Request::is('vote*')) {
+}
+if(Utility::enableRoute('vote*')) {
     Route::group(['prefix' => 'vote'], function()
     {
         Route::group(['before' => 'auth|throttle:10,1'], function()
         {
-            if(Request::is('vote/section*')) {
+            if(Utility::enableRoute('vote/section*')) {
                 //Route::get('/section/{id}',           'VoteController@sectionView']); //TODO
                 Route::get('/section/{id}/up',          'VoteController@sectionUp');
                 Route::get('/section/{id}/down',        'VoteController@sectionDown');
                 Route::post('/section/{id}/up/.json',   'VoteController@sectionUpJson');
                 Route::post('/section/{id}/down/.json', 'VoteController@sectionDownJson');
-            } else if(Request::is('vote/post*')) {
+            }
+            if(Utility::enableRoute('vote/post*')) {
                 Route::get('/post/{id}',                'VoteController@postView');
                 Route::get('/post/{id}/.json',          'VoteController@postJson');
                 Route::get('/post/{id}/up',             'VoteController@postUp');
                 Route::get('/post/{id}/down',           'VoteController@postDown');
                 Route::post('/post/{id}/up/.json',      'VoteController@postUpJson');
                 Route::post('/post/{id}/down/.json',    'VoteController@postDownJson');
-            } else if(Request::is('vote/comment*')) {
+            }
+            if(Utility::enableRoute('vote/comment*')) {
                 Route::get('/comment/{id}',             'VoteController@commentView');
                 Route::get('/comment/{id}/.json',       'VoteController@commentJson');
                 Route::get('/comment/{id}/up',          'VoteController@commentUp');
@@ -184,40 +193,46 @@ if(Request::is('preferences*')) {
         });
 
     });
-} else if(Request::is('api*')) {
+}
+if(Utility::enableRoute('api*')) {
     Route::group(['prefix' => '/api'], function()
     {
         Route::get('/', 'SwaggerController@index');
         Route::get('/terms', 'SwaggerController@terms');
         Route::get('/license', 'SwaggerController@license');
 
-        if(Request::is('api/routes*')) {
+        if(Utility::enableRoute('api/routes*')) {
             Route::get('/routes', 'SwaggerController@routes');
             Route::get('/routes/{type}', 'SwaggerController@getRoute');
-        } else if(Request::is('api/auth*')) {
+        }
+        if(Utility::enableRoute('api/auth*')) {
             Route::group(['prefix' => '/auth', 'before' => 'throttle:5,1'], function()
             {
                 Route::get('/.json',   'Tappleby\AuthToken\AuthTokenController@index');
                 Route::post('/.json',  'Tappleby\AuthToken\AuthTokenController@store');
                 Route::delete('.json', 'Tappleby\AuthToken\AuthTokenController@destroy');
             });
-        } else if(Request::is('api/vote*')) {
+        }
+        if(Utility::enableRoute('api/vote*')) {
             Route::group(['prefix' => 'vote', 'before' => 'auth.token|throttle:10,1'], function()
             {
-                if(Request::is('api/vote/section/*')) {
+                if(Utility::enableRoute('api/vote/section/*')) {
                     Route::post('/section/{id}/up/.json',   'VoteController@sectionUpJson');
                     Route::post('/section/{id}/down/.json', 'VoteController@sectionDownJson');
-                } else if(Request::is('api/vote/section/*')) {
+                }
+                if(Utility::enableRoute('api/vote/section/*')) {
                     Route::post('/post/{id}/up/.json',      'VoteController@postUpJson');
                     Route::post('/post/{id}/down/.json',    'VoteController@postDownJson');
-                } else if(Request::is('api/vote/comment/*')) {
+                }
+                if(Utility::enableRoute('api/vote/comment/*')) {
                     Route::post('/comment/{id}/up/.json',   'VoteController@commentUpJson');
                     Route::post('/comment/{id}/down/.json', 'VoteController@commentDownJson');
                 }
             });
         }
     });
-} else if(Request::is('help*')) {
+}
+if(Utility::enableRoute('help*')) {
     Route::group(['prefix' => '/help'], function()
     {
         Route::get('/',           'HelpController@index');
@@ -229,7 +244,8 @@ if(Request::is('preferences*')) {
         Route::get('/anonymity',  'HelpController@anonymity');
         Route::get('/help',       'HelpController@help');
     });
-} else if(Request::is('assets*')) {
+}
+if(Utility::enableRoute('assets*')) {
     Route::group(['prefix' => '/assets'], function()
     {
         Route::get('/prod/{filename}',       'AssetsController@prod');
