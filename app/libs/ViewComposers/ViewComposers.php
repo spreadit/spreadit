@@ -210,6 +210,3 @@ class ViewComposers {
         });
     }
 }
-
-$viewcomposers = new ViewComposers();
-$viewcomposers->init();

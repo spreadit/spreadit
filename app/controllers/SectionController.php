@@ -70,7 +70,7 @@ class SectionController extends BaseController
 
     public function new_Json($section_title)
     {
-        return $this->getJson($section_title, 'new', false);
+        return $this->getJson($section_title, 'new', null);
     }
 
     public function top($section_title, $timeframe)

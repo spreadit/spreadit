@@ -1,5 +1,12 @@
 <?php
 
+Event::listen('auth.token.valid', function($user)
+{
+    Auth::setUser($user);
+});
+
+App::make('cachebuster.StripSessionCookiesFilter')->addPattern('|css/|');
+
 /*
   |--------------------------------------------------------------------------
   | Application & Route Filters
@@ -12,12 +19,10 @@
  */
 
 App::before(function($request) {
-    //
 });
 
 
 App::after(function($request, $response) {
-    //
 });
 
 /*

@@ -18,7 +18,8 @@
         "themonkeys/cachebuster": "dev-master",
 		"barryvdh/laravel-debugbar": "~1.8",
 		"graham-campbell/throttle": "~2.0",
-        "fzaninotto/Faker": "dev-master"
+        "fzaninotto/Faker": "dev-master",
+        "phpunit/phpunit": "4.0.*"
 	},
 	"autoload": {
 		"classmap": [

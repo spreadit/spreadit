@@ -1,5 +1,8 @@
 <?php
 
+$viewcomposers = new ViewComposers();
+$viewcomposers->init();
+
 Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');
 Route::pattern('section_titles', '[a-zA-Z0-9_-\n]+');
