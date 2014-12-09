@@ -68,7 +68,7 @@ class ViewComposers {
               || Auth::user()->anonymous
               || (Auth::check() && Auth::user()->votes < 6)) {
 
-                $classes = "hint--right hint--bounce hint--warning";
+                $classes = "";
 
                 if(!Auth::check() || Auth::user()->anonymous) {
                     $text = 'data-hint="need to register to vote" ';
