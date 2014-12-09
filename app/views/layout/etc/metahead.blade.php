@@ -11,7 +11,7 @@
 <meta name="twitter:domain" content="spreadit.io" />
 <meta name="twitter:creator" content="@spreadit" />
 <meta property="og:site_name" content="spreadit.io" />
-<meta property="og:image" content="http://spreadit.dev/assets/images/spreadit-butter.jpg">
+<meta property="og:image" content="https://spreadit.io/assets/images/spreadit-butter.jpg">
 <meta property="og:type" content="website" />
 <link rel="icon" type="image/png" href="/favicon.ico?v=1
 ">
