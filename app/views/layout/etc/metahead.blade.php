@@ -6,6 +6,11 @@
 <![endif]-->
 <meta name=viewport content="width=device-width, initial-scale=1">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="copyright" content="Go ahead, copyme." />
+<meta name="twitter:site" content="@spreadit" />
+<meta name="twitter:domain" content="spreadit.io" />
+<meta name="twitter:creator" content="@spreadit" />
+<meta property="og:site_name" content="spreadit.io" />
 <link rel="icon" type="image/png" href="/favicon.ico?v=1
 ">
 <link rel="stylesheet" href="{{ Bust::url('/assets/prod/build.min.css') }}">
