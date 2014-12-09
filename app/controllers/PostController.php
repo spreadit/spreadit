@@ -25,19 +25,16 @@ class PostController extends BaseController
         $post = $this->post->get($post_id);
         $post->section_title = $section_title;
         $post->selected = $this->vote->getSelected(Constant::POST_TYPE, $post);
-
         
         $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
-        $sort_highlight = Utility::getSortMode();
-        $sort_timeframe_highlight = Utility::getSortTimeframe();
 
         return View::make('page.post', [
-            'section' => $section,
-            'sections' => $this->section->get(),
-            'comments' => $commentTree->grab()->sort('new')->render(),
-            'post' => $post,
-            'sort_highlight' => $sort_highlight,
-            'sort_timeframe_highlight' => $sort_timeframe_highlight,
+            'section'                  => $section,
+            'sections'                 => $this->section->get(),
+            'comments'                 => $commentTree->grab()->sort('new')->render(),
+            'post'                     => $post,
+            'sort_highlight'           => Utility::getSortMode(),
+            'sort_timeframe_highlight' => Utility::getSortTimeframe(),
         ]);
     }
 

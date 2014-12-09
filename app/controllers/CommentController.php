@@ -9,8 +9,8 @@ class CommentController extends BaseController
     public function __construct(Comment $comment, Anon $anon, Vote $vote)
     {
         $this->comment = $comment;
-        $this->anon = $anon;
-        $this->vote = $vote;
+        $this->anon    = $anon;
+        $this->vote    = $vote;
     }
 
     public function getRedir($comment_id)
@@ -26,7 +26,7 @@ class CommentController extends BaseController
         }
 
         $comment = new stdClass;
-        $comment->post_id = $post_id;
+        $comment->post_id   = $post_id;
         $comment->parent_id = $parent_id;
 
         return View::make('comment.before', ['comment' => $comment]);
@@ -35,8 +35,8 @@ class CommentController extends BaseController
     public function curReply($post_id, $parent_id)
     {
         $comment = new stdClass;
-        $comment->post_id = $post_id;
-        $comment->parent_id = $parent_id;
+        $comment->post_id     = $post_id;
+        $comment->parent_id   = $parent_id;
         $comment->form_action = URL::to('/comments/' . $comment->parent_id . '/create');
 
         return View::make('comment.replybox', ['comment' => $comment]);
@@ -46,8 +46,8 @@ class CommentController extends BaseController
     public function formReply($post_id, $parent_id)
     {
         $comment = new stdClass;
-        $comment->post_id = $post_id;
-        $comment->parent_id = $parent_id;
+        $comment->post_id     = $post_id;
+        $comment->parent_id   = $parent_id;
         $comment->form_action = URL::to('/comments/' . $comment->parent_id . '/create');
 
         return View::make('comment.replyboxform', ['comment' => $comment]);
