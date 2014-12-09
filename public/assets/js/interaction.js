@@ -43,7 +43,7 @@ function show_modal(header, content) {
 
 $(document).ready(function() {
     $(".spreadit-selector select").selectize({create: true});
-    var logged_in = $('#interact-user-details').hasClass('logged_in');
+    var logged_in = $('#interact-user-details').hasClass('logged-in');
     var anonymous = $('#interact-user-details').hasClass('anonymous');
 
     $(".vote").click(function(e) {
@@ -58,7 +58,6 @@ $(document).ready(function() {
 
         var refuse_timeout = false;
         that.parent().find(".vote").each(function() {
-            console.log(typeof $(this).data('vote-timer'));
             if(typeof $(this).data('vote-timer') !== "undefined") {
                 clearTimeout($(this).data('vote-timer'));
                 
@@ -66,7 +65,6 @@ $(document).ready(function() {
                     refuse_timeout = true;
                 }
 
-                console.log($(this).data('vote-timer'));
                 $(this).removeData('vote-timer');
                 $(this).removeAttr('data-vote-timer');
                 $(this).stop(true, true);
