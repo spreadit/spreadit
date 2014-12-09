@@ -1,95 +1,275 @@
 <?php
 
-class SectionTest extends TestCase {
+class SectionTest extends TestCase
+{
 
-	public function testHomepage()
-	{
-		$crawler = $this->client->request('GET', '/');
-        $this->assertTrue($this->client->getResponse()->isOk());
-	}
-
-    public function testSectionAll()
+    public function testHomepageHtml()
     {
-        $crawler = $this->client->request('GET', '/s/all');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNews()
+    public function testSectionAllHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/all');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsNew()
+    public function testSectionNewsHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/new');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsHot()
+    public function testSectionNewsNewHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/hot');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/new');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsTopDay()
+    public function testSectionNewsHotHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/top/day');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/hot');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsTopWeek()
+    public function testSectionNewsTopDayHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/top/week');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/top/day');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsTopMonth()
+    public function testSectionNewsTopWeekHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/top/month');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/top/week');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsTopYear()
+    public function testSectionNewsTopMonthHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/top/year');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/top/month');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsTopForever()
+    public function testSectionNewsTopYearHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/top/forever');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/top/year');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsControversialDay()
+    public function testSectionNewsTopForeverHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/controversial/day');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/top/forever');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsControversialWeek()
+    public function testSectionNewsControversialDayHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/controversial/week');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/controversial/day');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsControversialMonth()
+    public function testSectionNewsControversialWeekHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/controversial/month');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/controversial/week');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsControversialYear()
+    public function testSectionNewsControversialMonthHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/controversial/year');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/controversial/month');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testSectionNewsControversialForever()
+    public function testSectionNewsControversialYearHtml()
     {
-        $crawler = $this->client->request('GET', '/s/news/controversial/forever');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->client->request('GET', '/s/news/controversial/year');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
     }
 
+    public function testSectionNewsControversialForeverHtml()
+    {
+        $this->client->request('GET', '/s/news/controversial/forever');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testHomepageJson()
+    {
+        $this->client->request('GET', '/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionAllJson()
+    {
+        $this->client->request('GET', '/s/all/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsJson()
+    {
+        $this->client->request('GET', '/s/news/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsNewJson()
+    {
+        $this->client->request('GET', '/s/news/new/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsHotJson()
+    {
+        $this->client->request('GET', '/s/news/hot/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsTopDayJson()
+    {
+        $this->client->request('GET', '/s/news/top/day/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsTopWeekJson()
+    {
+        $this->client->request('GET', '/s/news/top/week/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsTopMonthJson()
+    {
+        $this->client->request('GET', '/s/news/top/month/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsTopYearJson()
+    {
+        $this->client->request('GET', '/s/news/top/year/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsTopForeverJson()
+    {
+        $this->client->request('GET', '/s/news/top/forever/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsControversialDayJson()
+    {
+        $this->client->request('GET', '/s/news/controversial/day/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsControversialWeekJson()
+    {
+        $this->client->request('GET', '/s/news/controversial/week/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsControversialMonthJson()
+    {
+        $this->client->request('GET', '/s/news/controversial/month/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsControversialYearJson()
+    {
+        $this->client->request('GET', '/s/news/controversial/year/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
+
+    public function testSectionNewsControversialForeverJson()
+    {
+        $this->client->request('GET', '/s/news/controversial/forever/.json');
+        $response = $this->client->getResponse();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('application/json', $response->headers->get('Content-Type'));
+        $this->assertNotEmpty($response->getContent());
+    }
 }
