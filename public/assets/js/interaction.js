@@ -43,9 +43,15 @@ function show_modal(header, content) {
 
 $(document).ready(function() {
     $(".spreadit-selector select").selectize({create: true});
-    
+    var logged_in = $('#interact-user-details').hasClass('logged_in');
+    var anonymous = $('#interact-user-details').hasClass('anonymous');
+
     $(".vote").click(function(e) {
         e.preventDefault();
+        if(!logged_in) {
+            return;
+        }
+
         var that = $(this);
 
         that.animate({ opacity: 0.0 }, 1500, function() { $(this).css('opacity', 1.0); });
