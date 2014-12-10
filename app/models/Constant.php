@@ -23,7 +23,7 @@ class Constant
             LOG10(
                 GREATEST(ABS((posts.upvotes * 2) - (posts.downvotes * 2)), 1)
             ) * SIGN(
-                posts.upvotes - posts.downvotes) + (posts.created_at - 1404725923) / 1000000,
+                posts.upvotes - posts.downvotes) + (posts.created_at - 1404725923) / 50000,
             7
         )
     ) as sorterino';
