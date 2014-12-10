@@ -19,8 +19,6 @@ class BstallServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('whackashoe/bstall');
-
-		require __DIR__ . '/../../routes.php';
 	}
 
 	/**

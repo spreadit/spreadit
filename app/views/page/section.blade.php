@@ -16,6 +16,6 @@
         {{ $posts->links() }}
     </div>
     <div class="sidebar">
-    @include ('shared.sidebar')
+    @include ('shared.sidebar', ['section_id' => $section->id])
     </div>
 @stop

@@ -253,3 +253,9 @@ if(Utility::enableRoute('assets*')) {
         Route::get('/css/prefs/{filename}',  'AssetsController@prefs');
     });
 }
+if(Utility::enableRoute('bstall*')) {
+    Route::group(['prefix' => '/bstall'], function()
+    {
+        Route::post('/draw/{id}',     'Whackashoe\Bstall\Controllers\BstallController@draw');
+    });
+}
