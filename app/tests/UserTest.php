@@ -11,63 +11,42 @@ class UserTest extends TestCase
     public function testVoteIndexHtml()
     {
         $this->client->request('GET', '/u/user');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testCommentsHtml()
     {
         $this->client->request('GET', '/u/user/comments');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testVoteCommentsHtml()
     {
         $this->client->request('GET', '/u/user/votes/comments');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testVoteCommentsJson()
     {
         $this->client->request('GET', '/u/user/votes/comments/.json');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('application/json', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'application/json');
     }
 
     public function testPostsHtml()
     {
         $this->client->request('GET', '/u/user/posts');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testVotePostsHtml()
     {
         $this->client->request('GET', '/u/user/votes/posts');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testVotePostsJson()
     {
         $this->client->request('GET', '/u/user/votes/posts/.json');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('application/json', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'application/json');
     }
 }

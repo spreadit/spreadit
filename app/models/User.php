@@ -128,7 +128,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->select('comments.id', 'comments.created_at', 'comments.data', 'comments.upvotes', 'comments.downvotes', 'users.username', 'users.points', 'users.id AS users_user_id', 'users.votes', 'users.anonymous')
             ->leftJoin('users', 'users.id', '=', 'comments.user_id')
             ->where('users.username', 'LIKE', $username)
-            ->orderBy('id', 'desc')
+            ->orderBy('comments.id', 'desc')
             ->simplePaginate(Constant::USER_PAGE_RESULTS);
 
         return $vote->applySelection($comments, $vote->COMMENT_TYPE);
@@ -141,7 +141,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
             ->join('sections', 'posts.section_id', '=', 'sections.id')
             ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
             ->where('users.username', 'LIKE', $username)
-            ->orderBy('id', 'desc')
+            ->orderBy('posts.id', 'desc')
             ->simplePaginate(Constant::USER_PAGE_RESULTS);
 
         return $vote->applySelection($posts, Constant::POST_TYPE);

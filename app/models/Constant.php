@@ -16,13 +16,32 @@ class Constant
     const SORT_SORTBY_COOKIE_NAME = 'posts_sort_mode';
     const SORT_SORTBY_COOKIE_DEFAULT = 'hot';
 
-    const SORT_ORDERBY_SQL_NEW = 'posts.id';
-    const SORT_ORDERBY_SQL_TOP = '(posts.upvotes - posts.downvotes)';
-    const SORT_ORDERBY_SQL_HOT = '(ROUND(LOG10(GREATEST(ABS((posts.upvotes * 2) - (posts.downvotes * 2)), 1)) * SIGN(posts.upvotes - posts.downvotes) + (posts.created_at - 1404725923) / 1000000, 7))';  
-    const SORT_ORDERBY_SQL_CONTROVERSIAL = 'CASE 
-            WHEN (posts.downvotes > posts.upvotes) THEN ROUND((posts.upvotes / GREATEST(posts.downvotes, 1)) * (posts.upvotes + posts.downvotes), 7)
-            ELSE                                        ROUND((posts.downvotes / GREATEST(posts.upvotes, 1)) * (posts.upvotes + posts.downvotes), 7)
-        END';
+    const SORT_ORDERBY_SQL_NEW = '(posts.id) as sorterino';
+    const SORT_ORDERBY_SQL_TOP = '(posts.upvotes - posts.downvotes) as sorterino';
+    const SORT_ORDERBY_SQL_HOT = '(
+        ROUND(
+            LOG10(
+                GREATEST(ABS((posts.upvotes * 2) - (posts.downvotes * 2)), 1)
+            ) * SIGN(
+                posts.upvotes - posts.downvotes) + (posts.created_at - 1404725923) / 1000000,
+            7
+        )
+    ) as sorterino';
+
+
+    const SORT_ORDERBY_SQL_CONTROVERSIAL = '(
+        CASE 
+            WHEN (posts.downvotes > posts.upvotes) THEN 
+                ROUND(
+                    (posts.upvotes / GREATEST(posts.downvotes, 1)) * (posts.upvotes + posts.downvotes), 
+                    7
+                )
+            ELSE
+                ROUND(
+                    (posts.downvotes / GREATEST(posts.upvotes, 1)) * (posts.upvotes + posts.downvotes),
+                    7
+                )
+        END) as sorterino';
 
     const VOTE_UP = 1;
     const VOTE_DOWN = -1;
@@ -35,8 +54,8 @@ class Constant
     const COMMENT_CACHE_NEWLIST_MINS = 1;
     const COMMENT_CACHE_NEWLIST_NAME = 'comment_newlist_id_';
 
-    const COMMENT_MAX_MARKDOWN_LENGTH = 4000;
-    const COMMENT_MAX_COMMENTS_TIMEOUT_SECONDS = 86400;
+    const COMMENT_GREATEST_MARKDOWN_LENGTH = 4000;
+    const COMMENT_GREATEST_COMMENTS_TIMEOUT_SECONDS = 86400;
 
     const NOTIFICATION_COMMENT_TYPE = 0;
     const NOTIFICATION_POST_TYPE = 1;
@@ -49,17 +68,17 @@ class Constant
 
     const POST_LINK_POST_TYPE = 0;
     const POST_SELF_POST_TYPE = 1;
-    const POST_MAX_TITLE_LENGTH = 128;
-    const POST_MAX_URL_LENGTH = 256;
-    const POST_MAX_MARKDOWN_LENGTH = 6000;
-    const POST_MAX_POSTS_TIMEOUT_SECONDS = 86400;
+    const POST_GREATEST_TITLE_LENGTH = 128;
+    const POST_GREATEST_URL_LENGTH = 256;
+    const POST_GREATEST_MARKDOWN_LENGTH = 6000;
+    const POST_GREATEST_POSTS_TIMEOUT_SECONDS = 86400;
 
 
     const SECTION_PAGE_POST_COUNT = 25;
     const SECTION_SECTION_HRENDER_CACHE_MINS = 15;
     const SECTION_ALL_SECTIONS_TITLE = "all";
     const SECTION_TOPBAR_SECTIONS = 15;
-    const SECTION_MAX_TITLE_LENGTH = 24;
+    const SECTION_GREATEST_TITLE_LENGTH = 24;
     const SECTION_MIN_TITLE_LENGTH = 1;
     const SECTION_PAGINATION_AMOUNT = 30;
 

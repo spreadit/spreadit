@@ -20,7 +20,14 @@ class Post extends BaseModel
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->join('sections', 'sections.id', '=', 'posts.section_id')
-            ->select('posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at', 'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count', 'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 'users.username', 'users.points', 'users.votes', 'users.anonymous', 'sections.title AS section_title')
+            ->select(
+                'posts.id', 'posts.type', 'posts.title', 'posts.created_at', 'posts.updated_at',
+                'posts.upvotes', 'posts.downvotes', 'posts.type', 'posts.url', 'posts.comment_count',
+                'posts.user_id', 'posts.markdown', 'posts.thumbnail', 'posts.nsfw', 'posts.nsfl', 
+                'users.username', 'users.points', 'users.votes', 'users.anonymous', 
+                'sections.title AS section_title',
+                DB::raw($orderby)
+            )
             ->where('posts.deleted_at', '=', 0);
 
         if(count($section_ids) == 1) {
@@ -58,7 +65,7 @@ class Post extends BaseModel
             $posts = $posts->where('posts.created_at', '>', time() - $seconds);
         }
 
-        $posts = $posts->orderBy(DB::raw($orderby), 'desc')
+        $posts = $posts->orderBy('sorterino', 'desc')
             ->simplePaginate(Constant::SECTION_PAGE_POST_COUNT);
 
         return $vote->applySelection($posts, Constant::POST_TYPE);

@@ -6,136 +6,91 @@ class SectionTest extends TestCase
     public function testHomepageHtml()
     {
         $this->client->request('GET', '/');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionAllHtml()
     {
         $this->client->request('GET', '/s/all');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsHtml()
     {
         $this->client->request('GET', '/s/news');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsNewHtml()
     {
         $this->client->request('GET', '/s/news/new');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsHotHtml()
     {
         $this->client->request('GET', '/s/news/hot');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsTopDayHtml()
     {
         $this->client->request('GET', '/s/news/top/day');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsTopWeekHtml()
     {
         $this->client->request('GET', '/s/news/top/week');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsTopMonthHtml()
     {
         $this->client->request('GET', '/s/news/top/month');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsTopYearHtml()
     {
         $this->client->request('GET', '/s/news/top/year');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsTopForeverHtml()
     {
         $this->client->request('GET', '/s/news/top/forever');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsControversialDayHtml()
     {
         $this->client->request('GET', '/s/news/controversial/day');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsControversialWeekHtml()
     {
         $this->client->request('GET', '/s/news/controversial/week');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsControversialMonthHtml()
     {
         $this->client->request('GET', '/s/news/controversial/month');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsControversialYearHtml()
     {
         $this->client->request('GET', '/s/news/controversial/year');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testSectionNewsControversialForeverHtml()
     {
         $this->client->request('GET', '/s/news/controversial/forever');
-        $response = $this->client->getResponse();
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('text/html; charset=UTF-8', $response->headers->get('Content-Type'));
-        $this->assertNotEmpty($response->getContent());
+        $this->checkResponse($this->client->getResponse(), 200, 'text/html; charset=UTF-8');
     }
 
     public function testHomepageJson()
