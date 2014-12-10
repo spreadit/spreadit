@@ -132,7 +132,7 @@ return array(
         'Barryvdh\Debugbar\ServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Whackashoe\Routecache\RoutecacheServiceProvider',
-        'Whackashoe\Routecache\BstallServiceProvider',
+        'Whackashoe\Bstall\BstallServiceProvider',
 	),
 
 	/*
@@ -168,6 +168,7 @@ return array(
         'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
 		'Blade'           => 'Illuminate\Support\Facades\Blade',
         'Bust' => 'Themonkeys\Cachebuster\Cachebuster',
+        'Bstall' => 'Whackashoe\Bstall\Facades\Bstall',
 		'Cache'           => 'Illuminate\Support\Facades\Cache',
 		'Captcha'         => 'Mews\Captcha\Facades\Captcha',
 		'ClassLoader'     => 'Illuminate\Support\ClassLoader',

@@ -19,6 +19,8 @@ class BstallServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('whackashoe/bstall');
+
+		require __DIR__ . '/../../routes.php';
 	}
 
 	/**
@@ -28,7 +30,10 @@ class BstallServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['bstall'] = $this->app->share(function($app)
+        {   
+            return new Bstall;
+        }); 
 	}
 
 	/**
@@ -38,7 +43,7 @@ class BstallServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('bstall');
 	}
 
 }
