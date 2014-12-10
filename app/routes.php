@@ -219,7 +219,7 @@ if(Utility::enableRoute('api*')) {
                     Route::post('/section/{id}/up/.json',   'VoteController@sectionUpJson');
                     Route::post('/section/{id}/down/.json', 'VoteController@sectionDownJson');
                 }
-                if(Utility::enableRoute('api/vote/section/*')) {
+                if(Utility::enableRoute('api/vote/post/*')) {
                     Route::post('/post/{id}/up/.json',      'VoteController@postUpJson');
                     Route::post('/post/{id}/down/.json',    'VoteController@postDownJson');
                 }
