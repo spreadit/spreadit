@@ -132,6 +132,7 @@ return array(
         'Barryvdh\Debugbar\ServiceProvider',
         'GrahamCampbell\Throttle\ThrottleServiceProvider',
         'Whackashoe\Routecache\RoutecacheServiceProvider',
+        'Whackashoe\Routecache\BstallServiceProvider',
 	),
 
 	/*
