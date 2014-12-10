@@ -16,7 +16,7 @@ class PostsTableSeeder extends Seeder {
             $type = rand(0, 1) == 0;
             Post::create([
                 'section_id' => rand(2, 10),
-                'user_id'       => rand(1, 100),
+                'user_id'       => rand(1, 10),
                 'created_at'    => $time,
                 'updated_at'    => $time,
                 'url'           => $type ? '' : $faker->url,

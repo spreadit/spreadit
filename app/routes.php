@@ -1,7 +1,5 @@
 <?php
-
-$viewcomposers = new ViewComposers();
-$viewcomposers->init();
+(new ViewComposers())->init();
 
 Route::pattern('post_id', '[0-9]+');
 Route::pattern('post_title', '[a-zA-Z0-9_-]+');
