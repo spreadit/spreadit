@@ -58,9 +58,7 @@
             var req = new XMLHttpRequest();
             req.open("POST", "/bstall/draw/{{ $name }}", true);
             req.setRequestHeader("Content-type", "application/json");
-            req.onreadystatechange = function() {
-                console.log(req.responseText);
-            };
+            req.onreadystatechange = function() {};
             req.send(JSON.stringify({"pixels": uniq}));
         }
     }
