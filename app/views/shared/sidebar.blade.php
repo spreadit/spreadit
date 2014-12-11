@@ -30,5 +30,3 @@
         </form>
     </div>
 @endif
-
-{{ Bstall::make("section_{$section_id}", 300, 300, 0xFFFFFF) }}
