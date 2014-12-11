@@ -16,12 +16,25 @@ class UserController extends BaseController
         $this->vote = $vote;
     }
 
+
+    /**
+     * log user out
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function logout()
     {
         Auth::logout();
 	    return Redirect::to('/');
     }
 
+
+    /**
+     * attempt to register user and redirect to home on success
+     * or to login page if registration fails
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function register()
     {
         $user = new User();
@@ -34,7 +47,7 @@ class UserController extends BaseController
             $info = Input::only('username', 'password');
         
             if(Auth::attempt($info)) {
-                return Redirect::intended('/s/all/hot');
+                return Redirect::to('/');
             } else {
                 return Redirect::to('/login')->withErrors(['message' => 'A general error occurred, please try again.'])->withInput();
             }
@@ -43,6 +56,14 @@ class UserController extends BaseController
         }
     }
 
+
+    /**
+     * attempt to register user and redirect to home on success
+     * or to login page if registration fails
+     *
+     * @param  array  $data
+     * @return Illuminate\Validation\Validator
+     */
     public function validateLogin(array $data)
     {
         $data['username'] = e($data['username']);
@@ -55,6 +76,13 @@ class UserController extends BaseController
         return Validator::make($data, $rules);
     }
 
+
+     /**
+     * attempt to login user and redirect to home on success
+     * or to login page if login fails
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function login()
     {
         $data = Input::only('username', 'password');
@@ -71,6 +99,13 @@ class UserController extends BaseController
         return Redirect::to('/');
     }
 
+
+    /**
+     * get all notifications for a user
+     * and set all of users notifications to 'read' (vs. unread)
+     *
+     * @return Illuminate\View\View
+     */
     public function notifications()
     {
         $sections = $this->section->get();
@@ -87,6 +122,12 @@ class UserController extends BaseController
 		return $view;
     }
 
+
+    /**
+     * see `notifications`
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
     public function notificationsJson()
     {
 		$results = iterator_to_array($this->notification->get());
@@ -94,6 +135,13 @@ class UserController extends BaseController
 		return Response::json($results);
 	}
 
+
+    /**
+     * display all of a users comments
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function comments($username)
     {
         $sections = $this->section->get();
@@ -108,11 +156,25 @@ class UserController extends BaseController
         ]);
     }
 
+
+    /**
+     * see `commentsJson`
+     *
+     * @param string  $username
+     * @return Illuminate\Http\JsonResponse
+     */
     public function commentsJson($username)
     {
         return Response::json(iterator_to_array($this->user->comments($username, $this->vote)));
     }
 
+
+    /**
+     * display all of a users posts
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function posts($username)
     {
         $sections = $this->section->get();
@@ -127,11 +189,25 @@ class UserController extends BaseController
         ]);
     }
 
+
+    /**
+     * see `posts`
+     *
+     * @param string  $username
+     * @return Illuminate\Http\JsonResponse
+     */
     public function postsJson($username)
     {
         return Response::json(iterator_to_array($this->user->posts($username, $this->vote)));
     }
 
+
+    /**
+     * display all of a users votes on posts
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function postsVotes($username)
     {
         $sections = $this->section->get();
@@ -146,11 +222,25 @@ class UserController extends BaseController
         ]);
     }
 
+
+    /**
+     * see `postsVotes`
+     *
+     * @param string  $username
+     * @return Illuminate\Http\JsonResponse
+     */
     public function postsVotesJson($username)
     {
         return Response::json(iterator_to_array($this->user->postsVotes($username)));
     }
 
+
+    /**
+     * display all of a users votes on comments
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function commentsVotes($username)
     {
         $sections = $this->section->get();
@@ -165,11 +255,25 @@ class UserController extends BaseController
         ]);
     }
 
+
+    /**
+     * see `commentsVotes`
+     *
+     * @param string  $username
+     * @return Illuminate\Http\JsonResponse
+     */
     public function commentsVotesJson($username)
     {
         return Response::json(iterator_to_array($this->user->commentsVotes($username)));
     }
 
+
+    /**
+     * show users page with links to all activity
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function mainVote($username)
     {
         $sections = $this->section->get();
