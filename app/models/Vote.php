@@ -157,7 +157,7 @@ class Vote extends BaseModel
             ->join('users', 'users.id', '=', 'votes.user_id')
             ->where('votes.type', '=', Constant::POST_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate(Constant::VOTES_PAGE_RESULTS);
+            ->simplePaginate(Constant::VOTE_POSTS_PAGE_RESULTS);
     }
 
 
@@ -168,7 +168,7 @@ class Vote extends BaseModel
             ->join('users', 'users.id', '=', 'votes.user_id')
             ->where('votes.type', '=', Constant::COMMENT_TYPE)
             ->where('votes.item_id', '=', $type_id)
-            ->simplePaginate(Constant::COMMENT_PAGE_RESULTS);
+            ->simplePaginate(Constant::VOTE_COMMENT_PAGE_RESULTS);
     }
 
     public function action($type, $type_id, $updown)

@@ -45,7 +45,7 @@ class Constant
 
     const VOTE_UP = 1;
     const VOTE_DOWN = -1;
-    const VOTE_VOTES_PAGE_RESULTS = 25;
+    const VOTE_POSTS_PAGE_RESULTS = 25;
     const VOTE_COMMENT_PAGE_RESULTS = 25;
 
     const COMMENT_NO_PARENT = 0;
