@@ -11,95 +11,199 @@ class VoteController extends BaseController
         $this->section = $section;
     }
 
-    public function postView($type_id)
+
+    /**
+     * render posts vote table page
+     *
+     * @param int  $post_id
+     * @return Illuminate\View\View
+     */
+    public function postView($post_id)
     {
         return View::make('page.vote.table', [
-            'votes' => $this->vote->getPostVotes($type_id),
+            'votes'    => $this->vote->getPostVotes($post_id),
             'sections' => $this->section->get()
         ]);
     }
 
-    public function postJson($type_id)
+
+    /**
+     * render posts vote table page
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function postJson($post_id)
     {
-        return Response::json(iterator_to_array($this->vote->getPostVotes($type_id)));
+        return Response::json(iterator_to_array($this->vote->getPostVotes($post_id)));
     }
-    
-    public function postUp($type_id)
+
+
+    /**
+     * upvote post
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function postUp($post_id)
     {
-        $this->vote->action(Constant::POST_TYPE, $type_id, Constant::VOTE_UP);
+        $this->vote->action(Constant::POST_TYPE, $post_id, Constant::VOTE_UP);
         return Redirect::back(); 
     }
 
-    public function postDown($type_id)
+
+    /**
+     * downvote post
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function postDown($post_id)
     {
-        $this->vote->action(Constant::POST_TYPE, $type_id, Constant::VOTE_DOWN);
+        $this->vote->action(Constant::POST_TYPE, $post_id, Constant::VOTE_DOWN);
         return Redirect::back();
     }
 
-    public function postUpJson($type_id)
+
+    /**
+     * see `postUp`
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function postUpJson($post_id)
     {
-        return Response::json($this->vote->action(Constant::POST_TYPE, $type_id, Constant::VOTE_UP));
+        return Response::json($this->vote->action(Constant::POST_TYPE, $post_id, Constant::VOTE_UP));
     }
 
-    public function postDownJson($type_id)
+
+    /**
+     * see `postDown`
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function postDownJson($post_id)
     {
-        return Response::json($this->vote->action(Constant::POST_TYPE, $type_id, Constant::VOTE_DOWN));
+        return Response::json($this->vote->action(Constant::POST_TYPE, $post_id, Constant::VOTE_DOWN));
     }
 
-    public function commentView($type_id)
+    public function commentView($comment_id)
     {
         return View::make('page.vote.table', [
-            'votes' => $this->vote->getCommentVotes($type_id),
+            'votes' => $this->vote->getCommentVotes($comment_id),
             'sections' => $this->section->get()
         ]);
     }
 
-    public function commentUp($type_id)
+
+    /**
+     * render comments vote table page
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function commentJson($comment_id)
     {
-        $this->vote->action(Constant::COMMENT_TYPE, $type_id, Constant::VOTE_UP);
+        return Response::json(iterator_to_array($this->vote->getCommentVotes($comment_id)));
+    }
+
+    /**
+     * upvote comment
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function commentUp($comment_id)
+    {
+        $this->vote->action(Constant::COMMENT_TYPE, $comment_id, Constant::VOTE_UP);
         return Redirect::back(); 
     }
 
-    public function commentDown($type_id)
+
+    /**
+     * downvote comment
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function commentDown($comment_id)
     {
-        $this->vote->action(Constant::COMMENT_TYPE, $type_id, Constant::VOTE_DOWN);
+        $this->vote->action(Constant::COMMENT_TYPE, $comment_id, Constant::VOTE_DOWN);
         return Redirect::back();
     }
 
-    public function commentJson($type_id)
+
+    /**
+     * see `commentUp`
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function commentUpJson($comment_id)
     {
-        return Response::json(iterator_to_array($this->vote->getCommentVotes($type_id)));
+        return Response::json($this->vote->action(Constant::COMMENT_TYPE, $comment_id, Constant::VOTE_UP));
     }
 
-    public function commentUpJson($type_id)
+
+    /**
+     * see `commentDown`
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function commentDownJson($comment_id)
     {
-        return Response::json($this->vote->action(Constant::COMMENT_TYPE, $type_id, Constant::VOTE_UP));
+        return Response::json($this->vote->action(Constant::COMMENT_TYPE, $comment_id, Constant::VOTE_DOWN));
     }
 
-    public function commentDownJson($type_id)
-    {
-        return Response::json($this->vote->action(Constant::COMMENT_TYPE, $type_id, Constant::VOTE_DOWN));
-    }
 
-    public function sectionUp($type_id)
+    /**
+     * upvote section
+     *
+     * @param int  $section_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function sectionUp($section_id)
     {
-        $this->vote->action(Constant::SECTION_TYPE, $type_id, Constant::VOTE_UP);
+        $this->vote->action(Constant::SECTION_TYPE, $section_id, Constant::VOTE_UP);
         return Redirect::back(); 
     }
 
-    public function sectionDown($type_id)
+
+    /**
+     * downvote section
+     *
+     * @param int  $section_id
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function sectionDown($section_id)
     {
-        $this->vote->action(Constant::SECTION_TYPE, $type_id, Constant::VOTE_DOWN);
+        $this->vote->action(Constant::SECTION_TYPE, $section_id, Constant::VOTE_DOWN);
         return Redirect::back();
     }
 
-    public function sectionUpJson($type_id)
+
+    /**
+     * see `sectionUp`
+     *
+     * @param int  $section_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function sectionUpJson($section_id)
     {
-        return Response::json($this->vote->action(Constant::SECTION_TYPE, $type_id, Constant::VOTE_UP));
+        return Response::json($this->vote->action(Constant::SECTION_TYPE, $section_id, Constant::VOTE_UP));
     }
 
-    public function sectionDownJson($type_id)
+
+    /**
+     * see `sectionDown`
+     *
+     * @param int  $section_id
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function sectionDownJson($section_id)
     {
-        return Response::json($this->vote->action(Constant::SECTION_TYPE, $type_id, Constant::VOTE_DOWN));
+        return Response::json($this->vote->action(Constant::SECTION_TYPE, $section_id, Constant::VOTE_DOWN));
     }
 }

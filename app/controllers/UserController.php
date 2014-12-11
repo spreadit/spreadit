@@ -77,7 +77,7 @@ class UserController extends BaseController
     }
 
 
-     /**
+    /**
      * attempt to login user and redirect to home on success
      * or to login page if login fails
      *

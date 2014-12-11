@@ -1,6 +1,13 @@
 <?php                                                                                                                                       
 class UserPageController extends BaseController
 {
+
+    /**
+     * shows the users personal homepage
+     *
+     * @param string  $username
+     * @return Illuminate\View\View
+     */
     public function index($username)
     {   
         $user = DB::table('users')
@@ -18,6 +25,12 @@ class UserPageController extends BaseController
         ]);
     }   
  
+    /**
+     * renders the users personal homepage's css stylesheet
+     *
+     * @param string  $username
+     * @return mixed
+     */
     public function css($username) {
         $user = DB::table('users')
             ->select('profile_css')

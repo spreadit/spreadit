@@ -16,8 +16,7 @@ class FeedController extends BaseController
     /**
      * generate xss/atom from spreadit
      *
-     * @param string $section_title name of section
-     *
+     * @param string $section_title
      * @return Roumen\Feed
      */
     protected function generate($section_title)
@@ -47,11 +46,25 @@ class FeedController extends BaseController
         return $feed;
     }
 
+
+    /**
+     * renders a sections rss feed
+     *
+     * @param string  $section_title
+     * @return Roumen\Feed
+     */
     public function rss($section_title="all")
     {
         return $this->generate($section_title)->render('rss');
     }
 
+
+    /**
+     * renders a sections atom feed
+     *
+     * @param string  $section_title
+     * @return Roumen\Feed
+     */
     public function atom($section_title="all")
     {
         return $this->generate($section_title)->render('atom');

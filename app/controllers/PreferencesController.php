@@ -10,7 +10,12 @@ class PreferencesController extends BaseController
         $this->section = $section;
     }
 
-    
+
+    /**
+     * renders user preferences page
+     *
+     * @return Illuminate\View\View
+     */
     public function preferences()
     {
         $section_titles = function($input) {
@@ -40,11 +45,23 @@ class PreferencesController extends BaseController
         ]);
     }
 
+
+    /**
+     * see `preferences`
+     * note: moo?
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
     public function preferencesJson()
     {
         return Response::json("moo");
     }
 
+    /**
+     * saves user preferences
+     *
+     * @return Illuminate\View\View
+     */
     public function savePreferences()
     {
         $section_ids = function($input) {
@@ -78,11 +95,6 @@ class PreferencesController extends BaseController
             'frontpage_ignore_sections' => $frontpage_ignore_sections,
         ]);
 
-        return $this->savedPreferences();
-    }
-
-    public function savedPreferences()
-    {
         $sections = $this->section->get();
         $section = $this->section->sectionFromEmptySection();
 
@@ -92,32 +104,68 @@ class PreferencesController extends BaseController
         ]);
     }
 
+
+    /**
+     * renders theme chooser index page
+     *
+     * @return Illuminate\View\View
+     */
     public function theme_index()
     {
         return View::make('page.user.prefs.theme_index', ['sections' => $this->section->get()]);
     }
 
+
+    /**
+     * sets theme cookie and redirects
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     private function theme_cookie_switch($colorscheme)
     {
         return Redirect::to(Utility::backOrUrl("/preferences/theme"))->withCookie(Cookie::forever('theme', $colorscheme));
 
     }
 
+
+    /**
+     * sets theme cookie to dark
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function theme_dark()
     {
         return $this->theme_cookie_switch('dark');
     }
 
+
+    /**
+     * sets theme cookie to light
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function theme_light()
     {
         return $this->theme_cookie_switch('light');
     }
 
+
+    /**
+     * sets theme cookie to tiles
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function theme_tiles()
     {
         return $this->theme_cookie_switch('tiles');
     }
 
+
+    /**
+     * renders user homepage preferences page
+     *
+     * @return Illuminate\View\View
+     */
     public function homepage()
     {
         return View::make('page.user.prefs.homepage', [
@@ -127,6 +175,12 @@ class PreferencesController extends BaseController
         ]);
     }
 
+
+    /**
+     * saves user homepage and shows saved homepage page
+     *
+     * @return Illuminate\View\View
+     */
     public function saveHomepage()
     {   
         $profile_markdown = Input::get('data', '');
@@ -139,11 +193,6 @@ class PreferencesController extends BaseController
             'profile_css'        => $profile_css,
         ]);
 
-        return $this->savedHomepage();
-    }
-
-    public function savedHomepage()
-    {
         $sections = $this->section->get();
         $section = $this->section->sectionFromEmptySection();
 

@@ -8,6 +8,11 @@ class PageController extends BaseController
         $this->section = $section;
     }
 
+    /**
+     * renders about page
+     *
+     * @return Illuminate\View\View
+     */
     public function about()
     {
         $sections = $this->section->get();
@@ -19,6 +24,12 @@ class PageController extends BaseController
         ]);
     }
 
+
+    /**
+     * renders contact page
+     *
+     * @return Illuminate\View\View
+     */
     public function contact()
     {
         $sections = $this->section->get();
@@ -30,6 +41,12 @@ class PageController extends BaseController
         ]);
     }
     
+    
+    /**
+     * renders threats page
+     *
+     * @return Illuminate\View\View
+     */
     public function threats()
     {
         $sections = $this->section->get();
@@ -41,6 +58,12 @@ class PageController extends BaseController
         ]);
     }
     
+
+    /**
+     * renders login page
+     *
+     * @return Illuminate\View\View
+     */
     public function login()
     {
         $sections = $this->section->get();

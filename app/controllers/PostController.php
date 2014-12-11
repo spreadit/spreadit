@@ -10,13 +10,21 @@ class PostController extends BaseController
 
     public function __construct(Post $post, Section $section, Vote $vote, Comment $comment, Anon $anon)
     {
-        $this->post = $post;
-        $this->section = $section;
-        $this->vote = $vote;
-        $this->comment = $comment;
-        $this->anon = $anon;
+        $this->post     = $post;
+        $this->section  = $section;
+        $this->vote     = $vote;
+        $this->comment  = $comment;
+        $this->anon     = $anon;
     }
 
+
+    /**
+     * renders a post page
+     *
+     * @param string  $section_title
+     * @param int     $post_id
+     * @return Illuminate\View\View
+     */
     public function get($section_title, $post_id)
     {
         $section = $this->section->sectionFromSections($this->section->getByTitle(Utility::splitByTitle($section_title)));
@@ -38,6 +46,13 @@ class PostController extends BaseController
         ]);
     }
 
+    /**
+     * see `get`
+     *
+     * @param string  $section_title
+     * @param int     $post_id
+     * @return Illuminate\Http\JsonResponse
+     */
     public function getJson($section_title, $post_id)
     {
 		$post = $this->post->get($post_id);
@@ -51,6 +66,13 @@ class PostController extends BaseController
         ]);
     }
 
+
+    /**
+     * redirects you to the real url from just a post id
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function getRedir($post_id)
     {
         $post = $this->post->findOrFail($post_id);
@@ -59,6 +81,15 @@ class PostController extends BaseController
         return Redirect::to("/s/$section_title/posts/$post_id");
     }
 
+
+    /**
+     * creates a new post
+     * logs you in as anonymous if you are logged out
+     * redirects to new post on success or back on error
+     *
+     * @param string  $section_title
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function post($section_title)
     {
         $anon = $this->anon->make(Input::get('captcha'));
@@ -86,6 +117,15 @@ class PostController extends BaseController
         }
     }
 
+
+    /**
+     * see `post`
+     * logs you in as anonymous if you are logged out
+     * note: if using api and not logged in you will not be able to process captcha
+     *
+     * @param string  $section_title
+     * @return Illuminate\Http\JsonResponse
+     */
     public function postJson($section_title)
     {
         try {
@@ -119,6 +159,14 @@ class PostController extends BaseController
         ]);
     }
 
+
+    /**
+     * updates a post you have created
+     * redirects to prior location on success or error
+     *
+     * @param string  $post_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function update($post_id)
     {
         $post = $this->post->amend($post_id, Input::get('data'));
@@ -130,6 +178,13 @@ class PostController extends BaseController
         }
     }
 
+
+    /**
+     * see `update`
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\JsonResponse
+     */
     public function updateJson($post_id)
     {
         $post = $this->post->amend($post_id, Input::get('data'));
@@ -147,6 +202,14 @@ class PostController extends BaseController
         }
     }
 
+
+    /**
+     * deletes a post you have created
+     * redirects to section on success or to prior location on error
+     *
+     * @param int  $post_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function delete($post_id)
     {
         $post = $this->post->remove($post_id);

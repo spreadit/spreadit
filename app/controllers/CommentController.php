@@ -13,12 +13,28 @@ class CommentController extends BaseController
         $this->vote    = $vote;
     }
 
+    /**
+     * redirects to the post where the comment exists
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function getRedir($comment_id)
     {
 		$data = $this->comment->getPathDataFromId($comment_id);
 		return Redirect::to('/s/'.$data->section_title.'/posts/'.$data->post_id.'#comment_'.$comment_id);
     }
 
+
+    /**
+     * for no-js users, this generates the prior to comment box
+     * this saves time by not generating N captchas per page in case 
+     * of an anonymous user
+     *
+     * @param int  $post_id
+     * @param int  $comment_id
+     * @return Illuminate\View\View
+     */
     public function preReply($post_id, $parent_id)
     {
         if(Auth::check()) {
@@ -32,6 +48,14 @@ class CommentController extends BaseController
         return View::make('comment.before', ['comment' => $comment]);
     }
 
+
+    /**
+     * for no-js users, this generates the comment form / reply box
+     *
+     * @param int  $post_id
+     * @param int  $comment_id
+     * @return Illuminate\View\View
+     */
     public function curReply($post_id, $parent_id)
     {
         $comment = new stdClass;
@@ -42,7 +66,27 @@ class CommentController extends BaseController
         return View::make('comment.replybox', ['comment' => $comment]);
     }
 
-    //for javascript
+
+    /**
+     * for no-js users, this shows a thank you page for commenting
+     *
+     * @param int  $post_id
+     * @param int  $comment_id
+     * @return Illuminate\View\View
+     */
+    public function postReply($post_id, $parent_id)
+    {
+        return View::make('comment.saved');
+    }
+
+
+    /**
+     * for javascript users, this generates the comment form / reply box
+     *
+     * @param int  $post_id
+     * @param int  $comment_id
+     * @return Illuminate\View\View
+     */
     public function formReply($post_id, $parent_id)
     {
         $comment = new stdClass;
@@ -53,11 +97,13 @@ class CommentController extends BaseController
         return View::make('comment.replyboxform', ['comment' => $comment]);
     }
 
-    public function postReply($post_id, $parent_id)
-    {
-        return View::make('comment.saved');
-    }
 
+    /**
+     * updates a comment with new data
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function update($comment_id)
     {
         $comment = $this->comment->amend($comment_id, Input::get('data'));
@@ -69,6 +115,13 @@ class CommentController extends BaseController
         }
     }
 
+
+    /**
+     * see `update`
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function updateJson($comment_id)
     {
         $comment = $this->comment->amend($comment_id, Input::get('data'));
@@ -86,6 +139,14 @@ class CommentController extends BaseController
         }
     }
 
+
+    /**
+     * creates a new comment
+     * logs in user as anon if he passes captcha correctly
+     * and redirects to comment success page on success or back on error
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function make()
     {
         $anon = $this->anon->make(Input::get('captcha'));
@@ -103,6 +164,12 @@ class CommentController extends BaseController
         }
     }
 
+
+    /**
+     * see `make`
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
     public function makeJson()
     {
         $anon = $this->anon->make(Input::get('captcha'));
@@ -125,6 +192,13 @@ class CommentController extends BaseController
     }
 
 
+    /**
+     * deletes a comment that you have previously created
+     * redirects to comments's post page on success or error
+     *
+     * @param int  $comment_id
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function delete($comment_id)
     {
         $comment = $this->comment->remove($comment_id);
@@ -136,6 +210,13 @@ class CommentController extends BaseController
         }
     }
 
+
+    /**
+     * renders a single comments html
+     *
+     * @param int  $comment_id
+     * @return Illuminate\View\View
+     */
     public function render($comment_id)
     {
         $comment = $this->comment->get($comment_id, $this->vote);

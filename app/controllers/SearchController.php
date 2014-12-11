@@ -1,6 +1,11 @@
 <?php
 class SearchController extends BaseController
 {
+    /**
+     * redirects you to google cse for spreadit
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function search()
     {
         $query = Input::get("query");
