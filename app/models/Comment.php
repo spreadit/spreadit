@@ -217,7 +217,7 @@ class Comment extends BaseModel
             Cache::forget(Constant::COMMENT_CACHE_NEWLIST_NAME.$comment->post_id);
 
             $comment->markdown = $data['markdown'];
-            $comment->data = $data['data'];
+            $comment->data     = $data['data'];
             $comment->save();
         }
 

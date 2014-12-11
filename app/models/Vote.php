@@ -6,11 +6,11 @@ class Vote extends BaseModel
     protected $guarded = array('id');
 
     protected $errors = [
-        'same_stored' => 'vote is same as stored value',
-        'reverse' => 'vote cannot be reversed',
+        'same_stored'   => 'vote is same as stored value',
+        'reverse'       => 'vote cannot be reversed',
         'lackingpoints' => 'vote cannot be completed as you do not have enough points',
-        'anonymous' => 'votes cannot come from an anon user, please register',
-        'systemerror' => 'general system error occurred'
+        'anonymous'     => 'votes cannot come from an anon user, please register',
+        'systemerror'   => 'general system error occurred'
     ];
 
     public function getSelected($type, $item)

@@ -24,10 +24,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     public static $passwordAttributes = ['password'];
     
     public static $rules = [
-        'username' => 'required|andu|unique:users|max:24',
-        'password' => 'required|confirmed|max:128',
+        'username'              => 'required|andu|unique:users|max:24',
+        'password'              => 'required|confirmed|max:128',
         'password_confirmation' => 'required|max:128',
-        'captcha' => 'required|captcha'
+        'captcha'               => 'required|captcha'
     ];
 
     public function __construct($attributes = array())
@@ -43,12 +43,12 @@ class User extends BaseModel implements UserInterface, RemindableInterface
     public function create_anon($username)
     {
         DB::table('users')->insert([
-            'username' => $username,
-            'password' => Hash::make(''),
-            'anonymous' => 1,
-            'points' => 1,
-            'upvotes' => 0,
-            'downvotes' => 0,
+            'username'   => $username,
+            'password'   => Hash::make(''),
+            'anonymous'  => 1,
+            'points'     => 1,
+            'upvotes'    => 0,
+            'downvotes'  => 0,
             'created_at' => time(),
             'updated_at' => time()
         ]);
@@ -84,7 +84,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
      */
     public function getAuthIdentifier()
     {
-            return $this->getKey();
+        return $this->getKey();
     }
 
     /**
@@ -94,22 +94,22 @@ class User extends BaseModel implements UserInterface, RemindableInterface
      */
     public function getAuthPassword()
     {
-            return $this->password;
+        return $this->password;
     }
 
     public function getRememberToken()
     {
-            return $this->remember_token;
+        return $this->remember_token;
     }
 
     public function setRememberToken($value)
     {
-            $this->remember_token = $value;
+        $this->remember_token = $value;
     }
 
     public function getRememberTokenName()
     {
-            return 'remember_token';
+        return 'remember_token';
     }
 
     /**
@@ -119,7 +119,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface
      */
     public function getReminderEmail()
     {
-            return $this->email;
+        return $this->email;
     }
 
     public function comments($username, $vote)

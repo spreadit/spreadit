@@ -7,11 +7,11 @@ class Tag extends BaseModel
 
 
     protected $errors = [
-        'same_stored' => 'vote is same as stored value',
-        'reverse' => 'vote cannot be reversed',
+        'same_stored'   => 'vote is same as stored value',
+        'reverse'       => 'vote cannot be reversed',
         'lackingpoints' => 'tag cannot be completed as you do not have enough points',
-        'anonymous' => 'tags cannot come from an anon user, please register',
-        'systemerror' => 'general system error occurred',
+        'anonymous'     => 'tags cannot come from an anon user, please register',
+        'systemerror'   => 'general system error occurred',
     ];
 
     protected function checkTag($post_id)
