@@ -48,7 +48,7 @@ $(document).ready(function() {
 
     $(".vote").click(function(e) {
         e.preventDefault();
-        if(!logged_in) {
+        if(!logged_in || anonymous) {
             return;
         }
 
