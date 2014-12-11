@@ -1,4 +1,5 @@
 <?php
+
 class CommentTree
 {
     /* CommentBranch */
@@ -31,7 +32,7 @@ class CommentTree
                     $tmp->children[$i->id] = $i;
                     $lookup_table[$i->id] = $lookup_table[$i->parent_id] . '_' . $i->id;
                 } else {
-                    throw new LogicException("this shouldn't be happening");
+                    throw new LogicException("comment system bugged, called from: " . Request::url());
                 }
             }
         }
