@@ -74,7 +74,7 @@ class CommentController extends BaseController
      * @param int  $comment_id
      * @return Illuminate\View\View
      */
-    public function postReply($post_id, $parent_id)
+    public function afterReply($post_id, $parent_id)
     {
         return View::make('comment.saved');
     }
@@ -155,7 +155,7 @@ class CommentController extends BaseController
             $comment = $this->comment->make(Input::get('post_id'), Input::get('data'), Input::get('parent_id'));
             
             if($comment->success) {
-                return Redirect::to(sprintf('/comments/post/%d/%d', Input::get('post_id'), Input::get('parent_id')));
+                return Redirect::to(sprintf('/comments/after/%d/%d', Input::get('post_id'), Input::get('parent_id')));
             } else {
                 return Redirect::back()->withErrors($comment->errorMessage())->withInput();
             }

@@ -119,10 +119,10 @@ if(Utility::enableRoute('u*')) {
 if(Utility::enableRoute('comments*')) {
     Route::group(['prefix' => '/comments'], function()
     {
-        Route::get('/pre/{post_id}/{parent_id}',  'CommentController@preReply');
-        Route::get('/cur/{post_id}/{parent_id}',  'CommentController@curReply');
-        Route::get('/form/{post_id}/{parent_id}', 'CommentController@formReply');
-        Route::get('/post/{post_id}/{parent_id}', 'CommentController@postReply');
+        Route::get('/pre/{post_id}/{parent_id}',   'CommentController@preReply');
+        Route::get('/cur/{post_id}/{parent_id}',   'CommentController@curReply');
+        Route::get('/after/{post_id}/{parent_id}', 'CommentController@afterReply');
+        Route::get('/form/{post_id}/{parent_id}',  'CommentController@formReply');
         
         Route::group(['prefix' => '/{comment_id}'], function($comment_id)
         {
