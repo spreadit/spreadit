@@ -90,7 +90,7 @@ class PostController extends BaseController
      * @param string  $section_title
      * @return Illuminate\Http\RedirectResponse
      */
-    public function post($section_title)
+    public function create($section_title)
     {
         $anon = $this->anon->make(Input::get('captcha'));
 
@@ -126,7 +126,7 @@ class PostController extends BaseController
      * @param string  $section_title
      * @return Illuminate\Http\JsonResponse
      */
-    public function postJson($section_title)
+    public function createJson($section_title)
     {
         try {
             Route::callRouteFilter('auth.token', array(), Route::current(), Request::instance());

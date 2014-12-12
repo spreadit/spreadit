@@ -85,8 +85,8 @@ if(Utility::enableRoute('s*')) {
             Route::post('/posts/{post_id}/{post_title?}', ['before' => 'throttle:3,1', 'uses' => 'CommentController@post']);
 
             Route::get('/add', 'SectionController@add');
-            Route::post('/add', ['before' => 'throttle:3,1', 'uses' => 'PostController@post']);
-            Route::post('/add/.json', ['before' => 'throttle:3,1', 'uses' => 'PostController@postJson']);
+            Route::post('/add',       ['before' => 'throttle:3,1', 'uses' => 'PostController@create']);
+            Route::post('/add/.json', ['before' => 'throttle:3,1', 'uses' => 'PostController@createJson']);
         });
     });
 }
@@ -128,11 +128,11 @@ if(Utility::enableRoute('comments*')) {
         {
             Route::get('/',        'CommentController@getRedir');
             Route::get('/render',  'CommentController@render');
-            Route::post('/create', ['before' => 'throttle:2,1',  'uses' => 'CommentController@make']);
-            Route::post('/create/.json', ['before' => 'throttle:2,1',  'uses' => 'CommentController@makeJson']);
-            Route::post('/update', ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
+            Route::post('/create',       ['before' => 'throttle:2,1',  'uses' => 'CommentController@create']);
+            Route::post('/create/.json', ['before' => 'throttle:2,1',  'uses' => 'CommentController@createJson']);
+            Route::post('/update',       ['before' => 'throttle:10,1', 'uses' => 'CommentController@update']);
             Route::post('/update/.json', ['before' => 'throttle:10,1', 'uses' => 'CommentController@updateJson']);
-            Route::post('/delete', ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
+            Route::post('/delete',       ['before' => 'throttle:5,1',  'uses' => 'CommentController@delete']);
         });
     });
 }

@@ -147,7 +147,7 @@ class CommentController extends BaseController
      *
      * @return Illuminate\Http\RedirectResponse
      */
-    public function make()
+    public function create()
     {
         $anon = $this->anon->make(Input::get('captcha'));
 
@@ -170,7 +170,7 @@ class CommentController extends BaseController
      *
      * @return Illuminate\Http\JsonResponse
      */
-    public function makeJson()
+    public function createJson()
     {
         $anon = $this->anon->make(Input::get('captcha'));
 
