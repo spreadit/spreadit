@@ -26,7 +26,6 @@ class Tag extends BaseModel
 
     protected function alreadyExists($check)
     {
-        $check = $check[0];
         if($check->updown == Constant::TAG_UP) {
             return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
@@ -69,7 +68,7 @@ class Tag extends BaseModel
         $check = $this->checkTag($post_id);
 
         if(count($check) > 0) {
-            return $this->alreadyExists($check);
+            return $this->alreadyExists($check[0]);
         }
 
         $user = User::findOrFail(Auth::user()->id);

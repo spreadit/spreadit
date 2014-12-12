@@ -80,7 +80,6 @@ class Vote extends BaseModel
 
     protected function alreadyExists($check)
     {
-        $check = $check[0];
         if($check->updown == Constant::VOTE_UP) {
             return ['success'=>false, 'errors'=>array($this->$errors['same_stored'])];
         } else {
@@ -176,7 +175,7 @@ class Vote extends BaseModel
         $check = $this->checkVote($type, $type_id);
 
         if(count($check) > 0) {
-            return $this->alreadyExists($check);
+            return $this->alreadyExists($check[0]);
         }
 
         $user = User::findOrFail(Auth::user()->id);
