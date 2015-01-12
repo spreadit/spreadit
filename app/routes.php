@@ -41,7 +41,7 @@ if(Utility::enableRoute('preferences*')) {
         Route::post('/', ['before' => 'auth|throttle:10,1', 'uses' => 'PreferencesController@savePreferences']);
         Route::get('/.json', ['before' => 'auth.token', 'uses' => 'PreferencesController@preferencesJson']);
 
-        if(Utility::enableRoute('preferences/prefix*')) {
+        if(Utility::enableRoute('preferences/homepage*')) {
             Route::group(['prefix' => '/homepage'], function()
             {
                 Route::get('/',  ['before' => 'auth', 'uses' => 'PreferencesController@homepage']);
