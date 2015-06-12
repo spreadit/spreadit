@@ -9,7 +9,7 @@
                 @include ('layout.nav.sections', ['sections' => $sections])
                 @include('layout.nav.sorting', [
                     'section' => $section,
-                    'sort_highlight' => $sort_highlight, 
+                    'sort_highlight' => $sort_highlight,
                     'sort_timeframe_highlight' => $sort_timeframe_highlight
                 ])
             </div>
@@ -19,6 +19,6 @@
             @include('layout.nav.footer')
         </div>
         @include('layout.etc.commonscripts')
-        @yield('script')        
+        @yield('script')
     </body>
 </html>

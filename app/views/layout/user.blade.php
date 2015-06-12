@@ -17,6 +17,6 @@
             @include('layout.nav.footer')
         </div>
         @include('layout.etc.commonscripts')
-        @yield('script')        
+        @yield('script')
     </body>
 </html>
