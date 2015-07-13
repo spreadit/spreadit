@@ -7,15 +7,36 @@
     <meta name="description" content="discussion and new links regarding {{ $section->title }}">
 @stop
 
+@section('bodyclasses')
+    listing-page
+    with-listing-chooser
+
+    @if(Request::is('/'))
+        front-page
+    @endif
+
+    @if($sort_highlight == 'controversial')
+        show-controversial
+    @elseif($sort_highlight == 'hot')
+        hot-page
+    @elseif($sort_highlight == 'new')
+        new-page
+    @elseif($sort_highlight == 'top')
+        top-page
+    @endif
+@stop
+
 @section('content')
-    <div class="posts-container">
-        @foreach ($posts as $post)
-        @include('post.piece', ['post' => $post])
-        @endforeach
+    <div class="content">
+        <div class='spacer'>
+            @foreach ($posts as $rank => $post)
+                @include('post.piece', [
+                    'rank'   => $rank,
+                    'post' => $post,
+                ])
+            @endforeach
+        </div>
 
         {{ $posts->links() }}
-    </div>
-    <div class="sidebar">
-    @include ('shared.sidebar', ['section_id' => $section->id])
     </div>
 @stop

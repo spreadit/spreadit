@@ -94,7 +94,7 @@ if(Utility::enableRoute('util*')) {
     Route::group(['prefix' => '/util'], function()
     {
         Route::get('/imagewrapper',   ['before' => 'throttle:2,1',   'uses' => 'UtilityController@imagewrapper']);
-        Route::get('/titlefromurl',   ['before' => 'throttle:6,1',   'uses' => 'UtilityController@titlefromurl']);
+        Route::get('/titlefromurl',   ['before' => 'throttle:6000,1',   'uses' => 'UtilityController@titlefromurl']);
         Route::post('/preview',       ['before' => 'throttle:30,1',  'uses' => 'UtilityController@preview']);
         Route::post('/preview/.json', ['before' => 'throttle:30,1',  'uses' => 'UtilityController@previewNoEnclosingPage']);
         Route::get('/thumbnail',      ['before' => 'throttle:2,1',   'uses' => 'UtilityController@thumbnail']);

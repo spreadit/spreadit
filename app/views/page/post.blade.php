@@ -7,6 +7,29 @@
     <meta name="description" content="spreadit discussion regarding {{ $post->title }}">
 @stop
 
+@section('bodyclasses')
+single-page comments-page
+@stop
+
+@section('style')
+<style>
+    body >.content .link .rank,
+    .rank-spacer {
+        width: 1.1ex
+    }
+    body >.content .link .midcol,
+    .midcol-spacer {
+        width: 3.1ex
+    }
+    .adsense-wrap {
+        background-color: #eff7ff;
+        font-size: 18px;
+        padding-left: 4.2ex;
+        padding-right: 5px;
+    }
+</style>
+@stop
+
 @section('content')
     @if ($errors->any())
         <div class="alert alert-warning fade in">
@@ -14,7 +37,58 @@
             <h4 class="text-center">{{ $errors->first() }}</h4>
         </div>
     @endif
-    <div class="posts-container">
+    <div class="content" role="main">
+        <div id="siteTable" class="sitetable linklisting">
+            <div class=" thing id-t3_3brjsf odd&#32; link " onclick="click_thing(this)" data-fullname="t3_3brjsf" data-cid="">
+                <p class="parent"></p><span class="rank"></span>
+                <div class="midcol unvoted">
+                    <div class="arrow up login-required" onclick="$(this).vote(r.config.vote_hash, null, event)" role="button" aria-label="upvote" tabindex="0"></div>
+                    <div class="score dislikes">{{ $post->downvotes }}</div>
+                    <div class="score unvoted">{{ $post->upvotes - $post->downvotes }}</div>
+                    <div class="score likes">{{ $post->upvotes }}</div>
+                    <div class="arrow down login-required" onclick="$(this).vote(r.config.vote_hash, null, event)" role="button" aria-label="downvote" tabindex="0"></div>
+                </div>
+                <a class="thumbnail default may-blank " href="{{{ $post->url }}}" rel="nofollow"></a>
+                <div class="entry unvoted">
+                    <p class="title"><a class="title may-blank " href="{{{ $post->url }}}" tabindex="1" rel="nofollow">{{{ $post->title }}}</a>&#32;<span class="domain">({{{ $selfpost ? 'self.' . $post->section_title : $post->url   }}})</span>
+                    </p>
+                    <p class="tagline">submitted&#32;
+                        <time title="Wed Jul 1 16:00:16 2015 UTC" datetime="2015-07-01T09:00:16-07:00" class="live-timestamp">2 days ago</time>&#32;by&#32;<a href="/u/{{{ $post->username }}}" class="author may-blank id-t2_b4o62">{{{ $post->username }}}</a><span class="userattrs"></span>
+                    </p>
+                    <ul class="flat-list buttons">
+                        <li class="first">
+                            <a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/" class="comments may-blank">
+                                {{ $post->comment_count }} comment
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="expando" style='display: none'><span class="error">loading...</span>
+                    </div>
+                </div>
+                <div class="child"></div>
+                <div class="clearleft"></div>
+            </div>
+            <div class="clearleft"></div>
+        </div>
+        <div class='commentarea'>
+            <div class="panestack-title"><span class="title">all {{ $post->comment_count }} comments</span>
+            </div>
+            <div class="menuarea">
+                <div class="spacer"><span class="dropdown-title lightdrop">sorted by:&#32;</span>
+                    <div class="dropdown lightdrop" onclick="open_menu(this)"><span class="selected">best</span>
+                    </div>
+                    <div class="drop-choices lightdrop"><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=top" class="choice">top</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=new" class="choice">new</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=hot" class="hidden choice">hot</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=controversial" class="choice">controversial</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=old" class="choice">old</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=random" class="hidden choice">random</a><a href="https://www.reddit.com/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/?sort=qa" class="choice">q&amp;a</a>
+                    </div>
+                </div>
+                <div class="spacer"></div>
+            </div>
+            <div class="sitetable nestedlisting">
+                {{ $comments }}
+            </div>
+        </div>
+    </div>
+    </div>
+<!--    <div class="posts-container">
         <div class="post">
             <div class="post-piece {{ $selfpost }}" tabindex="1" data-comment-id="0" data-post-id="{{ $post->id }}">
                 <div class="post-points">
@@ -119,4 +193,6 @@
     @include ('shared.sidebar')
     </div>
     @include ('shared.modal.info')
+
+    -->
 @stop

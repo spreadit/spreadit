@@ -1,12 +1,12 @@
 module.exports = function(grunt) {
 
-    // 1. All configuration goes here 
+    // 1. All configuration goes here
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         watch: {
             files: [
-                '**/*.js', 
+                '**/*.js',
                 '**/*.css',
                 '!public/assets/prod/*'
             ],
@@ -38,11 +38,10 @@ module.exports = function(grunt) {
     		options: {},
 			all: {
 				src: [
-					'public/assets/css/bootstrap.css',
-					'public/assets/css/bootstrap-responsive.css',
 					'public/assets/css/hljs/hybrid.css',
                     'public/assets/css/hint.css',
                     'public/assets/css/selectize.default.css',
+                    'public/assets/css/reddit.css',
 					'public/assets/css/style.css',
                     'public/assets/css/mobile.css'
 				],

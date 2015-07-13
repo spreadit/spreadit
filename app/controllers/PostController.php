@@ -29,11 +29,11 @@ class PostController extends BaseController
     {
         $section = $this->section->sectionFromSections($this->section->getByTitle(Utility::splitByTitle($section_title)));
         $section->selected = $this->vote->getSelected(Constant::SECTION_TYPE, $section);
-        
+
         $post = $this->post->get($post_id);
         $post->section_title = $section_title;
         $post->selected = $this->vote->getSelected(Constant::POST_TYPE, $post);
-        
+
         $commentTree = new CommentTree($this->comment->getByPostId($post_id, $this->vote));
 
         return View::make('page.post', [
@@ -77,7 +77,7 @@ class PostController extends BaseController
     {
         $post = $this->post->findOrFail($post_id);
         $section_title = $this->section->findOrFail($post->section_id)->title;
-        
+
         return Redirect::to("/s/$section_title/posts/$post_id");
     }
 
@@ -110,7 +110,7 @@ class PostController extends BaseController
 
         if($post->success) {
             $location = sprintf("/s/%s/posts/%s/%s", $post->data->section_title, $post->data->item_id, $post->data->item_title);
-        
+
             return Redirect::to($location);
         } else {
             return Redirect::back()->withErrors($post->errorMessage())->withInput();
@@ -132,7 +132,7 @@ class PostController extends BaseController
             Route::callRouteFilter('auth.token', array(), Route::current(), Request::instance());
         } catch(Tappleby\AuthToken\Exceptions\NotAuthorizedException $e) {
             $anon = $this->anon->make(Input::get('captcha'));
-            
+
             if(!$anon->success) {
                 return Response::json([
                     'success' => false,

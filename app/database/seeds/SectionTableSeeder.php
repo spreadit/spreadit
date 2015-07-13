@@ -21,5 +21,17 @@ class SectionTableSeeder extends Seeder {
         Section::create(['title' => 'math', 'data'=>'', 'markdown' => '']);
         Section::create(['title' => 'prog', 'data'=>'', 'markdown' => '']);
         Section::create(['title' => 'worms', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
+        Section::create(['title' => 'worms2', 'data'=>'', 'markdown' => '']);
     }
 }

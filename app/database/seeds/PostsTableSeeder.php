@@ -10,7 +10,7 @@ class PostsTableSeeder extends Seeder {
     public function run()
     {
         $faker = Faker\Factory::create();
-                
+
         for($i=0; $i<10; $i++) {
             $time = time() - rand(0, 60*60*24*30);
             $type = rand(0, 1) == 0;

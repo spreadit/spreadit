@@ -8,7 +8,7 @@ class ViewComposers {
         if($view->$item_var->selected == Constant::VOTE_UP) {
             $classes .= 'selected';
         }
-       
+
         if($view->$item_var->selected == Constant::VOTE_DOWN) {
             $classes .= ' disable-click';
         }
@@ -23,7 +23,7 @@ class ViewComposers {
         if($view->$item_var->selected == Constant::VOTE_DOWN) {
             $classes .= 'selected';
         }
-       
+
         if($view->$item_var->selected == Constant::VOTE_UP) {
             $classes .= ' disable-click';
         }
@@ -63,7 +63,7 @@ class ViewComposers {
         {
             $text = "";
             $classes = "";
-            
+
             if (!Auth::check()
               || Auth::user()->anonymous
               || (Auth::check() && Auth::user()->votes < 6)) {
@@ -138,7 +138,7 @@ class ViewComposers {
 
             $view->with('oldSection', $oldSection);
 
-            $postsRemaining = sprintf("You have %s of %s posts remaining per %s", 
+            $postsRemaining = sprintf("You have %s of %s posts remaining per %s",
                 Utility::remainingPosts(),
                 Utility::availablePosts(),
                 Utility::prettyAgo(time() - Constant::POST_MAX_POSTS_TIMEOUT_SECONDS)
@@ -149,7 +149,7 @@ class ViewComposers {
 
 
         View::composer(['comment.replyboxform'], function($view) {
-            $commentsRemaining = sprintf("You have %s of %s comments remaining per %s", 
+            $commentsRemaining = sprintf("You have %s of %s comments remaining per %s",
                 Utility::remainingComments(),
                 Utility::availableComments(),
                 Utility::prettyAgo(time() - Constant::COMMENT_MAX_COMMENTS_TIMEOUT_SECONDS)
@@ -167,15 +167,15 @@ class ViewComposers {
         {
             $links = "";
 
-            $theme_src = "";        
+            $theme_src = "";
             if(strcmp(Cookie::get('theme'), "light") == 0) {
                 $theme_src = "/assets/css/themes/light.css";
             } else if(strcmp(Cookie::get('theme'), "tiles") == 0) {
-                $theme_src .= "/assets/css/themes/tiles.css"; 
+                $theme_src .= "/assets/css/themes/tiles.css";
             }
 
             if(!empty($theme_src)) {
-                $links .= sprintf('<link rel="stylesheet" media="screen" href="%s">', Bust::url($theme_src)); 
+                $links .= sprintf('<link rel="stylesheet" media="screen" href="%s">', Bust::url($theme_src));
             }
 
             if(Auth::check()) {

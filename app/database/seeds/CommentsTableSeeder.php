@@ -12,7 +12,7 @@ class CommentsTableSeeder extends Seeder {
     public function run()
     {
         $this->faker = Faker\Factory::create();
-                
+
         for($i=0; $i<10; $i++) {
             $time = time() - rand(10000, 60*60*24*30);
             $this->tree(0, $i+1, 0, $time);

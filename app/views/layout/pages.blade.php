@@ -3,21 +3,16 @@
     <head>
         @include('layout.etc.metahead')
     </head>
-    <body data-spy="scroll" data-target=".bs-docs-sidebar" class="{{ (Auth::check() ? 'logged-in' : 'logged-out') }}">
-        <div id="fullpage-container">
-            <div class="navbar navbar-inverse">
-                @include ('layout.nav.sections', ['sections' => $sections])
-                <div id="header-nav">
-                    <div class="align-bottom">
-                        @include('layout.nav.user_actions')
-                    </div>
-                </div>
-            </div>
+    <body class="{{ (Auth::check() ? 'logged-in' : 'logged-out') }}">
+        @include ('layout.nav.header', [
+            'sections' => $sections,
+        ])
+        @include('layout.nav.sidebar')
 
-            @yield('content')
+        <a id="content" name="content"></a>
+        @yield('content')
 
-            @include('layout.nav.footer')
-        </div>
+        @include('layout.nav.footer')
         @include('layout.etc.commonscripts')
         @yield('script')
     </body>

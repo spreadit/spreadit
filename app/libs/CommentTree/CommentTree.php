@@ -24,10 +24,16 @@ class CommentTree
             } else {
                 if(isset($lookup_table[$i->parent_id])) {
                     $path = explode('_', $lookup_table[$i->parent_id]);
-                    
-                    $tmp = F::reduce_left($path, function($v, $i, $c, $r) {
+
+
+                    $tmp = $this->nodes;
+                    foreach($path as $v) {
+                        $tmp = $tmp->children[$v];
+                    }
+
+                   /* $tmp = F::reduce_left($path, function($v, $i, $c, $r) {
                         return $r->children[$v];
-                    }, $this->nodes);
+                    }, $this->nodes);*/
 
                     $tmp->children[$i->id] = $i;
                     $lookup_table[$i->id] = $lookup_table[$i->parent_id] . '_' . $i->id;

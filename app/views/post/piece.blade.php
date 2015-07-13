@@ -1,4 +1,4 @@
-<div class="post-piece {{ $nsfwClasses }} {{ $selfpost }}" tabindex="1" data-post-id="{{ $post->id }}">
+<!--<div class="post-piece {{ $nsfwClasses }} {{ $selfpost }}" tabindex="1" data-post-id="{{ $post->id }}">
     <div class="post-points">
         <div class="breaker points-actions">
             <a href="{{ URL::to("/vote/post/" . $post->id . "/up") }}" {{ $bubbleText }} class="vote {{ $bubbleClasses }} {{ $upvoteClasses }}" data-id="{{ $post->id }}" data-type="post" data-updown="up" rel="nofollow"><span class="voteiconup"></span></a>
@@ -48,4 +48,61 @@
             @endif
         </div>
     </div>
+</div>-->
+
+
+<div class="linkflair linkflair-request even gilded link self">
+    <p class="parent"></p><span class="rank">{{ $rank }}</span>
+
+    <div class="midcol likes">
+        <div class="arrow upmod" onclick="$(this).vote(r.config.vote_hash, null, event)" tabindex="0"></div>
+
+        <div class="score dislikes">{{ $post->downvotes }}</div>
+        <div class="score unvoted">{{ $post->upvotes - $post->downvotes }}</div>
+        <div class="score likes">{{ $post->upvotes }}</div>
+
+        <div class="arrow down login-required" onclick="$(this).vote(r.config.vote_hash, null, event)" tabindex="0"></div>
+    </div>
+
+    <a class="thumbnail self may-blank loggedin" href="{{{ $postUrl }}}"></a>
+
+    <div class="entry likes">
+        <p class="title">
+            <a class="title may-blank loggedin" href= "{{{ $selfpost ? $commentsUrl : $postUrl }}}" tabindex="1">{{ $post->title }}</a>
+            &#32;
+            @if($selfpost)
+                <span class="domain">(self.{{{ $post->section_title }}})</span>
+            @else
+                <span class="domain">({{{ $postUrl }}})</span>
+            @endif
+        </p>
+
+        <div class="expando-button collapsed selftext"></div>
+
+        <p class="tagline">submitted&#32;
+            <time class="live-timestamp" datetime="2015-07-03T17:36:00+00:00"title="Fri Jul 3 17:36:00 2015 UTC">5 hours ago</time>
+            &#32;
+            <time class="edited-timestamp" datetime="2015-07-03T21:44:14+00:00" title="last edited 1 hour ago">*</time>
+            &#32;by&#32;
+            <a class="author may-blank id-t2_hnlos" href="{{ URL::to(sprintf('/u/%s', $post->username)) }}">{{{ $post->username }}}</a>
+            <span class="userattrs"></span>&#32;to&#32;
+            <a class="subreddit hover may-blank"href="{{ $sectionUrl }}">/s/{{ $post->section_title }}</a>
+        </p>
+
+        <ul class="flat-list buttons">
+            <li class="first">
+                <a class="comments may-blank" href="{{ $commentsUrl }}">{{ $post->comment_count }} comments</a>
+            </li>
+        </ul>
+
+        <div class="expando" style='display: none'>
+            <span class="error">loading...</span>
+        </div>
+    </div>
+
+    <div class="child"></div>
+
+    <div class="clearleft"></div>
 </div>
+
+<div class="clearleft"></div>

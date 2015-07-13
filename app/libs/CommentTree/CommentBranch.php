@@ -51,17 +51,19 @@ class CommentBranch
         }
 
         $rval = $first ? View::make('comment.piece', ['comment' => $branch]) : '';
-     
+
         if(count($branch->children) > 0) {
             $result = F::reduce_left(F::map($branch->children, function($v) {
                 $tresult = $this->render($v, true);
-                return "<li>{$tresult}</li>";
+                return "<div class='child'>{$tresult}<div class='clearleft'></div></div>";
             }), function($v, $i, $c, $r) {
                 return $r . $v;
             });
 
-            $rval .= "<ul class=\"commentbranch\">{$result}</ul>";
+            $rval .= $result;
         }
+
+        $rval .= "<div class='clearleft'></div>";
 
         return $rval;
     }

@@ -60,7 +60,7 @@ $(document).ready(function() {
         that.parent().find(".vote").each(function() {
             if(typeof $(this).data('vote-timer') !== "undefined") {
                 clearTimeout($(this).data('vote-timer'));
-                
+
                 if($(this).data('vote-timer') == that.data('vote-timer')) {
                     refuse_timeout = true;
                 }
@@ -79,7 +79,7 @@ $(document).ready(function() {
                 $.post(url, function(json)
                 {
                     console.log(json);
-                    
+
                     if(json.success) {
                         that.addClass('selected');
                         that.parent().find('.vote').addClass('disable-click');
@@ -118,7 +118,7 @@ $(document).ready(function() {
 
     function preview_clicker(e, preview_box, formdata) {
         e.preventDefault();
-        
+
         $.post('/util/preview/.json', formdata, function(data) {
             preview_box.html(data);
 
@@ -131,7 +131,7 @@ $(document).ready(function() {
 
     function reply_clicker(e) {
         var that = $(this);
-        
+
         var piece = that.closest('.comment-piece, .post-piece');
         if(typeof piece.data('reply-shown') === 'undefined') {
             piece.data('reply-shown', true);
@@ -184,7 +184,7 @@ $(document).ready(function() {
                                 replace_special_code_chars(first_branch);
                                 hljs.initHighlighting.called = false;
                                 hljs.initHighlighting();
-                                
+
                                 first_branch.find(".comment-action.reply").click(reply_clicker);
                                 first_branch.find(".comment-action.edit, post-action.edit").click(edit_clicker);
                             });
@@ -204,7 +204,7 @@ $(document).ready(function() {
 
     function edit_clicker(e) {
         var that = $(this);
-        
+
         var piece = that.closest('.comment-piece, .post-piece');
         var editbox = piece.find('.editbox');
 
@@ -212,7 +212,7 @@ $(document).ready(function() {
             piece.data('edit-shown', true);
             editbox.show();
 
-            piece.find('.editbox .preview').first().click(function(e) { 
+            piece.find('.editbox .preview').first().click(function(e) {
                 preview_clicker(e, piece.find('.comment-content, .post-content').first(), editbox.find('form').first().serializeArray()); 
             });
 
@@ -321,7 +321,7 @@ $(document).ready(function() {
             function() {
                 $(this).find('img').addClass('animated');
                 $(this).find('.thumb-img').addClass('animated');
-            }, 
+            },
             function() {
                 $(this).find('img').removeClass('animated');
                 $(this).find('.thumb-img').removeClass('animated');

@@ -180,7 +180,7 @@ class SectionController extends BaseController
         $sections = $this->vote->getSelectedList(Constant::SECTION_TYPE, $sections);
 
         $section = $this->section->sectionFromSections($sections);
-        $section->selected = $this->vote->getSelected(Constant::SECTION_TYPE, $section);        
+        $section->selected = $this->vote->getSelected(Constant::SECTION_TYPE, $section);
 
         if(is_null($sort_mode)) {
             $sort_mode = Utility::getSortMode();

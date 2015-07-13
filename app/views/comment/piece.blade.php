@@ -1,4 +1,45 @@
-<div class="comment-piece" tabindex="1" data-comment-id="{{ $comment->id }}">
+<div class="noncollapsed &#32; comment " onclick="click_thing(this)">
+    <p class="parent">
+        <a name="csost48"></a>
+    </p>
+    <div class="midcol unvoted">
+        <div class="arrow up login-required" onclick="$(this).vote(r.config.vote_hash, null, event)" role="button" aria-label="upvote" tabindex="0"></div>
+        <div class="arrow down login-required" onclick="$(this).vote(r.config.vote_hash, null, event)" role="button" aria-label="downvote" tabindex="0"></div>
+    </div>
+    <div class="entry unvoted">
+        <p class="tagline"><a href="javascript:void(0)" class="expand" onclick="return togglecomment(this)">[–]</a><a href="/u/{{{ $comment->username }}}" class="author submitter may-blank">{{{ $comment->username }}}</a>
+        {{-- @if($comment->user_id == $post->user_id)
+        <span class="userattrs">[<a class="submitter" title="submitter" href="/r/STCKY/comments/3brjsf/rh2kgaming_is_now_using_rstcky/">S</a>]
+        @endif --}}
+        </span>&#32;<span class="score dislikes">{{ $comment->upvotes }} points</span><span class="score unvoted">{{ $comment->upvotes - $comment->downvotes }} points</span><span class="score likes">{{ $comment->downvotes }} points</span>&#32;
+            <time title="Wed Jul 1 16:06:34 2015 UTC" datetime="2015-07-01T09:06:34-07:00" class="live-timestamp">{{ Utility::prettyAgo($comment->created_at) }}</time>&nbsp;<a href="javascript:void(0)" class="numchildren" onclick="return togglecomment(this)">(0 children)</a>
+        </p>
+        <form action="#" class="usertext" onsubmit="return post_form(this, 'editusertext')">
+            <input type="hidden" name="thing_id" value="t1_csost48" />
+            <div class="usertext-body may-blank-within md-container ">
+                <div class="md">
+                    <p>{{ $comment->data }}</p>
+                </div>
+            </div>
+        </form>
+        <ul class="flat-list buttons">
+            <li class="first">
+                <a href="{{ Request::url() }}" class="bylink" rel="nofollow">permalink</a>
+            </li>
+            <li class="comment-save-button save-button">
+                <a href="javascript:void(0)">save</a>
+            </li>
+            <li class="report-button">
+                <a href="javascript:void(0)" class="action-thing" data-action-form="#report-action-form">report</a>
+            </li>
+            <li class="reply-button">
+                <a class="" href="javascript:void(0)" onclick="return reply(this)">reply</a>
+            </li>
+        </ul>
+    </div>
+
+
+<!-- <div class="comment-piece" tabindex="1" data-comment-id="{{ $comment->id }}">
     <a name="comment_{{ $comment->id }}"></a>
     <div class="comment-points">
         <div class="breaker comment-user-points">
@@ -28,7 +69,7 @@
                         <textarea readonly>{{ $comment->markdown }}</textarea>
                     </p>
                 </div>
-                
+
 
                 @if (Auth::check() && $comment->users_user_id == Auth::user()->id)
                     <label class="comment-action edit" for="collapse-edit{{ $comment->id }}">edit </label>
@@ -72,4 +113,6 @@
             <a href="{{ URL::to("/comments/" . $comment->id) }}">link</a>
         </div>
     </div>
-</div>
+</div> -->
+
+
