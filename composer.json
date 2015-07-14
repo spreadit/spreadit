@@ -6,10 +6,10 @@
     "repositories": [],
 	"require": {
 		"laravel/framework": "4.2.*",
-		"lstrojny/functional-php": "dev-master",
-        "mews/captcha": "dev-master",
+        "lstrojny/functional-php": "*",
+        "mews/captcha": "dev-master-l4",
         "sunra/php-simple-html-dom-parser": "dev-master",
-        "roumen/feed": "dev-master",
+        "roumen/feed": "2.8.*",
         "knplabs/knp-snappy": "*",
         "intervention/image": "2.*",
         "laravelbook/ardent": "dev-master",
@@ -55,5 +55,6 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev",
+    "prefer-stable": true
 }
